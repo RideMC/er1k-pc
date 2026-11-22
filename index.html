@@ -17,17 +17,14 @@
   --accent:#8b5cf6;
   --accent2:#6d45db;
   --green:#43d9a3;
-  --danger:#ef4444;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,Arial,sans-serif}
 button,input,select,textarea{font:inherit}
 button{cursor:pointer}
 a{color:inherit;text-decoration:none}
 .container{width:min(1420px,92%);margin:auto}
 
-/* HEADER & NAV */
 header{
   height:82px;
   border-bottom:1px solid var(--border);
@@ -42,30 +39,25 @@ header{
 .nav{display:flex;align-items:center;justify-content:space-between;gap:16px}
 .logo{font-size:25px;font-weight:900;letter-spacing:-1px;white-space:nowrap}
 .logo span{color:var(--accent)}
-.nav-right{display:flex;align-items:center;gap:28px}
-.navlinks{display:flex;gap:26px;color:#b7bac5;font-size:14px}
+.nav-right{display:flex;align-items:center;gap:26px}
+.navlinks{display:flex;gap:24px;color:#b7bac5;font-size:14px}
 .navlinks a:hover{color:white}
 .admin-nav-btn{
-  background:#1a1628;
-  color:#d8c9ff;
-  border:1px solid #473775;
+  background:#1b162a;
+  color:#dfd2ff;
+  border:1px solid #4c3a7d;
   border-radius:8px;
   padding:9px 15px;
   font-size:13px;
   font-weight:700;
-  display:inline-flex;
-  align-items:center;
-  gap:7px;
   transition:.2s;
   white-space:nowrap;
 }
-.admin-nav-btn:hover{
-  background:var(--accent);
-  color:#fff;
-  border-color:var(--accent);
-}
+.admin-nav-btn:hover{background:var(--accent);border-color:var(--accent);color:#fff}
 
-/* HERO & SECTIONS */
+.page-view{display:none}
+.page-view.active{display:block}
+
 .hero{padding:105px 0 85px;background:radial-gradient(ellipse at 75% 30%,#40247b55,transparent 48%),linear-gradient(130deg,#0a0b11,#11101a 60%,#0b0b10)}
 .hero-inner{display:grid;grid-template-columns:1.1fr .9fr;align-items:center;gap:45px}
 .eyebrow{color:#b69aff;font-size:13px;font-weight:800;letter-spacing:3px;text-transform:uppercase}
@@ -109,13 +101,10 @@ section{padding:85px 0}
 footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font-size:13px}
 .footer-inner{display:flex;justify-content:space-between;align-items:center;gap:20px}
 
-/* PAGES */
-.page{display:none;min-height:80vh;padding:42px 0 85px}
-.page.active{display:block}
+.subpage-wrap{min-height:78vh;padding:42px 0 85px}
 .back-btn{background:#151822;color:#d0d4e0;border:1px solid var(--border);border-radius:8px;padding:9px 14px;margin-bottom:24px;font-size:13px;font-weight:600;display:inline-flex;align-items:center;gap:6px}
 .back-btn:hover{border-color:#5a6078;color:#fff}
 
-/* CONFIGURATOR */
 .config-heading{margin-bottom:26px;display:flex;justify-content:space-between;align-items:end;flex-wrap:wrap;gap:16px}
 .config-heading h1{font-size:42px;letter-spacing:-2px;margin:8px 0 6px}
 .config-heading p{color:var(--muted);margin:0}
@@ -156,7 +145,6 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 .price-panel button{width:100%;margin-top:18px}
 .notice{font-size:11px;color:var(--muted);line-height:1.6;margin-top:13px}
 
-/* ORGANIZED ADMIN PANEL */
 .admin-wrap{max-width:1120px;margin:auto}
 .admin-topbar{
   background:var(--panel);
@@ -179,9 +167,6 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
   border-radius:10px;
   font-size:13px;
   font-weight:700;
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
   transition:.2s;
 }
 .tab-btn:hover{border-color:#684ec2;color:#fff}
@@ -254,25 +239,6 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 .btn-sm{padding:8px 12px;font-size:12px;border-radius:7px}
 .danger{background:#3b1821!important;border-color:#7a273b!important;color:#ff9aa8!important}
 .danger:hover{background:#521e2b!important}
-.toast{
-  position:fixed;
-  bottom:22px;
-  right:22px;
-  background:#1c2824;
-  border:1px solid var(--green);
-  color:#d9fff0;
-  padding:12px 18px;
-  border-radius:10px;
-  font-size:13px;
-  font-weight:700;
-  z-index:100;
-  box-shadow:0 12px 35px #0009;
-  opacity:0;
-  transform:translateY(10px);
-  transition:.25s;
-  pointer-events:none;
-}
-.toast.show{opacity:1;transform:translateY(0)}
 .empty{color:var(--muted);font-size:13px;padding:16px}
 
 @media(max-width:1100px){
@@ -306,141 +272,146 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 
 <header>
  <div class="container nav">
-  <a class="logo" href="#" onclick="showHome();return false">ER1K<span> PC</span></a>
+  <a class="logo" href="#home" onclick="showView('homeView');return false">ER1K<span> PC</span></a>
   <div class="nav-right">
    <nav class="navlinks">
-    <a href="#pcs" onclick="showHome()">PC-uri</a>
-    <a href="#features" onclick="showHome()">Despre noi</a>
-    <a href="#contact" onclick="showHome()">Contact</a>
+    <a href="#pcs" onclick="jumpSection('pcs')">PC-uri</a>
+    <a href="#features" onclick="jumpSection('features')">Despre noi</a>
+    <a href="#contact" onclick="jumpSection('contact')">Contact</a>
    </nav>
-   <button class="admin-nav-btn" onclick="openAdminMenu()">🛡️ Admin Menu</button>
+   <button type="button" class="admin-nav-btn" onclick="openAdmin()">Admin</button>
   </div>
  </div>
 </header>
 
-<main id="home">
- <div class="hero">
-  <div class="container hero-inner">
-   <div>
-    <div class="eyebrow">ER1K PC BUILDS</div>
-    <h1>YOUR GAME.<br>YOUR <span>POWER.</span></h1>
-    <p>PC-uri gaming configurate pentru performanță. Alege sistemul potrivit și personalizează-l exact așa cum îți dorești.</p>
-    <div class="hero-actions">
-     <button class="primary-btn" onclick="document.getElementById('pcs').scrollIntoView({behavior:'smooth'})">DESCOPERĂ PC-URILE</button>
-     <button class="secondary-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">CONTACT</button>
-    </div>
-    <div class="stats">
-     <div class="stat"><strong>100%</strong><small>CONFIGURABIL</small></div>
-     <div class="stat"><strong>ER1K</strong><small>PC BUILDS</small></div>
-     <div class="stat"><strong>2026</strong><small>GAMING READY</small></div>
-    </div>
-   </div>
-   <div class="hero-art">
-    <img src="https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=900&q=85" alt="Gaming PC">
-   </div>
-  </div>
- </div>
-
- <section id="pcs">
-  <div class="container">
-   <div class="section-head">
+<div id="homeView" class="page-view active">
+ <main>
+  <div class="hero">
+   <div class="container hero-inner">
     <div>
-     <div class="eyebrow">OUR SYSTEMS</div>
-     <h2>Choose your power.</h2>
-     <p>Alege unul dintre sistemele noastre și personalizează fiecare componentă pe pagina de configurare.</p>
+     <div class="eyebrow">ER1K PC BUILDS</div>
+     <h1>YOUR GAME.<br>YOUR <span>POWER.</span></h1>
+     <p>PC-uri gaming configurate pentru performanță. Alege sistemul potrivit și personalizează-l exact așa cum îți dorești.</p>
+     <div class="hero-actions">
+      <button type="button" class="primary-btn" onclick="jumpSection('pcs')">DESCOPERĂ PC-URILE</button>
+      <button type="button" class="secondary-btn" onclick="jumpSection('contact')">CONTACT</button>
+     </div>
+     <div class="stats">
+      <div class="stat"><strong>100%</strong><small>CONFIGURABIL</small></div>
+      <div class="stat"><strong>ER1K</strong><small>PC BUILDS</small></div>
+      <div class="stat"><strong>2026</strong><small>GAMING READY</small></div>
+     </div>
+    </div>
+    <div class="hero-art">
+     <img src="https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=900&q=85" alt="Gaming PC">
     </div>
    </div>
-   <div class="pc-grid" id="pcGrid"></div>
   </div>
- </section>
 
- <section class="features" id="features">
-  <div class="container">
-   <div class="section-head">
-    <div><div class="eyebrow">WHY ER1K PC</div><h2>Built for performance.</h2></div>
-   </div>
-   <div class="feature-grid">
-    <div class="feature"><div class="symbol">⚡</div><h3>Performanță</h3><p>Componente alese pentru performanță și experiență de gaming.</p></div>
-    <div class="feature"><div class="symbol">⚙️</div><h3>Personalizare</h3><p>Configurează sistemul în funcție de preferințele și bugetul tău.</p></div>
-    <div class="feature"><div class="symbol">🖥️</div><h3>Design</h3><p>Sisteme cu aspect modern, construite pentru setup-ul tău.</p></div>
-   </div>
-  </div>
- </section>
-</main>
-
-<!-- SEPARATE CONFIGURATOR PAGE -->
-<div class="container page" id="configPage">
- <button class="back-btn" onclick="showHome()">← Înapoi la pagina principală</button>
- <div class="config-heading">
-  <div>
-   <div class="eyebrow">PC CONFIGURATOR</div>
-   <h1 id="configName">Er1k Gaming</h1>
-   <p id="configDesc"></p>
-  </div>
-  <div class="model-switcher" id="modelSwitcher"></div>
- </div>
- <div class="config-layout">
-  <div class="component-column" id="leftComponents"></div>
-  <div class="pc-stage">
-   <div class="stage-label">YOUR CUSTOM BUILD</div>
-   <img class="stage-image" id="stageImage" src="" alt="PC case">
-   <div class="stage-name" id="stageCaseName">PC Case</div>
-   <div class="stage-caption">Imaginea se schimbă în funcție de carcasa aleasă.</div>
-  </div>
-  <div>
-   <div class="component-column" id="rightComponents"></div>
-   <div class="price-panel">
-    <h3>Rezumat configurație</h3>
-    <div id="summary"></div>
-    <div class="summary-total">
-     <small>PREȚ TOTAL</small>
-     <strong id="totalPrice">0 RON</strong>
+  <section id="pcs">
+   <div class="container">
+    <div class="section-head">
+     <div>
+      <div class="eyebrow">OUR SYSTEMS</div>
+      <h2>Choose your power.</h2>
+      <p>Alege unul dintre cele 4 sisteme și deschide pagina de configurare.</p>
+     </div>
     </div>
-    <button class="primary-btn" onclick="orderPC()">SOLICITĂ OFERTĂ</button>
-    <div class="notice">Prețul final poate fi confirmat în funcție de disponibilitatea componentelor.</div>
+    <div class="pc-grid" id="pcGrid"></div>
    </div>
-  </div>
- </div>
+  </section>
+
+  <section class="features" id="features">
+   <div class="container">
+    <div class="section-head">
+     <div><div class="eyebrow">WHY ER1K PC</div><h2>Built for performance.</h2></div>
+    </div>
+    <div class="feature-grid">
+     <div class="feature"><div class="symbol">⚡</div><h3>Performanță</h3><p>Componente alese pentru performanță și experiență de gaming.</p></div>
+     <div class="feature"><div class="symbol">⚙️</div><h3>Personalizare</h3><p>Configurează sistemul în funcție de preferințele și bugetul tău.</p></div>
+     <div class="feature"><div class="symbol">🖥️</div><h3>Design</h3><p>Sisteme cu aspect modern, construite pentru setup-ul tău.</p></div>
+    </div>
+   </div>
+  </section>
+ </main>
 </div>
 
-<!-- ADMIN LOGIN PAGE -->
-<div class="container page" id="loginPage">
- <div class="admin-wrap">
-  <button class="back-btn" onclick="showHome()">← Înapoi la site</button>
-  <div class="admin-box" style="max-width:440px;margin:40px auto">
-   <div class="eyebrow">ADMIN ACCESS</div>
-   <h2 style="margin-top:8px">Admin Login</h2>
-   <p class="empty" style="padding:0 0 8px">Introdu parola de administrator pentru a gestiona PC-urile și componentele.</p>
-   <label>Parolă</label>
-   <input id="password" type="password" placeholder="Admin password" onkeydown="if(event.key==='Enter')login()">
-   <p id="loginError" style="color:#ff687b;font-size:12px;min-height:18px;margin:8px 0 0"></p>
-   <button class="primary-btn" style="width:100%;margin-top:12px" onclick="login()">INTRĂ ÎN ADMIN MENU</button>
-  </div>
- </div>
-</div>
-
-<!-- ORGANIZED ADMIN DASHBOARD -->
-<div class="container page" id="adminPage">
- <div class="admin-wrap">
-  <div class="admin-topbar">
+<div id="configView" class="page-view">
+ <div class="container subpage-wrap">
+  <button type="button" class="back-btn" onclick="showView('homeView')">← Înapoi la PC-uri</button>
+  <div class="config-heading">
    <div>
-    <div class="eyebrow">CONTROL PANEL</div>
-    <h2 style="margin:6px 0 2px;font-size:26px;letter-spacing:-1px">Admin Dashboard</h2>
-    <p style="margin:0;color:var(--muted);font-size:13px">Rendszerezett nézet: modellek, alkatrészek és mentések külön kezelve.</p>
+    <div class="eyebrow">PC CONFIGURATOR</div>
+    <h1 id="configName">Er1k Gaming</h1>
+    <p id="configDesc"></p>
    </div>
-   <div style="display:flex;gap:10px;flex-wrap:wrap">
-    <button class="secondary-btn" onclick="showHome()">← Főoldal</button>
-    <button class="secondary-btn danger" onclick="logout()">Kilépés</button>
+   <div class="model-switcher" id="modelSwitcher"></div>
+  </div>
+  <div class="config-layout">
+   <div class="component-column" id="leftComponents"></div>
+   <div class="pc-stage">
+    <div class="stage-label">YOUR CUSTOM BUILD</div>
+    <img class="stage-image" id="stageImage" src="" alt="PC case">
+    <div class="stage-name" id="stageCaseName">PC Case</div>
+    <div class="stage-caption">Imaginea se schimbă în funcție de carcasa aleasă.</div>
+   </div>
+   <div>
+    <div class="component-column" id="rightComponents"></div>
+    <div class="price-panel">
+     <h3>Rezumat configurație</h3>
+     <div id="summary"></div>
+     <div class="summary-total">
+      <small>PREȚ TOTAL</small>
+      <strong id="totalPrice">0 RON</strong>
+     </div>
+     <button type="button" class="primary-btn" onclick="orderPC()">SOLICITĂ OFERTĂ</button>
+     <div class="notice">Prețul final poate fi confirmat în funcție de disponibilitatea componentelor.</div>
+    </div>
    </div>
   </div>
+ </div>
+</div>
 
-  <div class="admin-tabs">
-   <button class="tab-btn active" id="tab-models" onclick="switchAdminTab('models')">🖥️ PC Modellek</button>
-   <button class="tab-btn" id="tab-components" onclick="switchAdminTab('components')">🧩 Alkatrészek & Felárak</button>
-   <button class="tab-btn" id="tab-system" onclick="switchAdminTab('system')">⚙️ Rendszer & Alaphelyzet</button>
+<div id="loginView" class="page-view">
+ <div class="container subpage-wrap">
+  <div class="admin-wrap">
+   <button type="button" class="back-btn" onclick="showView('homeView')">← Înapoi la site</button>
+   <div class="admin-box" style="max-width:440px;margin:40px auto">
+    <div class="eyebrow">ADMIN ACCESS</div>
+    <h2 style="margin-top:8px">Admin Login</h2>
+    <p class="empty" style="padding:0 0 8px">Introdu parola de administrator pentru a deschide panoul.</p>
+    <label for="password">Parolă</label>
+    <input id="password" type="password" placeholder="Admin password" onkeydown="if(event.key==='Enter')login()">
+    <p id="loginError" style="color:#ff687b;font-size:12px;min-height:18px;margin:8px 0 0"></p>
+    <button type="button" class="primary-btn" style="width:100%;margin-top:12px" onclick="login()">LOGIN</button>
+   </div>
   </div>
+ </div>
+</div>
 
-  <div id="adminContent"></div>
+<div id="adminView" class="page-view">
+ <div class="container subpage-wrap">
+  <div class="admin-wrap">
+   <div class="admin-topbar">
+    <div>
+     <div class="eyebrow">CONTROL PANEL</div>
+     <h2 style="margin:6px 0 2px;font-size:26px;letter-spacing:-1px">Admin Dashboard</h2>
+     <p style="margin:0;color:var(--muted);font-size:13px">Rendszerezett nézet: modellek és alkatrészek külön fülön.</p>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+     <button type="button" class="secondary-btn" onclick="showView('homeView')">← Főoldal</button>
+     <button type="button" class="secondary-btn danger" onclick="logout()">Kilépés</button>
+    </div>
+   </div>
+
+   <div class="admin-tabs">
+    <button type="button" class="tab-btn active" id="tab-models" onclick="switchAdminTab('models')">🖥️ PC Modellek</button>
+    <button type="button" class="tab-btn" id="tab-components" onclick="switchAdminTab('components')">🧩 Alkatrészek & Felárak</button>
+    <button type="button" class="tab-btn" id="tab-system" onclick="switchAdminTab('system')">⚙️ Alaphelyzet</button>
+   </div>
+
+   <div id="adminContent"></div>
+  </div>
  </div>
 </div>
 
@@ -451,11 +422,9 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
  </div>
 </footer>
 
-<div class="toast" id="toast"></div>
-
 <script>
 const ADMIN_PASSWORD = "er1k2026";
-const KEY = "er1k_pc_v4";
+const KEY = "er1k_pc_v6";
 
 const defaultData = [
  {
@@ -505,18 +474,6 @@ const defaultData = [
    case:[{name:"Ultimate Black Case",price:0,image:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=700&q=85"}],
    cooler:[{name:"360mm AIO",price:0,image:""},{name:"Premium 360mm AIO",price:250,image:""}]
   }
- },
- {
-  id:"custom5",name:"Er1k Studio",description:"Configurație de rezervă / al 5-lea model personalizabil.",price:7900,
-  image:"https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=800&q=85",
-  components:{
-   gpu:[{name:"RTX 4070 Ti Super 16GB",price:0},{name:"RTX 5080 16GB",price:1800}],
-   cpu:[{name:"Ryzen 9 7900X",price:0},{name:"Ryzen 7 9800X3D",price:400}],
-   ram:[{name:"64GB DDR5",price:0},{name:"96GB DDR5",price:550}],
-   ssd:[{name:"2TB NVMe",price:0},{name:"4TB NVMe",price:450}],
-   case:[{name:"Studio Glass Case",price:0,image:"https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=700&q=85"}],
-   cooler:[{name:"360mm AIO",price:0,image:""},{name:"LCD 360mm AIO",price:400,image:""}]
-  }
  }
 ];
 
@@ -530,14 +487,24 @@ const componentNames={
 };
 
 function clone(x){return JSON.parse(JSON.stringify(x))}
-function load(){
+
+function safeLoad(){
  try{
-  const saved=localStorage.getItem(KEY);
-  return saved?JSON.parse(saved):clone(defaultData);
- }catch(e){return clone(defaultData)}
+  const raw=window.localStorage?window.localStorage.getItem(KEY):null;
+  if(!raw)return clone(defaultData);
+  const parsed=JSON.parse(raw);
+  if(Array.isArray(parsed)&&parsed.length>0)return parsed;
+ }catch(e){}
+ return clone(defaultData);
 }
 
-let data=load();
+function safeSave(){
+ try{
+  if(window.localStorage)window.localStorage.setItem(KEY,JSON.stringify(data));
+ }catch(e){}
+}
+
+let data=safeLoad();
 let isAdminAuthed=false;
 let adminTab="models";
 let adminSelectedPC=0;
@@ -545,36 +512,35 @@ let adminSelectedCat="gpu";
 let activePC=0;
 let selected={};
 
-function persist(){localStorage.setItem(KEY,JSON.stringify(data))}
 function money(n){return Number(n||0).toLocaleString("ro-RO")+" RON"}
 function safe(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 
-function notify(msg){
- const el=document.getElementById("toast");
- el.textContent=msg;
- el.classList.add("show");
- clearTimeout(notify._t);
- notify._t=setTimeout(()=>el.classList.remove("show"),2400);
+function showView(viewId){
+ document.querySelectorAll(".page-view").forEach(v=>v.classList.remove("active"));
+ const el=document.getElementById(viewId);
+ if(el)el.classList.add("active");
+ window.scrollTo({top:0,behavior:"auto"});
 }
 
-function showOnly(id){
- document.querySelectorAll("main,.page").forEach(el=>el.classList.remove("active"));
- if(id==="home")document.getElementById("home").classList.add("active");
- else document.getElementById(id).classList.add("active");
- window.scrollTo({top:0,behavior:"smooth"});
+function jumpSection(id){
+ showView("homeView");
+ setTimeout(()=>{
+  const el=document.getElementById(id);
+  if(el)el.scrollIntoView({behavior:"smooth"});
+ },30);
 }
 
-function showHome(){showOnly("home")}
-
-function openAdminMenu(){
+function openAdmin(){
  if(isAdminAuthed){
-  showOnly("adminPage");
+  showView("adminView");
   renderAdmin();
  }else{
-  showOnly("loginPage");
-  document.getElementById("password").value="";
-  document.getElementById("loginError").textContent="";
-  setTimeout(()=>document.getElementById("password")?.focus(),80);
+  showView("loginView");
+  const pw=document.getElementById("password");
+  const err=document.getElementById("loginError");
+  if(pw)pw.value="";
+  if(err)err.textContent="";
+  setTimeout(()=>pw?.focus(),50);
  }
 }
 
@@ -582,9 +548,8 @@ function login(){
  const pass=document.getElementById("password").value;
  if(pass===ADMIN_PASSWORD){
   isAdminAuthed=true;
-  showOnly("adminPage");
+  showView("adminView");
   renderAdmin();
-  notify("Sikeres belépés az Admin Dashboard-ba!");
  }else{
   document.getElementById("loginError").textContent="Parolă incorectă.";
  }
@@ -592,13 +557,12 @@ function login(){
 
 function logout(){
  isAdminAuthed=false;
- showHome();
- notify("Kijelentkeztél az Admin felületről.");
+ showView("homeView");
 }
 
-/* HOME */
 function renderHome(){
  const grid=document.getElementById("pcGrid");
+ if(!grid)return;
  grid.innerHTML=data.map((pc,i)=>`
   <article class="pc-card">
    <img class="pc-photo" src="${safe(pc.image)}" alt="${safe(pc.name)}">
@@ -606,13 +570,13 @@ function renderHome(){
     <h3>${safe(pc.name)}</h3>
     <p>${safe(pc.description)}</p>
     <div class="pc-price">${money(pc.price)} <small>de la</small></div>
-    <button class="primary-btn" onclick="openPC(${i})">CONFIGUREAZĂ →</button>
+    <button type="button" class="primary-btn" onclick="openPC(${i})">CONFIGUREAZĂ →</button>
    </div>
   </article>`).join("");
 }
 
-/* CONFIGURATOR PAGE */
 function openPC(i){
+ if(!data[i])return;
  activePC=i;
  const pc=data[i];
  selected={};
@@ -621,7 +585,7 @@ function openPC(i){
  }
  document.getElementById("configName").textContent=pc.name;
  document.getElementById("configDesc").textContent=pc.description;
- showOnly("configPage");
+ showView("configView");
  renderModelSwitcher();
  renderConfig();
 }
@@ -629,7 +593,7 @@ function openPC(i){
 function renderModelSwitcher(){
  const sw=document.getElementById("modelSwitcher");
  sw.innerHTML=data.map((pc,i)=>`
-  <button class="model-pill ${i===activePC?"active":""}" onclick="openPC(${i})">${safe(pc.name)}</button>
+  <button type="button" class="model-pill ${i===activePC?"active":""}" onclick="openPC(${i})">${safe(pc.name)}</button>
  `).join("");
 }
 
@@ -647,7 +611,7 @@ function renderColumn(key,pc){
  return `<div class="component-section">
   <div class="component-title"><h3>${componentNames[key]}</h3><span>${options.length} OPȚIUNI</span></div>
   <div class="choices">${options.map((o,i)=>`
-   <button class="choice ${selected[key]===i?"selected":""}" onclick="choose('${key}',${i})">
+   <button type="button" class="choice ${selected[key]===i?"selected":""}" onclick="choose('${key}',${i})">
     ${o.image?`<img src="${safe(o.image)}" alt="">`:""}
     <strong>${safe(o.name)}</strong>
     <small>${Number(o.price)>0?`<span class="extra">+ ${money(o.price)}</span>`:"Inclus în preț"}</small>
@@ -700,7 +664,6 @@ function orderPC(){
  window.location.href="https://wa.me/?text="+encodeURIComponent(message);
 }
 
-/* ORGANIZED ADMIN */
 function switchAdminTab(tab){
  adminTab=tab;
  document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));
@@ -711,6 +674,7 @@ function switchAdminTab(tab){
 function renderAdmin(){
  if(!data[adminSelectedPC])adminSelectedPC=0;
  const root=document.getElementById("adminContent");
+ if(!root)return;
  if(adminTab==="models")root.innerHTML=renderModelsTab();
  else if(adminTab==="components")root.innerHTML=renderComponentsTab();
  else root.innerHTML=renderSystemTab();
@@ -719,7 +683,7 @@ function renderAdmin(){
 function renderPCSelectorCards(){
  return `<div class="pc-selector-bar">
   ${data.map((pc,i)=>`
-   <button class="pc-select-card ${i===adminSelectedPC?"active":""}" onclick="adminSelectedPC=${i};renderAdmin()">
+   <button type="button" class="pc-select-card ${i===adminSelectedPC?"active":""}" onclick="adminSelectedPC=${i};renderAdmin()">
     <strong>${safe(pc.name)}</strong>
     <small>Bază: ${money(pc.price)}</small>
    </button>`).join("")}
@@ -731,27 +695,25 @@ function renderModelsTab(){
  return `
   <div class="admin-box">
    <h2>Válaszd ki a szerkesztendő PC modellt</h2>
-   <p style="color:var(--muted);font-size:13px;margin:0 0 14px">Egyszerre csak egy rendszer adatait szerkeszted, így átlátható és gyors.</p>
+   <p style="color:var(--muted);font-size:13px;margin:0 0 14px">Egyszerre csak egy rendszer adatait szerkeszted.</p>
    ${renderPCSelectorCards()}
    <div style="border-top:1px solid var(--border);padding-top:18px">
     <h3>Modell beállításai: ${safe(pc.name)}</h3>
     <div class="admin-grid-2">
-     <div><label>Numele PC-ului</label><input id="pcName" value="${safe(pc.name)}"></div>
-     <div><label>Preț de bază (RON)</label><input id="pcPrice" type="number" value="${Number(pc.price)||0}"></div>
+     <div><label for="pcName">Numele PC-ului</label><input id="pcName" value="${safe(pc.name)}"></div>
+     <div><label for="pcPrice">Preț de bază (RON)</label><input id="pcPrice" type="number" value="${Number(pc.price)||0}"></div>
     </div>
-    <label>Descriere</label>
+    <label for="pcDesc">Descriere</label>
     <textarea id="pcDesc">${safe(pc.description)}</textarea>
     <label>Imagine principală PC</label>
     <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-top:8px">
      <img src="${safe(pc.image)}" style="width:92px;height:92px;object-fit:cover;border-radius:10px;border:1px solid var(--border)">
      <div style="flex:1;min-width:220px">
       <input type="file" accept="image/*" onchange="uploadPCImage(${adminSelectedPC},this)">
-      <div class="empty" style="padding:6px 0 0">A főoldalon és az alapértelmezett előnézetben látható kép.</div>
      </div>
     </div>
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px">
-     <button class="primary-btn" onclick="saveCurrentPC()">💾 Mentés</button>
-     ${data.length>1?`<button class="secondary-btn danger" onclick="deleteCurrentPC()">🗑️ Modell törlése</button>`:""}
+     <button type="button" class="primary-btn" onclick="saveCurrentPC()">💾 Mentés</button>
     </div>
    </div>
   </div>`;
@@ -765,11 +727,11 @@ function renderComponentsTab(){
  return `
   <div class="admin-box">
    <h2>Alkatrészek kezelése</h2>
-   <p style="color:var(--muted);font-size:13px;margin:0 0 14px">Válassz gépet, majd kategóriát — így nem egy hosszú, összefolyó listában látod az összeset.</p>
+   <p style="color:var(--muted);font-size:13px;margin:0 0 14px">Válassz gépet, majd kategóriát.</p>
    ${renderPCSelectorCards()}
    <div class="cat-pills">
     ${Object.keys(componentNames).map(k=>`
-     <button class="cat-pill ${k===adminSelectedCat?"active":""}" onclick="adminSelectedCat='${k}';renderAdmin()">
+     <button type="button" class="cat-pill ${k===adminSelectedCat?"active":""}" onclick="adminSelectedCat='${k}';renderAdmin()">
       ${componentNames[k]} (${(pc.components[k]||[]).length})
      </button>`).join("")}
    </div>
@@ -784,8 +746,8 @@ function renderComponentsTab(){
        <small>${Number(o.price)>0?"+ "+money(o.price):"Alapárban benne van"}</small>
       </div>
       <div class="row-actions">
-       <button class="secondary-btn btn-sm" onclick="editOption(${adminSelectedPC},'${adminSelectedCat}',${oi})">Szerkesztés</button>
-       <button class="secondary-btn btn-sm danger" onclick="deleteOption(${adminSelectedPC},'${adminSelectedCat}',${oi})">Törlés</button>
+       <button type="button" class="secondary-btn btn-sm" onclick="editOption(${adminSelectedPC},'${adminSelectedCat}',${oi})">Szerkesztés</button>
+       <button type="button" class="secondary-btn btn-sm danger" onclick="deleteOption(${adminSelectedPC},'${adminSelectedCat}',${oi})">Törlés</button>
       </div>
      </div>`).join(""):`<div class="empty">Nincs még opció ebben a kategóriában.</div>`}
    </div>
@@ -794,18 +756,18 @@ function renderComponentsTab(){
     <h3>+ Új opció hozzáadása (${componentNames[adminSelectedCat]})</h3>
     <div class="admin-grid-3">
      <div>
-      <label>Alkatrész neve</label>
+      <label for="newOptName">Alkatrész neve</label>
       <input id="newOptName" placeholder="pl. RTX 5060 Ti 16GB">
      </div>
      <div>
-      <label>Felár (RON)</label>
+      <label for="newOptPrice">Felár (RON)</label>
       <input id="newOptPrice" type="number" value="0">
      </div>
-     <button class="primary-btn" onclick="addOptionFromTab()">+ Hozzáadás</button>
+     <button type="button" class="primary-btn" onclick="addOptionFromTab()">+ Hozzáadás</button>
     </div>
     ${showImageUpload?`
      <div style="margin-top:12px;max-width:360px">
-      <label>Kép feltöltése (opcionális)</label>
+      <label for="newOptImg">Kép feltöltése (opcionális)</label>
       <input id="newOptImg" type="file" accept="image/*">
      </div>`:""}
    </div>
@@ -815,19 +777,9 @@ function renderComponentsTab(){
 function renderSystemTab(){
  return `
   <div class="admin-box">
-   <h2>Új PC modell létrehozása</h2>
-   <p style="color:var(--muted);font-size:13px;margin:0 0 14px">Ha 5-nél is több gépet szeretnél, itt vehetsz fel újat az alap alkatrészkategóriákkal.</p>
-   <div class="admin-grid-3">
-    <div><label>Új modell neve</label><input id="createPcName" placeholder="pl. Er1k Extreme"></div>
-    <div><label>Alapár (RON)</label><input id="createPcPrice" type="number" value="5000"></div>
-    <button class="primary-btn" onclick="createNewPC()">+ Új PC létrehozása</button>
-   </div>
-  </div>
-
-  <div class="admin-box">
    <h2>Adatok visszaállítása</h2>
-   <p style="color:var(--muted);font-size:13px;margin:0 0 14px">Visszaállítja az 5 előre beállított PC modellt és az alap komponenseket.</p>
-   <button class="secondary-btn danger" onclick="resetDefaults()">↺ Alapértelmezett adatok visszaállítása</button>
+   <p style="color:var(--muted);font-size:13px;margin:0 0 14px">Visszaállítja a 4 alap PC modellt és az alkatrészeket az alapértelmezettre.</p>
+   <button type="button" class="secondary-btn danger" onclick="resetDefaults()">↺ Alapértelmezett adatok visszaállítása</button>
   </div>`;
 }
 
@@ -836,41 +788,10 @@ function saveCurrentPC(){
  pc.name=document.getElementById("pcName").value.trim()||pc.name;
  pc.price=Number(document.getElementById("pcPrice").value)||0;
  pc.description=document.getElementById("pcDesc").value.trim();
- persist();
+ safeSave();
  renderHome();
  renderAdmin();
- notify("PC adatai elmentve!");
-}
-
-function deleteCurrentPC(){
- if(data.length<=1)return;
- if(!confirm(`Biztosan törlöd a(z) "${data[adminSelectedPC].name}" modellt?`))return;
- data.splice(adminSelectedPC,1);
- adminSelectedPC=0;
- persist();
- renderHome();
- renderAdmin();
- notify("Modell törölve.");
-}
-
-function createNewPC(){
- const name=document.getElementById("createPcName").value.trim();
- const price=Number(document.getElementById("createPcPrice").value)||0;
- if(!name){alert("Add meg a PC nevét!");return;}
- const base=clone(defaultData[0]);
- data.push({
-  id:"pc_"+Date.now(),
-  name,
-  price,
-  description:"Egyedi gaming rendszer.",
-  image:base.image,
-  components:base.components
- });
- adminSelectedPC=data.length-1;
- persist();
- renderHome();
- switchAdminTab("models");
- notify(`"${name}" hozzáadva!`);
+ alert("Mentve!");
 }
 
 function uploadPCImage(i,input){
@@ -878,10 +799,9 @@ function uploadPCImage(i,input){
  const reader=new FileReader();
  reader.onload=()=>{
   data[i].image=reader.result;
-  persist();
+  safeSave();
   renderHome();
   renderAdmin();
-  notify("Főkép frissítve!");
  };
  reader.readAsDataURL(file);
 }
@@ -896,9 +816,8 @@ function addOptionFromTab(){
   if(image)option.image=image;
   if(!data[adminSelectedPC].components[adminSelectedCat])data[adminSelectedPC].components[adminSelectedCat]=[];
   data[adminSelectedPC].components[adminSelectedCat].push(option);
-  persist();
+  safeSave();
   renderAdmin();
-  notify("Opció hozzáadva!");
  };
  if(file){
   const reader=new FileReader();
@@ -922,39 +841,36 @@ function editOption(pi,key,oi){
    picker.onchange=()=>{
     const file=picker.files[0];if(!file)return;
     const reader=new FileReader();
-    reader.onload=()=>{o.image=reader.result;persist();renderAdmin();notify("Opció frissítve!")};
+    reader.onload=()=>{o.image=reader.result;safeSave();renderAdmin()};
     reader.readAsDataURL(file);
    };
    picker.click();
-   persist();return;
+   safeSave();return;
   }
  }
- persist();
+ safeSave();
  renderAdmin();
- notify("Opció frissítve!");
 }
 
 function deleteOption(pi,key,oi){
  if(!confirm("Ștergi această opțiune?"))return;
  data[pi].components[key].splice(oi,1);
- persist();
+ safeSave();
  renderAdmin();
- notify("Opció törölve.");
 }
 
 function resetDefaults(){
- if(!confirm("Visszaállítod az összes gépet és alkatrészt az alapértelmezettre?"))return;
+ if(!confirm("Visszaállítod a 4 gépet és az alkatrészeket az alapértelmezettre?"))return;
  data=clone(defaultData);
  adminSelectedPC=0;
  adminSelectedCat="gpu";
- persist();
+ safeSave();
  renderHome();
  switchAdminTab("models");
- notify("Alapértelmezett adatok visszaállítva.");
 }
 
 renderHome();
-showHome();
+showView("homeView");
 </script>
 </body>
 </html>
