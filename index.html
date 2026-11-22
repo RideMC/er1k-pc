@@ -800,20 +800,46 @@ const componentNames={
 
 function clone(x){return JSON.parse(JSON.stringify(x))}
 
+function normalizeData(list){
+ return list.map((pc,idx)=>{
+  const fallback = defaultData[idx] || defaultData[0];
+  const mergedComponents = {};
+  for(const key of Object.keys(componentNames)){
+   if(Array.isArray(pc.components?.[key])){
+    mergedComponents[key] = pc.components[key];
+   }else{
+    mergedComponents[key] = clone(fallback.components[key] || []);
+   }
+  }
+  return {
+   ...fallback,
+   ...pc,
+   components: mergedComponents
+  };
+ });
+}
+
 function safeLoad(){
  try{
   const raw=window.localStorage?window.localStorage.getItem(KEY):null;
   if(!raw)return clone(defaultData);
   const parsed=JSON.parse(raw);
-  if(Array.isArray(parsed)&&parsed.length>0)return parsed;
+  if(Array.isArray(parsed)&&parsed.length>0)return normalizeData(parsed);
  }catch(e){}
  return clone(defaultData);
 }
 
 function safeSave(){
  try{
-  if(window.localStorage)window.localStorage.setItem(KEY,JSON.stringify(data));
- }catch(e){}
+  if(window.localStorage){
+   window.localStorage.setItem(KEY,JSON.stringify(data));
+   return true;
+  }
+ }catch(e){
+  alert("A böngésző tárhelye (localStorage) megtelt a képek mérete miatt. Próbálj kisebb méretű képet feltölteni.");
+  return false;
+ }
+ return true;
 }
 
 let data=safeLoad();
@@ -843,6 +869,9 @@ function showView(viewId){
  if(el)el.classList.add("active");
  window.scrollTo({top:0,behavior:"auto"});
  updateCornerTrigger();
+ if(viewId==="configView" && data[activePC]){
+  renderConfig();
+ }
 }
 
 function jumpSection(id){
@@ -928,6 +957,13 @@ function renderModelSwitcher(){
 
 function renderConfig(){
  const pc=data[activePC];
+ if(!pc)return;
+ for(const key of Object.keys(componentNames)){
+  const list=pc.components[key]||[];
+  if(typeof selected[key]!=="number" || selected[key]<0 || selected[key]>=list.length){
+   selected[key]=0;
+  }
+ }
  document.getElementById("topLeftComponents").innerHTML=["gpu","cpu"].map(k=>renderComponentBox(k,pc)).join("");
  document.getElementById("bottomLeftComponent").innerHTML=renderComponentBox("case",pc);
  document.getElementById("topRightComponents").innerHTML=["ram","ssd"].map(k=>renderComponentBox(k,pc)).join("");
@@ -956,7 +992,10 @@ function choose(key,i){
 
 function currentOption(key){
  const pc=data[activePC];
- return pc.components[key]?.[selected[key]]||null;
+ if(!pc)return null;
+ const list=pc.components[key]||[];
+ const idx=selected[key]??0;
+ return list[idx]||list[0]||null;
 }
 
 function updateStage(){
@@ -1051,7 +1090,8 @@ function renderModelsTab(){
 
 function renderComponentsTab(){
  const pc=data[adminSelectedPC];
- const options=pc.components[adminSelectedCat]||[];
+ if(!Array.isArray(pc.components[adminSelectedCat]))pc.components[adminSelectedCat]=[];
+ const options=pc.components[adminSelectedCat];
  const showImageUpload=(adminSelectedCat==="case"||adminSelectedCat==="cooler");
 
  return `
@@ -1087,7 +1127,7 @@ function renderComponentsTab(){
     <div class="admin-grid-3">
      <div>
       <label for="newOptName">Név</label>
-      <input id="newOptName" placeholder="pl. RTX 5060 Ti 16GB">
+      <input id="newOptName" placeholder="pl. Arctic Liquid Freezer III 240mm AIO">
      </div>
      <div>
       <label for="newOptPrice">Felár (RON)</label>
@@ -1118,7 +1158,7 @@ function saveCurrentPC(){
  pc.name=document.getElementById("pcName").value.trim()||pc.name;
  pc.price=Number(document.getElementById("pcPrice").value)||0;
  pc.description=document.getElementById("pcDesc").value.trim();
- safeSave();
+ if(!safeSave())return;
  renderHome();
  renderAdmin();
  alert("Mentve.");
@@ -1126,10 +1166,14 @@ function saveCurrentPC(){
 
 function uploadPCImage(i,input){
  const file=input.files[0];if(!file)return;
+ const prev=data[i].image;
  const reader=new FileReader();
  reader.onload=()=>{
   data[i].image=reader.result;
-  safeSave();
+  if(!safeSave()){
+   data[i].image=prev;
+   return;
+  }
   renderHome();
   renderAdmin();
  };
@@ -1144,10 +1188,19 @@ function addOptionFromTab(){
  const finish=image=>{
   const option={name,price};
   if(image)option.image=image;
-  if(!data[adminSelectedPC].components[adminSelectedCat])data[adminSelectedPC].components[adminSelectedCat]=[];
-  data[adminSelectedPC].components[adminSelectedCat].push(option);
-  safeSave();
+  if(!Array.isArray(data[adminSelectedPC].components[adminSelectedCat])){
+   data[adminSelectedPC].components[adminSelectedCat]=[];
+  }
+  const targetList=data[adminSelectedPC].components[adminSelectedCat];
+  targetList.push(option);
+  if(!safeSave()){
+   targetList.pop();
+   return;
+  }
   renderAdmin();
+  if(adminSelectedPC===activePC){
+   renderConfig();
+  }
  };
  if(file){
   const reader=new FileReader();
@@ -1158,6 +1211,7 @@ function addOptionFromTab(){
 
 function editOption(pi,key,oi){
  const o=data[pi].components[key][oi];
+ const prevSnapshot=clone(o);
  const name=prompt("Numele componentei:",o.name);
  if(name===null)return;
  const price=prompt("Supliment în RON:",o.price);
@@ -1171,22 +1225,38 @@ function editOption(pi,key,oi){
    picker.onchange=()=>{
     const file=picker.files[0];if(!file)return;
     const reader=new FileReader();
-    reader.onload=()=>{o.image=reader.result;safeSave();renderAdmin()};
+    reader.onload=()=>{
+     o.image=reader.result;
+     if(!safeSave()){
+      data[pi].components[key][oi]=prevSnapshot;
+      return;
+     }
+     renderAdmin();
+     if(pi===activePC)renderConfig();
+    };
     reader.readAsDataURL(file);
    };
    picker.click();
-   safeSave();return;
+   return;
   }
  }
- safeSave();
+ if(!safeSave()){
+  data[pi].components[key][oi]=prevSnapshot;
+  return;
+ }
  renderAdmin();
+ if(pi===activePC)renderConfig();
 }
 
 function deleteOption(pi,key,oi){
  if(!confirm("Ștergi această opțiune?"))return;
- data[pi].components[key].splice(oi,1);
- safeSave();
+ const removed=data[pi].components[key].splice(oi,1);
+ if(!safeSave()){
+  data[pi].components[key].splice(oi,0,...removed);
+  return;
+ }
  renderAdmin();
+ if(pi===activePC)renderConfig();
 }
 
 function resetDefaults(){
@@ -1196,6 +1266,9 @@ function resetDefaults(){
  adminSelectedCat="gpu";
  safeSave();
  renderHome();
+ if(document.getElementById("configView")?.classList.contains("active")){
+  renderConfig();
+ }
  switchAdminTab("models");
 }
 
