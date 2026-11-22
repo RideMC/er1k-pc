@@ -526,6 +526,7 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 .danger{background:#281419!important;border-color:#4d222c!important;color:#e59aa6!important}
 .danger:hover{background:#361920!important}
 .empty{color:var(--muted);font-size:13px;padding:14px}
+.status-msg{font-size:12px;color:var(--green);min-height:18px;margin-top:8px}
 
 @media(max-width:1120px){
  .pc-grid{grid-template-columns:repeat(2,1fr)}
@@ -714,7 +715,7 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 
 <script>
 const _b = [101,114,49,107,50,48,50,54];
-const KEY = "er1k_pc_v10";
+const KEY = "er1k_pc_v13";
 const tierLabels = ["01 · ENTRY", "02 · POPULAR", "03 · PRO TIER", "04 · FLAGSHIP"];
 
 function _matchCode(val){
@@ -801,22 +802,34 @@ const componentNames={
 function clone(x){return JSON.parse(JSON.stringify(x))}
 
 function safeLoad(){
+ if(window.__er1kData && Array.isArray(window.__er1kData) && window.__er1kData.length>0){
+  return window.__er1kData;
+ }
  try{
   const raw=window.localStorage?window.localStorage.getItem(KEY):null;
-  if(!raw)return clone(defaultData);
-  const parsed=JSON.parse(raw);
-  if(Array.isArray(parsed)&&parsed.length>0)return parsed;
+  if(raw){
+   const parsed=JSON.parse(raw);
+   if(Array.isArray(parsed)&&parsed.length>0)return parsed;
+  }
  }catch(e){}
  return clone(defaultData);
 }
 
+let saveStatus="Kész.";
 function safeSave(){
+ window.__er1kData=data;
  try{
-  if(window.localStorage)window.localStorage.setItem(KEY,JSON.stringify(data));
- }catch(e){}
+  if(window.localStorage){
+   window.localStorage.setItem(KEY,JSON.stringify(data));
+   saveStatus="Mentve a böngészőben.";
+  }
+ }catch(e){
+  saveStatus="Memóriában frissítve (a böngésző tárhelye megtelt vagy korlátozott).";
+ }
 }
 
 let data=safeLoad();
+window.__er1kData=data;
 let isAdminAuthed=false;
 let adminTab="models";
 let adminSelectedPC=0;
@@ -829,19 +842,19 @@ function safe(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
 function safeImg(src){
  const s=String(src||"").trim();
  if(!s)return "";
- if(s.startsWith("data:image/")||s.startsWith("https://")||s.startsWith("http://"))return s;
+ if(s.startsWith("data:image/")||s.startsWith("https://")||s.startsWith("http://")||s.startsWith("blob:"))return s;
  return "";
 }
 
 function readSmallImage(file, cb){
- if(!file)return;
+ if(!file){cb("");return;}
  const reader=new FileReader();
  reader.onload=()=>{
   const raw=reader.result;
-  if(typeof raw!=="string")return;
+  if(typeof raw!=="string"){cb("");return;}
   const img=new Image();
   img.onload=()=>{
-   const maxSide=520;
+   const maxSide=420;
    let w=img.width||maxSide, h=img.height||maxSide;
    if(w>maxSide||h>maxSide){
     if(w>h){h=Math.round((h*maxSide)/w);w=maxSide;}
@@ -853,7 +866,7 @@ function readSmallImage(file, cb){
    const ctx=canvas.getContext("2d");
    ctx.drawImage(img,0,0,w,h);
    try{
-    cb(canvas.toDataURL("image/jpeg",0.78));
+    cb(canvas.toDataURL("image/jpeg",0.72));
    }catch(e){
     cb(raw);
    }
@@ -861,6 +874,7 @@ function readSmallImage(file, cb){
   img.onerror=()=>cb(raw);
   img.src=raw;
  };
+ reader.onerror=()=>cb("");
  reader.readAsDataURL(file);
 }
 
@@ -1085,6 +1099,7 @@ function renderModelsTab(){
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px">
      <button type="button" class="secondary-btn" onclick="saveCurrentPC()">Mentés</button>
     </div>
+    <div class="status-msg">${safe(saveStatus)}</div>
    </div>
   </div>`;
 }
@@ -1096,8 +1111,8 @@ function renderComponentsTab(){
 
  return `
   <div class="admin-box">
-   <h2>Alkatrészek & felárak</h2>
-   <p style="color:var(--muted);font-size:12px;margin:0 0 14px">Válassz gépet, majd kategóriát.</p>
+   <h2>Alkatrészek & felárak (${safe(pc.name)})</h2>
+   <p style="color:var(--muted);font-size:12px;margin:0 0 14px">Kiválasztott gép: <strong>${safe(pc.name)}</strong> — válassz kategóriát alább.</p>
    ${renderPCSelectorCards()}
    <div class="cat-pills">
     ${Object.keys(componentNames).map(k=>`
@@ -1106,7 +1121,7 @@ function renderComponentsTab(){
      </button>`).join("")}
    </div>
 
-   <h3>${componentNames[adminSelectedCat]}</h3>
+   <h3>${componentNames[adminSelectedCat]} — ${safe(pc.name)}</h3>
    <div class="option-list">
     ${options.length?options.map((o,oi)=>{
      const imgUrl=safeImg(o.image);
@@ -1126,7 +1141,7 @@ function renderComponentsTab(){
    </div>
 
    <div style="margin-top:20px;padding-top:16px;border-top:1px solid #1d212e">
-    <h3>Új opció (${componentNames[adminSelectedCat]})</h3>
+    <h3>Új opció (${componentNames[adminSelectedCat]} · ${safe(pc.name)})</h3>
     <div class="admin-grid-3">
      <div>
       <label for="newOptName">Név</label>
@@ -1143,6 +1158,7 @@ function renderComponentsTab(){
       <label for="newOptImg">Kép (opcionális)</label>
       <input id="newOptImg" type="file" accept="image/*">
      </div>`:""}
+    <div class="status-msg">${safe(saveStatus)}</div>
    </div>
   </div>`;
 }
@@ -1164,12 +1180,12 @@ function saveCurrentPC(){
  safeSave();
  renderHome();
  renderAdmin();
- alert("Mentve.");
 }
 
 function uploadPCImage(i,input){
  const file=input.files[0];if(!file)return;
  readSmallImage(file, imgData=>{
+  if(!imgData){saveStatus="Nem sikerült beolvasni a képet.";renderAdmin();return;}
   data[i].image=imgData;
   safeSave();
   renderHome();
@@ -1179,17 +1195,21 @@ function uploadPCImage(i,input){
 }
 
 function addOptionFromTab(){
- const name=document.getElementById("newOptName").value.trim();
- const price=Number(document.getElementById("newOptPrice").value)||0;
- if(!name){alert("Add meg a nevet.");return;}
+ const nameEl=document.getElementById("newOptName");
+ const priceEl=document.getElementById("newOptPrice");
+ const name=nameEl.value.trim();
+ const price=Number(priceEl.value)||0;
+ if(!name){saveStatus="Add meg az opció nevét.";renderAdmin();return;}
  const file=document.getElementById("newOptImg")?.files?.[0];
  const finish=image=>{
   const option={name,price,image:image||""};
   if(!data[adminSelectedPC].components[adminSelectedCat])data[adminSelectedPC].components[adminSelectedCat]=[];
   data[adminSelectedPC].components[adminSelectedCat].push(option);
   safeSave();
+  saveStatus=`Hozzáadva (${componentNames[adminSelectedCat]}): ${name}`;
+  activePC=adminSelectedPC;
   renderAdmin();
-  if(activePC===adminSelectedPC)renderConfig();
+  renderConfig();
  };
  if(file){
   readSmallImage(file, imgData=>finish(imgData));
@@ -1211,7 +1231,7 @@ function editOption(pi,key,oi){
    picker.onchange=()=>{
     const file=picker.files[0];if(!file)return;
     readSmallImage(file, imgData=>{
-     o.image=imgData;
+     if(imgData)o.image=imgData;
      safeSave();
      renderAdmin();
      if(activePC===pi)renderConfig();
@@ -1237,8 +1257,10 @@ function deleteOption(pi,key,oi){
 function resetDefaults(){
  if(!confirm("Visszaállítod az alapértelmezett adatokat?"))return;
  data=clone(defaultData);
+ window.__er1kData=data;
  adminSelectedPC=0;
  adminSelectedCat="gpu";
+ saveStatus="Alapértelmezett adatok visszaállítva.";
  safeSave();
  renderHome();
  switchAdminTab("models");
