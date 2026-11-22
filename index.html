@@ -715,8 +715,9 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 
 <script>
 const _b = [101,114,49,107,50,48,50,54];
-const KEY = "er1k_pc_v13";
+const KEY = "er1k_pc_v14";
 const tierLabels = ["01 · ENTRY", "02 · POPULAR", "03 · PRO TIER", "04 · FLAGSHIP"];
+const CATEGORY_KEYS = ["gpu","cpu","ram","ssd","case","cooler"];
 
 function _matchCode(val){
  const s = String(val||"");
@@ -732,10 +733,10 @@ const defaultData = [
   id:"start",name:"Er1k Start",description:"Un sistem accesibil pentru gaming și utilizare zilnică.",price:1800,
   image:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=800&q=85",
   components:{
-   gpu:[{name:"GTX 1660 Super 6GB",price:0},{name:"RX 6600 8GB",price:250},{name:"RTX 3060 12GB",price:450}],
-   cpu:[{name:"Ryzen 5 3600",price:0},{name:"Ryzen 5 5500",price:150},{name:"Ryzen 5 5600",price:250}],
-   ram:[{name:"16GB DDR4",price:0},{name:"32GB DDR4",price:180}],
-   ssd:[{name:"500GB NVMe",price:0},{name:"1TB NVMe",price:180}],
+   gpu:[{name:"GTX 1660 Super 6GB",price:0,image:""},{name:"RX 6600 8GB",price:250,image:""},{name:"RTX 3060 12GB",price:450,image:""}],
+   cpu:[{name:"Ryzen 5 3600",price:0,image:""},{name:"Ryzen 5 5500",price:150,image:""},{name:"Ryzen 5 5600",price:250,image:""}],
+   ram:[{name:"16GB DDR4",price:0,image:""},{name:"32GB DDR4",price:180,image:""}],
+   ssd:[{name:"500GB NVMe",price:0,image:""},{name:"1TB NVMe",price:180,image:""}],
    case:[
     {name:"Basic Black Case",price:0,image:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=700&q=85"},
     {name:"Glass Airflow Case",price:120,image:"https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=700&q=85"}
@@ -747,10 +748,10 @@ const defaultData = [
   id:"gaming",name:"Er1k Gaming",description:"Performanță excelentă pentru gaming Full HD și QHD.",price:2800,
   image:"https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=800&q=85",
   components:{
-   gpu:[{name:"RX 6600 8GB",price:0},{name:"RTX 3060 12GB",price:350},{name:"RX 6700 XT 12GB",price:550}],
-   cpu:[{name:"Ryzen 5 5600",price:0},{name:"Ryzen 5 5600X",price:100},{name:"Ryzen 7 5700X",price:250}],
-   ram:[{name:"16GB DDR4",price:0},{name:"32GB DDR4",price:180}],
-   ssd:[{name:"1TB NVMe",price:0},{name:"2TB NVMe",price:250}],
+   gpu:[{name:"RX 6600 8GB",price:0,image:""},{name:"RTX 3060 12GB",price:350,image:""},{name:"RX 6700 XT 12GB",price:550,image:""}],
+   cpu:[{name:"Ryzen 5 5600",price:0,image:""},{name:"Ryzen 5 5600X",price:100,image:""},{name:"Ryzen 7 5700X",price:250,image:""}],
+   ram:[{name:"16GB DDR4",price:0,image:""},{name:"32GB DDR4",price:180,image:""}],
+   ssd:[{name:"1TB NVMe",price:0,image:""},{name:"2TB NVMe",price:250,image:""}],
    case:[
     {name:"RGB Gaming Case",price:0,image:"https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=700&q=85"},
     {name:"White Gaming Case",price:150,image:"https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=700&q=85"}
@@ -762,10 +763,10 @@ const defaultData = [
   id:"pro",name:"Er1k Pro",description:"Putere suplimentară pentru gaming și multitasking.",price:4200,
   image:"https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=800&q=85",
   components:{
-   gpu:[{name:"RTX 4060 8GB",price:0},{name:"RTX 4060 Ti 8GB",price:400},{name:"RX 7700 XT 12GB",price:650}],
-   cpu:[{name:"Ryzen 5 7600",price:0},{name:"Ryzen 7 7700",price:450},{name:"Ryzen 7 7800X3D",price:900}],
-   ram:[{name:"32GB DDR5",price:0},{name:"64GB DDR5",price:350}],
-   ssd:[{name:"1TB NVMe",price:0},{name:"2TB NVMe",price:250}],
+   gpu:[{name:"RTX 4060 8GB",price:0,image:""},{name:"RTX 4060 Ti 8GB",price:400,image:""},{name:"RX 7700 XT 12GB",price:650,image:""}],
+   cpu:[{name:"Ryzen 5 7600",price:0,image:""},{name:"Ryzen 7 7700",price:450,image:""},{name:"Ryzen 7 7800X3D",price:900,image:""}],
+   ram:[{name:"32GB DDR5",price:0,image:""},{name:"64GB DDR5",price:350,image:""}],
+   ssd:[{name:"1TB NVMe",price:0,image:""},{name:"2TB NVMe",price:250,image:""}],
    case:[
     {name:"Premium Black Case",price:0,image:"https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=700&q=85"},
     {name:"Panoramic Glass Case",price:220,image:"https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=700&q=85"}
@@ -777,10 +778,10 @@ const defaultData = [
   id:"ultimate",name:"Er1k Ultimate",description:"High-end sistem pentru performanță fără compromisuri.",price:6500,
   image:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=800&q=85",
   components:{
-   gpu:[{name:"RTX 4070 Super 12GB",price:0},{name:"RTX 5070 12GB",price:700},{name:"RTX 5070 Ti 16GB",price:1500}],
-   cpu:[{name:"Ryzen 7 7800X3D",price:0},{name:"Ryzen 7 9800X3D",price:600}],
-   ram:[{name:"32GB DDR5",price:0},{name:"64GB DDR5",price:350}],
-   ssd:[{name:"2TB NVMe",price:0},{name:"4TB NVMe",price:450}],
+   gpu:[{name:"RTX 4070 Super 12GB",price:0,image:""},{name:"RTX 5070 12GB",price:700,image:""},{name:"RTX 5070 Ti 16GB",price:1500,image:""}],
+   cpu:[{name:"Ryzen 7 7800X3D",price:0,image:""},{name:"Ryzen 7 9800X3D",price:600,image:""}],
+   ram:[{name:"32GB DDR5",price:0,image:""},{name:"64GB DDR5",price:350,image:""}],
+   ssd:[{name:"2TB NVMe",price:0,image:""},{name:"4TB NVMe",price:450,image:""}],
    case:[
     {name:"Ultimate Black Case",price:0,image:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=700&q=85"},
     {name:"Dual-Chamber Showcase",price:280,image:"https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=700&q=85"}
@@ -801,107 +802,180 @@ const componentNames={
 
 function clone(x){return JSON.parse(JSON.stringify(x))}
 
+function normalizeOption(opt){
+ if(!opt || typeof opt !== "object"){
+  return {name:"Opțiune", price:0, image:""};
+ }
+ const rawName = String(opt.name ?? "").trim();
+ const numPrice = Number(opt.price);
+ const safePrice = Number.isFinite(numPrice) ? numPrice : 0;
+ const rawImg = typeof opt.image === "string" ? opt.image.trim() : "";
+ return {
+  name: rawName || "Opțiune",
+  price: safePrice,
+  image: rawImg
+ };
+}
+
+function normalizePC(pc, index){
+ const fallback = defaultData[index] || defaultData[0];
+ const src = (pc && typeof pc === "object") ? pc : fallback;
+ const rawComps = (src.components && typeof src.components === "object") ? src.components : {};
+ const normalizedComponents = {};
+
+ for(const key of CATEGORY_KEYS){
+  const list = Array.isArray(rawComps[key])
+   ? rawComps[key]
+   : (Array.isArray(fallback.components?.[key]) ? fallback.components[key] : []);
+  normalizedComponents[key] = list.map(normalizeOption);
+ }
+
+ const numPrice = Number(src.price);
+ return {
+  id: String(src.id || fallback.id || ("pc_" + index)),
+  name: String(src.name || fallback.name || ("PC " + (index + 1))).trim(),
+  description: String(src.description ?? fallback.description ?? "").trim(),
+  price: Number.isFinite(numPrice) ? numPrice : Number(fallback.price || 0),
+  image: typeof src.image === "string" && src.image.trim() ? src.image.trim() : String(fallback.image || ""),
+  components: normalizedComponents
+ };
+}
+
+function normalizeData(rawList){
+ if(!Array.isArray(rawList) || rawList.length === 0){
+  return clone(defaultData).map((pc, i) => normalizePC(pc, i));
+ }
+ return rawList.map((pc, i) => normalizePC(pc, i));
+}
+
+function getCategoryOptions(pc, key){
+ if(!pc || typeof pc !== "object" || !CATEGORY_KEYS.includes(key)) return [];
+ if(!pc.components || typeof pc.components !== "object") pc.components = {};
+ if(!Array.isArray(pc.components[key])){
+  pc.components[key] = [];
+ } else {
+  pc.components[key] = pc.components[key].map(normalizeOption);
+ }
+ return pc.components[key];
+}
+
+function ensureValidSelectionForPC(pc){
+ if(!pc) return;
+ for(const key of CATEGORY_KEYS){
+  const opts = getCategoryOptions(pc, key);
+  const cur = Number(selected[key]);
+  if(opts.length === 0){
+   selected[key] = 0;
+  } else if(!Number.isInteger(cur) || cur < 0 || cur >= opts.length){
+   selected[key] = 0;
+  }
+ }
+}
+
 function safeLoad(){
- if(window.__er1kData && Array.isArray(window.__er1kData) && window.__er1kData.length>0){
-  return window.__er1kData;
+ if(Array.isArray(window.__er1kData) && window.__er1kData.length > 0){
+  return normalizeData(window.__er1kData);
  }
  try{
-  const raw=window.localStorage?window.localStorage.getItem(KEY):null;
+  const raw = window.localStorage ? window.localStorage.getItem(KEY) : null;
   if(raw){
-   const parsed=JSON.parse(raw);
-   if(Array.isArray(parsed)&&parsed.length>0)return parsed;
+   const parsed = JSON.parse(raw);
+   if(Array.isArray(parsed) && parsed.length > 0){
+    return normalizeData(parsed);
+   }
   }
  }catch(e){}
- return clone(defaultData);
+ return normalizeData(clone(defaultData));
 }
 
-let saveStatus="Kész.";
+let saveStatus = "Kész.";
 function safeSave(){
- window.__er1kData=data;
+ data = normalizeData(data);
+ window.__er1kData = data;
  try{
   if(window.localStorage){
-   window.localStorage.setItem(KEY,JSON.stringify(data));
-   saveStatus="Mentve a böngészőben.";
+   window.localStorage.setItem(KEY, JSON.stringify(data));
+   saveStatus = "Mentve a böngészőben.";
   }
  }catch(e){
-  saveStatus="Memóriában frissítve (a böngésző tárhelye megtelt vagy korlátozott).";
+  saveStatus = "Memóriában frissítve (a böngésző tárhelye megtelt vagy korlátozott).";
  }
 }
 
-let data=safeLoad();
-window.__er1kData=data;
-let isAdminAuthed=false;
-let adminTab="models";
-let adminSelectedPC=0;
-let adminSelectedCat="gpu";
-let activePC=0;
-let selected={};
+let data = safeLoad();
+window.__er1kData = data;
+let isAdminAuthed = false;
+let adminTab = "models";
+let adminSelectedPC = 0;
+let adminSelectedCat = "gpu";
+let activePC = 0;
+let selected = {};
 
 function money(n){return Number(n||0).toLocaleString("ro-RO")+" RON"}
 function safe(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function safeImg(src){
- const s=String(src||"").trim();
- if(!s)return "";
- if(s.startsWith("data:image/")||s.startsWith("https://")||s.startsWith("http://")||s.startsWith("blob:"))return s;
+ const s = String(src||"").trim();
+ if(!s) return "";
+ if(s.startsWith("data:image/") || s.startsWith("https://") || s.startsWith("http://") || s.startsWith("blob:")) return s;
  return "";
 }
 
 function readSmallImage(file, cb){
  if(!file){cb("");return;}
- const reader=new FileReader();
- reader.onload=()=>{
-  const raw=reader.result;
-  if(typeof raw!=="string"){cb("");return;}
-  const img=new Image();
-  img.onload=()=>{
-   const maxSide=420;
-   let w=img.width||maxSide, h=img.height||maxSide;
-   if(w>maxSide||h>maxSide){
-    if(w>h){h=Math.round((h*maxSide)/w);w=maxSide;}
-    else{w=Math.round((w*maxSide)/h);h=maxSide;}
+ const reader = new FileReader();
+ reader.onload = () => {
+  const raw = reader.result;
+  if(typeof raw !== "string"){cb("");return;}
+  const img = new Image();
+  img.onload = () => {
+   const maxSide = 420;
+   let w = img.width || maxSide, h = img.height || maxSide;
+   if(w > maxSide || h > maxSide){
+    if(w > h){h = Math.round((h * maxSide) / w); w = maxSide;}
+    else{w = Math.round((w * maxSide) / h); h = maxSide;}
    }
-   const canvas=document.createElement("canvas");
-   canvas.width=w;
-   canvas.height=h;
-   const ctx=canvas.getContext("2d");
-   ctx.drawImage(img,0,0,w,h);
+   const canvas = document.createElement("canvas");
+   canvas.width = w;
+   canvas.height = h;
+   const ctx = canvas.getContext("2d");
+   ctx.drawImage(img, 0, 0, w, h);
    try{
-    cb(canvas.toDataURL("image/jpeg",0.72));
+    cb(canvas.toDataURL("image/jpeg", 0.72));
    }catch(e){
     cb(raw);
    }
   };
-  img.onerror=()=>cb(raw);
-  img.src=raw;
+  img.onerror = () => cb(raw);
+  img.src = raw;
  };
- reader.onerror=()=>cb("");
+ reader.onerror = () => cb("");
  reader.readAsDataURL(file);
 }
 
 function updateCornerTrigger(){
- const btn=document.getElementById("cornerAdminBtn");
- if(!btn)return;
- const scrolled=(window.scrollY||window.pageYOffset||0)>140;
- if(scrolled)btn.classList.add("visible");
+ const btn = document.getElementById("cornerAdminBtn");
+ if(!btn) return;
+ const scrolled = (window.scrollY || window.pageYOffset || 0) > 140;
+ if(scrolled) btn.classList.add("visible");
  else btn.classList.remove("visible");
 }
 
 window.addEventListener("scroll", updateCornerTrigger, {passive:true});
 
 function showView(viewId){
- document.querySelectorAll(".page-view").forEach(v=>v.classList.remove("active"));
- const el=document.getElementById(viewId);
- if(el)el.classList.add("active");
- window.scrollTo({top:0,behavior:"auto"});
+ document.querySelectorAll(".page-view").forEach(v => v.classList.remove("active"));
+ const el = document.getElementById(viewId);
+ if(el) el.classList.add("active");
+ window.scrollTo({top:0, behavior:"auto"});
  updateCornerTrigger();
 }
 
 function jumpSection(id){
  showView("homeView");
- setTimeout(()=>{
-  const el=document.getElementById(id);
-  if(el)el.scrollIntoView({behavior:"smooth"});
- },30);
+ setTimeout(() => {
+  const el = document.getElementById(id);
+  if(el) el.scrollIntoView({behavior:"smooth"});
+ }, 30);
 }
 
 function openAdmin(){
@@ -910,37 +984,37 @@ function openAdmin(){
   renderAdmin();
  }else{
   showView("loginView");
-  const pw=document.getElementById("password");
-  const err=document.getElementById("loginError");
-  if(pw)pw.value="";
-  if(err)err.textContent="";
-  setTimeout(()=>pw?.focus(),50);
+  const pw = document.getElementById("password");
+  const err = document.getElementById("loginError");
+  if(pw) pw.value = "";
+  if(err) err.textContent = "";
+  setTimeout(() => pw?.focus(), 50);
  }
 }
 
 function login(){
- const pass=document.getElementById("password").value;
+ const pass = document.getElementById("password").value;
  if(_matchCode(pass)){
-  isAdminAuthed=true;
+  isAdminAuthed = true;
   showView("adminView");
   renderAdmin();
  }else{
-  document.getElementById("loginError").textContent="Cod incorect.";
+  document.getElementById("loginError").textContent = "Cod incorect.";
  }
 }
 
 function logout(){
- isAdminAuthed=false;
+ isAdminAuthed = false;
  showView("homeView");
 }
 
 function renderHome(){
- const grid=document.getElementById("pcGrid");
- if(!grid)return;
- grid.innerHTML=data.map((pc,i)=>`
+ const grid = document.getElementById("pcGrid");
+ if(!grid) return;
+ grid.innerHTML = data.map((pc, i) => `
   <article class="pc-card">
    <div class="pc-media">
-    <span class="pc-tier">${tierLabels[i]||("0"+(i+1)+" · BUILD")}</span>
+    <span class="pc-tier">${tierLabels[i] || ("0" + (i + 1) + " · BUILD")}</span>
     <img class="pc-photo" src="${safeImg(pc.image)}" alt="${safe(pc.name)}">
    </div>
    <div class="pc-details">
@@ -956,118 +1030,145 @@ function renderHome(){
 }
 
 function openPC(i){
- if(!data[i])return;
- activePC=i;
- const pc=data[i];
- selected={};
- for(const key of Object.keys(componentNames)){
-  selected[key]=0;
- }
- document.getElementById("configName").textContent=pc.name;
- document.getElementById("configDesc").textContent=pc.description;
+ if(!Array.isArray(data) || data.length === 0) return;
+ const idx = (Number.isInteger(i) && i >= 0 && i < data.length) ? i : 0;
+ activePC = idx;
+ const pc = data[activePC];
+ selected = {};
+ ensureValidSelectionForPC(pc);
+ document.getElementById("configName").textContent = pc.name;
+ document.getElementById("configDesc").textContent = pc.description;
  showView("configView");
  renderModelSwitcher();
  renderConfig();
 }
 
 function renderModelSwitcher(){
- const sw=document.getElementById("modelSwitcher");
- sw.innerHTML=data.map((pc,i)=>`
-  <button type="button" class="model-pill ${i===activePC?"active":""}" onclick="openPC(${i})">${safe(pc.name)}</button>
+ const sw = document.getElementById("modelSwitcher");
+ sw.innerHTML = data.map((pc, i) => `
+  <button type="button" class="model-pill ${i === activePC ? "active" : ""}" onclick="openPC(${i})">${safe(pc.name)}</button>
  `).join("");
 }
 
 function renderConfig(){
- const pc=data[activePC];
- document.getElementById("topLeftComponents").innerHTML=["gpu","cpu"].map(k=>renderComponentBox(k,pc)).join("");
- document.getElementById("bottomLeftComponent").innerHTML=renderComponentBox("case",pc);
- document.getElementById("topRightComponents").innerHTML=["ram","ssd"].map(k=>renderComponentBox(k,pc)).join("");
- document.getElementById("bottomRightComponent").innerHTML=renderComponentBox("cooler",pc);
+ if(!Array.isArray(data) || data.length === 0) return;
+ if(activePC < 0 || activePC >= data.length) activePC = 0;
+ const pc = data[activePC];
+ ensureValidSelectionForPC(pc);
+
+ document.getElementById("topLeftComponents").innerHTML = ["gpu","cpu"].map(k => renderComponentBox(k, pc)).join("");
+ document.getElementById("bottomLeftComponent").innerHTML = renderComponentBox("case", pc);
+ document.getElementById("topRightComponents").innerHTML = ["ram","ssd"].map(k => renderComponentBox(k, pc)).join("");
+ document.getElementById("bottomRightComponent").innerHTML = renderComponentBox("cooler", pc);
  updateStage();
  updateSummary();
 }
 
-function renderComponentBox(key,pc){
- const options=pc.components[key]||[];
+function renderComponentBox(key, pc){
+ const options = getCategoryOptions(pc, key);
+ const activeIdx = Number.isInteger(selected[key]) && selected[key] >= 0 && selected[key] < options.length ? selected[key] : 0;
  return `<div class="component-section">
   <div class="component-title"><h3>${componentNames[key]}</h3><span>${options.length} OPȚIUNI</span></div>
-  <div class="choices">${options.map((o,i)=>{
-   const imgUrl=safeImg(o.image);
+  <div class="choices">${options.map((o, i) => {
+   const imgUrl = safeImg(o.image);
    return `
-   <button type="button" class="choice ${selected[key]===i?"selected":""}" onclick="choose('${key}',${i})">
-    ${imgUrl?`<img src="${imgUrl}" alt="${safe(o.name)}">`:""}
+   <button type="button" class="choice ${activeIdx === i ? "selected" : ""}" onclick="choose('${key}', ${i})">
+    ${imgUrl ? `<img src="${imgUrl}" alt="${safe(o.name)}">` : ""}
     <strong>${safe(o.name)}</strong>
-    <small>${Number(o.price)>0?`<span class="extra">+ ${money(o.price)}</span>`:"Inclus în preț"}</small>
+    <small>${Number(o.price) > 0 ? `<span class="extra">+ ${money(o.price)}</span>` : "Inclus în preț"}</small>
    </button>`;
   }).join("")}</div>
  </div>`;
 }
 
-function choose(key,i){
- selected[key]=i;
+function choose(key, i){
+ if(!CATEGORY_KEYS.includes(key)) return;
+ const pc = data[activePC];
+ const options = getCategoryOptions(pc, key);
+ if(options.length === 0){
+  selected[key] = 0;
+ }else{
+  const idx = Number(i);
+  selected[key] = (Number.isInteger(idx) && idx >= 0 && idx < options.length) ? idx : 0;
+ }
  renderConfig();
 }
 
 function currentOption(key){
- const pc=data[activePC];
- return pc.components[key]?.[selected[key]]||null;
+ if(!CATEGORY_KEYS.includes(key)) return null;
+ const pc = data[activePC];
+ const options = getCategoryOptions(pc, key);
+ if(options.length === 0) return null;
+ const idx = Number(selected[key]);
+ const validIdx = (Number.isInteger(idx) && idx >= 0 && idx < options.length) ? idx : 0;
+ selected[key] = validIdx;
+ return options[validIdx] || null;
 }
 
 function updateStage(){
- const c=currentOption("case");
- const pc=data[activePC];
- document.getElementById("stageImage").src=safeImg((c&&c.image)||pc.image);
- document.getElementById("stageCaseName").textContent=c?c.name:"Carcasă";
+ const c = currentOption("case");
+ const pc = data[activePC];
+ const stageImg = document.getElementById("stageImage");
+ const stageName = document.getElementById("stageCaseName");
+ if(stageImg) stageImg.src = safeImg((c && c.image) || (pc && pc.image) || "");
+ if(stageName) stageName.textContent = c ? c.name : "Carcasă";
 }
 
 function updateSummary(){
- const pc=data[activePC];
- let total=Number(pc.price)||0;
- let html=`<div class="summary-line"><span>Sistem de bază</span><span>${money(pc.price)}</span></div>`;
- for(const key of Object.keys(componentNames)){
-  const o=currentOption(key);
-  if(!o)continue;
-  total+=Number(o.price)||0;
-  html+=`<div class="summary-line"><span>${componentNames[key]}</span><span>${safe(o.name)}</span></div>`;
-  if(Number(o.price)>0){
-   html+=`<div class="summary-line surcharge"><span>Supliment</span><span>+ ${money(o.price)}</span></div>`;
+ const pc = data[activePC];
+ if(!pc) return;
+ let total = Number(pc.price) || 0;
+ let html = `<div class="summary-line"><span>Sistem de bază</span><span>${money(pc.price)}</span></div>`;
+ for(const key of CATEGORY_KEYS){
+  const o = currentOption(key);
+  if(!o) continue;
+  const optPrice = Number(o.price) || 0;
+  total += optPrice;
+  html += `<div class="summary-line"><span>${componentNames[key]}</span><span>${safe(o.name)}</span></div>`;
+  if(optPrice > 0){
+   html += `<div class="summary-line surcharge"><span>Supliment</span><span>+ ${money(optPrice)}</span></div>`;
   }
  }
- document.getElementById("summary").innerHTML=html;
- document.getElementById("totalPrice").textContent=money(total);
+ document.getElementById("summary").innerHTML = html;
+ document.getElementById("totalPrice").textContent = money(total);
 }
 
 function orderPC(){
- const pc=data[activePC];
- const lines=Object.keys(componentNames).map(k=>{
-  const o=currentOption(k);
-  return o?componentNames[k]+": "+o.name:"";
+ const pc = data[activePC];
+ if(!pc) return;
+ const lines = CATEGORY_KEYS.map(k => {
+  const o = currentOption(k);
+  return o ? componentNames[k] + ": " + o.name : "";
  }).filter(Boolean);
- const total=document.getElementById("totalPrice").textContent;
- const message=`Bună! Sunt interesat de ${pc.name}.\n${lines.join("\n")}\nPreț estimativ: ${total}`;
- window.location.href="https://wa.me/?text="+encodeURIComponent(message);
+ const total = document.getElementById("totalPrice").textContent;
+ const message = `Bună! Sunt interesat de ${pc.name}.\n${lines.join("\n")}\nPreț estimativ: ${total}`;
+ window.location.href = "https://wa.me/?text=" + encodeURIComponent(message);
 }
 
 function switchAdminTab(tab){
- adminTab=tab;
- document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));
- document.getElementById("tab-"+tab)?.classList.add("active");
+ adminTab = tab;
+ document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+ document.getElementById("tab-" + tab)?.classList.add("active");
  renderAdmin();
 }
 
 function renderAdmin(){
- if(!data[adminSelectedPC])adminSelectedPC=0;
- const root=document.getElementById("adminContent");
- if(!root)return;
- if(adminTab==="models")root.innerHTML=renderModelsTab();
- else if(adminTab==="components")root.innerHTML=renderComponentsTab();
- else root.innerHTML=renderSystemTab();
+ if(!Array.isArray(data) || data.length === 0) return;
+ if(adminSelectedPC < 0 || adminSelectedPC >= data.length) adminSelectedPC = 0;
+ if(!CATEGORY_KEYS.includes(adminSelectedCat)) adminSelectedCat = "gpu";
+ getCategoryOptions(data[adminSelectedPC], adminSelectedCat);
+
+ const root = document.getElementById("adminContent");
+ if(!root) return;
+ if(adminTab === "models") root.innerHTML = renderModelsTab();
+ else if(adminTab === "components") root.innerHTML = renderComponentsTab();
+ else root.innerHTML = renderSystemTab();
 }
 
 function renderPCSelectorCards(){
  return `<div class="pc-selector-bar">
-  ${data.map((pc,i)=>`
-   <button type="button" class="pc-select-card ${i===adminSelectedPC?"active":""}" onclick="adminSelectedPC=${i};renderAdmin()">
+  ${data.map((pc, i) => `
+   <button type="button" class="pc-select-card ${i === adminSelectedPC ? "active" : ""}" onclick="adminSelectedPC=${i};renderAdmin()">
     <strong>${safe(pc.name)}</strong>
     <small>Bază: ${money(pc.price)}</small>
    </button>`).join("")}
@@ -1075,7 +1176,7 @@ function renderPCSelectorCards(){
 }
 
 function renderModelsTab(){
- const pc=data[adminSelectedPC];
+ const pc = data[adminSelectedPC];
  return `
   <div class="admin-box">
    <h2>PC modellek</h2>
@@ -1105,9 +1206,9 @@ function renderModelsTab(){
 }
 
 function renderComponentsTab(){
- const pc=data[adminSelectedPC];
- const options=pc.components[adminSelectedCat]||[];
- const showImageUpload=(adminSelectedCat==="case"||adminSelectedCat==="cooler");
+ const pc = data[adminSelectedPC];
+ const options = getCategoryOptions(pc, adminSelectedCat);
+ const showImageUpload = (adminSelectedCat === "case" || adminSelectedCat === "cooler");
 
  return `
   <div class="admin-box">
@@ -1115,29 +1216,32 @@ function renderComponentsTab(){
    <p style="color:var(--muted);font-size:12px;margin:0 0 14px">Kiválasztott gép: <strong>${safe(pc.name)}</strong> — válassz kategóriát alább.</p>
    ${renderPCSelectorCards()}
    <div class="cat-pills">
-    ${Object.keys(componentNames).map(k=>`
-     <button type="button" class="cat-pill ${k===adminSelectedCat?"active":""}" onclick="adminSelectedCat='${k}';renderAdmin()">
-      ${componentNames[k]} (${(pc.components[k]||[]).length})
-     </button>`).join("")}
+    ${CATEGORY_KEYS.map(k => {
+     const count = getCategoryOptions(pc, k).length;
+     return `
+     <button type="button" class="cat-pill ${k === adminSelectedCat ? "active" : ""}" onclick="adminSelectedCat='${k}';renderAdmin()">
+      ${componentNames[k]} (${count})
+     </button>`;
+    }).join("")}
    </div>
 
    <h3>${componentNames[adminSelectedCat]} — ${safe(pc.name)}</h3>
    <div class="option-list">
-    ${options.length?options.map((o,oi)=>{
-     const imgUrl=safeImg(o.image);
+    ${options.length ? options.map((o, oi) => {
+     const imgUrl = safeImg(o.image);
      return `
      <div class="admin-row">
-      ${imgUrl?`<img src="${imgUrl}" alt="${safe(o.name)}">`:`<div class="thumb-placeholder">N/A</div>`}
+      ${imgUrl ? `<img src="${imgUrl}" alt="${safe(o.name)}">` : `<div class="thumb-placeholder">N/A</div>`}
       <div class="row-info">
        <strong>${safe(o.name)}</strong>
-       <small>${Number(o.price)>0?"+ "+money(o.price):"Alapárban benne van"}</small>
+       <small>${Number(o.price) > 0 ? "+ " + money(o.price) : "Alapárban benne van"}</small>
       </div>
       <div class="row-actions">
        <button type="button" class="secondary-btn btn-sm" onclick="editOption(${adminSelectedPC},'${adminSelectedCat}',${oi})">Szerkesztés</button>
        <button type="button" class="secondary-btn btn-sm danger" onclick="deleteOption(${adminSelectedPC},'${adminSelectedCat}',${oi})">Törlés</button>
       </div>
      </div>`;
-    }).join(""):`<div class="empty">Nincs opció ebben a kategóriában.</div>`}
+    }).join("") : `<div class="empty">Nincs opció ebben a kategóriában.</div>`}
    </div>
 
    <div style="margin-top:20px;padding-top:16px;border-top:1px solid #1d212e">
@@ -1153,11 +1257,11 @@ function renderComponentsTab(){
      </div>
      <button type="button" class="secondary-btn" onclick="addOptionFromTab()">+ Hozzáadás</button>
     </div>
-    ${showImageUpload?`
+    ${showImageUpload ? `
      <div style="margin-top:12px;max-width:360px">
       <label for="newOptImg">Kép (opcionális)</label>
       <input id="newOptImg" type="file" accept="image/*">
-     </div>`:""}
+     </div>` : ""}
     <div class="status-msg">${safe(saveStatus)}</div>
    </div>
   </div>`;
@@ -1173,94 +1277,151 @@ function renderSystemTab(){
 }
 
 function saveCurrentPC(){
- const pc=data[adminSelectedPC];
- pc.name=document.getElementById("pcName").value.trim()||pc.name;
- pc.price=Number(document.getElementById("pcPrice").value)||0;
- pc.description=document.getElementById("pcDesc").value.trim();
+ const pcIdx = adminSelectedPC;
+ const pc = data[pcIdx];
+ if(!pc) return;
+ pc.name = document.getElementById("pcName").value.trim() || pc.name;
+ pc.price = Number(document.getElementById("pcPrice").value) || 0;
+ pc.description = document.getElementById("pcDesc").value.trim();
  safeSave();
  renderHome();
  renderAdmin();
+ if(activePC === pcIdx){
+  document.getElementById("configName").textContent = pc.name;
+  document.getElementById("configDesc").textContent = pc.description;
+  updateSummary();
+ }
 }
 
-function uploadPCImage(i,input){
- const file=input.files[0];if(!file)return;
- readSmallImage(file, imgData=>{
-  if(!imgData){saveStatus="Nem sikerült beolvasni a képet.";renderAdmin();return;}
-  data[i].image=imgData;
+function uploadPCImage(i, input){
+ const file = input.files && input.files[0];
+ if(!file) return;
+ const targetPCIdx = i;
+ readSmallImage(file, imgData => {
+  if(!data[targetPCIdx]) return;
+  if(!imgData){
+   saveStatus = "Nem sikerült beolvasni a képet.";
+   renderAdmin();
+   return;
+  }
+  data[targetPCIdx].image = imgData;
   safeSave();
   renderHome();
   renderAdmin();
-  if(activePC===i)updateStage();
+  if(activePC === targetPCIdx) updateStage();
  });
 }
 
 function addOptionFromTab(){
- const nameEl=document.getElementById("newOptName");
- const priceEl=document.getElementById("newOptPrice");
- const name=nameEl.value.trim();
- const price=Number(priceEl.value)||0;
- if(!name){saveStatus="Add meg az opció nevét.";renderAdmin();return;}
- const file=document.getElementById("newOptImg")?.files?.[0];
- const finish=image=>{
-  const option={name,price,image:image||""};
-  if(!data[adminSelectedPC].components[adminSelectedCat])data[adminSelectedPC].components[adminSelectedCat]=[];
-  data[adminSelectedPC].components[adminSelectedCat].push(option);
-  safeSave();
-  saveStatus=`Hozzáadva (${componentNames[adminSelectedCat]}): ${name}`;
-  activePC=adminSelectedPC;
+ const targetPCIdx = adminSelectedPC;
+ const targetCatKey = adminSelectedCat;
+ if(!data[targetPCIdx] || !CATEGORY_KEYS.includes(targetCatKey)) return;
+
+ const nameEl = document.getElementById("newOptName");
+ const priceEl = document.getElementById("newOptPrice");
+ const imgEl = document.getElementById("newOptImg");
+
+ const name = (nameEl ? nameEl.value : "").trim();
+ const price = Number(priceEl ? priceEl.value : 0) || 0;
+ if(!name){
+  saveStatus = "Add meg az opció nevét.";
   renderAdmin();
-  renderConfig();
+  return;
+ }
+
+ const file = (imgEl && imgEl.files && imgEl.files[0]) ? imgEl.files[0] : null;
+ const finish = image => {
+  const targetPC = data[targetPCIdx];
+  if(!targetPC) return;
+  const list = getCategoryOptions(targetPC, targetCatKey);
+  const option = normalizeOption({name, price, image: image || ""});
+  list.push(option);
+  safeSave();
+  saveStatus = `Hozzáadva (${componentNames[targetCatKey]} · ${targetPC.name}): ${option.name}`;
+  if(adminSelectedPC === targetPCIdx && adminSelectedCat === targetCatKey){
+   renderAdmin();
+  }
+  if(activePC === targetPCIdx){
+   renderConfig();
+  }
  };
+
  if(file){
-  readSmallImage(file, imgData=>finish(imgData));
- }else finish("");
+  readSmallImage(file, imgData => finish(imgData));
+ }else{
+  finish("");
+ }
 }
 
-function editOption(pi,key,oi){
- const o=data[pi].components[key][oi];
- const name=prompt("Numele componentei:",o.name);
- if(name===null)return;
- const price=prompt("Supliment în RON:",o.price);
- if(price===null)return;
- o.name=name.trim()||o.name;
- o.price=Number(price)||0;
- if(key==="case"||key==="cooler"){
+function editOption(pi, key, oi){
+ if(!CATEGORY_KEYS.includes(key)) return;
+ const pc = data[pi];
+ if(!pc) return;
+ const list = getCategoryOptions(pc, key);
+ const o = list[oi];
+ if(!o) return;
+
+ const name = prompt("Numele componentei:", o.name);
+ if(name === null) return;
+ const price = prompt("Supliment în RON:", o.price);
+ if(price === null) return;
+
+ o.name = name.trim() || o.name;
+ o.price = Number(price) || 0;
+
+ if(key === "case" || key === "cooler"){
   if(confirm("Vrei să schimbi și imaginea?")){
-   const picker=document.createElement("input");
-   picker.type="file";picker.accept="image/*";
-   picker.onchange=()=>{
-    const file=picker.files[0];if(!file)return;
-    readSmallImage(file, imgData=>{
-     if(imgData)o.image=imgData;
+   const picker = document.createElement("input");
+   picker.type = "file";
+   picker.accept = "image/*";
+   picker.onchange = () => {
+    const file = picker.files && picker.files[0];
+    if(!file) return;
+    readSmallImage(file, imgData => {
+     if(imgData) o.image = imgData;
      safeSave();
      renderAdmin();
-     if(activePC===pi)renderConfig();
+     if(activePC === pi) renderConfig();
     });
    };
    picker.click();
    return;
   }
  }
+
  safeSave();
  renderAdmin();
- if(activePC===pi)renderConfig();
+ if(activePC === pi) renderConfig();
 }
 
-function deleteOption(pi,key,oi){
- if(!confirm("Ștergi această opțiune?"))return;
- data[pi].components[key].splice(oi,1);
+function deleteOption(pi, key, oi){
+ if(!CATEGORY_KEYS.includes(key)) return;
+ const pc = data[pi];
+ if(!pc) return;
+ const list = getCategoryOptions(pc, key);
+ if(!list[oi]) return;
+ if(!confirm("Ștergi această opțiune?")) return;
+
+ list.splice(oi, 1);
+ if(activePC === pi){
+  const cur = Number(selected[key]);
+  if(list.length === 0) selected[key] = 0;
+  else if(!Number.isInteger(cur) || cur >= list.length) selected[key] = 0;
+ }
  safeSave();
  renderAdmin();
- if(activePC===pi)renderConfig();
+ if(activePC === pi) renderConfig();
 }
 
 function resetDefaults(){
- if(!confirm("Visszaállítod az alapértelmezett adatokat?"))return;
- data=clone(defaultData);
- window.__er1kData=data;
- adminSelectedPC=0;
- adminSelectedCat="gpu";
- saveStatus="Alapértelmezett adatok visszaállítva.";
+ if(!confirm("Visszaállítod az alapértelmezett adatokat?")) return;
+ data = normalizeData(clone(defaultData));
+ window.__er1kData = data;
+ adminSelectedPC = 0;
+ adminSelectedCat = "gpu";
+ activePC = 0;
+ selected = {};
+ saveStatus = "Alapértelmezett adatok visszaállítva.";
  safeSave();
  renderHome();
  switchAdminTab("models");
