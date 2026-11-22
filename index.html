@@ -9,8 +9,8 @@
     body {
       background-color: #030509;
       background-image:
-        radial-gradient(circle at 18% 12%, rgba(56, 189, 248, 0.09), transparent 38%),
-        radial-gradient(circle at 82% 18%, rgba(14, 165, 233, 0.07), transparent 40%),
+        radial-gradient(circle at 18% 12%, rgba(56, 189, 248, 0.10), transparent 40%),
+        radial-gradient(circle at 82% 18%, rgba(14, 165, 233, 0.08), transparent 42%),
         linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
         linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
       background-size: 100% 100%, 100% 100%, 48px 48px, 48px 48px;
@@ -18,19 +18,19 @@
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
     .dark-card {
-      background: linear-gradient(165deg, rgba(14, 18, 28, 0.94), rgba(6, 8, 13, 0.98));
-      border: 1px solid rgba(148, 163, 184, 0.16);
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      background: linear-gradient(165deg, rgba(15, 20, 32, 0.95), rgba(6, 8, 14, 0.99));
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.06);
       transition: all 0.2s ease;
     }
     .dark-card:hover {
-      border-color: rgba(56, 189, 248, 0.55);
+      border-color: rgba(56, 189, 248, 0.6);
       transform: translateY(-2px);
-      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.8), 0 0 24px rgba(56, 189, 248, 0.12);
+      box-shadow: 0 24px 55px rgba(0, 0, 0, 0.85), 0 0 26px rgba(56, 189, 248, 0.14);
     }
     .cyan-btn {
       background: linear-gradient(135deg, #38bdf8, #0284c7);
-      box-shadow: 0 6px 22px rgba(14, 165, 233, 0.28);
+      box-shadow: 0 8px 24px rgba(14, 165, 233, 0.32);
     }
     .cyan-btn:hover {
       background: linear-gradient(135deg, #7dd3fc, #0ea5e9);
@@ -140,8 +140,9 @@
       host.appendChild(canvas);
 
       const ctx = canvas.getContext('2d');
-      let yaw = -0.62;
-      let pitch = 0.24;
+      let yaw = -0.68;
+      let pitch = 0.22;
+      let fanAngle = 0;
       let dragging = false;
       let lastX = 0;
       let lastY = 0;
@@ -161,7 +162,7 @@
       window.onpointermove = (e) => {
         if (!dragging) return;
         yaw += (e.clientX - lastX) * 0.01;
-        pitch = Math.max(-0.5, Math.min(0.65, pitch + (e.clientY - lastY) * 0.008));
+        pitch = Math.max(-0.45, Math.min(0.6, pitch + (e.clientY - lastY) * 0.008));
         lastX = e.clientX;
         lastY = e.clientY;
       };
@@ -172,41 +173,71 @@
         const x1 = x * cy - z * sy;
         const z1 = x * sy + z * cy;
         const y2 = y * cp - z1 * sp;
-        const z2 = y * sp + z1 * cp + 5.1;
-        const fov = Math.min(w, h) * 0.95;
+        const z2 = y * sp + z1 * cp + 5.2;
+        const fov = Math.min(w, h) * 1.05;
         const scale = fov / Math.max(z2, 1.2);
-        return { px: w * 0.5 + x1 * scale, py: h * 0.52 - y2 * scale, z: z2 };
+        return { px: w * 0.5 + x1 * scale, py: h * 0.54 - y2 * scale, z: z2 };
       }
 
-      function drawBox(cx, cy, cz, sx, sy, sz, fill, stroke, w, h) {
-        const hx = sx / 2, hy = sy / 2, hz = sz / 2;
-        const pts = [
-          [-hx, -hy, -hz], [hx, -hy, -hz], [hx, hy, -hz], [-hx, hy, -hz],
-          [-hx, -hy, hz], [hx, -hy, hz], [hx, hy, hz], [-hx, hy, hz]
-        ].map(([dx, dy, dz]) => project(cx + dx, cy + dy, cz + dz, w, h));
+      function drawPoly(pts3, fill, stroke, lineWidth, w, h) {
+        const pts = pts3.map(([x, y, z]) => project(x, y, z, w, h));
+        ctx.beginPath();
+        pts.forEach((p, idx) => {
+          if (idx === 0) ctx.moveTo(p.px, p.py);
+          else ctx.lineTo(p.px, p.py);
+        });
+        ctx.closePath();
+        if (fill) {
+          ctx.fillStyle = fill;
+          ctx.fill();
+        }
+        if (stroke) {
+          ctx.strokeStyle = stroke;
+          ctx.lineWidth = lineWidth || 1.4;
+          ctx.stroke();
+        }
+      }
 
+      function drawBox(cx, cy, cz, sx, sy, sz, fill, stroke, w, h, lw = 1.4) {
+        const hx = sx / 2, hy = sy / 2, hz = sz / 2;
+        const v = [
+          [cx - hx, cy - hy, cz - hz], [cx + hx, cy - hy, cz - hz],
+          [cx + hx, cy + hy, cz - hz], [cx - hx, cy + hy, cz - hz],
+          [cx - hx, cy - hy, cz + hz], [cx + hx, cy - hy, cz + hz],
+          [cx + hx, cy + hy, cz + hz], [cx - hx, cy + hy, cz + hz]
+        ];
         const faces = [
           [0, 1, 2, 3], [4, 5, 6, 7],
           [0, 1, 5, 4], [2, 3, 7, 6],
           [0, 3, 7, 4], [1, 2, 6, 5]
         ].map((idx) => ({
           idx,
-          avgZ: idx.reduce((acc, i) => acc + pts[i].z, 0) / 4
+          avgZ: idx.reduce((acc, i) => acc + project(v[i][0], v[i][1], v[i][2], w, h).z, 0) / 4
         })).sort((a, b) => b.avgZ - a.avgZ);
 
         faces.forEach(({ idx }) => {
-          ctx.beginPath();
-          idx.forEach((i, k) => {
-            if (k === 0) ctx.moveTo(pts[i].px, pts[i].py);
-            else ctx.lineTo(pts[i].px, pts[i].py);
-          });
-          ctx.closePath();
-          ctx.fillStyle = fill;
-          ctx.fill();
-          ctx.strokeStyle = stroke;
-          ctx.lineWidth = 1.5;
-          ctx.stroke();
+          drawPoly(idx.map((i) => v[i]), fill, stroke, lw, w, h);
         });
+      }
+
+      function drawFan(cx, cy, cz, radius, angle, w, h) {
+        const ring = [];
+        const blades = 7;
+        for (let i = 0; i < 24; i++) {
+          const a = (i / 24) * Math.PI * 2;
+          ring.push([cx + Math.cos(a) * radius, cy + Math.sin(a) * radius, cz]);
+        }
+        drawPoly(ring, 'rgba(14, 24, 44, 0.75)', 'rgba(56, 189, 248, 0.9)', 1.5, w, h);
+
+        for (let b = 0; b < blades; b++) {
+          const a0 = angle + (b / blades) * Math.PI * 2;
+          const a1 = a0 + 0.34;
+          drawPoly([
+            [cx, cy, cz + 0.01],
+            [cx + Math.cos(a0) * (radius * 0.88), cy + Math.sin(a0) * (radius * 0.88), cz + 0.01],
+            [cx + Math.cos(a1) * (radius * 0.88), cy + Math.sin(a1) * (radius * 0.88), cz + 0.01]
+          ], 'rgba(56, 189, 248, 0.35)', 'rgba(186, 230, 253, 0.65)', 1, w, h);
+        }
       }
 
       function frame() {
@@ -215,21 +246,43 @@
         const h = canvas.clientHeight || host.clientHeight;
         ctx.clearRect(0, 0, w, h);
 
-        if (!dragging) yaw += 0.0045;
+        if (!dragging) yaw += 0.004;
+        fanAngle += 0.14;
         gpuSlide += (targetGpuSlide - gpuSlide) * 0.14;
 
-        const grad = ctx.createRadialGradient(w * 0.5, h * 0.55, 10, w * 0.5, h * 0.55, w * 0.42);
-        grad.addColorStop(0, 'rgba(56, 189, 248, 0.14)');
-        grad.addColorStop(1, 'rgba(3, 5, 9, 0)');
-        ctx.fillStyle = grad;
+        const glow = ctx.createRadialGradient(w * 0.5, h * 0.56, 10, w * 0.5, h * 0.56, w * 0.45);
+        glow.addColorStop(0, 'rgba(56, 189, 248, 0.16)');
+        glow.addColorStop(1, 'rgba(3, 5, 9, 0)');
+        ctx.fillStyle = glow;
         ctx.fillRect(0, 0, w, h);
 
-        drawBox(0, 0, 0, 1.35, 1.95, 1.75, 'rgba(15, 23, 42, 0.35)', 'rgba(56, 189, 248, 0.65)', w, h);
-        drawBox(0, -0.72, 0, 1.24, 0.42, 1.62, 'rgba(9, 13, 22, 0.94)', 'rgba(148, 163, 184, 0.35)', w, h);
-        [-0.52, 0.05, 0.62].forEach((fy) => {
-          drawBox(0, fy, 0.84, 0.46, 0.46, 0.08, 'rgba(56, 189, 248, 0.14)', 'rgba(125, 211, 252, 0.8)', w, h);
+        // Feet
+        [[-0.5, -1.05, -0.7], [0.5, -1.05, -0.7], [-0.5, -1.05, 0.7], [0.5, -1.05, 0.7]].forEach(([fx, fy, fz]) => {
+          drawBox(fx, fy, fz, 0.22, 0.1, 0.22, 'rgba(15, 23, 42, 0.95)', 'rgba(148, 163, 184, 0.45)', w, h, 1.1);
         });
-        drawBox(0.12 + gpuSlide * 0.95, -0.1, 0.05, 0.72, 0.16, 1.15, 'rgba(2, 132, 199, 0.85)', 'rgba(186, 230, 253, 0.95)', w, h);
+
+        // Main chassis
+        drawBox(0, 0, 0, 1.42, 2.0, 1.82, 'rgba(12, 18, 30, 0.28)', 'rgba(56, 189, 248, 0.75)', w, h, 1.6);
+
+        // PSU shroud
+        drawBox(0, -0.74, 0, 1.32, 0.44, 1.72, 'rgba(10, 14, 24, 0.95)', 'rgba(148, 163, 184, 0.4)', w, h, 1.3);
+
+        // Motherboard tray
+        drawBox(-0.45, 0.15, -0.05, 0.08, 1.15, 1.15, 'rgba(20, 30, 52, 0.9)', 'rgba(56, 189, 248, 0.45)', w, h, 1.2);
+
+        // CPU Cooler block + tubes
+        drawBox(-0.22, 0.35, -0.1, 0.34, 0.34, 0.34, 'rgba(15, 23, 42, 0.95)', 'rgba(125, 211, 252, 0.9)', w, h, 1.4);
+        drawBox(-0.22, 0.42, -0.45, 0.12, 0.12, 0.65, 'rgba(2, 132, 199, 0.75)', 'rgba(186, 230, 253, 0.85)', w, h, 1.2);
+
+        // Sliding GPU card
+        const gx = 0.05 + gpuSlide * 1.05;
+        drawBox(gx, -0.18, 0.05, 0.82, 0.22, 1.25, 'rgba(18, 28, 48, 0.95)', 'rgba(56, 189, 248, 0.95)', w, h, 1.5);
+        drawBox(gx + 0.35, -0.15, 0.05, 0.08, 0.06, 1.18, 'rgba(56, 189, 248, 0.95)', 'rgba(224, 242, 254, 1)', w, h, 1.2);
+
+        // Front RGB fans
+        [-0.52, 0.06, 0.64].forEach((fy) => {
+          drawFan(0.05, fy, 0.92, 0.25, fanAngle, w, h);
+        });
       }
       frame();
     }
@@ -270,67 +323,67 @@
         const featured = pcs[2] || pcs[0];
         root.innerHTML = `
           <header class="border-b border-white/10 bg-[#05080f]/90 backdrop-blur-md sticky top-0 z-30">
-            <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-              <div class="flex items-center gap-2.5">
-                <span class="w-8 h-8 rounded-lg cyan-btn flex items-center justify-center text-slate-950 font-black text-sm">E1</span>
-                <span class="font-black text-lg tracking-wider text-white">ER1K <span class="text-sky-400">PC</span></span>
-              </div>
+            <div class="max-w-[1520px] mx-auto px-6 lg:px-10 py-4 flex justify-between items-center">
               <div class="flex items-center gap-3">
-                <a href="#sisteme" class="hidden sm:inline-block text-xs font-semibold text-zinc-300 hover:text-sky-400 px-3 py-1.5">Sisteme</a>
-                <button id="goAdmin" class="text-xs font-bold px-3.5 py-1.5 rounded-lg border border-white/15 bg-white/5 text-zinc-200 hover:border-sky-400/50 hover:text-sky-300 transition">Admin</button>
+                <span class="w-9 h-9 rounded-xl cyan-btn flex items-center justify-center text-slate-950 font-black text-base">E1</span>
+                <span class="font-black text-xl tracking-wider text-white">ER1K <span class="text-sky-400">PC</span></span>
+              </div>
+              <div class="flex items-center gap-4">
+                <a href="#sisteme" class="hidden sm:inline-block text-sm font-semibold text-zinc-300 hover:text-sky-400 px-3 py-1.5">Sisteme</a>
+                <button id="goAdmin" class="text-sm font-bold px-4 py-2 rounded-xl border border-white/15 bg-white/5 text-zinc-200 hover:border-sky-400/50 hover:text-sky-300 transition">Admin</button>
               </div>
             </div>
           </header>
 
-          <section class="max-w-7xl mx-auto px-6 pt-12 pb-10 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          <section class="max-w-[1520px] mx-auto px-6 lg:px-10 pt-12 pb-10 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             <div class="lg:col-span-7">
-              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-sky-400 text-xs font-semibold mb-5">
+              <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-sky-400 text-xs font-bold mb-5">
                 <span>●</span> Configurator 3D • Asamblare Custom
               </div>
-              <h1 class="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-[1.06] mb-5">
+              <h1 class="text-4xl sm:text-6xl xl:text-7xl font-black tracking-tight leading-[1.04] mb-5">
                 PC Gaming <span class="text-sky-400">Custom</span><br/>
                 <span class="text-white">Performanță</span> <span class="text-zinc-300">Fără Limite</span>
               </h1>
-              <p class="text-zinc-400 text-sm md:text-base max-w-xl leading-relaxed mb-7">
+              <p class="text-zinc-400 text-base md:text-lg max-w-2xl leading-relaxed mb-8">
                 Alege unul dintre cele 5 modele principale Er1k PC, personalizează componentele și configurează-ți sistemul în 3D.
               </p>
-              <div class="flex flex-wrap gap-3.5 mb-8">
-                <button id="heroCfgBtn" class="cyan-btn px-6 py-3.5 rounded-xl text-slate-950 font-extrabold text-sm tracking-wide">
+              <div class="flex flex-wrap gap-4 mb-9">
+                <button id="heroCfgBtn" class="cyan-btn px-7 py-4 rounded-xl text-slate-950 font-black text-sm md:text-base tracking-wide">
                   Configurator PC →
                 </button>
-                <a href="#sisteme" class="px-6 py-3.5 rounded-xl border border-white/15 bg-white/5 text-zinc-200 font-bold text-sm hover:border-sky-400/40 transition">
+                <a href="#sisteme" class="px-7 py-4 rounded-xl border border-white/15 bg-white/5 text-zinc-200 font-bold text-sm md:text-base hover:border-sky-400/40 transition">
                   Vezi Sisteme
                 </a>
               </div>
-              <div class="grid grid-cols-3 gap-3 max-w-lg">
-                <div class="dark-card rounded-xl p-3.5">
-                  <div class="text-base font-black text-sky-400">240+ FPS</div>
-                  <div class="text-[11px] text-zinc-400">Gaming fluent</div>
+              <div class="grid grid-cols-3 gap-4 max-w-xl">
+                <div class="dark-card rounded-2xl p-4">
+                  <div class="text-lg md:text-xl font-black text-sky-400">240+ FPS</div>
+                  <div class="text-xs text-zinc-400 mt-0.5">Gaming fluent</div>
                 </div>
-                <div class="dark-card rounded-xl p-3.5">
-                  <div class="text-base font-black text-sky-400">5 Modele</div>
-                  <div class="text-[11px] text-zinc-400">Start → Ultimate</div>
+                <div class="dark-card rounded-2xl p-4">
+                  <div class="text-lg md:text-xl font-black text-sky-400">5 Modele</div>
+                  <div class="text-xs text-zinc-400 mt-0.5">Start → Ultimate</div>
                 </div>
-                <div class="dark-card rounded-xl p-3.5">
-                  <div class="text-base font-black text-sky-400">3D Live</div>
-                  <div class="text-[11px] text-zinc-400">Răcire & GPU</div>
+                <div class="dark-card rounded-2xl p-4">
+                  <div class="text-lg md:text-xl font-black text-sky-400">3D Live</div>
+                  <div class="text-xs text-zinc-400 mt-0.5">Răcire & GPU</div>
                 </div>
               </div>
             </div>
 
             <div class="lg:col-span-5">
-              <div class="dark-card rounded-2xl p-4">
-                <div class="flex items-center justify-between text-xs text-zinc-400 mb-2 px-1">
+              <div class="dark-card rounded-2xl p-5">
+                <div class="flex items-center justify-between text-xs text-zinc-400 mb-3 px-1">
                   <span class="font-bold uppercase tracking-wider">Previzualizare 3D</span>
-                  <span class="px-2 py-0.5 rounded bg-sky-400/15 text-sky-300 font-semibold">${featured.name}</span>
+                  <span class="px-2.5 py-1 rounded-md bg-sky-400/15 text-sky-300 font-bold">${featured.name}</span>
                 </div>
-                <div id="hero3d" class="w-full h-72 rounded-xl overflow-hidden bg-[#05070c] border border-white/10"></div>
-                <div class="mt-4 pt-3 border-t border-white/10 flex items-center justify-between">
+                <div id="hero3d" class="w-full h-80 md:h-96 rounded-xl overflow-hidden bg-[#05070c] border border-white/10"></div>
+                <div class="mt-4 pt-4 border-t border-white/10 flex items-center justify-between">
                   <div>
                     <div class="text-xs text-zinc-400">De la</div>
-                    <div class="text-xl font-black text-sky-400">${featured.basePrice.toLocaleString('ro-RO')} RON</div>
+                    <div class="text-2xl font-black text-sky-400">${featured.basePrice.toLocaleString('ro-RO')} RON</div>
                   </div>
-                  <button data-pc="${featured.id}" class="pcCard cyan-btn px-4 py-2.5 rounded-xl text-slate-950 font-extrabold text-xs">
+                  <button data-pc="${featured.id}" class="pcCard cyan-btn px-5 py-3 rounded-xl text-slate-950 font-extrabold text-sm">
                     Configurează
                   </button>
                 </div>
@@ -338,48 +391,48 @@
             </div>
           </section>
 
-          <main id="sisteme" class="max-w-7xl mx-auto px-6 py-10">
+          <main id="sisteme" class="max-w-[1520px] mx-auto px-6 lg:px-10 py-10">
             <div class="mb-6">
               <p class="text-xs uppercase tracking-[0.2em] text-sky-400 font-bold mb-1">Gama Principală</p>
-              <h2 class="text-2xl md:text-3xl font-black text-white">Cele 5 modele Er1k PC</h2>
+              <h2 class="text-2xl md:text-4xl font-black text-white">Cele 5 modele Er1k PC</h2>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-5">
               ${pcs.map((pc) => `
-                <div data-pc="${pc.id}" class="pcCard dark-card cursor-pointer rounded-2xl p-4 flex flex-col justify-between">
+                <div data-pc="${pc.id}" class="pcCard dark-card cursor-pointer rounded-2xl p-5 flex flex-col justify-between min-h-[370px]">
                   <div>
-                    <div class="w-full h-36 rounded-xl overflow-hidden bg-[#070a10] border border-white/10 mb-4 flex items-center justify-center">
+                    <div class="w-full h-52 rounded-xl overflow-hidden bg-[#070a10] border border-white/10 mb-4 flex items-center justify-center">
                       ${pc.img
                         ? `<img src="${pc.img}" alt="${pc.name}" class="w-full h-full object-cover" />`
                         : `<span class="text-xs text-zinc-500 font-medium">Fără imagine</span>`
                       }
                     </div>
-                    <span class="inline-block text-[10px] font-bold uppercase tracking-wider text-sky-400 mb-1">Sistem Custom</span>
-                    <h3 class="text-lg font-black text-white mb-4">${pc.name}</h3>
+                    <span class="inline-block text-[11px] font-bold uppercase tracking-wider text-sky-400 mb-1">Sistem Custom</span>
+                    <h3 class="text-xl font-black text-white mb-5">${pc.name}</h3>
                   </div>
-                  <div class="pt-3 border-t border-white/10 flex items-center justify-between gap-2">
-                    <span class="text-sm font-black text-sky-400">${pc.basePrice.toLocaleString('ro-RO')} RON</span>
-                    <span class="cyan-btn px-3 py-1.5 rounded-lg text-slate-950 font-extrabold text-xs">Configurează</span>
+                  <div class="pt-4 border-t border-white/10 flex items-center justify-between gap-2">
+                    <span class="text-base font-black text-sky-400">${pc.basePrice.toLocaleString('ro-RO')} RON</span>
+                    <span class="cyan-btn px-4 py-2.5 rounded-xl text-slate-950 font-extrabold text-xs">Configurează</span>
                   </div>
                 </div>
               `).join('')}
             </div>
 
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12 pt-8 border-t border-white/10">
-              <div class="dark-card rounded-xl p-4">
-                <div class="text-sm font-extrabold text-white">Configurare Custom</div>
+              <div class="dark-card rounded-2xl p-5">
+                <div class="text-base font-extrabold text-white">Configurare Custom</div>
                 <div class="text-xs text-zinc-400 mt-1">GPU, CPU, SSD, RAM, Carcasă & Răcire</div>
               </div>
-              <div class="dark-card rounded-xl p-4">
-                <div class="text-sm font-extrabold text-white">Prețuri Actualizate</div>
+              <div class="dark-card rounded-2xl p-5">
+                <div class="text-base font-extrabold text-white">Prețuri Actualizate</div>
                 <div class="text-xs text-zinc-400 mt-1">Calcul instant în RON</div>
               </div>
-              <div class="dark-card rounded-xl p-4">
-                <div class="text-sm font-extrabold text-white">Contact Rapid</div>
+              <div class="dark-card rounded-2xl p-5">
+                <div class="text-base font-extrabold text-white">Contact Rapid</div>
                 <div class="text-xs text-zinc-400 mt-1">Comandă direct pe TikTok</div>
               </div>
-              <div class="dark-card rounded-xl p-4">
-                <div class="text-sm font-extrabold text-white">Calitate Testată</div>
+              <div class="dark-card rounded-2xl p-5">
+                <div class="text-base font-extrabold text-white">Calitate Testată</div>
                 <div class="text-xs text-zinc-400 mt-1">Fiecare sistem verificat</div>
               </div>
             </div>
@@ -400,7 +453,7 @@
         const canBuy = Boolean(ca && co);
 
         const listHtml = (items, selectedId, cls) => items.map((it) => `
-          <button type="button" data-id="${it.id}" class="${cls} w-full flex justify-between items-center px-3.5 py-2.5 rounded-xl text-sm border transition ${
+          <button type="button" data-id="${it.id}" class="${cls} w-full flex justify-between items-center px-4 py-3 rounded-xl text-sm border transition ${
             selectedId === it.id ? 'border-sky-400 bg-sky-400/20 text-white font-semibold' : 'border-white/10 bg-[#05080f] text-zinc-300 hover:border-white/25'
           }">
             <span class="truncate pr-2">${it.name}</span>
@@ -412,8 +465,8 @@
           <button type="button" data-id="${it.id}" class="${cls} rounded-xl overflow-hidden border text-left transition ${
             selectedId === it.id ? 'border-sky-400 bg-sky-400/20 ring-2 ring-sky-400/35' : 'border-white/10 bg-[#05080f] hover:border-white/25'
           }">
-            ${it.img ? `<img src="${it.img}" alt="${it.name}" class="w-full h-24 object-cover" />` : `<div class="w-full h-24 bg-[#090d16] flex items-center justify-center text-xs text-zinc-500">Fără poză</div>`}
-            <div class="p-2.5">
+            ${it.img ? `<img src="${it.img}" alt="${it.name}" class="w-full h-28 object-cover" />` : `<div class="w-full h-28 bg-[#090d16] flex items-center justify-center text-xs text-zinc-500">Fără poză</div>`}
+            <div class="p-3">
               <div class="text-xs font-semibold truncate text-white">${it.name}</div>
               <div class="text-xs font-bold text-sky-400 mt-1">+${it.price} RON</div>
             </div>
@@ -421,41 +474,41 @@
         `).join('');
 
         root.innerHTML = `
-          <header class="border-b border-white/10 bg-[#05080f]/90 px-6 py-4 flex justify-between items-center">
+          <header class="border-b border-white/10 bg-[#05080f]/90 px-6 lg:px-10 py-4 flex justify-between items-center">
             <button id="backHome" class="text-sm font-semibold text-sky-400 hover:underline">← Înapoi</button>
-            <span class="font-extrabold text-white">${pc.name}</span>
-            <button id="goAdmin" class="text-xs font-bold px-3.5 py-1.5 rounded-lg border border-white/15 bg-white/5 text-zinc-200">Admin</button>
+            <span class="font-extrabold text-lg text-white">${pc.name}</span>
+            <button id="goAdmin" class="text-sm font-bold px-4 py-2 rounded-xl border border-white/15 bg-white/5 text-zinc-200">Admin</button>
           </header>
 
-          <div class="max-w-7xl mx-auto px-4 md:px-6 pt-6 pb-20">
+          <div class="max-w-[1520px] mx-auto px-4 md:px-10 pt-6 pb-20">
             <div class="text-center mb-6">
               <div class="text-4xl md:text-6xl font-black text-sky-400">${total.toLocaleString('ro-RO')} RON</div>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
               <div class="lg:col-span-3 space-y-4">
-                <div id="gpuBox" class="dark-card p-4 rounded-2xl">
-                  <div class="text-xs font-bold uppercase tracking-wider text-sky-400 mb-2">GPU</div>
-                  <div class="space-y-1.5">${listHtml(pc.gpus, state.gpuId, 'gpuBtn')}</div>
+                <div id="gpuBox" class="dark-card p-5 rounded-2xl">
+                  <div class="text-xs font-bold uppercase tracking-wider text-sky-400 mb-3">GPU</div>
+                  <div class="space-y-2">${listHtml(pc.gpus, state.gpuId, 'gpuBtn')}</div>
                 </div>
-                <div class="dark-card p-4 rounded-2xl">
-                  <div class="text-xs font-bold uppercase tracking-wider text-sky-400 mb-2">CPU</div>
-                  <div class="space-y-1.5">${listHtml(pc.cpus, state.cpuId, 'cpuBtn')}</div>
+                <div class="dark-card p-5 rounded-2xl">
+                  <div class="text-xs font-bold uppercase tracking-wider text-sky-400 mb-3">CPU</div>
+                  <div class="space-y-2">${listHtml(pc.cpus, state.cpuId, 'cpuBtn')}</div>
                 </div>
               </div>
 
               <div class="lg:col-span-6">
-                <div id="cfg3d" class="dark-card w-full h-96 md:h-[440px] rounded-2xl overflow-hidden"></div>
+                <div id="cfg3d" class="dark-card w-full h-[420px] md:h-[520px] rounded-2xl overflow-hidden"></div>
               </div>
 
               <div class="lg:col-span-3 space-y-4">
-                <div class="dark-card p-4 rounded-2xl">
-                  <div class="text-xs font-bold uppercase tracking-wider text-sky-400 mb-2">SSD</div>
-                  <div class="space-y-1.5">${listHtml(pc.ssds, state.ssdId, 'ssdBtn')}</div>
+                <div class="dark-card p-5 rounded-2xl">
+                  <div class="text-xs font-bold uppercase tracking-wider text-sky-400 mb-3">SSD</div>
+                  <div class="space-y-2">${listHtml(pc.ssds, state.ssdId, 'ssdBtn')}</div>
                 </div>
-                <div class="dark-card p-4 rounded-2xl">
-                  <div class="text-xs font-bold uppercase tracking-wider text-sky-400 mb-2">RAM</div>
-                  <div class="space-y-1.5">${listHtml(pc.rams, state.ramId, 'ramBtn')}</div>
+                <div class="dark-card p-5 rounded-2xl">
+                  <div class="text-xs font-bold uppercase tracking-wider text-sky-400 mb-3">RAM</div>
+                  <div class="space-y-2">${listHtml(pc.rams, state.ramId, 'ramBtn')}</div>
                 </div>
               </div>
             </div>
@@ -473,7 +526,7 @@
 
             <div class="mt-10 text-center">
               ${!canBuy ? `<p class="text-amber-300 text-xs mb-3">Selectează Carcasă PC și Răcire CPU.</p>` : ''}
-              <button id="buyBtn" ${!canBuy ? 'disabled' : ''} class="cyan-btn px-10 py-4 rounded-2xl disabled:opacity-40 disabled:cursor-not-allowed text-slate-950 font-black text-lg">
+              <button id="buyBtn" ${!canBuy ? 'disabled' : ''} class="cyan-btn px-12 py-4 rounded-2xl disabled:opacity-40 disabled:cursor-not-allowed text-slate-950 font-black text-lg">
                 Cumpără
               </button>
             </div>
