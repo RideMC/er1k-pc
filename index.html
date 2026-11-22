@@ -714,7 +714,7 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 
 <script>
 const _b = [101,114,49,107,50,48,50,54];
-const KEY = "er1k_pc_v11";
+const KEY = "er1k_pc_v12";
 const tierLabels = ["01 · ENTRY", "02 · POPULAR", "03 · PRO TIER", "04 · FLAGSHIP"];
 
 function _matchCode(val){
@@ -801,6 +801,9 @@ const componentNames={
 function clone(x){return JSON.parse(JSON.stringify(x))}
 
 function safeLoad(){
+ if(window.__er1kMemoryData && Array.isArray(window.__er1kMemoryData) && window.__er1kMemoryData.length>0){
+  return window.__er1kMemoryData;
+ }
  try{
   const raw=window.localStorage?window.localStorage.getItem(KEY):null;
   if(!raw)return clone(defaultData);
@@ -811,12 +814,14 @@ function safeLoad(){
 }
 
 function safeSave(){
+ window.__er1kMemoryData=data;
  try{
   if(window.localStorage)window.localStorage.setItem(KEY,JSON.stringify(data));
  }catch(e){}
 }
 
 let data=safeLoad();
+window.__er1kMemoryData=data;
 let isAdminAuthed=false;
 let adminTab="models";
 let adminSelectedPC=0;
@@ -829,30 +834,17 @@ function safe(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
 function safeImg(src){
  const s=String(src||"").trim();
  if(!s)return "";
- if(s.startsWith("data:image/")||s.startsWith("https://")||s.startsWith("http://"))return s;
+ if(s.startsWith("data:image/")||s.startsWith("https://")||s.startsWith("http://")||s.startsWith("blob:"))return s;
  return "";
 }
 
-function compressImageFile(file, callback){
+function readImageFile(file, callback){
+ if(!file)return;
  const reader=new FileReader();
  reader.onload=()=>{
-  const img=new Image();
-  img.onload=()=>{
-   const maxSide=680;
-   let w=img.width||maxSide, h=img.height||maxSide;
-   if(w>maxSide||h>maxSide){
-    if(w>h){h=Math.round((h*maxSide)/w);w=maxSide;}
-    else{w=Math.round((w*maxSide)/h);h=maxSide;}
-   }
-   const canvas=document.createElement("canvas");
-   canvas.width=w;
-   canvas.height=h;
-   const ctx=canvas.getContext("2d");
-   ctx.drawImage(img,0,0,w,h);
-   callback(canvas.toDataURL("image/jpeg",0.82));
-  };
-  img.onerror=()=>callback(reader.result);
-  img.src=reader.result;
+  if(typeof reader.result==="string"&&reader.result.startsWith("data:image/")){
+   callback(reader.result);
+  }
  };
  reader.readAsDataURL(file);
 }
@@ -1162,11 +1154,12 @@ function saveCurrentPC(){
 
 function uploadPCImage(i,input){
  const file=input.files[0];if(!file)return;
- compressImageFile(file, imgData=>{
+ readImageFile(file, imgData=>{
   data[i].image=imgData;
   safeSave();
   renderHome();
   renderAdmin();
+  if(activePC===i)updateStage();
  });
 }
 
@@ -1184,7 +1177,7 @@ function addOptionFromTab(){
   if(activePC===adminSelectedPC)renderConfig();
  };
  if(file){
-  compressImageFile(file, imgData=>finish(imgData));
+  readImageFile(file, imgData=>finish(imgData));
  }else finish("");
 }
 
@@ -1202,7 +1195,7 @@ function editOption(pi,key,oi){
    picker.type="file";picker.accept="image/*";
    picker.onchange=()=>{
     const file=picker.files[0];if(!file)return;
-    compressImageFile(file, imgData=>{
+    readImageFile(file, imgData=>{
      o.image=imgData;
      safeSave();
      renderAdmin();
@@ -1229,6 +1222,7 @@ function deleteOption(pi,key,oi){
 function resetDefaults(){
  if(!confirm("Visszaállítod az alapértelmezett adatokat?"))return;
  data=clone(defaultData);
+ window.__er1kMemoryData=data;
  adminSelectedPC=0;
  adminSelectedCat="gpu";
  safeSave();
