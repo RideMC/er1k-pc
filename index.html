@@ -4,566 +4,562 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ER1K PC | Custom Gaming Builds</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<title>Er1k PC Builds</title>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
 :root {
-  --bg:#090a0c;
-  --panel:#111317;
-  --panel2:#171a20;
-  --line:#292d35;
-  --white:#f5f5f5;
-  --muted:#858b96;
-  --accent:#d6d9df;
+  --bg:#08090d;
+  --panel:#11131a;
+  --panel2:#171a23;
+  --border:#292d38;
+  --text:#f5f6fa;
+  --muted:#9298a8;
+  --accent:#8b5cf6;
+  --accent2:#6d45db;
+  --green:#43d9a3;
 }
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--white);font-family:Inter,Arial,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,Arial,sans-serif}
 button,input{font:inherit}
 button{cursor:pointer}
-header{
-  height:76px;padding:0 6%;display:flex;align-items:center;
-  justify-content:space-between;border-bottom:1px solid var(--line);
-  background:#090a0cf5;position:sticky;top:0;z-index:20;
-}
-.logo{font-size:25px;font-weight:900;letter-spacing:-1.5px}
-.logo span{color:#777}
-nav{display:flex;align-items:center;gap:30px}
-nav a{color:#a5a9b1;text-decoration:none;font-size:11px;font-weight:700}
-nav a:hover{color:white}
-.nav-btn{background:#f1f1f1;color:#090909;border:0;padding:12px 18px;font-weight:800;font-size:10px}
-.page{display:none}
-.page.active{display:block}
-.hero{
-  min-height:570px;padding:120px 8%;
-  background:
-  radial-gradient(ellipse at 80% 45%,#30343d 0%,transparent 35%),
-  linear-gradient(110deg,#090a0c,#13161c);
-  display:flex;align-items:center;
-}
-.hero-content{max-width:760px}
-.kicker{font-size:10px;letter-spacing:4px;color:#9da3ad;font-weight:700;margin-bottom:25px}
-.hero h1{font-size:clamp(48px,8vw,94px);line-height:.98;letter-spacing:-6px;font-weight:900}
-.hero h1 span{color:#777e89}
-.hero p{color:#a0a5ad;font-size:14px;line-height:1.9;max-width:490px;margin-top:28px}
-.hero-buttons{display:flex;gap:12px;margin-top:35px}
-.primary,.secondary{padding:16px 23px;font-size:10px;font-weight:900;border:1px solid white}
-.primary{background:white;color:#090a0c}
-.secondary{background:transparent;color:white}
-.primary:hover{background:#cfd2d7}
-.secondary:hover{background:#fff;color:#000}
-.section{padding:85px 7%}
-.section-top{display:flex;justify-content:space-between;align-items:end;margin-bottom:32px}
-.section-top h2{font-size:35px;letter-spacing:-2px}
-.section-top p{font-size:10px;color:#858b96}
-.pc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:17px}
-.pc-card{
-  background:var(--panel);border:1px solid var(--line);
-  transition:.25s;overflow:hidden;
-}
-.pc-card:hover{border-color:#8d939e;transform:translateY(-5px)}
-.pc-photo{
-  height:260px;background:radial-gradient(ellipse,#30343b,#15171b 65%);
-  display:flex;align-items:center;justify-content:center;padding:20px;
-}
-.pc-photo img{width:100%;height:100%;object-fit:contain}
-.pc-photo .placeholder{width:120px;height:205px}
+a{color:inherit;text-decoration:none}
+.container{width:min(1420px,92%);margin:auto}
+header{height:82px;border-bottom:1px solid var(--border);display:flex;align-items:center;position:sticky;top:0;background:#08090dee;backdrop-filter:blur(14px);z-index:10}
+.nav{display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:25px;font-weight:900;letter-spacing:-1px}
+.logo span{color:var(--accent)}
+.navlinks{display:flex;gap:32px;color:#b7bac5;font-size:14px}
+.navlinks a:hover{color:white}
+.hero{padding:110px 0 90px;background:radial-gradient(ellipse at 75% 30%,#40247b55,transparent 48%),linear-gradient(130deg,#0a0b11,#11101a 60%,#0b0b10)}
+.hero-inner{display:grid;grid-template-columns:1.1fr .9fr;align-items:center;gap:45px}
+.eyebrow{color:#b69aff;font-size:13px;font-weight:800;letter-spacing:3px;text-transform:uppercase}
+.hero h1{font-size:clamp(48px,6vw,82px);line-height:1.02;letter-spacing:-5px;margin:22px 0}
+.hero h1 span{color:var(--accent)}
+.hero p{font-size:18px;line-height:1.8;color:#aeb1bf;max-width:590px}
+.primary-btn{background:var(--accent);color:white;border:0;border-radius:9px;padding:17px 25px;font-weight:800;font-size:14px;transition:.2s}
+.primary-btn:hover{background:var(--accent2);transform:translateY(-2px)}
+.secondary-btn{background:#20232e;color:white;border:1px solid #343847;border-radius:9px;padding:16px 23px;font-weight:700}
+.hero-actions{display:flex;gap:13px;margin-top:30px;flex-wrap:wrap}
+.hero-art{border:1px solid #39304f;border-radius:22px;background:linear-gradient(145deg,#1d1930,#10121a);padding:22px;box-shadow:0 30px 100px #0008}
+.hero-art img{width:100%;aspect-ratio:1/1;object-fit:contain;border-radius:13px}
+.stats{display:flex;gap:38px;margin-top:43px}
+.stat strong{font-size:25px;display:block}
+.stat small{color:var(--muted);font-size:12px}
+section{padding:85px 0}
+.section-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:36px;gap:20px}
+.section-head h2{font-size:clamp(34px,4vw,49px);letter-spacing:-2px;margin:12px 0}
+.section-head p{color:var(--muted);font-size:15px}
+.pc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.pc-card{background:var(--panel);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:.25s}
+.pc-card:hover{transform:translateY(-7px);border-color:#7652cb;box-shadow:0 18px 50px #0006}
+.pc-photo{width:100%;aspect-ratio:1/1;object-fit:cover;background:#171923;display:block}
 .pc-details{padding:22px}
-.pc-details small{font-size:9px;color:#858b96;letter-spacing:2px}
-.pc-details h3{font-size:20px;margin-top:9px}
-.pc-details p{font-size:11px;color:#9298a2;line-height:1.7;margin-top:10px;min-height:38px}
-.pc-bottom{display:flex;align-items:center;justify-content:space-between;margin-top:23px;gap:10px}
-.pc-bottom strong{font-size:19px}
-.pc-bottom button{background:white;color:black;border:0;padding:13px;font-size:9px;font-weight:900}
-.benefits{padding:40px 7%;background:#111317;border-top:1px solid var(--line);border-bottom:1px solid var(--line);display:grid;grid-template-columns:repeat(3,1fr);gap:25px}
-.benefit h3{font-size:12px;margin-bottom:10px}
-.benefit p{font-size:11px;color:#9298a2;line-height:1.8}
-footer{padding:35px 7%;display:flex;justify-content:space-between;gap:20px;color:#737985;font-size:10px;flex-wrap:wrap}
-.admin-link{position:fixed;bottom:8px;left:10px;color:#40444b;font-size:9px;text-decoration:none;z-index:30}
+.pc-details h3{font-size:23px;margin:0 0 9px}
+.pc-details p{font-size:13px;color:var(--muted);line-height:1.7;min-height:45px}
+.pc-price{font-size:25px;font-weight:900;margin:20px 0}
+.pc-price small{font-size:12px;color:var(--muted);font-weight:500}
+.pc-card button{width:100%}
+.features{background:#0e1016;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.feature{background:var(--panel);border:1px solid var(--border);border-radius:13px;padding:28px}
+.feature .symbol{font-size:28px}
+.feature h3{font-size:19px;margin:17px 0 8px}
+.feature p{color:var(--muted);font-size:14px;line-height:1.7}
+footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font-size:13px}
+.footer-inner{display:flex;justify-content:space-between;align-items:center;gap:20px}
+.admin-link{position:fixed;bottom:12px;left:13px;font-size:10px;color:#606575;z-index:30;opacity:.5}
+.admin-link:hover{opacity:1;color:white}
 
 /* CONFIGURATOR */
-.config{padding:35px 5% 80px;max-width:1700px;margin:auto}
-.back{background:none;border:0;color:#9da3ad;font-size:11px;margin-bottom:35px}
-.config-heading{display:flex;justify-content:space-between;align-items:end;margin-bottom:30px;gap:20px}
-.config-heading h1{font-size:38px;letter-spacing:-2px}
-.config-heading p{color:#9298a2;font-size:11px;margin-top:10px}
-.config-heading .starting{font-size:12px;color:#aab0b9}
-.config-layout{display:grid;grid-template-columns:minmax(250px,1fr) minmax(350px,1.25fr) minmax(250px,1fr);gap:18px;align-items:start}
-.component-column{display:flex;flex-direction:column;gap:15px}
-.component-section{background:var(--panel);border:1px solid var(--line);padding:18px}
+.page{display:none;min-height:80vh;padding:45px 0 80px}
+.page.active{display:block}
+.back-btn{background:transparent;color:#b9bdc9;border:0;padding:10px 0;margin-bottom:25px;font-size:14px}
+.config-heading{margin-bottom:32px}
+.config-heading h1{font-size:42px;letter-spacing:-2px;margin:8px 0}
+.config-heading p{color:var(--muted)}
+.config-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(340px,.9fr) 300px;gap:20px;align-items:start}
+.component-column{display:flex;flex-direction:column;gap:18px}
+.component-section{background:var(--panel);border:1px solid var(--border);border-radius:13px;padding:20px}
 .component-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}
-.component-title h3{font-size:11px;letter-spacing:1px;text-transform:uppercase}
-.component-title span{font-size:9px;color:#737985}
-.choice-list{display:flex;flex-direction:column;gap:8px}
-.choice{
-  display:flex;align-items:center;gap:12px;
-  padding:11px;background:#171a20;border:1px solid #292e37;
-  color:white;text-align:left;width:100%;transition:.2s;
-}
-.choice:hover{border-color:#777f8d}
-.choice.selected{border-color:#e4e6e9;background:#242830}
-.choice-image{
-  width:65px;height:58px;flex-shrink:0;
-  background:#242830;display:flex;align-items:center;justify-content:center;
-  overflow:hidden;
-}
-.choice-image img{width:100%;height:100%;object-fit:contain}
-.choice-image .mini-placeholder{width:25px;height:43px}
-.choice-info{flex:1;min-width:0}
-.choice-info strong{display:block;font-size:10px;line-height:1.5}
-.choice-info small{display:block;color:#888f9b;font-size:9px;margin-top:5px}
-.choice-price{font-size:10px;font-weight:800;white-space:nowrap}
-.choice-check{width:15px;height:15px;border:1px solid #646b76;border-radius:50%;flex-shrink:0}
-.choice.selected .choice-check{background:white;border:4px solid #777}
-.pc-stage{
-  position:sticky;top:100px;
-  background:
-  radial-gradient(ellipse at center,#343943 0%,#1b1e24 42%,#101216 75%);
-  border:1px solid #333944;min-height:570px;
-  display:flex;align-items:center;justify-content:center;
-  flex-direction:column;padding:25px;
-}
-.stage-label{position:absolute;top:20px;left:20px;font-size:9px;letter-spacing:2px;color:#aab0b9}
-.stage-image{width:100%;height:440px;display:flex;align-items:center;justify-content:center}
-.stage-image img{width:100%;height:100%;object-fit:contain}
-.stage-caption{text-align:center;color:#a4aab4;font-size:10px;letter-spacing:1px}
-.stage-caption strong{display:block;color:white;font-size:13px;margin-top:8px}
-.placeholder{
-  width:145px;height:280px;border:3px solid #747b86;border-radius:12px;
-  position:relative;background:linear-gradient(110deg,#333944,#111318);
-  box-shadow:0 0 65px #454b57;
-}
-.placeholder:before{
-  content:"";position:absolute;left:12px;right:12px;top:18px;height:205px;
-  border:1px solid #606773;border-radius:5px;
-  background:radial-gradient(circle at 50% 28%,#737b87 0 27px,#303641 29px,transparent 31px),
-  radial-gradient(circle at 50% 72%,#737b87 0 27px,#303641 29px,transparent 31px);
-}
-.placeholder:after{content:"ER1K";position:absolute;bottom:15px;left:0;width:100%;text-align:center;font-size:10px;letter-spacing:3px}
-.price-panel{margin-top:18px;background:#111317;border:1px solid var(--line);padding:23px}
-.price-panel h3{font-size:10px;letter-spacing:2px;color:#9298a2;margin-bottom:15px}
-.summary-line{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid #272b32;font-size:10px}
-.summary-line span{color:#9298a2}
-.summary-line strong{text-align:right}
-.total{display:flex;justify-content:space-between;align-items:center;margin-top:20px}
-.total span{font-size:10px;color:#9298a2}
-.total strong{font-size:27px}
-.order{width:100%;margin-top:20px;background:white;color:black;border:0;padding:16px;font-size:10px;font-weight:900}
-.order:hover{background:#d4d7dc}
-.note{font-size:9px;color:#727985;line-height:1.7;margin-top:12px}
+.component-title h3{font-size:17px;margin:0}
+.component-title span{font-size:11px;color:var(--muted)}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.choice{border:1px solid #303442;background:#171a23;border-radius:10px;padding:12px;text-align:left;color:white;min-width:0;transition:.2s}
+.choice:hover{border-color:#8060d0}
+.choice.selected{border:2px solid var(--accent);background:#28203e;padding:11px}
+.choice img{width:100%;height:105px;object-fit:contain;border-radius:6px;margin-bottom:8px;background:#10121a}
+.choice strong{font-size:13px;display:block;line-height:1.4}
+.choice small{display:block;color:var(--muted);font-size:11px;margin-top:6px}
+.choice .extra{color:var(--green);font-weight:800}
+.pc-stage{position:sticky;top:105px;background:radial-gradient(circle at 50% 40%,#36225b,#15131f 65%,#101119);border:1px solid #39304d;border-radius:17px;padding:20px;text-align:center}
+.stage-label{font-size:11px;letter-spacing:2px;color:#b69aff;font-weight:800}
+.stage-image{width:100%;aspect-ratio:1/1;object-fit:contain;margin:12px 0}
+.stage-name{font-size:19px;font-weight:800}
+.stage-caption{font-size:12px;color:var(--muted);margin-top:7px}
+.price-panel{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:21px;position:sticky;top:105px}
+.price-panel h3{margin:0 0 20px;font-size:19px}
+.summary-line{display:flex;justify-content:space-between;gap:10px;margin:14px 0;font-size:12px;color:#b9bdc9}
+.summary-line span:last-child{color:white;text-align:right}
+.summary-total{border-top:1px solid var(--border);margin-top:20px;padding-top:20px}
+.summary-total small{color:var(--muted)}
+.summary-total strong{font-size:30px;display:block;margin-top:7px}
+.price-panel button{width:100%;margin-top:18px}
+.notice{font-size:11px;color:var(--muted);line-height:1.6;margin-top:13px}
 
 /* ADMIN */
-.admin{max-width:1100px;margin:auto;padding:50px 6% 90px}
-.admin h1{font-size:35px;margin-bottom:10px}
-.admin>p{font-size:11px;color:#9298a2;margin-bottom:30px}
-.admin-box{background:var(--panel);border:1px solid var(--line);padding:22px;margin-bottom:17px}
-.admin-box h2{font-size:16px;margin-bottom:18px}
-.admin-box h3{font-size:11px;color:#c0c4cc;margin:20px 0 12px}
-.admin-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.field{display:flex;flex-direction:column;gap:7px}
-.field label{font-size:9px;color:#9298a2}
-.field input{width:100%;background:#1a1d23;border:1px solid #343943;color:white;padding:12px;font-size:11px}
-.admin button{background:white;color:black;border:0;padding:12px 17px;font-size:10px;font-weight:900;margin-top:12px}
-.admin .delete{background:#562a2a;color:white}
-.admin .option-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #292e37;font-size:10px;gap:10px}
-.admin .option-row img{width:45px;height:40px;object-fit:contain;background:#252a32}
-.login{max-width:380px;margin:100px auto;background:var(--panel);padding:30px;border:1px solid var(--line)}
-.login h2{font-size:20px;margin-bottom:20px}
-.login input{width:100%;padding:14px;background:#1b1e24;color:white;border:1px solid #343943;margin-bottom:12px}
-.login button{width:100%;padding:14px;background:white;border:0;font-weight:900}
-.toast{position:fixed;bottom:25px;right:25px;background:white;color:black;padding:15px 20px;font-size:11px;display:none;z-index:50}
+.admin-wrap{max-width:1000px;margin:auto}
+.admin-box{background:var(--panel);border:1px solid var(--border);padding:25px;border-radius:14px;margin-bottom:20px}
+.admin-box h2{font-size:23px;margin-top:0}
+.admin-box h3{font-size:17px}
+.admin-box label{display:block;font-size:12px;color:#b7bac5;margin:14px 0 7px}
+.admin-box input,.admin-box textarea,.admin-box select{width:100%;padding:12px;background:#090b11;border:1px solid #343847;border-radius:8px;color:white;outline:none}
+.admin-box textarea{min-height:75px;resize:vertical}
+.admin-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.admin-row{display:flex;align-items:center;gap:13px;padding:12px 0;border-bottom:1px solid var(--border)}
+.admin-row img{width:70px;height:70px;object-fit:cover;background:#20232e;border-radius:8px}
+.admin-row .row-info{flex:1;min-width:0}
+.admin-row strong{font-size:13px;display:block}
+.admin-row small{color:var(--muted)}
+.admin-row input{max-width:230px;font-size:11px}
+.admin-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.danger{background:#48212a!important}
+.hidden{display:none!important}
+.empty{color:var(--muted);font-size:13px}
 @media(max-width:1100px){
  .pc-grid{grid-template-columns:repeat(2,1fr)}
  .config-layout{grid-template-columns:1fr 1fr}
- .pc-stage{grid-column:1/-1;grid-row:1;position:relative;top:0;min-height:450px}
- .stage-image{height:340px}
+ .price-panel{grid-column:1/-1;position:static}
 }
-@media(max-width:650px){
- header{padding:0 5%}nav{gap:10px}nav a{display:none}
- .hero{padding:90px 6%;min-height:470px}
+@media(max-width:700px){
+ .hero{padding:65px 0}
+ .hero-inner{grid-template-columns:1fr}
  .hero h1{letter-spacing:-3px}
- .section{padding:55px 5%}
- .section-top{align-items:start;flex-direction:column}
+ .hero-art{max-width:430px}
+ .stats{gap:20px}
+ .navlinks{gap:13px;font-size:11px}
+ .logo{font-size:20px}
+ section{padding:60px 0}
  .pc-grid{grid-template-columns:1fr}
- .benefits{grid-template-columns:1fr}
- .config{padding:25px 4%}
+ .feature-grid{grid-template-columns:1fr}
  .config-layout{grid-template-columns:1fr}
- .pc-stage{grid-column:auto;grid-row:auto;min-height:400px}
- .stage-image{height:300px}
+ .pc-stage{position:static;grid-row:1}
+ .price-panel{grid-column:auto}
+ .config-heading h1{font-size:33px}
  .admin-grid{grid-template-columns:1fr}
- .total strong{font-size:22px}
+ .footer-inner{flex-direction:column;align-items:flex-start}
 }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="logo">ER1K<span> PC.</span></div>
-  <nav>
-    <a href="#" onclick="home();return false">HOME</a>
-    <a href="#pcs" onclick="home()">CONFIGURATIONS</a>
-    <a href="#contact">CONTACT</a>
-    <button class="nav-btn" onclick="document.getElementById('pcs').scrollIntoView({behavior:'smooth'})">EXPLORE PCS</button>
+ <div class="container nav">
+  <a class="logo" href="#" onclick="showHome()">ER1K<span> PC</span></a>
+  <nav class="navlinks">
+   <a href="#pcs" onclick="showHome()">PC-uri</a>
+   <a href="#features" onclick="showHome()">Despre noi</a>
+   <a href="#contact" onclick="showHome()">Contact</a>
   </nav>
+ </div>
 </header>
 
-<main>
-<section id="home" class="page active">
-  <div class="hero">
-    <div class="hero-content">
-      <div class="kicker">ER1K PC BUILDS / CUSTOM GAMING SYSTEMS</div>
-      <h1>BUILT FOR<br><span>YOUR GAME.</span></h1>
-      <p>Descoperă sistemele ER1K PC. Alege configurația potrivită, personalizează componentele și construiește calculatorul perfect pentru tine.</p>
-      <div class="hero-buttons">
-        <button class="primary" onclick="document.getElementById('pcs').scrollIntoView({behavior:'smooth'})">EXPLOREAZĂ SISTEMELE</button>
-        <button class="secondary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">CONTACT</button>
-      </div>
+<main id="home">
+ <div class="hero">
+  <div class="container hero-inner">
+   <div>
+    <div class="eyebrow">ER1K PC BUILDS</div>
+    <h1>YOUR GAME.<br>YOUR <span>POWER.</span></h1>
+    <p>PC-uri gaming configurate pentru performanță. Alege sistemul potrivit și personalizează-l exact așa cum îți dorești.</p>
+    <div class="hero-actions">
+     <button class="primary-btn" onclick="document.getElementById('pcs').scrollIntoView({behavior:'smooth'})">DESCOPERĂ PC-URILE</button>
+     <button class="secondary-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">CONTACT</button>
     </div>
-  </div>
-
-  <section class="section" id="pcs">
-    <div class="section-top">
-      <div><div class="kicker">ALEGE CONFIGURAȚIA</div><h2>OUR SYSTEMS.</h2></div>
-      <p>04 CUSTOM GAMING PCS</p>
+    <div class="stats">
+     <div class="stat"><strong>100%</strong><small>CONFIGURABIL</small></div>
+     <div class="stat"><strong>ER1K</strong><small>PC BUILDS</small></div>
+     <div class="stat"><strong>2026</strong><small>GAMING READY</small></div>
     </div>
-    <div class="pc-grid" id="pcGrid"></div>
-  </section>
-
-  <section class="benefits">
-    <div class="benefit"><h3>01 — CUSTOM BUILDS</h3><p>Configurează sistemul în funcție de preferințele tale.</p></div>
-    <div class="benefit"><h3>02 — TESTED SYSTEMS</h3><p>Calculatoare verificate înainte de predare.</p></div>
-    <div class="benefit"><h3>03 — PERSONAL SUPPORT</h3><p>Ajutor în alegerea componentelor potrivite.</p></div>
-  </section>
-</section>
-
-<section id="configPage" class="page config">
-  <button class="back" onclick="home()">← ÎNAPOI LA SISTEME</button>
-  <div class="config-heading">
-    <div><div class="kicker">CUSTOMIZE YOUR BUILD</div><h1 id="configName"></h1><p id="configDesc"></p></div>
-    <div class="starting">PREȚ DE BAZĂ: <strong id="basePrice"></strong></div>
+   </div>
+   <div class="hero-art">
+    <img src="https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=900&q=85" alt="Gaming PC">
+   </div>
   </div>
+ </div>
 
-  <div class="config-layout">
-    <div class="component-column" id="leftComponents"></div>
-
+ <section id="pcs">
+  <div class="container">
+   <div class="section-head">
     <div>
-      <div class="pc-stage">
-        <div class="stage-label">YOUR SELECTED PC CASE</div>
-        <div class="stage-image" id="stageImage"></div>
-        <div class="stage-caption">ER1K PC CUSTOM BUILD<strong id="stageCaseName">Selectează o carcasă</strong></div>
-      </div>
-      <div class="price-panel">
-        <h3>CONFIGURAȚIA TA</h3>
-        <div id="summary"></div>
-        <div class="total"><span>PREȚ TOTAL</span><strong id="totalPrice">0 RON</strong></div>
-        <button class="order" onclick="orderPC()">SOLICITĂ ACEASTĂ CONFIGURAȚIE →</button>
-        <div class="note">Prețul final și disponibilitatea componentelor vor fi confirmate înainte de comandă.</div>
-      </div>
+     <div class="eyebrow">OUR SYSTEMS</div>
+     <h2>Choose your power.</h2>
+     <p>Alege unul dintre sistemele noastre și personalizează fiecare componentă.</p>
     </div>
-
-    <div class="component-column" id="rightComponents"></div>
+   </div>
+   <div class="pc-grid" id="pcGrid"></div>
   </div>
-</section>
+ </section>
 
-<section id="loginPage" class="page">
-  <div class="login">
-    <h2>ADMIN LOGIN</h2>
-    <input type="password" id="password" placeholder="Admin password">
-    <button onclick="login()">LOGIN</button>
-    <p id="loginError" style="font-size:11px;color:#d77;margin-top:12px"></p>
+ <section class="features" id="features">
+  <div class="container">
+   <div class="section-head">
+    <div><div class="eyebrow">WHY ER1K PC</div><h2>Built for performance.</h2></div>
+   </div>
+   <div class="feature-grid">
+    <div class="feature"><div class="symbol">⚡</div><h3>Performanță</h3><p>Componente alese pentru performanță și experiență de gaming.</p></div>
+    <div class="feature"><div class="symbol">⚙️</div><h3>Personalizare</h3><p>Configurează sistemul în funcție de preferințele și bugetul tău.</p></div>
+    <div class="feature"><div class="symbol">🖥️</div><h3>Design</h3><p>Sisteme cu aspect modern, construite pentru setup-ul tău.</p></div>
+   </div>
   </div>
-</section>
-
-<section id="adminPage" class="page admin">
-  <button class="back" onclick="home()">← BACK TO WEBSITE</button>
-  <h1>ADMIN PANEL</h1>
-  <p>Manage your PCs, components, photos and prices.</p>
-  <div id="adminContent"></div>
-  <button onclick="save()">SAVE ALL CHANGES</button>
-  <button onclick="logout()" style="background:#343943;color:white">LOG OUT</button>
-</section>
+ </section>
 </main>
 
+<div class="container page" id="configPage">
+ <button class="back-btn" onclick="showHome()">← Înapoi la PC-uri</button>
+ <div class="config-heading">
+  <div class="eyebrow">PC CONFIGURATOR</div>
+  <h1 id="configName">Er1k Gaming</h1>
+  <p id="configDesc"></p>
+ </div>
+ <div class="config-layout">
+  <div class="component-column" id="leftComponents"></div>
+  <div class="pc-stage">
+   <div class="stage-label">YOUR CUSTOM BUILD</div>
+   <img class="stage-image" id="stageImage" src="" alt="PC case">
+   <div class="stage-name" id="stageCaseName">PC Case</div>
+   <div class="stage-caption">Imaginea se schimbă în funcție de carcasa aleasă.</div>
+  </div>
+  <div>
+   <div class="component-column" id="rightComponents"></div>
+   <div class="price-panel">
+    <h3>Rezumat configurație</h3>
+    <div id="summary"></div>
+    <div class="summary-total">
+     <small>PREȚ TOTAL</small>
+     <strong id="totalPrice">0 RON</strong>
+    </div>
+    <button class="primary-btn" onclick="orderPC()">SOLICITĂ OFERTĂ</button>
+    <div class="notice">Prețul final poate fi confirmat în funcție de disponibilitatea componentelor.</div>
+   </div>
+  </div>
+ </div>
+</div>
+
+<div class="container page" id="loginPage">
+ <div class="admin-wrap">
+  <button class="back-btn" onclick="showHome()">← Înapoi</button>
+  <div class="admin-box" style="max-width:430px;margin:50px auto">
+   <h2>Admin Login</h2>
+   <p class="empty">Introdu parola pentru a continua.</p>
+   <label>Parolă</label>
+   <input id="password" type="password" placeholder="Admin password">
+   <p id="loginError" style="color:#ff687b;font-size:12px"></p>
+   <button class="primary-btn" style="width:100%;margin-top:15px" onclick="login()">LOGIN</button>
+  </div>
+ </div>
+</div>
+
+<div class="container page" id="adminPage">
+ <div class="admin-wrap">
+  <button class="back-btn" onclick="showHome()">← Înapoi la site</button>
+  <div class="section-head"><div><div class="eyebrow">CONTROL PANEL</div><h2>Admin Dashboard</h2><p>Gestionează PC-urile și componentele.</p></div></div>
+  <div id="adminContent"></div>
+ </div>
+</div>
+
 <footer id="contact">
-  <strong style="color:white">ER1K PC.</strong>
-  <span>Custom Gaming Computers</span>
-  <span>© 2026 ER1K PC</span>
+ <div class="container footer-inner">
+  <div><div class="logo">ER1K<span> PC</span></div><p>Gaming systems. Built your way.</p></div>
+  <div><strong style="color:white">Contact</strong><p>Scrie-ne pentru o ofertă personalizată.</p><p>© 2026 ER1K PC BUILDS</p></div>
+ </div>
 </footer>
-<a href="#" class="admin-link" onclick="showLogin();return false">admin</a>
-<div class="toast" id="toast"></div>
+
+<a class="admin-link" href="#" onclick="showLogin();return false">admin</a>
 
 <script>
-const ADMIN_PASSWORD="er1k2026";
-const KEY="er1k_pc_v2";
+const ADMIN_PASSWORD = "er1k2026";
+const KEY = "er1k_pc_v3";
 
-const initialData={
- pcs:[
-  {id:"start",name:"Er1k Start",desc:"Gaming entry-level pentru bugete accesibile.",price:1800,image:"",
-   components:{
-    gpu:[{name:"GTX 1050 Ti 4GB",price:0},{name:"GTX 1650 4GB",price:150},{name:"RX 580 8GB",price:250}],
-    cpu:[{name:"Intel Core i5",price:0},{name:"AMD Ryzen 5",price:100}],
-    ram:[{name:"16GB DDR4",price:0},{name:"32GB DDR4",price:180}],
-    ssd:[{name:"500GB SSD",price:0},{name:"1TB SSD",price:150}],
-    case:[{name:"Standard Case",price:0,image:""},{name:"RGB Gaming Case",price:120,image:""}],
-    cooler:[{name:"Stock Cooler",price:0,image:""},{name:"Tower RGB Cooler",price:100,image:""}]
-   }},
-  {id:"gaming",name:"Er1k Gaming",desc:"Echilibrat pentru gaming Full HD.",price:2600,image:"",
-   components:{
-    gpu:[{name:"RX 6600 8GB",price:0},{name:"RTX 3060 12GB",price:350},{name:"RTX 4060 8GB",price:550}],
-    cpu:[{name:"Ryzen 5 5500",price:0},{name:"Ryzen 5 5600",price:200},{name:"Intel Core i5",price:250}],
-    ram:[{name:"16GB DDR4",price:0},{name:"32GB DDR4",price:180}],
-    ssd:[{name:"500GB SSD",price:0},{name:"1TB SSD",price:150},{name:"2TB SSD",price:350}],
-    case:[{name:"Gaming Case",price:0,image:""},{name:"Premium RGB Case",price:180,image:""}],
-    cooler:[{name:"Stock Cooler",price:0,image:""},{name:"Tower RGB Cooler",price:120,image:""}]
-   }},
-  {id:"pro",name:"Er1k Pro",desc:"Puternic pentru gaming și multitasking.",price:3800,image:"",
-   components:{
-    gpu:[{name:"RTX 4060 8GB",price:0},{name:"RTX 4060 Ti 8GB",price:400},{name:"RX 7700 XT 12GB",price:700}],
-    cpu:[{name:"Ryzen 5 5600",price:0},{name:"Ryzen 7 5700X",price:300},{name:"Ryzen 5 7600",price:450}],
-    ram:[{name:"32GB DDR4",price:0},{name:"32GB DDR5",price:200},{name:"64GB DDR5",price:450}],
-    ssd:[{name:"1TB NVMe SSD",price:0},{name:"2TB NVMe SSD",price:250}],
-    case:[{name:"Pro Case",price:0,image:""},{name:"Premium Showcase",price:200,image:""}],
-    cooler:[{name:"Tower Cooler",price:0,image:""},{name:"ARGB Tower Cooler",price:150,image:""}]
-   }},
-  {id:"ultimate",name:"Er1k Ultimate",desc:"High-performance gaming system.",price:5500,image:"",
-   components:{
-    gpu:[{name:"RTX 4070 Super 12GB",price:0},{name:"RTX 5070 12GB",price:600},{name:"RTX 5070 Ti 16GB",price:1300}],
-    cpu:[{name:"Ryzen 7 7700",price:0},{name:"Ryzen 7 7800X3D",price:700},{name:"Ryzen 7 9800X3D",price:1100}],
-    ram:[{name:"32GB DDR5",price:0},{name:"64GB DDR5",price:400}],
-    ssd:[{name:"1TB NVMe SSD",price:0},{name:"2TB NVMe SSD",price:250},{name:"4TB NVMe SSD",price:600}],
-    case:[{name:"Ultimate Case",price:0,image:""},{name:"Premium Showcase",price:250,image:""}],
-    cooler:[{name:"Premium Tower Cooler",price:0,image:""},{name:"Liquid Cooler 240mm",price:250,image:""},{name:"Liquid Cooler 360mm",price:400,image:""}]
-   }}
- ]
-};
+const defaultData = [
+ {
+  id:"start",name:"Er1k Start",description:"Un sistem accesibil pentru gaming și utilizare zilnică.",price:1800,
+  image:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=800&q=85",
+  components:{
+   gpu:[{name:"GTX 1660 Super 6GB",price:0},{name:"RX 6600 8GB",price:250},{name:"RTX 3060 12GB",price:450}],
+   cpu:[{name:"Ryzen 5 3600",price:0},{name:"Ryzen 5 5500",price:150},{name:"Ryzen 5 5600",price:250}],
+   ram:[{name:"16GB DDR4",price:0},{name:"32GB DDR4",price:180}],
+   ssd:[{name:"500GB NVMe",price:0},{name:"1TB NVMe",price:180}],
+   case:[{name:"Basic Black Case",price:0,image:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=700&q=85"}],
+   cooler:[{name:"Stock Cooler",price:0,image:""}]
+  }
+ },
+ {
+  id:"gaming",name:"Er1k Gaming",description:"Performanță excelentă pentru gaming Full HD și QHD.",price:2800,
+  image:"https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=800&q=85",
+  components:{
+   gpu:[{name:"RX 6600 8GB",price:0},{name:"RTX 3060 12GB",price:350},{name:"RX 6700 XT 12GB",price:550}],
+   cpu:[{name:"Ryzen 5 5600",price:0},{name:"Ryzen 5 5600X",price:100},{name:"Ryzen 7 5700X",price:250}],
+   ram:[{name:"16GB DDR4",price:0},{name:"32GB DDR4",price:180}],
+   ssd:[{name:"1TB NVMe",price:0},{name:"2TB NVMe",price:250}],
+   case:[{name:"RGB Gaming Case",price:0,image:"https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=700&q=85"},{name:"White Gaming Case",price:150,image:""}],
+   cooler:[{name:"Air Cooler",price:0,image:""},{name:"ARGB Air Cooler",price:100,image:""}]
+  }
+ },
+ {
+  id:"pro",name:"Er1k Pro",description:"Putere suplimentară pentru gaming și multitasking.",price:4200,
+  image:"https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=800&q=85",
+  components:{
+   gpu:[{name:"RTX 4060 8GB",price:0},{name:"RTX 4060 Ti 8GB",price:400},{name:"RX 7700 XT 12GB",price:650}],
+   cpu:[{name:"Ryzen 5 7600",price:0},{name:"Ryzen 7 7700",price:450},{name:"Ryzen 7 7800X3D",price:900}],
+   ram:[{name:"32GB DDR5",price:0},{name:"64GB DDR5",price:350}],
+   ssd:[{name:"1TB NVMe",price:0},{name:"2TB NVMe",price:250}],
+   case:[{name:"Premium Black Case",price:0,image:"https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=700&q=85"}],
+   cooler:[{name:"Tower Air Cooler",price:0,image:""},{name:"240mm AIO",price:250,image:""}]
+  }
+ },
+ {
+  id:"ultimate",name:"Er1k Ultimate",description:"High-end sistem pentru performanță fără compromisuri.",price:6500,
+  image:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=800&q=85",
+  components:{
+   gpu:[{name:"RTX 4070 Super 12GB",price:0},{name:"RTX 5070 12GB",price:700},{name:"RTX 5070 Ti 16GB",price:1500}],
+   cpu:[{name:"Ryzen 7 7800X3D",price:0},{name:"Ryzen 7 9800X3D",price:600}],
+   ram:[{name:"32GB DDR5",price:0},{name:"64GB DDR5",price:350}],
+   ssd:[{name:"2TB NVMe",price:0},{name:"4TB NVMe",price:450}],
+   case:[{name:"Ultimate Black Case",price:0,image:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=700&q=85"}],
+   cooler:[{name:"360mm AIO",price:0,image:""},{name:"Premium 360mm AIO",price:250,image:""}]
+  }
+ }
+];
 
+function clone(x){return JSON.parse(JSON.stringify(x))}
 function load(){
  try{
-  const d=JSON.parse(localStorage.getItem(KEY));
-  if(d&&d.pcs&&d.pcs.length===4)return d;
- }catch(e){}
- return JSON.parse(JSON.stringify(initialData));
+  const saved=localStorage.getItem(KEY);
+  return saved?JSON.parse(saved):clone(defaultData);
+ }catch(e){return clone(defaultData)}
 }
-let data=load(),current=null,selected={},isAdmin=false;
+let data=load();
+let activePC=0;
+let selected={};
 
-const labels={gpu:"Placă video",cpu:"Procesor",ram:"Memorie RAM",ssd:"SSD / Stocare",case:"Carcasă PC",cooler:"Răcire procesor"};
-const order=["gpu","cpu","ram","ssd","case","cooler"];
+function persist(){localStorage.setItem(KEY,JSON.stringify(data))}
+function money(n){return Number(n||0).toLocaleString("ro-RO")+" RON"}
+function safe(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 
-function money(n){return Math.round(n).toLocaleString("ro-RO")+" RON"}
-function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
-function page(id){
- document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
- document.getElementById(id).classList.add("active");
+function showOnly(id){
+ document.querySelectorAll("main,.page").forEach(el=>el.classList.remove("active"));
+ if(id==="home")document.getElementById("home").classList.add("active");
+ else document.getElementById(id).classList.add("active");
  window.scrollTo({top:0,behavior:"smooth"});
 }
-function home(){page("home");renderHome()}
-function showLogin(){page("loginPage")}
+function showHome(){showOnly("home")}
+function showLogin(){showOnly("loginPage");document.getElementById("password").value="";document.getElementById("loginError").textContent=""}
+function login(){
+ if(document.getElementById("password").value===ADMIN_PASSWORD){
+  showOnly("adminPage");renderAdmin();
+ }else document.getElementById("loginError").textContent="Parolă incorectă.";
+}
+
 function renderHome(){
  const grid=document.getElementById("pcGrid");
- grid.innerHTML="";
- data.pcs.forEach(pc=>{
-  const el=document.createElement("div");
-  el.className="pc-card";
-  el.innerHTML=`
-   <div class="pc-photo">${pc.image?`<img src="${pc.image}">`:`<div class="placeholder"></div>`}</div>
+ grid.innerHTML=data.map((pc,i)=>`
+  <article class="pc-card">
+   <img class="pc-photo" src="${safe(pc.image)}" alt="${safe(pc.name)}">
    <div class="pc-details">
-    <small>ER1K CUSTOM BUILD</small><h3>${esc(pc.name)}</h3>
-    <p>${esc(pc.desc)}</p>
-    <div class="pc-bottom"><strong>${money(pc.price)}</strong><button>BUILD PC →</button></div>
-   </div>`;
-  el.querySelector("button").onclick=()=>openPC(pc.id);
-  grid.appendChild(el);
- });
+    <h3>${safe(pc.name)}</h3>
+    <p>${safe(pc.description)}</p>
+    <div class="pc-price">${money(pc.price)} <small>de la</small></div>
+    <button class="primary-btn" onclick="openPC(${i})">CONFIGUREAZĂ →</button>
+   </div>
+  </article>`).join("");
 }
-function openPC(id){
- current=data.pcs.find(x=>x.id===id);
+
+function openPC(i){
+ activePC=i;
+ const pc=data[i];
  selected={};
- order.forEach(k=>selected[k]=0);
- document.getElementById("configName").textContent=current.name;
- document.getElementById("configDesc").textContent=current.desc;
- document.getElementById("basePrice").textContent=money(current.price);
+ for(const key of Object.keys(pc.components)){
+  selected[key]=0;
+ }
+ document.getElementById("configName").textContent=pc.name;
+ document.getElementById("configDesc").textContent=pc.description;
+ showOnly("configPage");
  renderConfig();
- page("configPage");
 }
-function total(){
- return current.price+order.reduce((sum,k)=>sum+(current.components[k][selected[k]]?.price||0),0);
-}
+
+const componentNames={gpu:"PLACĂ VIDEO",cpu:"PROCESOR",ram:"MEMORIE RAM",ssd:"SSD",case:"CARCASĂ",cooler:"RĂCIRE PROCESOR"};
 function renderConfig(){
- renderColumn("leftComponents",["gpu","cpu","case"]);
- renderColumn("rightComponents",["ram","ssd","cooler"]);
+ const pc=data[activePC];
+ const keys=Object.keys(componentNames);
+ document.getElementById("leftComponents").innerHTML=keys.slice(0,3).map(k=>renderColumn(k,pc)).join("");
+ document.getElementById("rightComponents").innerHTML=keys.slice(3).map(k=>renderColumn(k,pc)).join("");
  updateStage();
  updateSummary();
 }
-function renderColumn(target,keys){
- const root=document.getElementById(target);root.innerHTML="";
- keys.forEach(key=>{
-  const section=document.createElement("div");
-  section.className="component-section";
-  const options=current.components[key]||[];
-  section.innerHTML=`
-   <div class="component-title"><h3>${labels[key]}</h3><span>${options.length} OPTIONS</span></div>
-   <div class="choice-list"></div>`;
-  const list=section.querySelector(".choice-list");
-  options.forEach((item,i)=>{
-   const choice=document.createElement("button");
-   choice.className="choice "+(selected[key]===i?"selected":"");
-   choice.innerHTML=`
-    <div class="choice-image">
-     ${item.image?`<img src="${item.image}" alt="">`:
-       key==="case"?'<div class="mini-placeholder placeholder"></div>':
-       key==="cooler"?'<span style="font-size:20px">❄</span>':
-       '<span style="font-size:19px">▦</span>'}
-    </div>
-    <div class="choice-info"><strong>${esc(item.name)}</strong><small>${item.price>0?"Upgrade option":"Included"}</small></div>
-    <span class="choice-price">${item.price>0?"+"+money(item.price):"INCLUDED"}</span>
-    <span class="choice-check"></span>`;
-   choice.onclick=()=>{selected[key]=i;renderConfig()};
-   list.appendChild(choice);
-  });
-  root.appendChild(section);
- });
+function renderColumn(key,pc){
+ const options=pc.components[key]||[];
+ return `<div class="component-section">
+  <div class="component-title"><h3>${componentNames[key]}</h3><span>${options.length} OPȚIUNI</span></div>
+  <div class="choices">${options.map((o,i)=>`
+   <button class="choice ${selected[key]===i?"selected":""}" onclick="choose('${key}',${i})">
+    ${o.image?`<img src="${safe(o.image)}" alt="">`:""}
+    <strong>${safe(o.name)}</strong>
+    <small>${Number(o.price)>0?`<span class="extra">+ ${money(o.price)}</span>`:"Inclus în preț"}</small>
+   </button>`).join("")}</div>
+ </div>`;
+}
+function choose(key,i){
+ selected[key]=i;
+ renderConfig();
+}
+function currentOption(key){
+ const pc=data[activePC];
+ return pc.components[key]?.[selected[key]]||null;
 }
 function updateStage(){
- const item=current.components.case[selected.case]||{};
- const stage=document.getElementById("stageImage");
- const image=item.image||current.image;
- stage.innerHTML=image?`<img src="${image}" alt="Selected PC case">`:'<div class="placeholder"></div>';
- document.getElementById("stageCaseName").textContent=item.name||"PC Case";
+ const c=currentOption("case");
+ const pc=data[activePC];
+ document.getElementById("stageImage").src=(c&&c.image)||pc.image;
+ document.getElementById("stageCaseName").textContent=c?c.name:"Carcasă";
 }
 function updateSummary(){
- const root=document.getElementById("summary");
- root.innerHTML="";
- const base=document.createElement("div");
- base.className="summary-line";
- base.innerHTML=`<span>PC Base Price</span><strong>${money(current.price)}</strong>`;
- root.appendChild(base);
- order.forEach(key=>{
-  const item=current.components[key][selected[key]];
-  if(!item)return;
-  const line=document.createElement("div");
-  line.className="summary-line";
-  line.innerHTML=`<span>${labels[key]}</span><strong>${esc(item.name)}${item.price>0?" (+"+money(item.price)+")":""}</strong>`;
-  root.appendChild(line);
- });
- document.getElementById("totalPrice").textContent=money(total());
+ const pc=data[activePC];
+ let total=Number(pc.price)||0;
+ let html=`<div class="summary-line"><span>Sistem de bază</span><span>${money(pc.price)}</span></div>`;
+ for(const key of Object.keys(componentNames)){
+  const o=currentOption(key);
+  if(!o)continue;
+  total+=Number(o.price)||0;
+  html+=`<div class="summary-line"><span>${componentNames[key]}</span><span>${safe(o.name)}</span></div>`;
+  if(Number(o.price)>0)html+=`<div class="summary-line"><span>Supliment</span><span>+ ${money(o.price)}</span></div>`;
+ }
+ document.getElementById("summary").innerHTML=html;
+ document.getElementById("totalPrice").textContent=money(total);
 }
 function orderPC(){
- const lines=[`Bună ziua! Doresc o ofertă pentru ${current.name}.`,`Preț: ${money(total())}`];
- order.forEach(k=>lines.push(labels[k]+": "+current.components[k][selected[k]].name));
- const message=encodeURIComponent(lines.join("\n"));
- const number=""; // Completează numărul tău WhatsApp, ex. 407xxxxxxxx
- if(number)window.open("https://wa.me/"+number+"?text="+message,"_blank");
- else{
-  if(navigator.clipboard)navigator.clipboard.writeText(decodeURIComponent(message));
-  alert("Configurația a fost copiată. Adaugă numărul WhatsApp în cod pentru activarea comenzii directe.");
- }
+ const pc=data[activePC];
+ const lines=Object.keys(componentNames).map(k=>{
+  const o=currentOption(k);
+  return o?componentNames[k]+": "+o.name:"";
+ }).filter(Boolean);
+ const total=document.getElementById("totalPrice").textContent;
+ const message=`Bună! Sunt interesat de ${pc.name}.\n${lines.join("\n")}\nPreț estimativ: ${total}`;
+ window.location.href="https://wa.me/?text="+encodeURIComponent(message);
 }
 
 /* ADMIN */
-function login(){
- if(document.getElementById("password").value===ADMIN_PASSWORD){
-  isAdmin=true;renderAdmin();page("adminPage");
- }else document.getElementById("loginError").textContent="Parolă incorectă!";
+function renderAdmin(){
+ const root=document.getElementById("adminContent");
+ root.innerHTML=data.map((pc,i)=>`
+  <div class="admin-box">
+   <h2>${safe(pc.name)}</h2>
+   <div class="admin-grid">
+    <div><label>Numele PC-ului</label><input id="name${i}" value="${safe(pc.name)}"></div>
+    <div><label>Preț de bază (RON)</label><input id="price${i}" type="number" value="${pc.price}"></div>
+   </div>
+   <label>Descriere</label><textarea id="desc${i}">${safe(pc.description)}</textarea>
+   <label>Imagine principală PC</label><input type="file" accept="image/*" onchange="uploadPCImage(${i},this)">
+   <div style="display:flex;gap:15px;align-items:center;margin-top:12px">
+    <img src="${safe(pc.image)}" style="width:100px;height:100px;object-fit:cover;border-radius:9px">
+    <span class="empty">Imaginea principală afișată pe pagina de start.</span>
+   </div>
+   <div class="admin-actions">
+    <button class="primary-btn" onclick="savePC(${i})">SALVEAZĂ DATELE</button>
+   </div>
+   <div style="margin-top:28px">
+    <h3>Componente și opțiuni</h3>
+    ${Object.keys(componentNames).map(k=>adminComponent(i,k)).join("")}
+   </div>
+  </div>`).join("");
 }
-function logout(){isAdmin=false;home()}
-function save(){
- try{
-  localStorage.setItem(KEY,JSON.stringify(data));
-  toast("Modificările au fost salvate!");
-  renderHome();
- }catch(e){alert("Spațiu insuficient pentru imagini. Folosește imagini mai mici.");}
+function adminComponent(pi,key){
+ const options=data[pi].components[key]||[];
+ return `<div style="margin-top:22px;padding-top:15px;border-top:1px solid var(--border)">
+  <h3>${componentNames[key]}</h3>
+  ${options.map((o,oi)=>`
+   <div class="admin-row">
+    ${o.image?`<img src="${safe(o.image)}" alt="">`:`<div style="width:70px;height:70px;background:#20232e;border-radius:8px;display:grid;place-items:center;color:#777">IMG</div>`}
+    <div class="row-info">
+     <strong>${safe(o.name)}</strong>
+     <small>+ ${money(o.price)}</small>
+    </div>
+    <button class="secondary-btn" style="padding:9px;font-size:11px" onclick="editOption(${pi},'${key}',${oi})">EDIT</button>
+    <button class="secondary-btn danger" style="padding:9px;font-size:11px" onclick="deleteOption(${pi},'${key}',${oi})">X</button>
+   </div>`).join("")}
+  <div class="admin-grid" style="margin-top:12px">
+   <div><label>Új opció neve</label><input id="newName${pi}${key}" placeholder="Component name"></div>
+   <div><label>Felár (RON)</label><input id="newPrice${pi}${key}" type="number" value="0"></div>
+  </div>
+  ${(key==="case"||key==="cooler")?`<label>Kép feltöltése</label><input id="newImage${pi}${key}" type="file" accept="image/*">`:""}
+  <button class="secondary-btn" style="margin-top:12px" onclick="addOption(${pi},'${key}')">+ ADD OPTION</button>
+ </div>`;
 }
-function toast(message){
- const t=document.getElementById("toast");t.textContent=message;t.style.display="block";
- setTimeout(()=>t.style.display="none",2500);
+function savePC(i){
+ data[i].name=document.getElementById("name"+i).value.trim()||data[i].name;
+ data[i].price=Number(document.getElementById("price"+i).value)||0;
+ data[i].description=document.getElementById("desc"+i).value;
+ persist();renderAdmin();renderHome();
+ alert("PC salvat!");
 }
-function readImage(file,callback){
- if(!file)return callback("");
- if(!file.type.startsWith("image/"))return alert("Selectează o imagine.");
- if(file.size>1200000)return alert("Imagine prea mare. Folosește maximum 1.2 MB.");
+function uploadPCImage(i,input){
+ const file=input.files[0];if(!file)return;
  const reader=new FileReader();
- reader.onload=e=>callback(e.target.result);
+ reader.onload=()=>{
+  data[i].image=reader.result;
+  persist();renderAdmin();renderHome();
+ };
  reader.readAsDataURL(file);
 }
-function renderAdmin(){
- if(!isAdmin)return;
- const root=document.getElementById("adminContent");root.innerHTML="";
- data.pcs.forEach((pc,pi)=>{
-  const box=document.createElement("div");box.className="admin-box";
-  box.innerHTML=`
-   <h2>${esc(pc.name)}</h2>
-   <div class="admin-grid">
-    <div class="field"><label>PC NAME</label><input id="name${pi}" value="${esc(pc.name)}"></div>
-    <div class="field"><label>BASE PRICE (RON)</label><input id="price${pi}" type="number" value="${pc.price}"></div>
-    <div class="field"><label>DESCRIPTION</label><input id="desc${pi}" value="${esc(pc.desc)}"></div>
-    <div class="field"><label>DEFAULT PC IMAGE</label><input id="image${pi}" type="file" accept="image/*"></div>
-   </div>
-   <h3>FIXED COMPONENTS — NOT SELECTABLE</h3>
-   <div class="admin-grid">
-    <div class="field"><label>MOTHERBOARD</label><input value="Included motherboard" disabled></div>
-    <div class="field"><label>POWER SUPPLY</label><input value="Included power supply" disabled></div>
-   </div>
-   <button id="update${pi}">UPDATE PC INFORMATION</button>
-   <div id="parts${pi}"></div>`;
-  root.appendChild(box);
-  box.querySelector("#update"+pi).onclick=()=>{
-   pc.name=document.getElementById("name"+pi).value;
-   pc.price=Number(document.getElementById("price"+pi).value)||0;
-   pc.desc=document.getElementById("desc"+pi).value;
-   readImage(document.getElementById("image"+pi).files[0],img=>{
-    if(img)pc.image=img;
-    save();renderAdmin();
-   });
-  };
-  const parts=box.querySelector("#parts"+pi);
-  order.forEach(key=>{
-   const group=document.createElement("div");
-   group.innerHTML=`
-    <h3>${labels[key].toUpperCase()} — OPTIONS</h3>
-    <div id="list${pi}${key}"></div>
-    <div class="admin-grid">
-     <div class="field"><label>COMPONENT NAME</label><input id="newname${pi}${key}" placeholder="Component name"></div>
-     <div class="field"><label>EXTRA PRICE (RON)</label><input id="newprice${pi}${key}" type="number" value="0"></div>
-     ${key==="case"||key==="cooler"?`<div class="field"><label>UPLOAD COMPONENT IMAGE</label><input id="newimage${pi}${key}" type="file" accept="image/*"></div>`:""}
-    </div>
-    <button id="add${pi}${key}">+ ADD OPTION</button>`;
-   parts.appendChild(group);
-   renderAdminList(pi,key);
-   group.querySelector("#add"+pi+key).onclick=()=>{
-    const name=document.getElementById("newname"+pi+key).value.trim();
-    const price=Number(document.getElementById("newprice"+pi+key).value)||0;
-    if(!name)return alert("Introdu numele componentei.");
-    const file=document.getElementById("newimage"+pi+key)?.files[0];
-    readImage(file,img=>{
-     pc.components[key].push({name,price,image:img});
-     save();renderAdmin();
-    });
+function addOption(pi,key){
+ const name=document.getElementById("newName"+pi+key).value.trim();
+ const price=Number(document.getElementById("newPrice"+pi+key).value)||0;
+ if(!name){alert("Introdu numele componentei.");return}
+ const fileInput=document.getElementById("newImage"+pi+key);
+ const file=fileInput?.files?.[0];
+ const finish=image=>{
+  const option={name,price};
+  if(image)option.image=image;
+  data[pi].components[key].push(option);
+  persist();renderAdmin();
+ };
+ if(file){
+  const reader=new FileReader();
+  reader.onload=()=>finish(reader.result);
+  reader.readAsDataURL(file);
+ }else finish("");
+}
+function editOption(pi,key,oi){
+ const o=data[pi].components[key][oi];
+ const name=prompt("Numele componentei:",o.name);
+ if(name===null)return;
+ const price=prompt("Supliment în RON:",o.price);
+ if(price===null)return;
+ o.name=name.trim()||o.name;
+ o.price=Number(price)||0;
+ if(key==="case"||key==="cooler"){
+  const change=confirm("Vrei să schimbi și imaginea?");
+  if(change){
+   const picker=document.createElement("input");
+   picker.type="file";picker.accept="image/*";
+   picker.onchange=()=>{
+    const file=picker.files[0];if(!file)return;
+    const reader=new FileReader();
+    reader.onload=()=>{o.image=reader.result;persist();renderAdmin()};
+    reader.readAsDataURL(file);
    };
-  });
- });
+   picker.click();
+   persist();return;
+  }
+ }
+ persist();renderAdmin();
 }
-function renderAdminList(pi,key){
- const root=document.getElementById("list"+pi+key);
- root.innerHTML="";
- data.pcs[pi].components[key].forEach((item,i)=>{
-  const row=document.createElement("div");row.className="option-row";
-  row.innerHTML=`
-   <div style="display:flex;align-items:center;gap:12px">
-    ${item.image?`<img src="${item.image}">`:""}
-    <span>${esc(item.name)} — ${money(item.price)}</span>
-   </div>
-   <button class="delete">DELETE</button>`;
-  row.querySelector("button").onclick=()=>{
-   if(pcOptionCount(pi,key)<=1)return alert("Trebuie să rămână cel puțin o opțiune.");
-   data.pcs[pi].components[key].splice(i,1);
-   save();renderAdmin();
-  };
-  root.appendChild(row);
- });
+function deleteOption(pi,key,oi){
+ if(!confirm("Ștergi această opțiune?"))return;
+ data[pi].components[key].splice(oi,1);
+ persist();renderAdmin();
 }
-function pcOptionCount(pi,key){return data.pcs[pi].components[key].length}
-
 renderHome();
+showHome();
 </script>
 </body>
 </html>
