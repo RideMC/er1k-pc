@@ -714,7 +714,7 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 
 <script>
 const _b = [101,114,49,107,50,48,50,54];
-const KEY = "er1k_pc_v10";
+const KEY = "er1k_pc_v11";
 const tierLabels = ["01 · ENTRY", "02 · POPULAR", "03 · PRO TIER", "04 · FLAGSHIP"];
 
 function _matchCode(val){
@@ -733,8 +733,10 @@ const defaultData = [
   components:{
    gpu:[{name:"GTX 1660 Super 6GB",price:0},{name:"RX 6600 8GB",price:250},{name:"RTX 3060 12GB",price:450}],
    cpu:[{name:"Ryzen 5 3600",price:0},{name:"Ryzen 5 5500",price:150},{name:"Ryzen 5 5600",price:250}],
+   mobo:[{name:"B450M mATX",price:0},{name:"B550M Pro",price:140}],
    ram:[{name:"16GB DDR4",price:0},{name:"32GB DDR4",price:180}],
    ssd:[{name:"500GB NVMe",price:0},{name:"1TB NVMe",price:180}],
+   psu:[{name:"550W 80+ Bronze",price:0},{name:"650W 80+ Bronze",price:110}],
    case:[
     {name:"Basic Black Case",price:0,image:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=700&q=85"},
     {name:"Glass Airflow Case",price:120,image:"https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=700&q=85"}
@@ -748,8 +750,10 @@ const defaultData = [
   components:{
    gpu:[{name:"RX 6600 8GB",price:0},{name:"RTX 3060 12GB",price:350},{name:"RX 6700 XT 12GB",price:550}],
    cpu:[{name:"Ryzen 5 5600",price:0},{name:"Ryzen 5 5600X",price:100},{name:"Ryzen 7 5700X",price:250}],
+   mobo:[{name:"B550M Gaming",price:0},{name:"B550 ATX Wi-Fi",price:180}],
    ram:[{name:"16GB DDR4",price:0},{name:"32GB DDR4",price:180}],
    ssd:[{name:"1TB NVMe",price:0},{name:"2TB NVMe",price:250}],
+   psu:[{name:"650W 80+ Bronze",price:0},{name:"750W 80+ Gold",price:180}],
    case:[
     {name:"RGB Gaming Case",price:0,image:"https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=700&q=85"},
     {name:"White Gaming Case",price:150,image:"https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=700&q=85"}
@@ -763,8 +767,10 @@ const defaultData = [
   components:{
    gpu:[{name:"RTX 4060 8GB",price:0},{name:"RTX 4060 Ti 8GB",price:400},{name:"RX 7700 XT 12GB",price:650}],
    cpu:[{name:"Ryzen 5 7600",price:0},{name:"Ryzen 7 7700",price:450},{name:"Ryzen 7 7800X3D",price:900}],
+   mobo:[{name:"B650M DDR5",price:0},{name:"B650 ATX Wi-Fi DDR5",price:220}],
    ram:[{name:"32GB DDR5",price:0},{name:"64GB DDR5",price:350}],
    ssd:[{name:"1TB NVMe",price:0},{name:"2TB NVMe",price:250}],
+   psu:[{name:"750W 80+ Gold",price:0},{name:"850W 80+ Gold Modular",price:190}],
    case:[
     {name:"Premium Black Case",price:0,image:"https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=700&q=85"},
     {name:"Panoramic Glass Case",price:220,image:"https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=700&q=85"}
@@ -778,8 +784,10 @@ const defaultData = [
   components:{
    gpu:[{name:"RTX 4070 Super 12GB",price:0},{name:"RTX 5070 12GB",price:700},{name:"RTX 5070 Ti 16GB",price:1500}],
    cpu:[{name:"Ryzen 7 7800X3D",price:0},{name:"Ryzen 7 9800X3D",price:600}],
+   mobo:[{name:"B650E / X670 Wi-Fi DDR5",price:0},{name:"X870E Wi-Fi 7 DDR5",price:420}],
    ram:[{name:"32GB DDR5",price:0},{name:"64GB DDR5",price:350}],
    ssd:[{name:"2TB NVMe",price:0},{name:"4TB NVMe",price:450}],
+   psu:[{name:"850W 80+ Gold ATX 3.1",price:0},{name:"1000W 80+ Gold ATX 3.1",price:260}],
    case:[
     {name:"Ultimate Black Case",price:0,image:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=700&q=85"},
     {name:"Dual-Chamber Showcase",price:280,image:"https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=700&q=85"}
@@ -792,8 +800,10 @@ const defaultData = [
 const componentNames={
  gpu:"PLACĂ VIDEO",
  cpu:"PROCESOR",
+ mobo:"PLACĂ DE BAZĂ",
  ram:"MEMORIE RAM",
  ssd:"SSD",
+ psu:"SURSĂ (TÁP)",
  case:"CARCASĂ",
  cooler:"RĂCIRE PROCESOR"
 };
@@ -964,9 +974,9 @@ function renderConfig(){
    selected[key]=0;
   }
  }
- document.getElementById("topLeftComponents").innerHTML=["gpu","cpu"].map(k=>renderComponentBox(k,pc)).join("");
+ document.getElementById("topLeftComponents").innerHTML=["gpu","cpu","mobo"].map(k=>renderComponentBox(k,pc)).join("");
  document.getElementById("bottomLeftComponent").innerHTML=renderComponentBox("case",pc);
- document.getElementById("topRightComponents").innerHTML=["ram","ssd"].map(k=>renderComponentBox(k,pc)).join("");
+ document.getElementById("topRightComponents").innerHTML=["ram","ssd","psu"].map(k=>renderComponentBox(k,pc)).join("");
  document.getElementById("bottomRightComponent").innerHTML=renderComponentBox("cooler",pc);
  updateStage();
  updateSummary();
@@ -1127,7 +1137,7 @@ function renderComponentsTab(){
     <div class="admin-grid-3">
      <div>
       <label for="newOptName">Név</label>
-      <input id="newOptName" placeholder="pl. Arctic Liquid Freezer III 240mm AIO">
+      <input id="newOptName" placeholder="pl. B650M / 750W 80+ Gold">
      </div>
      <div>
       <label for="newOptPrice">Felár (RON)</label>
