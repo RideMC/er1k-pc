@@ -16,7 +16,6 @@
   --muted:#959bad;
   --accent:#8b5cf6;
   --accent2:#6d45db;
-  --accent-soft:#8b5cf624;
   --green:#43d9a3;
 }
 *{box-sizing:border-box}
@@ -49,26 +48,39 @@ header{
 .nav{display:flex;align-items:center;justify-content:space-between;gap:16px}
 .logo{font-size:25px;font-weight:900;letter-spacing:-1px;white-space:nowrap}
 .logo span{color:var(--accent);text-shadow:0 0 22px #8b5cf666}
-.nav-right{display:flex;align-items:center;gap:26px}
-.navlinks{display:flex;gap:24px;color:#b8bcc9;font-size:14px;font-weight:500}
+.navlinks{display:flex;gap:26px;color:#b8bcc9;font-size:14px;font-weight:500}
 .navlinks a:hover{color:#fff}
-.admin-nav-btn{
-  background:linear-gradient(135deg,#1d172e,#141621);
-  color:#e2d7ff;
-  border:1px solid #523e87;
-  border-radius:9px;
-  padding:9px 16px;
-  font-size:13px;
-  font-weight:700;
-  transition:.2s;
-  white-space:nowrap;
-  box-shadow:0 4px 18px #0005;
+
+/* DISCREET BOTTOM-LEFT ADMIN TRIGGER ON SCROLL */
+.corner-admin-btn{
+  position:fixed;
+  bottom:14px;
+  left:16px;
+  z-index:35;
+  background:#11141fd9;
+  color:#8f96ad;
+  border:1px solid #2b3042;
+  border-radius:7px;
+  padding:5px 10px;
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.4px;
+  opacity:0;
+  pointer-events:none;
+  transform:translateY(8px);
+  transition:.22s ease;
+  backdrop-filter:blur(8px);
 }
-.admin-nav-btn:hover{
-  background:var(--accent);
-  border-color:var(--accent);
-  color:#fff;
-  box-shadow:0 6px 24px #8b5cf655;
+.corner-admin-btn.visible{
+  opacity:.58;
+  pointer-events:auto;
+  transform:translateY(0);
+}
+.corner-admin-btn:hover{
+  opacity:1;
+  color:#e4daff;
+  border-color:#7454cf;
+  background:#1b162a;
 }
 
 .page-view{display:none}
@@ -526,9 +538,7 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
  .hero h1{letter-spacing:-3px}
  .hero-art{max-width:430px}
  .stats{gap:20px}
- .nav-right{gap:12px}
- .navlinks{gap:12px;font-size:12px}
- .admin-nav-btn{padding:8px 11px;font-size:12px}
+ .navlinks{gap:14px;font-size:12px}
  .logo{font-size:20px}
  section{padding:60px 0}
  .pc-grid{grid-template-columns:1fr}
@@ -546,16 +556,15 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 <header>
  <div class="container nav">
   <a class="logo" href="#home" onclick="showView('homeView');return false">ER1K<span> PC</span></a>
-  <div class="nav-right">
-   <nav class="navlinks">
-    <a href="#pcs" onclick="jumpSection('pcs')">PC-uri</a>
-    <a href="#features" onclick="jumpSection('features')">Despre noi</a>
-    <a href="#contact" onclick="jumpSection('contact')">Contact</a>
-   </nav>
-   <button type="button" class="admin-nav-btn" onclick="openAdmin()">Admin</button>
-  </div>
+  <nav class="navlinks">
+   <a href="#pcs" onclick="jumpSection('pcs')">PC-uri</a>
+   <a href="#features" onclick="jumpSection('features')">Despre noi</a>
+   <a href="#contact" onclick="jumpSection('contact')">Contact</a>
+  </nav>
  </div>
 </header>
+
+<button type="button" id="cornerAdminBtn" class="corner-admin-btn" onclick="openAdmin()">⚙</button>
 
 <div id="homeView" class="page-view active">
  <main>
@@ -660,13 +669,13 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
   <div class="admin-wrap">
    <button type="button" class="back-btn" onclick="showView('homeView')">← Înapoi la site</button>
    <div class="admin-box" style="max-width:440px;margin:40px auto">
-    <div class="eyebrow">ADMIN ACCESS</div>
-    <h2 style="margin-top:8px">Admin Login</h2>
-    <p class="empty" style="padding:0 0 8px">Introdu parola de administrator pentru a deschide panoul.</p>
-    <label for="password">Parolă</label>
-    <input id="password" type="password" placeholder="Admin password" onkeydown="if(event.key==='Enter')login()">
+    <div class="eyebrow">PANEL ACCESS</div>
+    <h2 style="margin-top:8px">Autentificare</h2>
+    <p class="empty" style="padding:0 0 8px">Introdu codul de acces pentru a deschide panoul.</p>
+    <label for="password">Cod acces</label>
+    <input id="password" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')login()">
     <p id="loginError" style="color:#ff687b;font-size:12px;min-height:18px;margin:8px 0 0"></p>
-    <button type="button" class="primary-btn" style="width:100%;margin-top:12px" onclick="login()">LOGIN</button>
+    <button type="button" class="primary-btn" style="width:100%;margin-top:12px" onclick="login()">CONTINUĂ</button>
    </div>
   </div>
  </div>
@@ -678,7 +687,7 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
    <div class="admin-topbar">
     <div>
      <div class="eyebrow">CONTROL PANEL</div>
-     <h2 style="margin:6px 0 2px;font-size:26px;letter-spacing:-1px">Admin Dashboard</h2>
+     <h2 style="margin:6px 0 2px;font-size:26px;letter-spacing:-1px">Management</h2>
      <p style="margin:0;color:var(--muted);font-size:13px">Rendszerezett nézet: modellek és alkatrészek külön fülön.</p>
     </div>
     <div style="display:flex;gap:10px;flex-wrap:wrap">
@@ -706,9 +715,14 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 </footer>
 
 <script>
-const ADMIN_PASSWORD = "er1k2026";
-const KEY = "er1k_pc_v8";
+const _k = ["Z","X","N","b","M","T","E","w"];
+const KEY = "er1k_pc_v9";
 const tierLabels = ["01 · ENTRY", "02 · POPULAR", "03 · PRO TIER", "04 · FLAGSHIP"];
+
+function _verifyCode(input){
+ const sig = Array.from(String(input||"")).reduce((h,ch)=>((h<<5)-h+ch.charCodeAt(0))|0, 2166136261);
+ return sig === 1236186614;
+}
 
 const defaultData = [
  {
@@ -811,11 +825,23 @@ let selected={};
 function money(n){return Number(n||0).toLocaleString("ro-RO")+" RON"}
 function safe(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 
+function updateCornerTrigger(){
+ const btn=document.getElementById("cornerAdminBtn");
+ if(!btn)return;
+ const scrolled=(window.scrollY||window.pageYOffset||0)>140;
+ const notHome=!document.getElementById("homeView")?.classList.contains("active");
+ if(scrolled||notHome)btn.classList.add("visible");
+ else btn.classList.remove("visible");
+}
+
+window.addEventListener("scroll", updateCornerTrigger, {passive:true});
+
 function showView(viewId){
  document.querySelectorAll(".page-view").forEach(v=>v.classList.remove("active"));
  const el=document.getElementById(viewId);
  if(el)el.classList.add("active");
  window.scrollTo({top:0,behavior:"auto"});
+ updateCornerTrigger();
 }
 
 function jumpSection(id){
@@ -842,12 +868,12 @@ function openAdmin(){
 
 function login(){
  const pass=document.getElementById("password").value;
- if(pass===ADMIN_PASSWORD){
+ if(_verifyCode(pass)){
   isAdminAuthed=true;
   showView("adminView");
   renderAdmin();
  }else{
-  document.getElementById("loginError").textContent="Parolă incorectă.";
+  document.getElementById("loginError").textContent="Cod incorect.";
  }
 }
 
@@ -1174,6 +1200,7 @@ function resetDefaults(){
 
 renderHome();
 showView("homeView");
+updateCornerTrigger();
 </script>
 </body>
 </html>
