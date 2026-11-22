@@ -358,6 +358,59 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
   display:grid;
   place-items:center;
 }
+
+/* BRAND COLORED TILES */
+.choice.brand-blue{
+  border-color:#3b82f6;
+  background:linear-gradient(160deg,#122242,#121726);
+}
+.choice.brand-blue:hover:not(:disabled){
+  border-color:#60a5fa;
+  background:linear-gradient(160deg,#172c56,#161d30);
+}
+.choice.brand-blue.selected{
+  border:2px solid #60a5fa;
+  padding:12px;
+  box-shadow:0 0 22px #3b82f644;
+}
+.choice.brand-blue.selected::after{
+  background:#2563eb;
+}
+
+.choice.brand-red{
+  border-color:#ef4444;
+  background:linear-gradient(160deg,#3b141a,#18121b);
+}
+.choice.brand-red:hover:not(:disabled){
+  border-color:#f87171;
+  background:linear-gradient(160deg,#4d1921,#1d1521);
+}
+.choice.brand-red.selected{
+  border:2px solid #f87171;
+  padding:12px;
+  box-shadow:0 0 22px #ef444444;
+}
+.choice.brand-red.selected::after{
+  background:#dc2626;
+}
+
+.choice.brand-green{
+  border-color:#22c55e;
+  background:linear-gradient(160deg,#113322,#11191e);
+}
+.choice.brand-green:hover:not(:disabled){
+  border-color:#4ade80;
+  background:linear-gradient(160deg,#16422c,#152026);
+}
+.choice.brand-green.selected{
+  border:2px solid #4ade80;
+  padding:12px;
+  box-shadow:0 0 22px #22c55e44;
+}
+.choice.brand-green.selected::after{
+  background:#16a34a;
+}
+
 .choice.incompatible,
 .choice:disabled{
   opacity:.38;
@@ -378,7 +431,7 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
   margin-top:5px;
   font-size:10px;
   font-weight:700;
-  color:#b69aff;
+  color:#d6dcff;
 }
 .choice img{
   width:100%;
@@ -456,6 +509,40 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 .summary-total strong{font-size:30px;color:#fff}
 .price-panel button{width:100%;margin-top:18px}
 .notice{font-size:11px;color:var(--muted);line-height:1.6;margin-top:13px}
+
+/* COMPATIBILITY TOAST */
+.compat-toast{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  z-index:50;
+  max-width:420px;
+  background:#171326;
+  border:1px solid #8b5cf6;
+  color:#f6f7fb;
+  padding:13px 16px;
+  border-radius:12px;
+  box-shadow:0 14px 36px #000a,0 0 24px #8b5cf633;
+  font-size:12px;
+  line-height:1.5;
+  opacity:0;
+  transform:translateY(10px);
+  pointer-events:none;
+  transition:.22s ease;
+}
+.compat-toast.show{
+  opacity:1;
+  transform:translateY(0);
+  pointer-events:auto;
+}
+.compat-toast strong{
+  display:block;
+  color:#cbb4ff;
+  font-size:11px;
+  letter-spacing:.8px;
+  text-transform:uppercase;
+  margin-bottom:3px;
+}
 
 /* SUBTLE, ORGANIZED PANEL */
 .admin-wrap{max-width:1080px;margin:auto}
@@ -745,9 +832,11 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
  </div>
 </footer>
 
+<div id="compatToast" class="compat-toast" role="status" aria-live="polite"></div>
+
 <script>
 const _b = [101,114,49,107,50,48,50,54];
-const KEY = "er1k_pc_v13";
+const KEY = "er1k_pc_v10";
 const tierLabels = ["01 · ENTRY", "02 · POPULAR", "03 · PRO TIER", "04 · FLAGSHIP"];
 
 function _matchCode(val){
@@ -761,176 +850,71 @@ function _matchCode(val){
 
 const defaultData = [
  {
-  id:"start",
-  name:"Er1k Start",
-  description:"Un sistem accesibil pentru gaming și utilizare zilnică.",
-  price:1800,
+  id:"start",name:"Er1k Start",description:"Un sistem accesibil pentru gaming și utilizare zilnică.",price:1800,
   image:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=800&q=85",
   components:{
-   gpu:[
-    {name:"GTX 1660 Super 6GB",price:0},
-    {name:"RX 6600 8GB",price:250},
-    {name:"RTX 3060 12GB",price:450}
-   ],
-   cpu:[
-    {name:"Ryzen 5 3600",socket:"AM4",price:0},
-    {name:"Ryzen 5 5500",socket:"AM4",price:150},
-    {name:"Ryzen 5 5600",socket:"AM4",price:250},
-    {name:"Intel i3-12100F",socket:"LGA1700",price:180}
-   ],
-   mobo:[
-    {name:"MSI A520M-A PRO",socket:"AM4",ddr:"DDR4",price:0},
-    {name:"MSI B550M PRO-VDH WIFI",socket:"AM4",ddr:"DDR4",price:220},
-    {name:"MSI PRO H610M-E DDR4",socket:"LGA1700",ddr:"DDR4",price:60}
-   ],
-   ram:[
-    {name:"16GB DDR4",ddr:"DDR4",price:0},
-    {name:"32GB DDR4",ddr:"DDR4",price:180}
-   ],
-   ssd:[
-    {name:"500GB NVMe",price:0},
-    {name:"1TB NVMe",price:180}
-   ],
-   psu:[
-    {name:"MSI MAG A550BN 550W",price:0},
-    {name:"MSI MAG A650BN 650W",price:110}
-   ],
+   gpu:[{name:"GTX 1660 Super 6GB",price:0},{name:"RX 6600 8GB",price:250},{name:"RTX 3060 12GB",price:450}],
+   cpu:[{name:"Ryzen 5 3600",price:0},{name:"Ryzen 5 5500",price:150},{name:"Ryzen 5 5600",price:250}],
+   mobo:[{name:"B450M mATX",price:0},{name:"B550M Pro",price:140}],
+   ram:[{name:"16GB DDR4",price:0},{name:"32GB DDR4",price:180}],
+   ssd:[{name:"500GB NVMe",price:0},{name:"1TB NVMe",price:180}],
+   psu:[{name:"550W 80+ Bronze",price:0},{name:"650W 80+ Bronze",price:110}],
    case:[
     {name:"Basic Black Case",price:0,image:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=700&q=85"},
     {name:"Glass Airflow Case",price:120,image:"https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=700&q=85"}
    ],
-   cooler:[
-    {name:"Stock Cooler",price:0,image:""},
-    {name:"Tower Air Cooler",price:90,image:""}
-   ]
+   cooler:[{name:"Stock Cooler",price:0,image:""},{name:"Tower Air Cooler",price:90,image:""}]
   }
  },
  {
-  id:"gaming",
-  name:"Er1k Gaming",
-  description:"Performanță excelentă pentru gaming Full HD și QHD.",
-  price:2800,
+  id:"gaming",name:"Er1k Gaming",description:"Performanță excelentă pentru gaming Full HD și QHD.",price:2800,
   image:"https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=800&q=85",
   components:{
-   gpu:[
-    {name:"RX 6600 8GB",price:0},
-    {name:"RTX 3060 12GB",price:350},
-    {name:"RX 6700 XT 12GB",price:550}
-   ],
-   cpu:[
-    {name:"Ryzen 5 5600",socket:"AM4",price:0},
-    {name:"Ryzen 5 5600X",socket:"AM4",price:100},
-    {name:"Ryzen 7 5700X",socket:"AM4",price:250}
-   ],
-   mobo:[
-    {name:"B550M Gaming",socket:"AM4",ddr:"DDR4",price:0},
-    {name:"B550 ATX Wi-Fi",socket:"AM4",ddr:"DDR4",price:180}
-   ],
-   ram:[
-    {name:"16GB DDR4",ddr:"DDR4",price:0},
-    {name:"32GB DDR4",ddr:"DDR4",price:180}
-   ],
-   ssd:[
-    {name:"1TB NVMe",price:0},
-    {name:"2TB NVMe",price:250}
-   ],
-   psu:[
-    {name:"650W 80+ Bronze",price:0},
-    {name:"750W 80+ Gold",price:180}
-   ],
+   gpu:[{name:"RX 6600 8GB",price:0},{name:"RTX 3060 12GB",price:350},{name:"RX 6700 XT 12GB",price:550}],
+   cpu:[{name:"Ryzen 5 5600",price:0},{name:"Ryzen 5 5600X",price:100},{name:"Ryzen 7 5700X",price:250}],
+   mobo:[{name:"B550M Gaming",price:0},{name:"B550 ATX Wi-Fi",price:180}],
+   ram:[{name:"16GB DDR4",price:0},{name:"32GB DDR4",price:180}],
+   ssd:[{name:"1TB NVMe",price:0},{name:"2TB NVMe",price:250}],
+   psu:[{name:"650W 80+ Bronze",price:0},{name:"750W 80+ Gold",price:180}],
    case:[
     {name:"RGB Gaming Case",price:0,image:"https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=700&q=85"},
     {name:"White Gaming Case",price:150,image:"https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=700&q=85"}
    ],
-   cooler:[
-    {name:"Air Cooler",price:0,image:""},
-    {name:"ARGB Air Cooler",price:100,image:""}
-   ]
+   cooler:[{name:"Air Cooler",price:0,image:""},{name:"ARGB Air Cooler",price:100,image:""}]
   }
  },
  {
-  id:"pro",
-  name:"Er1k Pro",
-  description:"Putere suplimentară pentru gaming și multitasking.",
-  price:4200,
+  id:"pro",name:"Er1k Pro",description:"Putere suplimentară pentru gaming și multitasking.",price:4200,
   image:"https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=800&q=85",
   components:{
-   gpu:[
-    {name:"RTX 4060 8GB",price:0},
-    {name:"RTX 4060 Ti 8GB",price:400},
-    {name:"RX 7700 XT 12GB",price:650}
-   ],
-   cpu:[
-    {name:"Ryzen 5 7600",socket:"AM5",price:0},
-    {name:"Ryzen 7 7700",socket:"AM5",price:450},
-    {name:"Ryzen 7 7800X3D",socket:"AM5",price:900}
-   ],
-   mobo:[
-    {name:"B650M DDR5",socket:"AM5",ddr:"DDR5",price:0},
-    {name:"B650 ATX Wi-Fi DDR5",socket:"AM5",ddr:"DDR5",price:220}
-   ],
-   ram:[
-    {name:"32GB DDR5",ddr:"DDR5",price:0},
-    {name:"64GB DDR5",ddr:"DDR5",price:350}
-   ],
-   ssd:[
-    {name:"1TB NVMe",price:0},
-    {name:"2TB NVMe",price:250}
-   ],
-   psu:[
-    {name:"750W 80+ Gold",price:0},
-    {name:"850W 80+ Gold Modular",price:190}
-   ],
+   gpu:[{name:"RTX 4060 8GB",price:0},{name:"RTX 4060 Ti 8GB",price:400},{name:"RX 7700 XT 12GB",price:650}],
+   cpu:[{name:"Ryzen 5 7600",price:0},{name:"Ryzen 7 7700",price:450},{name:"Ryzen 7 7800X3D",price:900}],
+   mobo:[{name:"B650M DDR5",price:0},{name:"B650 ATX Wi-Fi DDR5",price:220}],
+   ram:[{name:"32GB DDR5",price:0},{name:"64GB DDR5",price:350}],
+   ssd:[{name:"1TB NVMe",price:0},{name:"2TB NVMe",price:250}],
+   psu:[{name:"750W 80+ Gold",price:0},{name:"850W 80+ Gold Modular",price:190}],
    case:[
     {name:"Premium Black Case",price:0,image:"https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=700&q=85"},
     {name:"Panoramic Glass Case",price:220,image:"https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=700&q=85"}
    ],
-   cooler:[
-    {name:"Tower Air Cooler",price:0,image:""},
-    {name:"240mm AIO",price:250,image:""}
-   ]
+   cooler:[{name:"Tower Air Cooler",price:0,image:""},{name:"240mm AIO",price:250,image:""}]
   }
  },
  {
-  id:"ultimate",
-  name:"Er1k Ultimate",
-  description:"High-end sistem pentru performanță fără compromisuri.",
-  price:6500,
+  id:"ultimate",name:"Er1k Ultimate",description:"High-end sistem pentru performanță fără compromisuri.",price:6500,
   image:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=800&q=85",
   components:{
-   gpu:[
-    {name:"RTX 4070 Super 12GB",price:0},
-    {name:"RTX 5070 12GB",price:700},
-    {name:"RTX 5070 Ti 16GB",price:1500}
-   ],
-   cpu:[
-    {name:"Ryzen 7 7800X3D",socket:"AM5",price:0},
-    {name:"Ryzen 7 9800X3D",socket:"AM5",price:600}
-   ],
-   mobo:[
-    {name:"B650E / X670 Wi-Fi DDR5",socket:"AM5",ddr:"DDR5",price:0},
-    {name:"X870E Wi-Fi 7 DDR5",socket:"AM5",ddr:"DDR5",price:420}
-   ],
-   ram:[
-    {name:"32GB DDR5",ddr:"DDR5",price:0},
-    {name:"64GB DDR5",ddr:"DDR5",price:350}
-   ],
-   ssd:[
-    {name:"2TB NVMe",price:0},
-    {name:"4TB NVMe",price:450}
-   ],
-   psu:[
-    {name:"850W 80+ Gold ATX 3.1",price:0},
-    {name:"1000W 80+ Gold ATX 3.1",price:260}
-   ],
+   gpu:[{name:"RTX 4070 Super 12GB",price:0},{name:"RTX 5070 12GB",price:700},{name:"RTX 5070 Ti 16GB",price:1500}],
+   cpu:[{name:"Ryzen 7 7800X3D",price:0},{name:"Ryzen 7 9800X3D",price:600}],
+   mobo:[{name:"B650E / X670 Wi-Fi DDR5",price:0},{name:"X870E Wi-Fi 7 DDR5",price:420}],
+   ram:[{name:"32GB DDR5",price:0},{name:"64GB DDR5",price:350}],
+   ssd:[{name:"2TB NVMe",price:0},{name:"4TB NVMe",price:450}],
+   psu:[{name:"850W 80+ Gold ATX 3.1",price:0},{name:"1000W 80+ Gold ATX 3.1",price:260}],
    case:[
     {name:"Ultimate Black Case",price:0,image:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=700&q=85"},
     {name:"Dual-Chamber Showcase",price:280,image:"https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=700&q=85"}
    ],
-   cooler:[
-    {name:"360mm AIO",price:0,image:""},
-    {name:"Premium 360mm AIO",price:250,image:""}
-   ]
+   cooler:[{name:"360mm AIO",price:0,image:""},{name:"Premium 360mm AIO",price:250,image:""}]
   }
  }
 ];
@@ -968,12 +952,15 @@ function normalizeData(list){
   const fallback = defaultData[idx] || defaultData[0];
   const mergedComponents = {};
   for(const key of Object.keys(componentNames)){
-   const arr = Array.isArray(pc.components?.[key]) ? pc.components[key] : clone(fallback.components[key] || []);
-   mergedComponents[key] = arr.map(item => ({
-    ...item,
-    socket: item.socket || inferSocket(item.name),
-    ddr: item.ddr || inferDDR(item.name)
-   }));
+   if(Array.isArray(pc.components?.[key])){
+    mergedComponents[key] = pc.components[key].map(item => ({
+     ...item,
+     socket: item.socket || inferSocket(item.name),
+     ddr: item.ddr || inferDDR(item.name)
+    }));
+   }else{
+    mergedComponents[key] = clone(fallback.components[key] || []);
+   }
   }
   return {
    ...fallback,
@@ -986,7 +973,7 @@ function normalizeData(list){
 function safeLoad(){
  try{
   if(!window.localStorage)return clone(defaultData);
-  const raw = window.localStorage.getItem(KEY);
+  const raw = window.localStorage.getItem(KEY) || window.localStorage.getItem("er1k_pc_v11");
   if(!raw)return clone(defaultData);
   const parsed=JSON.parse(raw);
   if(Array.isArray(parsed)&&parsed.length>0)return normalizeData(parsed);
@@ -1014,9 +1001,21 @@ let adminSelectedPC=0;
 let adminSelectedCat="gpu";
 let activePC=0;
 let selected={};
+let compatToastTimer = null;
 
 function money(n){return Number(n||0).toLocaleString("ro-RO")+" RON"}
 function safe(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+
+function showCompatToast(title, message){
+ const el = document.getElementById("compatToast");
+ if(!el) return;
+ el.innerHTML = `<strong>${safe(title)}</strong>${safe(message)}`;
+ el.classList.add("show");
+ clearTimeout(compatToastTimer);
+ compatToastTimer = setTimeout(() => {
+  el.classList.remove("show");
+ }, 4200);
+}
 
 function updateCornerTrigger(){
  const btn=document.getElementById("cornerAdminBtn");
@@ -1096,6 +1095,25 @@ function renderHome(){
     <button type="button" class="primary-btn" onclick="openPC(${i})">CONFIGUREAZĂ →</button>
    </div>
   </article>`).join("");
+}
+
+function getBrandClass(key, option){
+ const name = String(option?.name || "").toLowerCase();
+ const sock = String(option?.socket || inferSocket(option?.name) || "").toUpperCase();
+
+ if(key === "cpu" || key === "mobo"){
+  if(name.includes("intel") || sock === "LGA1700") return "brand-blue";
+  if(name.includes("ryzen") || name.includes("amd") || sock === "AM4" || sock === "AM5") return "brand-red";
+  return "";
+ }
+
+ if(key === "gpu"){
+  if(name.includes("rtx") || name.includes("gtx") || name.includes("nvidia")) return "brand-green";
+  if(name.includes("rx ") || name.startsWith("rx") || name.includes("radeon") || name.includes("amd")) return "brand-red";
+  return "";
+ }
+
+ return "";
 }
 
 function isOptionCompatible(pc, key, option, currentSelected){
@@ -1206,11 +1224,12 @@ function renderComponentBox(key,pc){
   <div class="choices">${options.map((o,i)=>{
    const compat = isOptionCompatible(pc, key, o, selected);
    const isSelected = selected[key] === i && compat.ok;
+   const brandClass = getBrandClass(key, o);
    const optSocket = (key === "cpu" || key === "mobo") ? (o.socket || inferSocket(o.name)) : "";
    return `
    <button
     type="button"
-    class="choice ${isSelected ? "selected" : ""} ${!compat.ok ? "incompatible" : ""}"
+    class="choice ${brandClass} ${isSelected ? "selected" : ""} ${!compat.ok ? "incompatible" : ""}"
     ${!compat.ok ? "disabled" : ""}
     onclick="choose('${key}',${i})"
    >
@@ -1232,6 +1251,10 @@ function choose(key,i){
  if(!option)return;
  const compat = isOptionCompatible(pc, key, option, selected);
  if(!compat.ok)return;
+
+ const prevMoboIdx = selected.mobo ?? 0;
+ const prevCpuIdx = selected.cpu ?? 0;
+ const prevRamIdx = selected.ram ?? 0;
 
  selected[key]=i;
 
@@ -1261,6 +1284,27 @@ function choose(key,i){
 
  enforceCompatibility(pc);
  renderConfig();
+
+ const newMobo = (pc.components.mobo || [])[selected.mobo ?? 0];
+ const newCpu = (pc.components.cpu || [])[selected.cpu ?? 0];
+ const newRam = (pc.components.ram || [])[selected.ram ?? 0];
+
+ if(key === "cpu" && selected.mobo !== prevMoboIdx && newMobo){
+  showCompatToast(
+   "Compatibilitate automată",
+   `Placa de bază a fost schimbată în ${newMobo.name} pentru a fi compatibilă cu ${option.name}.`
+  );
+ } else if(key === "mobo" && selected.cpu !== prevCpuIdx && newCpu){
+  showCompatToast(
+   "Compatibilitate automată",
+   `Procesorul a fost schimbat în ${newCpu.name} pentru a fi compatibil cu ${option.name}.`
+  );
+ } else if(key === "mobo" && selected.ram !== prevRamIdx && newRam){
+  showCompatToast(
+   "Compatibilitate memorie",
+   `Memoria RAM a fost ajustată la ${newRam.name} pentru ${option.name}.`
+  );
+ }
 }
 
 function currentOption(key){
@@ -1366,8 +1410,6 @@ function renderComponentsTab(){
  if(!Array.isArray(pc.components[adminSelectedCat]))pc.components[adminSelectedCat]=[];
  const options=pc.components[adminSelectedCat];
  const showImageUpload=(adminSelectedCat==="case"||adminSelectedCat==="cooler");
- const showSocketSelect=(adminSelectedCat==="cpu"||adminSelectedCat==="mobo");
- const showDDRSelect=(adminSelectedCat==="mobo"||adminSelectedCat==="ram");
 
  return `
   <div class="admin-box">
@@ -1383,22 +1425,18 @@ function renderComponentsTab(){
 
    <h3>${componentNames[adminSelectedCat]}</h3>
    <div class="option-list">
-    ${options.length?options.map((o,oi)=>{
-     const sock = o.socket || inferSocket(o.name);
-     const ddr = o.ddr || inferDDR(o.name);
-     const meta = [sock, ddr].filter(Boolean).join(" · ");
-     return `
+    ${options.length?options.map((o,oi)=>`
      <div class="admin-row">
       ${o.image?`<img src="${safe(o.image)}" alt="">`:`<div class="thumb-placeholder">N/A</div>`}
       <div class="row-info">
        <strong>${safe(o.name)}</strong>
-       <small>${Number(o.price)>0?"+ "+money(o.price):"Alapárban benne van"}${meta ? " · " + safe(meta) : ""}</small>
+       <small>${Number(o.price)>0?"+ "+money(o.price):"Alapárban benne van"}</small>
       </div>
       <div class="row-actions">
        <button type="button" class="secondary-btn btn-sm" onclick="editOption(${adminSelectedPC},'${adminSelectedCat}',${oi})">Szerkesztés</button>
        <button type="button" class="secondary-btn btn-sm danger" onclick="deleteOption(${adminSelectedPC},'${adminSelectedCat}',${oi})">Törlés</button>
       </div>
-     </div>`}).join(""):`<div class="empty">Nincs opció ebben a kategóriában.</div>`}
+     </div>`).join(""):`<div class="empty">Nincs opció ebben a kategóriában.</div>`}
    </div>
 
    <div style="margin-top:20px;padding-top:16px;border-top:1px solid #1d212e">
@@ -1406,34 +1444,13 @@ function renderComponentsTab(){
     <div class="admin-grid-3">
      <div>
       <label for="newOptName">Név</label>
-      <input id="newOptName" placeholder="pl. Ryzen 5 5600 / MSI B550M">
+      <input id="newOptName" placeholder="pl. B650M / 750W 80+ Gold">
      </div>
      <div>
       <label for="newOptPrice">Felár (RON)</label>
       <input id="newOptPrice" type="number" value="0">
      </div>
      <button type="button" class="secondary-btn" onclick="addOptionFromTab()">+ Hozzáadás</button>
-    </div>
-    <div class="admin-grid-2" style="margin-top:10px">
-     ${showSocketSelect?`
-      <div>
-       <label for="newOptSocket">Foglalat / Platform</label>
-       <select id="newOptSocket">
-        <option value="">Automatikus / Nincs</option>
-        <option value="AM4">AM4 (AMD)</option>
-        <option value="AM5">AM5 (AMD)</option>
-        <option value="LGA1700">LGA1700 (Intel)</option>
-       </select>
-      </div>`:""}
-     ${showDDRSelect?`
-      <div>
-       <label for="newOptDDR">RAM típus</label>
-       <select id="newOptDDR">
-        <option value="">Automatikus / Nincs</option>
-        <option value="DDR4">DDR4</option>
-        <option value="DDR5">DDR5</option>
-       </select>
-      </div>`:""}
     </div>
     ${showImageUpload?`
      <div style="margin-top:12px;max-width:360px">
@@ -1484,13 +1501,9 @@ function addOptionFromTab(){
  const name=document.getElementById("newOptName").value.trim();
  const price=Number(document.getElementById("newOptPrice").value)||0;
  if(!name){alert("Add meg a nevet.");return;}
- const socket = document.getElementById("newOptSocket")?.value || inferSocket(name);
- const ddr = document.getElementById("newOptDDR")?.value || inferDDR(name);
  const file=document.getElementById("newOptImg")?.files?.[0];
  const finish=image=>{
   const option={name,price};
-  if(socket)option.socket=socket;
-  if(ddr)option.ddr=ddr;
   if(image)option.image=image;
   if(!Array.isArray(data[adminSelectedPC].components[adminSelectedCat])){
    data[adminSelectedPC].components[adminSelectedCat]=[];
@@ -1522,8 +1535,6 @@ function editOption(pi,key,oi){
  if(price===null)return;
  o.name=name.trim()||o.name;
  o.price=Number(price)||0;
- o.socket=inferSocket(o.name)||o.socket||"";
- o.ddr=inferDDR(o.name)||o.ddr||"";
  if(key==="case"||key==="cooler"){
   if(confirm("Vrei să schimbi și imaginea?")){
    const picker=document.createElement("input");
@@ -1585,3 +1596,4 @@ updateCornerTrigger();
 </script>
 </body>
 </html>
+```[cite: 5]
