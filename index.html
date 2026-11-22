@@ -7,30 +7,38 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
-      background: radial-gradient(circle at 20% 10%, #0b2559 0%, #050d24 52%, #020612 100%);
+      background-color: #030917;
+      background-image:
+        radial-gradient(circle at 15% 15%, rgba(14, 165, 233, 0.22), transparent 42%),
+        radial-gradient(circle at 85% 20%, rgba(37, 99, 235, 0.22), transparent 45%),
+        linear-gradient(to right, rgba(56, 189, 248, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(56, 189, 248, 0.05) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 44px 44px, 44px 44px;
       color: #f8fafc;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
-    .glass-panel {
-      background: linear-gradient(145deg, rgba(12, 33, 76, 0.78), rgba(5, 15, 38, 0.92));
-      border: 1px solid rgba(56, 189, 248, 0.25);
-      box-shadow: 0 18px 45px rgba(2, 132, 199, 0.12), inset 0 1px 0 rgba(125, 211, 252, 0.18);
+    .pro-card {
+      background: linear-gradient(160deg, rgba(11, 27, 58, 0.92), rgba(4, 12, 28, 0.96));
+      border: 1px solid rgba(56, 189, 248, 0.22);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(125, 211, 252, 0.14);
+      transition: all 0.22s ease;
     }
-    .glass-panel:hover {
+    .pro-card:hover {
       border-color: rgba(56, 189, 248, 0.65);
-      box-shadow: 0 20px 50px rgba(14, 165, 233, 0.24), inset 0 1px 0 rgba(186, 230, 253, 0.3);
+      transform: translateY(-3px);
+      box-shadow: 0 24px 60px rgba(2, 132, 199, 0.22), inset 0 1px 0 rgba(186, 230, 253, 0.28);
     }
-    .neon-btn {
+    .cyan-cta {
       background: linear-gradient(135deg, #38bdf8, #0284c7);
-      box-shadow: 0 0 24px rgba(56, 189, 248, 0.35);
+      box-shadow: 0 8px 28px rgba(14, 165, 233, 0.35);
     }
-    .neon-btn:hover {
+    .cyan-cta:hover {
       background: linear-gradient(135deg, #7dd3fc, #0ea5e9);
     }
   </style>
 </head>
-<body class="min-h-screen selection:bg-sky-400 selection:text-slate-950">
-  <div id="app"></div>
+<body class="min-h-screen flex flex-col">
+  <div id="app" class="flex-1 flex flex-col"></div>
 
   <script>
     const STORAGE_KEY = 'er1k_pc_site_v1';
@@ -132,7 +140,7 @@
       host.appendChild(canvas);
 
       const ctx = canvas.getContext('2d');
-      let yaw = -0.58;
+      let yaw = -0.62;
       let pitch = 0.24;
       let dragging = false;
       let lastX = 0;
@@ -164,8 +172,8 @@
         const x1 = x * cy - z * sy;
         const z1 = x * sy + z * cy;
         const y2 = y * cp - z1 * sp;
-        const z2 = y * sp + z1 * cp + 5.2;
-        const fov = Math.min(w, h) * 0.92;
+        const z2 = y * sp + z1 * cp + 5.1;
+        const fov = Math.min(w, h) * 0.95;
         const scale = fov / Math.max(z2, 1.2);
         return { px: w * 0.5 + x1 * scale, py: h * 0.52 - y2 * scale, z: z2 };
       }
@@ -196,7 +204,7 @@
           ctx.fillStyle = fill;
           ctx.fill();
           ctx.strokeStyle = stroke;
-          ctx.lineWidth = 1.4;
+          ctx.lineWidth = 1.5;
           ctx.stroke();
         });
       }
@@ -207,26 +215,21 @@
         const h = canvas.clientHeight || host.clientHeight;
         ctx.clearRect(0, 0, w, h);
 
-        if (!dragging) yaw += 0.004;
+        if (!dragging) yaw += 0.0045;
         gpuSlide += (targetGpuSlide - gpuSlide) * 0.14;
 
-        // Grid floor glow
-        const grad = ctx.createRadialGradient(w * 0.5, h * 0.62, 10, w * 0.5, h * 0.62, w * 0.42);
-        grad.addColorStop(0, 'rgba(56, 189, 248, 0.22)');
-        grad.addColorStop(1, 'rgba(2, 6, 23, 0)');
+        const grad = ctx.createRadialGradient(w * 0.5, h * 0.55, 12, w * 0.5, h * 0.55, w * 0.45);
+        grad.addColorStop(0, 'rgba(56, 189, 248, 0.25)');
+        grad.addColorStop(1, 'rgba(3, 9, 23, 0)');
         ctx.fillStyle = grad;
         ctx.fillRect(0, 0, w, h);
 
-        // Case frame + glass tint
-        drawBox(0, 0, 0, 1.35, 1.95, 1.75, 'rgba(14, 38, 86, 0.24)', 'rgba(56, 189, 248, 0.65)', w, h);
-        // PSU shroud
-        drawBox(0, -0.72, 0, 1.24, 0.42, 1.62, 'rgba(7, 20, 48, 0.88)', 'rgba(125, 211, 252, 0.35)', w, h);
-        // Front fans
+        drawBox(0, 0, 0, 1.35, 1.95, 1.75, 'rgba(15, 42, 94, 0.26)', 'rgba(56, 189, 248, 0.72)', w, h);
+        drawBox(0, -0.72, 0, 1.24, 0.42, 1.62, 'rgba(7, 22, 54, 0.92)', 'rgba(125, 211, 252, 0.38)', w, h);
         [-0.52, 0.05, 0.62].forEach((fy) => {
-          drawBox(0, fy, 0.84, 0.46, 0.46, 0.08, 'rgba(56, 189, 248, 0.2)', 'rgba(125, 211, 252, 0.8)', w, h);
+          drawBox(0, fy, 0.84, 0.46, 0.46, 0.08, 'rgba(56, 189, 248, 0.22)', 'rgba(125, 211, 252, 0.85)', w, h);
         });
-        // Sliding GPU
-        drawBox(0.12 + gpuSlide * 0.95, -0.1, 0.05, 0.72, 0.16, 1.15, 'rgba(2, 132, 199, 0.85)', 'rgba(186, 230, 253, 0.95)', w, h);
+        drawBox(0.12 + gpuSlide * 0.95, -0.1, 0.05, 0.72, 0.16, 1.15, 'rgba(2, 132, 199, 0.88)', 'rgba(186, 230, 253, 0.98)', w, h);
       }
       frame();
     }
@@ -264,38 +267,120 @@
       const root = document.getElementById('app');
 
       if (state.view === 'home') {
+        const featured = pcs[2] || pcs[0];
         root.innerHTML = `
-          <header class="border-b border-sky-400/20 bg-[#050e24]/85 backdrop-blur px-6 py-4 flex justify-between items-center">
-            <span class="font-black text-xl tracking-widest text-sky-400">ER1K PC</span>
-            <button id="goAdmin" class="text-xs px-3.5 py-1.5 rounded-lg border border-sky-400/35 text-sky-300 hover:bg-sky-400/15 transition">Admin</button>
+          <header class="border-b border-sky-400/15 bg-[#040c1e]/85 backdrop-blur-md sticky top-0 z-30">
+            <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+              <div class="flex items-center gap-2.5">
+                <span class="w-8 h-8 rounded-lg cyan-cta flex items-center justify-center text-slate-950 font-black text-sm">E1</span>
+                <span class="font-black text-lg tracking-wider text-white">ER1K <span class="text-sky-400">PC</span></span>
+              </div>
+              <div class="flex items-center gap-3">
+                <a href="#sisteme" class="hidden sm:inline-block text-xs font-semibold text-sky-200/80 hover:text-sky-300 px-3 py-1.5">Sisteme</a>
+                <button id="goAdmin" class="text-xs font-bold px-3.5 py-1.5 rounded-lg border border-sky-400/35 text-sky-300 hover:bg-sky-400/15 transition">Admin</button>
+              </div>
+            </div>
           </header>
 
-          <section class="max-w-6xl mx-auto px-6 pt-10 pb-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            <div class="lg:col-span-6">
-              <p class="text-xs uppercase tracking-[0.2em] text-sky-400 font-bold mb-3">Configurator 3D</p>
-              <h1 class="text-4xl md:text-6xl font-black tracking-tight mb-4">Sisteme <span class="text-sky-400">Er1k PC</span></h1>
-              <p class="text-sky-100/75 text-sm md:text-base max-w-md">Alege unul dintre cele 5 modele principale și configurează-l în 3D.</p>
+          <section class="max-w-6xl mx-auto px-6 pt-12 pb-10 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            <div class="lg:col-span-7">
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-400/10 border border-sky-400/25 text-sky-300 text-xs font-semibold mb-5">
+                <span>●</span> Configurator 3D • Asamblare Custom
+              </div>
+              <h1 class="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-[1.06] mb-5">
+                PC Gaming <span class="text-sky-400">Custom</span><br/>
+                <span class="text-white">Performanță</span> <span class="text-sky-400">Premium</span>
+              </h1>
+              <p class="text-sky-100/75 text-sm md:text-base max-w-xl leading-relaxed mb-7">
+                Alege unul dintre cele 5 modele principale Er1k PC, personalizează componentele și configurează-ți sistemul în 3D.
+              </p>
+              <div class="flex flex-wrap gap-3.5 mb-8">
+                <button id="heroCfgBtn" class="cyan-cta px-6 py-3.5 rounded-xl text-slate-950 font-extrabold text-sm tracking-wide">
+                  Configurator PC →
+                </button>
+                <a href="#sisteme" class="px-6 py-3.5 rounded-xl border border-sky-400/30 bg-sky-950/30 text-sky-100 font-bold text-sm hover:border-sky-400/60 transition">
+                  Vezi Sisteme
+                </a>
+              </div>
+              <div class="grid grid-cols-3 gap-3 max-w-lg">
+                <div class="pro-card rounded-xl p-3.5">
+                  <div class="text-base font-black text-sky-400">240+ FPS</div>
+                  <div class="text-[11px] text-sky-100/65">Gaming fluent</div>
+                </div>
+                <div class="pro-card rounded-xl p-3.5">
+                  <div class="text-base font-black text-sky-400">5 Modele</div>
+                  <div class="text-[11px] text-sky-100/65">Start → Ultimate</div>
+                </div>
+                <div class="pro-card rounded-xl p-3.5">
+                  <div class="text-base font-black text-sky-400">3D Live</div>
+                  <div class="text-[11px] text-sky-100/65">Răcire & GPU</div>
+                </div>
+              </div>
             </div>
-            <div class="lg:col-span-6">
-              <div id="hero3d" class="glass-panel w-full h-80 rounded-2xl overflow-hidden"></div>
+
+            <div class="lg:col-span-5">
+              <div class="pro-card rounded-2xl p-4">
+                <div class="flex items-center justify-between text-xs text-sky-300/80 mb-2 px-1">
+                  <span class="font-bold uppercase tracking-wider">Previzualizare 3D</span>
+                  <span class="px-2 py-0.5 rounded bg-sky-400/15 text-sky-300 font-semibold">${featured.name}</span>
+                </div>
+                <div id="hero3d" class="w-full h-72 rounded-xl overflow-hidden bg-[#040c1f] border border-sky-400/15"></div>
+                <div class="mt-4 pt-3 border-t border-sky-400/15 flex items-center justify-between">
+                  <div>
+                    <div class="text-xs text-sky-100/60">De la</div>
+                    <div class="text-xl font-black text-sky-300">${featured.basePrice.toLocaleString('ro-RO')} RON</div>
+                  </div>
+                  <button data-pc="${featured.id}" class="pcCard cyan-cta px-4 py-2.5 rounded-xl text-slate-950 font-extrabold text-xs">
+                    Configurează
+                  </button>
+                </div>
+              </div>
             </div>
           </section>
 
-          <main class="max-w-6xl mx-auto px-6 pb-20">
+          <main id="sisteme" class="max-w-6xl mx-auto px-6 py-10">
+            <div class="mb-6">
+              <p class="text-xs uppercase tracking-[0.2em] text-sky-400 font-bold mb-1">Gama Principală</p>
+              <h2 class="text-2xl md:text-3xl font-black text-white">Cele 5 modele Er1k PC</h2>
+            </div>
+
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               ${pcs.map((pc) => `
-                <div data-pc="${pc.id}" class="pcCard glass-panel cursor-pointer rounded-2xl p-6 transition flex flex-col justify-between">
-                  <h2 class="text-2xl font-extrabold mb-7 text-white">${pc.name}</h2>
-                  <div class="flex items-center justify-between pt-4 border-t border-sky-400/20">
+                <div data-pc="${pc.id}" class="pcCard pro-card cursor-pointer rounded-2xl p-6 flex flex-col justify-between">
+                  <div>
+                    <span class="inline-block text-[11px] font-bold uppercase tracking-wider text-sky-400 mb-2">Sistem Custom</span>
+                    <h3 class="text-2xl font-black text-white mb-6">${pc.name}</h3>
+                  </div>
+                  <div class="flex items-center justify-between pt-4 border-t border-sky-400/15">
                     <span class="text-xl font-black text-sky-300">${pc.basePrice.toLocaleString('ro-RO')} RON</span>
-                    <span class="neon-btn px-4 py-2 rounded-xl text-slate-950 font-extrabold text-sm">Configurează</span>
+                    <span class="cyan-cta px-4 py-2 rounded-xl text-slate-950 font-extrabold text-xs">Configurează</span>
                   </div>
                 </div>
               `).join('')}
             </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12 pt-8 border-t border-sky-400/15">
+              <div class="pro-card rounded-xl p-4">
+                <div class="text-sm font-extrabold text-white">Configurare Custom</div>
+                <div class="text-xs text-sky-100/65 mt-1">GPU, CPU, SSD, RAM, Carcasă & Răcire</div>
+              </div>
+              <div class="pro-card rounded-xl p-4">
+                <div class="text-sm font-extrabold text-white">Prețuri Actualizate</div>
+                <div class="text-xs text-sky-100/65 mt-1">Calcul instant în RON</div>
+              </div>
+              <div class="pro-card rounded-xl p-4">
+                <div class="text-sm font-extrabold text-white">Contact Rapid</div>
+                <div class="text-xs text-sky-100/65 mt-1">Comandă direct pe TikTok</div>
+              </div>
+              <div class="pro-card rounded-xl p-4">
+                <div class="text-sm font-extrabold text-white">Calitate Testată</div>
+                <div class="text-xs text-sky-100/65 mt-1">Fiecare sistem verificat</div>
+              </div>
+            </div>
           </main>
         `;
         document.getElementById('goAdmin').onclick = () => { state.view = 'admin'; render(); };
+        document.getElementById('heroCfgBtn').onclick = () => selectPc(featured.id);
         document.querySelectorAll('.pcCard').forEach((el) => {
           el.onclick = () => selectPc(el.getAttribute('data-pc'));
         });
@@ -310,7 +395,7 @@
 
         const listHtml = (items, selectedId, cls) => items.map((it) => `
           <button type="button" data-id="${it.id}" class="${cls} w-full flex justify-between items-center px-3.5 py-2.5 rounded-xl text-sm border transition ${
-            selectedId === it.id ? 'border-sky-300 bg-sky-400/25 text-white font-semibold' : 'border-sky-400/15 bg-[#040a1a]/80 text-sky-100/80 hover:border-sky-400/40'
+            selectedId === it.id ? 'border-sky-300 bg-sky-400/25 text-white font-semibold' : 'border-sky-400/15 bg-[#040b1c]/85 text-sky-100/80 hover:border-sky-400/40'
           }">
             <span class="truncate pr-2">${it.name}</span>
             <span class="text-sky-300 font-bold shrink-0">+${it.price} RON</span>
@@ -319,9 +404,9 @@
 
         const cardGridHtml = (items, selectedId, cls) => items.map((it) => `
           <button type="button" data-id="${it.id}" class="${cls} rounded-xl overflow-hidden border text-left transition ${
-            selectedId === it.id ? 'border-sky-300 bg-sky-400/25 ring-2 ring-sky-400/40' : 'border-sky-400/15 bg-[#040a1a]/80 hover:border-sky-400/40'
+            selectedId === it.id ? 'border-sky-300 bg-sky-400/25 ring-2 ring-sky-400/40' : 'border-sky-400/15 bg-[#040b1c]/85 hover:border-sky-400/40'
           }">
-            ${it.img ? `<img src="${it.img}" alt="${it.name}" class="w-full h-24 object-cover" />` : `<div class="w-full h-24 bg-[#081b42] flex items-center justify-center text-xs text-sky-300/70">Fără poză</div>`}
+            ${it.img ? `<img src="${it.img}" alt="${it.name}" class="w-full h-24 object-cover" />` : `<div class="w-full h-24 bg-[#07193d] flex items-center justify-center text-xs text-sky-300/70">Fără poză</div>`}
             <div class="p-2.5">
               <div class="text-xs font-semibold truncate text-white">${it.name}</div>
               <div class="text-xs font-bold text-sky-300 mt-1">+${it.price} RON</div>
@@ -330,10 +415,10 @@
         `).join('');
 
         root.innerHTML = `
-          <header class="border-b border-sky-400/20 bg-[#050e24]/85 px-6 py-4 flex justify-between items-center">
-            <button id="backHome" class="text-sm text-sky-300 hover:underline">← Înapoi</button>
-            <span class="font-bold text-sky-200">${pc.name}</span>
-            <button id="goAdmin" class="text-xs px-3 py-1.5 rounded-lg border border-sky-400/30 text-sky-300">Admin</button>
+          <header class="border-b border-sky-400/15 bg-[#040c1e]/90 px-6 py-4 flex justify-between items-center">
+            <button id="backHome" class="text-sm font-semibold text-sky-300 hover:underline">← Înapoi</button>
+            <span class="font-extrabold text-white">${pc.name}</span>
+            <button id="goAdmin" class="text-xs font-bold px-3.5 py-1.5 rounded-lg border border-sky-400/30 text-sky-300">Admin</button>
           </header>
 
           <div class="max-w-7xl mx-auto px-4 md:px-6 pt-6 pb-20">
@@ -343,46 +428,46 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
               <div class="lg:col-span-3 space-y-4">
-                <div id="gpuBox" class="glass-panel p-4 rounded-2xl transition">
-                  <div class="text-xs font-bold uppercase tracking-wider text-sky-300 mb-2">GPU</div>
+                <div id="gpuBox" class="pro-card p-4 rounded-2xl">
+                  <div class="text-xs font-bold uppercase tracking-wider text-sky-400 mb-2">GPU</div>
                   <div class="space-y-1.5">${listHtml(pc.gpus, state.gpuId, 'gpuBtn')}</div>
                 </div>
-                <div class="glass-panel p-4 rounded-2xl">
-                  <div class="text-xs font-bold uppercase tracking-wider text-sky-300 mb-2">CPU</div>
+                <div class="pro-card p-4 rounded-2xl">
+                  <div class="text-xs font-bold uppercase tracking-wider text-sky-400 mb-2">CPU</div>
                   <div class="space-y-1.5">${listHtml(pc.cpus, state.cpuId, 'cpuBtn')}</div>
                 </div>
               </div>
 
               <div class="lg:col-span-6">
-                <div id="cfg3d" class="glass-panel w-full h-96 md:h-[440px] rounded-2xl overflow-hidden"></div>
+                <div id="cfg3d" class="pro-card w-full h-96 md:h-[440px] rounded-2xl overflow-hidden"></div>
               </div>
 
               <div class="lg:col-span-3 space-y-4">
-                <div class="glass-panel p-4 rounded-2xl">
-                  <div class="text-xs font-bold uppercase tracking-wider text-sky-300 mb-2">SSD</div>
+                <div class="pro-card p-4 rounded-2xl">
+                  <div class="text-xs font-bold uppercase tracking-wider text-sky-400 mb-2">SSD</div>
                   <div class="space-y-1.5">${listHtml(pc.ssds, state.ssdId, 'ssdBtn')}</div>
                 </div>
-                <div class="glass-panel p-4 rounded-2xl">
-                  <div class="text-xs font-bold uppercase tracking-wider text-sky-300 mb-2">RAM</div>
+                <div class="pro-card p-4 rounded-2xl">
+                  <div class="text-xs font-bold uppercase tracking-wider text-sky-400 mb-2">RAM</div>
                   <div class="space-y-1.5">${listHtml(pc.rams, state.ramId, 'ramBtn')}</div>
                 </div>
               </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-              <div class="glass-panel p-5 rounded-2xl">
-                <div class="text-xs font-bold uppercase tracking-wider text-sky-300 mb-3">Carcasă PC *</div>
+              <div class="pro-card p-5 rounded-2xl">
+                <div class="text-xs font-bold uppercase tracking-wider text-sky-400 mb-3">Carcasă PC *</div>
                 <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">${cardGridHtml(pc.cases, state.caseId, 'caseBtn')}</div>
               </div>
-              <div class="glass-panel p-5 rounded-2xl">
-                <div class="text-xs font-bold uppercase tracking-wider text-sky-300 mb-3">Răcire CPU *</div>
+              <div class="pro-card p-5 rounded-2xl">
+                <div class="text-xs font-bold uppercase tracking-wider text-sky-400 mb-3">Răcire CPU *</div>
                 <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">${cardGridHtml(pc.coolers, state.coolerId, 'coolerBtn')}</div>
               </div>
             </div>
 
             <div class="mt-10 text-center">
               ${!canBuy ? `<p class="text-amber-300 text-xs mb-3">Selectează Carcasă PC și Răcire CPU.</p>` : ''}
-              <button id="buyBtn" ${!canBuy ? 'disabled' : ''} class="neon-btn px-10 py-4 rounded-2xl disabled:opacity-40 disabled:cursor-not-allowed text-slate-950 font-black text-lg">
+              <button id="buyBtn" ${!canBuy ? 'disabled' : ''} class="cyan-cta px-10 py-4 rounded-2xl disabled:opacity-40 disabled:cursor-not-allowed text-slate-950 font-black text-lg">
                 Cumpără
               </button>
             </div>
@@ -390,7 +475,7 @@
 
           ${state.modalOpen ? `
             <div class="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
-              <div class="glass-panel rounded-2xl max-w-md w-full p-6">
+              <div class="pro-card rounded-2xl max-w-md w-full p-6">
                 <h3 class="text-xl font-black mb-4">${pc.name}</h3>
                 <ul class="space-y-1.5 text-sm text-sky-100 mb-4">
                   <li>GPU: ${g?.name || '-'} (+${g?.price || 0} RON)</li>
@@ -403,7 +488,7 @@
                 <div class="text-xl font-black text-sky-300 mb-5">Total: ${total.toLocaleString('ro-RO')} RON</div>
                 <div class="flex gap-3">
                   <button id="closeModal" class="px-4 py-3 rounded-xl border border-sky-400/25 text-sm">Închide</button>
-                  <a href="${TIKTOK_URL}" target="_blank" rel="noopener noreferrer" class="neon-btn flex-1 py-3 rounded-xl text-slate-950 font-black text-center text-sm">
+                  <a href="${TIKTOK_URL}" target="_blank" rel="noopener noreferrer" class="cyan-cta flex-1 py-3 rounded-xl text-slate-950 font-black text-center text-sm">
                     Scrie-mi pe TikTok
                   </a>
                 </div>
@@ -438,16 +523,16 @@
       if (state.view === 'admin') {
         if (!state.adminAuthed) {
           root.innerHTML = `
-            <header class="border-b border-sky-400/20 bg-[#050e24]/85 px-6 py-4 flex justify-between items-center">
+            <header class="border-b border-sky-400/15 bg-[#040c1e]/90 px-6 py-4 flex justify-between items-center">
               <button id="backHome" class="text-sm text-sky-300 hover:underline">← Acasă</button>
-              <span class="font-bold text-sky-200">Admin</span>
+              <span class="font-bold text-white">Admin</span>
               <div class="w-12"></div>
             </header>
-            <div class="min-h-[80vh] flex items-center justify-center p-4">
-              <form id="adminForm" class="glass-panel p-6 rounded-2xl max-w-xs w-full space-y-3">
+            <div class="flex-1 flex items-center justify-center p-4">
+              <form id="adminForm" class="pro-card p-6 rounded-2xl max-w-xs w-full space-y-3">
                 <div class="font-bold text-sky-300">Autentificare Admin</div>
-                <input id="adminPass" type="password" placeholder="Parola" class="w-full px-3 py-2 rounded-xl bg-[#040a1a] border border-sky-400/25 text-sm" />
-                <button type="submit" class="neon-btn w-full py-2 rounded-xl text-slate-950 font-bold text-sm">Intră</button>
+                <input id="adminPass" type="password" placeholder="Parola" class="w-full px-3 py-2 rounded-xl bg-[#040b1c] border border-sky-400/25 text-sm" />
+                <button type="submit" class="cyan-cta w-full py-2 rounded-xl text-slate-950 font-bold text-sm">Intră</button>
               </form>
             </div>
           `;
@@ -473,38 +558,38 @@
         ];
 
         root.innerHTML = `
-          <header class="border-b border-sky-400/20 bg-[#050e24]/85 px-6 py-4 flex justify-between items-center">
+          <header class="border-b border-sky-400/15 bg-[#040c1e]/90 px-6 py-4 flex justify-between items-center">
             <button id="backHome" class="text-sm text-sky-300 hover:underline">← Acasă</button>
-            <button id="saveAdmin" class="neon-btn px-5 py-2 rounded-xl text-slate-950 font-bold text-sm">
+            <button id="saveAdmin" class="cyan-cta px-5 py-2 rounded-xl text-slate-950 font-bold text-sm">
               ${state.savedNotice ? 'Salvat!' : 'Salvează'}
             </button>
           </header>
 
-          <div class="max-w-5xl mx-auto px-4 py-6 pb-20 space-y-5">
+          <div class="max-w-5xl mx-auto px-4 py-6 pb-20 space-y-5 w-full">
             <div class="flex flex-wrap gap-2">
               ${pcs.map((p) => `
                 <button data-tab="${p.id}" class="pcTab px-4 py-2 rounded-xl text-sm font-bold ${
-                  p.id === cur.id ? 'neon-btn text-slate-950' : 'glass-panel text-sky-100/80'
+                  p.id === cur.id ? 'cyan-cta text-slate-950' : 'pro-card text-sky-100/80'
                 }">${p.name}</button>
               `).join('')}
             </div>
 
-            <div class="glass-panel p-4 rounded-2xl flex items-center justify-between">
+            <div class="pro-card p-4 rounded-2xl flex items-center justify-between">
               <span class="font-bold text-sm">Preț de bază (${cur.name})</span>
-              <input id="basePriceInput" type="number" value="${cur.basePrice}" class="w-32 px-3 py-1.5 rounded-lg bg-[#040a1a] border border-sky-400/25 text-right font-bold text-sky-300" />
+              <input id="basePriceInput" type="number" value="${cur.basePrice}" class="w-32 px-3 py-1.5 rounded-lg bg-[#040b1c] border border-sky-400/25 text-right font-bold text-sky-300" />
             </div>
 
             ${parts.map(([key, label, hasImg]) => `
-              <div class="glass-panel p-4 rounded-2xl">
+              <div class="pro-card p-4 rounded-2xl">
                 <div class="flex items-center justify-between mb-3">
-                  <span class="font-bold text-sm text-sky-300">${label}</span>
+                  <span class="font-bold text-sm text-sky-400">${label}</span>
                   <button data-add="${key}" class="addPartBtn px-3 py-1 rounded-lg bg-sky-400/20 text-sky-200 text-xs font-bold">+ Adaugă</button>
                 </div>
                 <div class="space-y-2">
                   ${cur[key].map((it) => `
-                    <div class="flex flex-wrap items-center gap-2 bg-[#040a1a]/80 p-2 rounded-xl">
-                      <input type="text" data-part="${key}" data-id="${it.id}" data-field="name" value="${it.name}" class="partInput flex-1 min-w-[140px] px-2.5 py-1.5 rounded-lg bg-[#071636] border border-sky-400/20 text-sm" />
-                      <input type="number" data-part="${key}" data-id="${it.id}" data-field="price" value="${it.price}" class="partInput w-24 px-2.5 py-1.5 rounded-lg bg-[#071636] border border-sky-400/20 text-sm text-right text-sky-300" />
+                    <div class="flex flex-wrap items-center gap-2 bg-[#040b1c]/85 p-2 rounded-xl">
+                      <input type="text" data-part="${key}" data-id="${it.id}" data-field="name" value="${it.name}" class="partInput flex-1 min-w-[140px] px-2.5 py-1.5 rounded-lg bg-[#071738] border border-sky-400/20 text-sm" />
+                      <input type="number" data-part="${key}" data-id="${it.id}" data-field="price" value="${it.price}" class="partInput w-24 px-2.5 py-1.5 rounded-lg bg-[#071738] border border-sky-400/20 text-sm text-right text-sky-300" />
                       ${hasImg ? `<input type="file" accept="image/*" data-part="${key}" data-id="${it.id}" class="imgInput text-xs text-sky-200/70 max-w-[170px]" />` : ''}
                       <button data-part="${key}" data-id="${it.id}" class="delPartBtn px-2.5 py-1 rounded-lg bg-rose-500/20 text-rose-300 text-xs font-bold">Șterge</button>
                     </div>
