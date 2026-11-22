@@ -513,7 +513,7 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
   border-bottom:1px solid #1d212e;
 }
 .admin-row:last-child{border-bottom:0}
-.admin-row img{width:52px;height:52px;object-fit:contain;background:#1a1e2b;border-radius:6px;flex-shrink:0}
+.admin-row img{width:52px;height:52px;object-fit:cover;background:#1a1e2b;border-radius:6px;flex-shrink:0}
 .thumb-placeholder{
   width:52px;height:52px;background:#131620;border:1px dashed #2b3042;
   border-radius:6px;display:grid;place-items:center;color:#6c7287;font-size:10px;font-weight:600;flex-shrink:0;
@@ -714,7 +714,7 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 
 <script>
 const _b = [101,114,49,107,50,48,50,54];
-const KEY = "er1k_pc_v12";
+const KEY = "er1k_pc_v10";
 const tierLabels = ["01 · ENTRY", "02 · POPULAR", "03 · PRO TIER", "04 · FLAGSHIP"];
 
 function _matchCode(val){
@@ -801,9 +801,6 @@ const componentNames={
 function clone(x){return JSON.parse(JSON.stringify(x))}
 
 function safeLoad(){
- if(window.__er1kMemoryData && Array.isArray(window.__er1kMemoryData) && window.__er1kMemoryData.length>0){
-  return window.__er1kMemoryData;
- }
  try{
   const raw=window.localStorage?window.localStorage.getItem(KEY):null;
   if(!raw)return clone(defaultData);
@@ -814,14 +811,12 @@ function safeLoad(){
 }
 
 function safeSave(){
- window.__er1kMemoryData=data;
  try{
   if(window.localStorage)window.localStorage.setItem(KEY,JSON.stringify(data));
  }catch(e){}
 }
 
 let data=safeLoad();
-window.__er1kMemoryData=data;
 let isAdminAuthed=false;
 let adminTab="models";
 let adminSelectedPC=0;
@@ -831,23 +826,6 @@ let selected={};
 
 function money(n){return Number(n||0).toLocaleString("ro-RO")+" RON"}
 function safe(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
-function safeImg(src){
- const s=String(src||"").trim();
- if(!s)return "";
- if(s.startsWith("data:image/")||s.startsWith("https://")||s.startsWith("http://")||s.startsWith("blob:"))return s;
- return "";
-}
-
-function readImageFile(file, callback){
- if(!file)return;
- const reader=new FileReader();
- reader.onload=()=>{
-  if(typeof reader.result==="string"&&reader.result.startsWith("data:image/")){
-   callback(reader.result);
-  }
- };
- reader.readAsDataURL(file);
-}
 
 function updateCornerTrigger(){
  const btn=document.getElementById("cornerAdminBtn");
@@ -912,7 +890,7 @@ function renderHome(){
   <article class="pc-card">
    <div class="pc-media">
     <span class="pc-tier">${tierLabels[i]||("0"+(i+1)+" · BUILD")}</span>
-    <img class="pc-photo" src="${safeImg(pc.image)}" alt="${safe(pc.name)}">
+    <img class="pc-photo" src="${safe(pc.image)}" alt="${safe(pc.name)}">
    </div>
    <div class="pc-details">
     <h3>${safe(pc.name)}</h3>
@@ -962,15 +940,12 @@ function renderComponentBox(key,pc){
  const options=pc.components[key]||[];
  return `<div class="component-section">
   <div class="component-title"><h3>${componentNames[key]}</h3><span>${options.length} OPȚIUNI</span></div>
-  <div class="choices">${options.map((o,i)=>{
-   const imgUrl=safeImg(o.image);
-   return `
+  <div class="choices">${options.map((o,i)=>`
    <button type="button" class="choice ${selected[key]===i?"selected":""}" onclick="choose('${key}',${i})">
-    ${imgUrl?`<img src="${imgUrl}" alt="${safe(o.name)}">`:""}
+    ${o.image?`<img src="${safe(o.image)}" alt="">`:""}
     <strong>${safe(o.name)}</strong>
     <small>${Number(o.price)>0?`<span class="extra">+ ${money(o.price)}</span>`:"Inclus în preț"}</small>
-   </button>`;
-  }).join("")}</div>
+   </button>`).join("")}</div>
  </div>`;
 }
 
@@ -987,7 +962,7 @@ function currentOption(key){
 function updateStage(){
  const c=currentOption("case");
  const pc=data[activePC];
- document.getElementById("stageImage").src=safeImg((c&&c.image)||pc.image);
+ document.getElementById("stageImage").src=(c&&c.image)||pc.image;
  document.getElementById("stageCaseName").textContent=c?c.name:"Carcasă";
 }
 
@@ -1062,7 +1037,7 @@ function renderModelsTab(){
     <textarea id="pcDesc">${safe(pc.description)}</textarea>
     <label>Imagine principală PC</label>
     <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:8px">
-     <img src="${safeImg(pc.image)}" style="width:84px;height:84px;object-fit:cover;border-radius:8px;border:1px solid #262b3b">
+     <img src="${safe(pc.image)}" style="width:84px;height:84px;object-fit:cover;border-radius:8px;border:1px solid #262b3b">
      <div style="flex:1;min-width:220px">
       <input type="file" accept="image/*" onchange="uploadPCImage(${adminSelectedPC},this)">
      </div>
@@ -1093,11 +1068,9 @@ function renderComponentsTab(){
 
    <h3>${componentNames[adminSelectedCat]}</h3>
    <div class="option-list">
-    ${options.length?options.map((o,oi)=>{
-     const imgUrl=safeImg(o.image);
-     return `
+    ${options.length?options.map((o,oi)=>`
      <div class="admin-row">
-      ${imgUrl?`<img src="${imgUrl}" alt="${safe(o.name)}">`:`<div class="thumb-placeholder">N/A</div>`}
+      ${o.image?`<img src="${safe(o.image)}" alt="">`:`<div class="thumb-placeholder">N/A</div>`}
       <div class="row-info">
        <strong>${safe(o.name)}</strong>
        <small>${Number(o.price)>0?"+ "+money(o.price):"Alapárban benne van"}</small>
@@ -1106,8 +1079,7 @@ function renderComponentsTab(){
        <button type="button" class="secondary-btn btn-sm" onclick="editOption(${adminSelectedPC},'${adminSelectedCat}',${oi})">Szerkesztés</button>
        <button type="button" class="secondary-btn btn-sm danger" onclick="deleteOption(${adminSelectedPC},'${adminSelectedCat}',${oi})">Törlés</button>
       </div>
-     </div>`;
-    }).join(""):`<div class="empty">Nincs opció ebben a kategóriában.</div>`}
+     </div>`).join(""):`<div class="empty">Nincs opció ebben a kategóriában.</div>`}
    </div>
 
    <div style="margin-top:20px;padding-top:16px;border-top:1px solid #1d212e">
@@ -1115,7 +1087,7 @@ function renderComponentsTab(){
     <div class="admin-grid-3">
      <div>
       <label for="newOptName">Név</label>
-      <input id="newOptName" placeholder="pl. Arctic Freezer 36">
+      <input id="newOptName" placeholder="pl. RTX 5060 Ti 16GB">
      </div>
      <div>
       <label for="newOptPrice">Felár (RON)</label>
@@ -1154,13 +1126,14 @@ function saveCurrentPC(){
 
 function uploadPCImage(i,input){
  const file=input.files[0];if(!file)return;
- readImageFile(file, imgData=>{
-  data[i].image=imgData;
+ const reader=new FileReader();
+ reader.onload=()=>{
+  data[i].image=reader.result;
   safeSave();
   renderHome();
   renderAdmin();
-  if(activePC===i)updateStage();
- });
+ };
+ reader.readAsDataURL(file);
 }
 
 function addOptionFromTab(){
@@ -1169,15 +1142,17 @@ function addOptionFromTab(){
  if(!name){alert("Add meg a nevet.");return;}
  const file=document.getElementById("newOptImg")?.files?.[0];
  const finish=image=>{
-  const option={name,price,image:image||""};
+  const option={name,price};
+  if(image)option.image=image;
   if(!data[adminSelectedPC].components[adminSelectedCat])data[adminSelectedPC].components[adminSelectedCat]=[];
   data[adminSelectedPC].components[adminSelectedCat].push(option);
   safeSave();
   renderAdmin();
-  if(activePC===adminSelectedPC)renderConfig();
  };
  if(file){
-  readImageFile(file, imgData=>finish(imgData));
+  const reader=new FileReader();
+  reader.onload=()=>finish(reader.result);
+  reader.readAsDataURL(file);
  }else finish("");
 }
 
@@ -1195,20 +1170,16 @@ function editOption(pi,key,oi){
    picker.type="file";picker.accept="image/*";
    picker.onchange=()=>{
     const file=picker.files[0];if(!file)return;
-    readImageFile(file, imgData=>{
-     o.image=imgData;
-     safeSave();
-     renderAdmin();
-     if(activePC===pi)renderConfig();
-    });
+    const reader=new FileReader();
+    reader.onload=()=>{o.image=reader.result;safeSave();renderAdmin()};
+    reader.readAsDataURL(file);
    };
    picker.click();
-   return;
+   safeSave();return;
   }
  }
  safeSave();
  renderAdmin();
- if(activePC===pi)renderConfig();
 }
 
 function deleteOption(pi,key,oi){
@@ -1216,13 +1187,11 @@ function deleteOption(pi,key,oi){
  data[pi].components[key].splice(oi,1);
  safeSave();
  renderAdmin();
- if(activePC===pi)renderConfig();
 }
 
 function resetDefaults(){
  if(!confirm("Visszaállítod az alapértelmezett adatokat?"))return;
  data=clone(defaultData);
- window.__er1kMemoryData=data;
  adminSelectedPC=0;
  adminSelectedCat="gpu";
  safeSave();
