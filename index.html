@@ -714,7 +714,7 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 
 <script>
 const _b = [101,114,49,107,50,48,50,54];
-const KEY = "er1k_pc_v11";
+const KEY = "er1k_pc_v10";
 const tierLabels = ["01 · ENTRY", "02 · POPULAR", "03 · PRO TIER", "04 · FLAGSHIP"];
 
 function _matchCode(val){
@@ -831,7 +831,8 @@ function normalizeData(list){
 
 function safeLoad(){
  try{
-  const raw=window.localStorage?window.localStorage.getItem(KEY):null;
+  if(!window.localStorage)return clone(defaultData);
+  const raw = window.localStorage.getItem(KEY) || window.localStorage.getItem("er1k_pc_v11");
   if(!raw)return clone(defaultData);
   const parsed=JSON.parse(raw);
   if(Array.isArray(parsed)&&parsed.length>0)return normalizeData(parsed);
