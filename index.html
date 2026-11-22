@@ -747,7 +747,7 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 
 <script>
 const _b = [101,114,49,107,50,48,50,54];
-const KEY = "er1k_pc_v12";
+const KEY = "er1k_pc_v13";
 const tierLabels = ["01 · ENTRY", "02 · POPULAR", "03 · PRO TIER", "04 · FLAGSHIP"];
 
 function _matchCode(val){
@@ -1099,33 +1099,13 @@ function renderHome(){
 }
 
 function isOptionCompatible(pc, key, option, currentSelected){
- const cpus = pc.components.cpu || [];
  const mobos = pc.components.mobo || [];
  const rams = pc.components.ram || [];
-
- const cpu = cpus[currentSelected.cpu ?? 0] || cpus[0];
  const mobo = mobos[currentSelected.mobo ?? 0] || mobos[0];
  const ram = rams[currentSelected.ram ?? 0] || rams[0];
 
- if(key === "cpu"){
-  const moboSocket = mobo?.socket || inferSocket(mobo?.name);
-  const optSocket = option.socket || inferSocket(option.name);
-  if(moboSocket && optSocket && moboSocket !== optSocket){
-   return { ok: false, reason: `Necesită placă de bază ${optSocket}` };
-  }
- }
-
- if(key === "mobo"){
-  const cpuSocket = cpu?.socket || inferSocket(cpu?.name);
-  const optSocket = option.socket || inferSocket(option.name);
-  if(cpuSocket && optSocket && cpuSocket !== optSocket){
-   return { ok: false, reason: `Compatibil doar cu ${optSocket}` };
-  }
-  const ramDDR = ram?.ddr || inferDDR(ram?.name);
-  const optDDR = option.ddr || inferDDR(option.name);
-  if(ramDDR && optDDR && ramDDR !== optDDR){
-   return { ok: false, reason: `Necesită memorie ${optDDR}` };
-  }
+ if(key === "cpu" || key === "mobo"){
+  return { ok: true, reason: "" };
  }
 
  if(key === "ram"){
@@ -1218,7 +1198,7 @@ function renderComponentBox(key,pc){
 
  let noteHtml = "";
  if(key === "cpu" || key === "mobo"){
-  noteHtml = `<div class="compat-note">Platformă activă: <strong>${safe(activeSocket || "Standard")}</strong> — se pot selecta doar componente compatibile.</div>`;
+  noteHtml = `<div class="compat-note">Platformă activă: <strong>${safe(activeSocket || "Standard")}</strong> — la click se sincronizează automat CPU și placa de bază.</div>`;
  }
 
  return `<div class="component-section">
@@ -1263,6 +1243,18 @@ function choose(key,i){
    const firstCompatMobo = (pc.components.mobo || []).findIndex(m => (m.socket || inferSocket(m.name)) === cpuSocket);
    if(firstCompatMobo !== -1){
     selected.mobo = firstCompatMobo;
+   }
+  }
+ }
+
+ if(key === "mobo"){
+  const moboSocket = option.socket || inferSocket(option.name);
+  const currentCpu = (pc.components.cpu || [])[selected.cpu ?? 0];
+  const currentCpuSocket = currentCpu?.socket || inferSocket(currentCpu?.name);
+  if(moboSocket && currentCpuSocket !== moboSocket){
+   const firstCompatCpu = (pc.components.cpu || []).findIndex(c => (c.socket || inferSocket(c.name)) === moboSocket);
+   if(firstCompatCpu !== -1){
+    selected.cpu = firstCompatCpu;
    }
   }
  }
