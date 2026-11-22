@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ro">
 <head>
@@ -18,72 +17,119 @@
   --accent:#8b5cf6;
   --accent2:#6d45db;
   --green:#43d9a3;
+  --danger:#ef4444;
 }
 *{box-sizing:border-box}
+html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,Arial,sans-serif}
-button,input{font:inherit}
+button,input,select,textarea{font:inherit}
 button{cursor:pointer}
 a{color:inherit;text-decoration:none}
 .container{width:min(1420px,92%);margin:auto}
-header{height:82px;border-bottom:1px solid var(--border);display:flex;align-items:center;position:sticky;top:0;background:#08090dee;backdrop-filter:blur(14px);z-index:10}
-.nav{display:flex;align-items:center;justify-content:space-between}
-.logo{font-size:25px;font-weight:900;letter-spacing:-1px}
+
+/* HEADER & NAV */
+header{
+  height:82px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  position:sticky;
+  top:0;
+  background:#08090dee;
+  backdrop-filter:blur(14px);
+  z-index:20;
+}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.logo{font-size:25px;font-weight:900;letter-spacing:-1px;white-space:nowrap}
 .logo span{color:var(--accent)}
-.navlinks{display:flex;gap:32px;color:#b7bac5;font-size:14px}
+.nav-right{display:flex;align-items:center;gap:28px}
+.navlinks{display:flex;gap:26px;color:#b7bac5;font-size:14px}
 .navlinks a:hover{color:white}
-.hero{padding:110px 0 90px;background:radial-gradient(ellipse at 75% 30%,#40247b55,transparent 48%),linear-gradient(130deg,#0a0b11,#11101a 60%,#0b0b10)}
+.admin-nav-btn{
+  background:#1a1628;
+  color:#d8c9ff;
+  border:1px solid #473775;
+  border-radius:8px;
+  padding:9px 15px;
+  font-size:13px;
+  font-weight:700;
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  transition:.2s;
+  white-space:nowrap;
+}
+.admin-nav-btn:hover{
+  background:var(--accent);
+  color:#fff;
+  border-color:var(--accent);
+}
+
+/* HERO & SECTIONS */
+.hero{padding:105px 0 85px;background:radial-gradient(ellipse at 75% 30%,#40247b55,transparent 48%),linear-gradient(130deg,#0a0b11,#11101a 60%,#0b0b10)}
 .hero-inner{display:grid;grid-template-columns:1.1fr .9fr;align-items:center;gap:45px}
 .eyebrow{color:#b69aff;font-size:13px;font-weight:800;letter-spacing:3px;text-transform:uppercase}
 .hero h1{font-size:clamp(48px,6vw,82px);line-height:1.02;letter-spacing:-5px;margin:22px 0}
 .hero h1 span{color:var(--accent)}
 .hero p{font-size:18px;line-height:1.8;color:#aeb1bf;max-width:590px}
-.primary-btn{background:var(--accent);color:white;border:0;border-radius:9px;padding:17px 25px;font-weight:800;font-size:14px;transition:.2s}
+.primary-btn{background:var(--accent);color:white;border:0;border-radius:9px;padding:15px 22px;font-weight:800;font-size:14px;transition:.2s;display:inline-flex;align-items:center;justify-content:center;gap:8px}
 .primary-btn:hover{background:var(--accent2);transform:translateY(-2px)}
-.secondary-btn{background:#20232e;color:white;border:1px solid #343847;border-radius:9px;padding:16px 23px;font-weight:700}
+.secondary-btn{background:#20232e;color:white;border:1px solid #343847;border-radius:9px;padding:14px 20px;font-weight:700;font-size:13px;transition:.2s;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.secondary-btn:hover{border-color:#5a6078;background:#262a38}
 .hero-actions{display:flex;gap:13px;margin-top:30px;flex-wrap:wrap}
 .hero-art{border:1px solid #39304f;border-radius:22px;background:linear-gradient(145deg,#1d1930,#10121a);padding:22px;box-shadow:0 30px 100px #0008}
 .hero-art img{width:100%;aspect-ratio:1/1;object-fit:contain;border-radius:13px}
 .stats{display:flex;gap:38px;margin-top:43px}
 .stat strong{font-size:25px;display:block}
 .stat small{color:var(--muted);font-size:12px}
+
 section{padding:85px 0}
-.section-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:36px;gap:20px}
-.section-head h2{font-size:clamp(34px,4vw,49px);letter-spacing:-2px;margin:12px 0}
-.section-head p{color:var(--muted);font-size:15px}
+.section-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:36px;gap:20px;flex-wrap:wrap}
+.section-head h2{font-size:clamp(34px,4vw,49px);letter-spacing:-2px;margin:10px 0 8px}
+.section-head p{color:var(--muted);font-size:15px;margin:0}
+
 .pc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
-.pc-card{background:var(--panel);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:.25s}
+.pc-card{background:var(--panel);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:.25s;display:flex;flex-direction:column}
 .pc-card:hover{transform:translateY(-7px);border-color:#7652cb;box-shadow:0 18px 50px #0006}
 .pc-photo{width:100%;aspect-ratio:1/1;object-fit:cover;background:#171923;display:block}
-.pc-details{padding:22px}
-.pc-details h3{font-size:23px;margin:0 0 9px}
-.pc-details p{font-size:13px;color:var(--muted);line-height:1.7;min-height:45px}
-.pc-price{font-size:25px;font-weight:900;margin:20px 0}
+.pc-details{padding:22px;display:flex;flex-direction:column;flex:1}
+.pc-details h3{font-size:22px;margin:0 0 9px}
+.pc-details p{font-size:13px;color:var(--muted);line-height:1.7;min-height:45px;margin:0}
+.pc-price{font-size:25px;font-weight:900;margin:20px 0;margin-top:auto;padding-top:18px}
 .pc-price small{font-size:12px;color:var(--muted);font-weight:500}
 .pc-card button{width:100%}
+
 .features{background:#0e1016;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
 .feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 .feature{background:var(--panel);border:1px solid var(--border);border-radius:13px;padding:28px}
 .feature .symbol{font-size:28px}
 .feature h3{font-size:19px;margin:17px 0 8px}
 .feature p{color:var(--muted);font-size:14px;line-height:1.7}
+
 footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font-size:13px}
 .footer-inner{display:flex;justify-content:space-between;align-items:center;gap:20px}
-.admin-link{position:fixed;bottom:12px;left:13px;font-size:10px;color:#606575;z-index:30;opacity:.5}
-.admin-link:hover{opacity:1;color:white}
+
+/* PAGES */
+.page{display:none;min-height:80vh;padding:42px 0 85px}
+.page.active{display:block}
+.back-btn{background:#151822;color:#d0d4e0;border:1px solid var(--border);border-radius:8px;padding:9px 14px;margin-bottom:24px;font-size:13px;font-weight:600;display:inline-flex;align-items:center;gap:6px}
+.back-btn:hover{border-color:#5a6078;color:#fff}
 
 /* CONFIGURATOR */
-.page{display:none;min-height:80vh;padding:45px 0 80px}
-.page.active{display:block}
-.back-btn{background:transparent;color:#b9bdc9;border:0;padding:10px 0;margin-bottom:25px;font-size:14px}
-.config-heading{margin-bottom:32px}
-.config-heading h1{font-size:42px;letter-spacing:-2px;margin:8px 0}
-.config-heading p{color:var(--muted)}
-.config-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(340px,.9fr) 300px;gap:20px;align-items:start}
+.config-heading{margin-bottom:26px;display:flex;justify-content:space-between;align-items:end;flex-wrap:wrap;gap:16px}
+.config-heading h1{font-size:42px;letter-spacing:-2px;margin:8px 0 6px}
+.config-heading p{color:var(--muted);margin:0}
+.model-switcher{display:flex;gap:8px;flex-wrap:wrap}
+.model-pill{background:var(--panel2);border:1px solid var(--border);color:#c5c9d6;padding:9px 14px;border-radius:999px;font-size:12px;font-weight:700;transition:.2s}
+.model-pill:hover{border-color:#7652cb;color:#fff}
+.model-pill.active{background:var(--accent);border-color:var(--accent);color:#fff}
+
+.config-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(330px,.9fr) 310px;gap:20px;align-items:start}
 .component-column{display:flex;flex-direction:column;gap:18px}
 .component-section{background:var(--panel);border:1px solid var(--border);border-radius:13px;padding:20px}
 .component-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}
-.component-title h3{font-size:17px;margin:0}
-.component-title span{font-size:11px;color:var(--muted)}
+.component-title h3{font-size:16px;margin:0}
+.component-title span{font-size:11px;color:var(--muted);font-weight:700}
 .choices{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .choice{border:1px solid #303442;background:#171a23;border-radius:10px;padding:12px;text-align:left;color:white;min-width:0;transition:.2s}
 .choice:hover{border-color:#8060d0}
@@ -92,52 +138,157 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 .choice strong{font-size:13px;display:block;line-height:1.4}
 .choice small{display:block;color:var(--muted);font-size:11px;margin-top:6px}
 .choice .extra{color:var(--green);font-weight:800}
-.pc-stage{position:sticky;top:105px;background:radial-gradient(circle at 50% 40%,#36225b,#15131f 65%,#101119);border:1px solid #39304d;border-radius:17px;padding:20px;text-align:center}
+
+.pc-stage{position:sticky;top:105px;background:radial-gradient(circle at 50% 40%,#36225b,#15131f 65%,#101119);border:1px solid #39304d;border-radius:17px;padding:22px;text-align:center}
 .stage-label{font-size:11px;letter-spacing:2px;color:#b69aff;font-weight:800}
-.stage-image{width:100%;aspect-ratio:1/1;object-fit:contain;margin:12px 0}
-.stage-name{font-size:19px;font-weight:800}
+.stage-image{width:100%;aspect-ratio:1/1;object-fit:contain;margin:14px 0;border-radius:12px}
+.stage-name{font-size:20px;font-weight:800}
 .stage-caption{font-size:12px;color:var(--muted);margin-top:7px}
+
 .price-panel{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:21px;position:sticky;top:105px}
-.price-panel h3{margin:0 0 20px;font-size:19px}
-.summary-line{display:flex;justify-content:space-between;gap:10px;margin:14px 0;font-size:12px;color:#b9bdc9}
-.summary-line span:last-child{color:white;text-align:right}
-.summary-total{border-top:1px solid var(--border);margin-top:20px;padding-top:20px}
-.summary-total small{color:var(--muted)}
-.summary-total strong{font-size:30px;display:block;margin-top:7px}
+.price-panel h3{margin:0 0 18px;font-size:19px}
+.summary-line{display:flex;justify-content:space-between;gap:10px;margin:12px 0;font-size:12px;color:#b9bdc9}
+.summary-line span:last-child{color:white;text-align:right;font-weight:600}
+.summary-line.surcharge span:last-child{color:var(--green)}
+.summary-total{border-top:1px solid var(--border);margin-top:18px;padding-top:18px}
+.summary-total small{color:var(--muted);font-weight:700;letter-spacing:1px}
+.summary-total strong{font-size:30px;display:block;margin-top:6px}
 .price-panel button{width:100%;margin-top:18px}
 .notice{font-size:11px;color:var(--muted);line-height:1.6;margin-top:13px}
 
-/* ADMIN */
-.admin-wrap{max-width:1000px;margin:auto}
-.admin-box{background:var(--panel);border:1px solid var(--border);padding:25px;border-radius:14px;margin-bottom:20px}
-.admin-box h2{font-size:23px;margin-top:0}
-.admin-box h3{font-size:17px}
-.admin-box label{display:block;font-size:12px;color:#b7bac5;margin:14px 0 7px}
-.admin-box input,.admin-box textarea,.admin-box select{width:100%;padding:12px;background:#090b11;border:1px solid #343847;border-radius:8px;color:white;outline:none}
-.admin-box textarea{min-height:75px;resize:vertical}
-.admin-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
-.admin-row{display:flex;align-items:center;gap:13px;padding:12px 0;border-bottom:1px solid var(--border)}
-.admin-row img{width:70px;height:70px;object-fit:cover;background:#20232e;border-radius:8px}
-.admin-row .row-info{flex:1;min-width:0}
-.admin-row strong{font-size:13px;display:block}
-.admin-row small{color:var(--muted)}
-.admin-row input{max-width:230px;font-size:11px}
-.admin-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
-.danger{background:#48212a!important}
-.hidden{display:none!important}
-.empty{color:var(--muted);font-size:13px}
+/* ORGANIZED ADMIN PANEL */
+.admin-wrap{max-width:1120px;margin:auto}
+.admin-topbar{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:18px 22px;
+  margin-bottom:20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:16px;
+}
+.admin-tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px}
+.tab-btn{
+  background:var(--panel);
+  border:1px solid var(--border);
+  color:#b7bac5;
+  padding:12px 18px;
+  border-radius:10px;
+  font-size:13px;
+  font-weight:700;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  transition:.2s;
+}
+.tab-btn:hover{border-color:#684ec2;color:#fff}
+.tab-btn.active{background:#231b38;border-color:var(--accent);color:#fff}
+
+.admin-box{background:var(--panel);border:1px solid var(--border);padding:24px;border-radius:14px;margin-bottom:20px}
+.admin-box h2{font-size:21px;margin:0 0 6px}
+.admin-box h3{font-size:16px;margin:0 0 12px}
+.admin-box label{display:block;font-size:12px;color:#b7bac5;margin:12px 0 6px;font-weight:600}
+.admin-box input,.admin-box textarea,.admin-box select{
+  width:100%;
+  padding:11px 13px;
+  background:#090b11;
+  border:1px solid #343847;
+  border-radius:8px;
+  color:white;
+  outline:none;
+}
+.admin-box input:focus,.admin-box textarea:focus,.admin-box select:focus{border-color:var(--accent)}
+.admin-box textarea{min-height:78px;resize:vertical}
+.admin-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.admin-grid-3{display:grid;grid-template-columns:1.5fr 1fr auto;gap:12px;align-items:end}
+
+.pc-selector-bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+.pc-select-card{
+  background:var(--panel2);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:12px 16px;
+  text-align:left;
+  color:#d0d4e0;
+  min-width:165px;
+  transition:.2s;
+}
+.pc-select-card:hover{border-color:#7652cb}
+.pc-select-card.active{border-color:var(--accent);background:#251c3b;color:#fff}
+.pc-select-card strong{display:block;font-size:14px}
+.pc-select-card small{color:var(--muted);font-size:12px}
+
+.cat-pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.cat-pill{
+  background:#171a23;
+  border:1px solid #303442;
+  color:#b7bac5;
+  padding:8px 14px;
+  border-radius:8px;
+  font-size:12px;
+  font-weight:700;
+}
+.cat-pill.active{background:var(--accent);border-color:var(--accent);color:#fff}
+
+.option-list{border:1px solid var(--border);border-radius:10px;overflow:hidden;background:#0d0f15}
+.admin-row{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:12px 16px;
+  border-bottom:1px solid var(--border);
+}
+.admin-row:last-child{border-bottom:0}
+.admin-row img{width:56px;height:56px;object-fit:cover;background:#20232e;border-radius:8px;flex-shrink:0}
+.thumb-placeholder{
+  width:56px;height:56px;background:#1a1d28;border:1px dashed #343847;
+  border-radius:8px;display:grid;place-items:center;color:#787e91;font-size:11px;font-weight:700;flex-shrink:0;
+}
+.row-info{flex:1;min-width:0}
+.row-info strong{font-size:14px;display:block}
+.row-info small{color:var(--green);font-size:12px;font-weight:600}
+.row-actions{display:flex;gap:8px}
+.btn-sm{padding:8px 12px;font-size:12px;border-radius:7px}
+.danger{background:#3b1821!important;border-color:#7a273b!important;color:#ff9aa8!important}
+.danger:hover{background:#521e2b!important}
+.toast{
+  position:fixed;
+  bottom:22px;
+  right:22px;
+  background:#1c2824;
+  border:1px solid var(--green);
+  color:#d9fff0;
+  padding:12px 18px;
+  border-radius:10px;
+  font-size:13px;
+  font-weight:700;
+  z-index:100;
+  box-shadow:0 12px 35px #0009;
+  opacity:0;
+  transform:translateY(10px);
+  transition:.25s;
+  pointer-events:none;
+}
+.toast.show{opacity:1;transform:translateY(0)}
+.empty{color:var(--muted);font-size:13px;padding:16px}
+
 @media(max-width:1100px){
  .pc-grid{grid-template-columns:repeat(2,1fr)}
  .config-layout{grid-template-columns:1fr 1fr}
  .price-panel{grid-column:1/-1;position:static}
 }
-@media(max-width:700px){
+@media(max-width:760px){
  .hero{padding:65px 0}
  .hero-inner{grid-template-columns:1fr}
  .hero h1{letter-spacing:-3px}
  .hero-art{max-width:430px}
  .stats{gap:20px}
- .navlinks{gap:13px;font-size:11px}
+ .nav-right{gap:12px}
+ .navlinks{gap:12px;font-size:12px}
+ .admin-nav-btn{padding:8px 11px;font-size:12px}
  .logo{font-size:20px}
  section{padding:60px 0}
  .pc-grid{grid-template-columns:1fr}
@@ -146,7 +297,7 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
  .pc-stage{position:static;grid-row:1}
  .price-panel{grid-column:auto}
  .config-heading h1{font-size:33px}
- .admin-grid{grid-template-columns:1fr}
+ .admin-grid-2,.admin-grid-3{grid-template-columns:1fr}
  .footer-inner{flex-direction:column;align-items:flex-start}
 }
 </style>
@@ -155,12 +306,15 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 
 <header>
  <div class="container nav">
-  <a class="logo" href="#" onclick="showHome()">ER1K<span> PC</span></a>
-  <nav class="navlinks">
-   <a href="#pcs" onclick="showHome()">PC-uri</a>
-   <a href="#features" onclick="showHome()">Despre noi</a>
-   <a href="#contact" onclick="showHome()">Contact</a>
-  </nav>
+  <a class="logo" href="#" onclick="showHome();return false">ER1K<span> PC</span></a>
+  <div class="nav-right">
+   <nav class="navlinks">
+    <a href="#pcs" onclick="showHome()">PC-uri</a>
+    <a href="#features" onclick="showHome()">Despre noi</a>
+    <a href="#contact" onclick="showHome()">Contact</a>
+   </nav>
+   <button class="admin-nav-btn" onclick="openAdminMenu()">🛡️ Admin Menu</button>
+  </div>
  </div>
 </header>
 
@@ -193,7 +347,7 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
     <div>
      <div class="eyebrow">OUR SYSTEMS</div>
      <h2>Choose your power.</h2>
-     <p>Alege unul dintre sistemele noastre și personalizează fiecare componentă.</p>
+     <p>Alege unul dintre sistemele noastre și personalizează fiecare componentă pe pagina de configurare.</p>
     </div>
    </div>
    <div class="pc-grid" id="pcGrid"></div>
@@ -214,12 +368,16 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
  </section>
 </main>
 
+<!-- SEPARATE CONFIGURATOR PAGE -->
 <div class="container page" id="configPage">
- <button class="back-btn" onclick="showHome()">← Înapoi la PC-uri</button>
+ <button class="back-btn" onclick="showHome()">← Înapoi la pagina principală</button>
  <div class="config-heading">
-  <div class="eyebrow">PC CONFIGURATOR</div>
-  <h1 id="configName">Er1k Gaming</h1>
-  <p id="configDesc"></p>
+  <div>
+   <div class="eyebrow">PC CONFIGURATOR</div>
+   <h1 id="configName">Er1k Gaming</h1>
+   <p id="configDesc"></p>
+  </div>
+  <div class="model-switcher" id="modelSwitcher"></div>
  </div>
  <div class="config-layout">
   <div class="component-column" id="leftComponents"></div>
@@ -245,24 +403,43 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
  </div>
 </div>
 
+<!-- ADMIN LOGIN PAGE -->
 <div class="container page" id="loginPage">
  <div class="admin-wrap">
-  <button class="back-btn" onclick="showHome()">← Înapoi</button>
-  <div class="admin-box" style="max-width:430px;margin:50px auto">
-   <h2>Admin Login</h2>
-   <p class="empty">Introdu parola pentru a continua.</p>
+  <button class="back-btn" onclick="showHome()">← Înapoi la site</button>
+  <div class="admin-box" style="max-width:440px;margin:40px auto">
+   <div class="eyebrow">ADMIN ACCESS</div>
+   <h2 style="margin-top:8px">Admin Login</h2>
+   <p class="empty" style="padding:0 0 8px">Introdu parola de administrator pentru a gestiona PC-urile și componentele.</p>
    <label>Parolă</label>
-   <input id="password" type="password" placeholder="Admin password">
-   <p id="loginError" style="color:#ff687b;font-size:12px"></p>
-   <button class="primary-btn" style="width:100%;margin-top:15px" onclick="login()">LOGIN</button>
+   <input id="password" type="password" placeholder="Admin password" onkeydown="if(event.key==='Enter')login()">
+   <p id="loginError" style="color:#ff687b;font-size:12px;min-height:18px;margin:8px 0 0"></p>
+   <button class="primary-btn" style="width:100%;margin-top:12px" onclick="login()">INTRĂ ÎN ADMIN MENU</button>
   </div>
  </div>
 </div>
 
+<!-- ORGANIZED ADMIN DASHBOARD -->
 <div class="container page" id="adminPage">
  <div class="admin-wrap">
-  <button class="back-btn" onclick="showHome()">← Înapoi la site</button>
-  <div class="section-head"><div><div class="eyebrow">CONTROL PANEL</div><h2>Admin Dashboard</h2><p>Gestionează PC-urile și componentele.</p></div></div>
+  <div class="admin-topbar">
+   <div>
+    <div class="eyebrow">CONTROL PANEL</div>
+    <h2 style="margin:6px 0 2px;font-size:26px;letter-spacing:-1px">Admin Dashboard</h2>
+    <p style="margin:0;color:var(--muted);font-size:13px">Rendszerezett nézet: modellek, alkatrészek és mentések külön kezelve.</p>
+   </div>
+   <div style="display:flex;gap:10px;flex-wrap:wrap">
+    <button class="secondary-btn" onclick="showHome()">← Főoldal</button>
+    <button class="secondary-btn danger" onclick="logout()">Kilépés</button>
+   </div>
+  </div>
+
+  <div class="admin-tabs">
+   <button class="tab-btn active" id="tab-models" onclick="switchAdminTab('models')">🖥️ PC Modellek</button>
+   <button class="tab-btn" id="tab-components" onclick="switchAdminTab('components')">🧩 Alkatrészek & Felárak</button>
+   <button class="tab-btn" id="tab-system" onclick="switchAdminTab('system')">⚙️ Rendszer & Alaphelyzet</button>
+  </div>
+
   <div id="adminContent"></div>
  </div>
 </div>
@@ -274,11 +451,11 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
  </div>
 </footer>
 
-<a class="admin-link" href="#" onclick="showLogin();return false">admin</a>
+<div class="toast" id="toast"></div>
 
 <script>
 const ADMIN_PASSWORD = "er1k2026";
-const KEY = "er1k_pc_v3";
+const KEY = "er1k_pc_v4";
 
 const defaultData = [
  {
@@ -328,8 +505,29 @@ const defaultData = [
    case:[{name:"Ultimate Black Case",price:0,image:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=700&q=85"}],
    cooler:[{name:"360mm AIO",price:0,image:""},{name:"Premium 360mm AIO",price:250,image:""}]
   }
+ },
+ {
+  id:"custom5",name:"Er1k Studio",description:"Configurație de rezervă / al 5-lea model personalizabil.",price:7900,
+  image:"https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=800&q=85",
+  components:{
+   gpu:[{name:"RTX 4070 Ti Super 16GB",price:0},{name:"RTX 5080 16GB",price:1800}],
+   cpu:[{name:"Ryzen 9 7900X",price:0},{name:"Ryzen 7 9800X3D",price:400}],
+   ram:[{name:"64GB DDR5",price:0},{name:"96GB DDR5",price:550}],
+   ssd:[{name:"2TB NVMe",price:0},{name:"4TB NVMe",price:450}],
+   case:[{name:"Studio Glass Case",price:0,image:"https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=700&q=85"}],
+   cooler:[{name:"360mm AIO",price:0,image:""},{name:"LCD 360mm AIO",price:400,image:""}]
+  }
  }
 ];
+
+const componentNames={
+ gpu:"PLACĂ VIDEO",
+ cpu:"PROCESOR",
+ ram:"MEMORIE RAM",
+ ssd:"SSD",
+ case:"CARCASĂ",
+ cooler:"RĂCIRE PROCESOR"
+};
 
 function clone(x){return JSON.parse(JSON.stringify(x))}
 function load(){
@@ -338,7 +536,12 @@ function load(){
   return saved?JSON.parse(saved):clone(defaultData);
  }catch(e){return clone(defaultData)}
 }
+
 let data=load();
+let isAdminAuthed=false;
+let adminTab="models";
+let adminSelectedPC=0;
+let adminSelectedCat="gpu";
 let activePC=0;
 let selected={};
 
@@ -346,20 +549,54 @@ function persist(){localStorage.setItem(KEY,JSON.stringify(data))}
 function money(n){return Number(n||0).toLocaleString("ro-RO")+" RON"}
 function safe(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 
+function notify(msg){
+ const el=document.getElementById("toast");
+ el.textContent=msg;
+ el.classList.add("show");
+ clearTimeout(notify._t);
+ notify._t=setTimeout(()=>el.classList.remove("show"),2400);
+}
+
 function showOnly(id){
  document.querySelectorAll("main,.page").forEach(el=>el.classList.remove("active"));
  if(id==="home")document.getElementById("home").classList.add("active");
  else document.getElementById(id).classList.add("active");
  window.scrollTo({top:0,behavior:"smooth"});
 }
+
 function showHome(){showOnly("home")}
-function showLogin(){showOnly("loginPage");document.getElementById("password").value="";document.getElementById("loginError").textContent=""}
-function login(){
- if(document.getElementById("password").value===ADMIN_PASSWORD){
-  showOnly("adminPage");renderAdmin();
- }else document.getElementById("loginError").textContent="Parolă incorectă.";
+
+function openAdminMenu(){
+ if(isAdminAuthed){
+  showOnly("adminPage");
+  renderAdmin();
+ }else{
+  showOnly("loginPage");
+  document.getElementById("password").value="";
+  document.getElementById("loginError").textContent="";
+  setTimeout(()=>document.getElementById("password")?.focus(),80);
+ }
 }
 
+function login(){
+ const pass=document.getElementById("password").value;
+ if(pass===ADMIN_PASSWORD){
+  isAdminAuthed=true;
+  showOnly("adminPage");
+  renderAdmin();
+  notify("Sikeres belépés az Admin Dashboard-ba!");
+ }else{
+  document.getElementById("loginError").textContent="Parolă incorectă.";
+ }
+}
+
+function logout(){
+ isAdminAuthed=false;
+ showHome();
+ notify("Kijelentkeztél az Admin felületről.");
+}
+
+/* HOME */
 function renderHome(){
  const grid=document.getElementById("pcGrid");
  grid.innerHTML=data.map((pc,i)=>`
@@ -374,20 +611,28 @@ function renderHome(){
   </article>`).join("");
 }
 
+/* CONFIGURATOR PAGE */
 function openPC(i){
  activePC=i;
  const pc=data[i];
  selected={};
- for(const key of Object.keys(pc.components)){
+ for(const key of Object.keys(componentNames)){
   selected[key]=0;
  }
  document.getElementById("configName").textContent=pc.name;
  document.getElementById("configDesc").textContent=pc.description;
  showOnly("configPage");
+ renderModelSwitcher();
  renderConfig();
 }
 
-const componentNames={gpu:"PLACĂ VIDEO",cpu:"PROCESOR",ram:"MEMORIE RAM",ssd:"SSD",case:"CARCASĂ",cooler:"RĂCIRE PROCESOR"};
+function renderModelSwitcher(){
+ const sw=document.getElementById("modelSwitcher");
+ sw.innerHTML=data.map((pc,i)=>`
+  <button class="model-pill ${i===activePC?"active":""}" onclick="openPC(${i})">${safe(pc.name)}</button>
+ `).join("");
+}
+
 function renderConfig(){
  const pc=data[activePC];
  const keys=Object.keys(componentNames);
@@ -396,6 +641,7 @@ function renderConfig(){
  updateStage();
  updateSummary();
 }
+
 function renderColumn(key,pc){
  const options=pc.components[key]||[];
  return `<div class="component-section">
@@ -408,20 +654,24 @@ function renderColumn(key,pc){
    </button>`).join("")}</div>
  </div>`;
 }
+
 function choose(key,i){
  selected[key]=i;
  renderConfig();
 }
+
 function currentOption(key){
  const pc=data[activePC];
  return pc.components[key]?.[selected[key]]||null;
 }
+
 function updateStage(){
  const c=currentOption("case");
  const pc=data[activePC];
  document.getElementById("stageImage").src=(c&&c.image)||pc.image;
  document.getElementById("stageCaseName").textContent=c?c.name:"Carcasă";
 }
+
 function updateSummary(){
  const pc=data[activePC];
  let total=Number(pc.price)||0;
@@ -431,11 +681,14 @@ function updateSummary(){
   if(!o)continue;
   total+=Number(o.price)||0;
   html+=`<div class="summary-line"><span>${componentNames[key]}</span><span>${safe(o.name)}</span></div>`;
-  if(Number(o.price)>0)html+=`<div class="summary-line"><span>Supliment</span><span>+ ${money(o.price)}</span></div>`;
+  if(Number(o.price)>0){
+   html+=`<div class="summary-line surcharge"><span>Supliment</span><span>+ ${money(o.price)}</span></div>`;
+  }
  }
  document.getElementById("summary").innerHTML=html;
  document.getElementById("totalPrice").textContent=money(total);
 }
+
 function orderPC(){
  const pc=data[activePC];
  const lines=Object.keys(componentNames).map(k=>{
@@ -447,80 +700,205 @@ function orderPC(){
  window.location.href="https://wa.me/?text="+encodeURIComponent(message);
 }
 
-/* ADMIN */
-function renderAdmin(){
- const root=document.getElementById("adminContent");
- root.innerHTML=data.map((pc,i)=>`
-  <div class="admin-box">
-   <h2>${safe(pc.name)}</h2>
-   <div class="admin-grid">
-    <div><label>Numele PC-ului</label><input id="name${i}" value="${safe(pc.name)}"></div>
-    <div><label>Preț de bază (RON)</label><input id="price${i}" type="number" value="${pc.price}"></div>
-   </div>
-   <label>Descriere</label><textarea id="desc${i}">${safe(pc.description)}</textarea>
-   <label>Imagine principală PC</label><input type="file" accept="image/*" onchange="uploadPCImage(${i},this)">
-   <div style="display:flex;gap:15px;align-items:center;margin-top:12px">
-    <img src="${safe(pc.image)}" style="width:100px;height:100px;object-fit:cover;border-radius:9px">
-    <span class="empty">Imaginea principală afișată pe pagina de start.</span>
-   </div>
-   <div class="admin-actions">
-    <button class="primary-btn" onclick="savePC(${i})">SALVEAZĂ DATELE</button>
-   </div>
-   <div style="margin-top:28px">
-    <h3>Componente și opțiuni</h3>
-    ${Object.keys(componentNames).map(k=>adminComponent(i,k)).join("")}
-   </div>
-  </div>`).join("");
+/* ORGANIZED ADMIN */
+function switchAdminTab(tab){
+ adminTab=tab;
+ document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));
+ document.getElementById("tab-"+tab)?.classList.add("active");
+ renderAdmin();
 }
-function adminComponent(pi,key){
- const options=data[pi].components[key]||[];
- return `<div style="margin-top:22px;padding-top:15px;border-top:1px solid var(--border)">
-  <h3>${componentNames[key]}</h3>
-  ${options.map((o,oi)=>`
-   <div class="admin-row">
-    ${o.image?`<img src="${safe(o.image)}" alt="">`:`<div style="width:70px;height:70px;background:#20232e;border-radius:8px;display:grid;place-items:center;color:#777">IMG</div>`}
-    <div class="row-info">
-     <strong>${safe(o.name)}</strong>
-     <small>+ ${money(o.price)}</small>
-    </div>
-    <button class="secondary-btn" style="padding:9px;font-size:11px" onclick="editOption(${pi},'${key}',${oi})">EDIT</button>
-    <button class="secondary-btn danger" style="padding:9px;font-size:11px" onclick="deleteOption(${pi},'${key}',${oi})">X</button>
-   </div>`).join("")}
-  <div class="admin-grid" style="margin-top:12px">
-   <div><label>Új opció neve</label><input id="newName${pi}${key}" placeholder="Component name"></div>
-   <div><label>Felár (RON)</label><input id="newPrice${pi}${key}" type="number" value="0"></div>
-  </div>
-  ${(key==="case"||key==="cooler")?`<label>Kép feltöltése</label><input id="newImage${pi}${key}" type="file" accept="image/*">`:""}
-  <button class="secondary-btn" style="margin-top:12px" onclick="addOption(${pi},'${key}')">+ ADD OPTION</button>
+
+function renderAdmin(){
+ if(!data[adminSelectedPC])adminSelectedPC=0;
+ const root=document.getElementById("adminContent");
+ if(adminTab==="models")root.innerHTML=renderModelsTab();
+ else if(adminTab==="components")root.innerHTML=renderComponentsTab();
+ else root.innerHTML=renderSystemTab();
+}
+
+function renderPCSelectorCards(){
+ return `<div class="pc-selector-bar">
+  ${data.map((pc,i)=>`
+   <button class="pc-select-card ${i===adminSelectedPC?"active":""}" onclick="adminSelectedPC=${i};renderAdmin()">
+    <strong>${safe(pc.name)}</strong>
+    <small>Bază: ${money(pc.price)}</small>
+   </button>`).join("")}
  </div>`;
 }
-function savePC(i){
- data[i].name=document.getElementById("name"+i).value.trim()||data[i].name;
- data[i].price=Number(document.getElementById("price"+i).value)||0;
- data[i].description=document.getElementById("desc"+i).value;
- persist();renderAdmin();renderHome();
- alert("PC salvat!");
+
+function renderModelsTab(){
+ const pc=data[adminSelectedPC];
+ return `
+  <div class="admin-box">
+   <h2>Válaszd ki a szerkesztendő PC modellt</h2>
+   <p style="color:var(--muted);font-size:13px;margin:0 0 14px">Egyszerre csak egy rendszer adatait szerkeszted, így átlátható és gyors.</p>
+   ${renderPCSelectorCards()}
+   <div style="border-top:1px solid var(--border);padding-top:18px">
+    <h3>Modell beállításai: ${safe(pc.name)}</h3>
+    <div class="admin-grid-2">
+     <div><label>Numele PC-ului</label><input id="pcName" value="${safe(pc.name)}"></div>
+     <div><label>Preț de bază (RON)</label><input id="pcPrice" type="number" value="${Number(pc.price)||0}"></div>
+    </div>
+    <label>Descriere</label>
+    <textarea id="pcDesc">${safe(pc.description)}</textarea>
+    <label>Imagine principală PC</label>
+    <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-top:8px">
+     <img src="${safe(pc.image)}" style="width:92px;height:92px;object-fit:cover;border-radius:10px;border:1px solid var(--border)">
+     <div style="flex:1;min-width:220px">
+      <input type="file" accept="image/*" onchange="uploadPCImage(${adminSelectedPC},this)">
+      <div class="empty" style="padding:6px 0 0">A főoldalon és az alapértelmezett előnézetben látható kép.</div>
+     </div>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px">
+     <button class="primary-btn" onclick="saveCurrentPC()">💾 Mentés</button>
+     ${data.length>1?`<button class="secondary-btn danger" onclick="deleteCurrentPC()">🗑️ Modell törlése</button>`:""}
+    </div>
+   </div>
+  </div>`;
 }
+
+function renderComponentsTab(){
+ const pc=data[adminSelectedPC];
+ const options=pc.components[adminSelectedCat]||[];
+ const showImageUpload=(adminSelectedCat==="case"||adminSelectedCat==="cooler");
+
+ return `
+  <div class="admin-box">
+   <h2>Alkatrészek kezelése</h2>
+   <p style="color:var(--muted);font-size:13px;margin:0 0 14px">Válassz gépet, majd kategóriát — így nem egy hosszú, összefolyó listában látod az összeset.</p>
+   ${renderPCSelectorCards()}
+   <div class="cat-pills">
+    ${Object.keys(componentNames).map(k=>`
+     <button class="cat-pill ${k===adminSelectedCat?"active":""}" onclick="adminSelectedCat='${k}';renderAdmin()">
+      ${componentNames[k]} (${(pc.components[k]||[]).length})
+     </button>`).join("")}
+   </div>
+
+   <h3>Jelenlegi opciók — ${componentNames[adminSelectedCat]}</h3>
+   <div class="option-list">
+    ${options.length?options.map((o,oi)=>`
+     <div class="admin-row">
+      ${o.image?`<img src="${safe(o.image)}" alt="">`:`<div class="thumb-placeholder">N/A</div>`}
+      <div class="row-info">
+       <strong>${safe(o.name)}</strong>
+       <small>${Number(o.price)>0?"+ "+money(o.price):"Alapárban benne van"}</small>
+      </div>
+      <div class="row-actions">
+       <button class="secondary-btn btn-sm" onclick="editOption(${adminSelectedPC},'${adminSelectedCat}',${oi})">Szerkesztés</button>
+       <button class="secondary-btn btn-sm danger" onclick="deleteOption(${adminSelectedPC},'${adminSelectedCat}',${oi})">Törlés</button>
+      </div>
+     </div>`).join(""):`<div class="empty">Nincs még opció ebben a kategóriában.</div>`}
+   </div>
+
+   <div style="margin-top:22px;padding-top:18px;border-top:1px solid var(--border)">
+    <h3>+ Új opció hozzáadása (${componentNames[adminSelectedCat]})</h3>
+    <div class="admin-grid-3">
+     <div>
+      <label>Alkatrész neve</label>
+      <input id="newOptName" placeholder="pl. RTX 5060 Ti 16GB">
+     </div>
+     <div>
+      <label>Felár (RON)</label>
+      <input id="newOptPrice" type="number" value="0">
+     </div>
+     <button class="primary-btn" onclick="addOptionFromTab()">+ Hozzáadás</button>
+    </div>
+    ${showImageUpload?`
+     <div style="margin-top:12px;max-width:360px">
+      <label>Kép feltöltése (opcionális)</label>
+      <input id="newOptImg" type="file" accept="image/*">
+     </div>`:""}
+   </div>
+  </div>`;
+}
+
+function renderSystemTab(){
+ return `
+  <div class="admin-box">
+   <h2>Új PC modell létrehozása</h2>
+   <p style="color:var(--muted);font-size:13px;margin:0 0 14px">Ha 5-nél is több gépet szeretnél, itt vehetsz fel újat az alap alkatrészkategóriákkal.</p>
+   <div class="admin-grid-3">
+    <div><label>Új modell neve</label><input id="createPcName" placeholder="pl. Er1k Extreme"></div>
+    <div><label>Alapár (RON)</label><input id="createPcPrice" type="number" value="5000"></div>
+    <button class="primary-btn" onclick="createNewPC()">+ Új PC létrehozása</button>
+   </div>
+  </div>
+
+  <div class="admin-box">
+   <h2>Adatok visszaállítása</h2>
+   <p style="color:var(--muted);font-size:13px;margin:0 0 14px">Visszaállítja az 5 előre beállított PC modellt és az alap komponenseket.</p>
+   <button class="secondary-btn danger" onclick="resetDefaults()">↺ Alapértelmezett adatok visszaállítása</button>
+  </div>`;
+}
+
+function saveCurrentPC(){
+ const pc=data[adminSelectedPC];
+ pc.name=document.getElementById("pcName").value.trim()||pc.name;
+ pc.price=Number(document.getElementById("pcPrice").value)||0;
+ pc.description=document.getElementById("pcDesc").value.trim();
+ persist();
+ renderHome();
+ renderAdmin();
+ notify("PC adatai elmentve!");
+}
+
+function deleteCurrentPC(){
+ if(data.length<=1)return;
+ if(!confirm(`Biztosan törlöd a(z) "${data[adminSelectedPC].name}" modellt?`))return;
+ data.splice(adminSelectedPC,1);
+ adminSelectedPC=0;
+ persist();
+ renderHome();
+ renderAdmin();
+ notify("Modell törölve.");
+}
+
+function createNewPC(){
+ const name=document.getElementById("createPcName").value.trim();
+ const price=Number(document.getElementById("createPcPrice").value)||0;
+ if(!name){alert("Add meg a PC nevét!");return;}
+ const base=clone(defaultData[0]);
+ data.push({
+  id:"pc_"+Date.now(),
+  name,
+  price,
+  description:"Egyedi gaming rendszer.",
+  image:base.image,
+  components:base.components
+ });
+ adminSelectedPC=data.length-1;
+ persist();
+ renderHome();
+ switchAdminTab("models");
+ notify(`"${name}" hozzáadva!`);
+}
+
 function uploadPCImage(i,input){
  const file=input.files[0];if(!file)return;
  const reader=new FileReader();
  reader.onload=()=>{
   data[i].image=reader.result;
-  persist();renderAdmin();renderHome();
+  persist();
+  renderHome();
+  renderAdmin();
+  notify("Főkép frissítve!");
  };
  reader.readAsDataURL(file);
 }
-function addOption(pi,key){
- const name=document.getElementById("newName"+pi+key).value.trim();
- const price=Number(document.getElementById("newPrice"+pi+key).value)||0;
- if(!name){alert("Introdu numele componentei.");return}
- const fileInput=document.getElementById("newImage"+pi+key);
- const file=fileInput?.files?.[0];
+
+function addOptionFromTab(){
+ const name=document.getElementById("newOptName").value.trim();
+ const price=Number(document.getElementById("newOptPrice").value)||0;
+ if(!name){alert("Add meg az alkatrész nevét!");return;}
+ const file=document.getElementById("newOptImg")?.files?.[0];
  const finish=image=>{
   const option={name,price};
   if(image)option.image=image;
-  data[pi].components[key].push(option);
-  persist();renderAdmin();
+  if(!data[adminSelectedPC].components[adminSelectedCat])data[adminSelectedPC].components[adminSelectedCat]=[];
+  data[adminSelectedPC].components[adminSelectedCat].push(option);
+  persist();
+  renderAdmin();
+  notify("Opció hozzáadva!");
  };
  if(file){
   const reader=new FileReader();
@@ -528,6 +906,7 @@ function addOption(pi,key){
   reader.readAsDataURL(file);
  }else finish("");
 }
+
 function editOption(pi,key,oi){
  const o=data[pi].components[key][oi];
  const name=prompt("Numele componentei:",o.name);
@@ -537,27 +916,43 @@ function editOption(pi,key,oi){
  o.name=name.trim()||o.name;
  o.price=Number(price)||0;
  if(key==="case"||key==="cooler"){
-  const change=confirm("Vrei să schimbi și imaginea?");
-  if(change){
+  if(confirm("Vrei să schimbi și imaginea?")){
    const picker=document.createElement("input");
    picker.type="file";picker.accept="image/*";
    picker.onchange=()=>{
     const file=picker.files[0];if(!file)return;
     const reader=new FileReader();
-    reader.onload=()=>{o.image=reader.result;persist();renderAdmin()};
+    reader.onload=()=>{o.image=reader.result;persist();renderAdmin();notify("Opció frissítve!")};
     reader.readAsDataURL(file);
    };
    picker.click();
    persist();return;
   }
  }
- persist();renderAdmin();
+ persist();
+ renderAdmin();
+ notify("Opció frissítve!");
 }
+
 function deleteOption(pi,key,oi){
  if(!confirm("Ștergi această opțiune?"))return;
  data[pi].components[key].splice(oi,1);
- persist();renderAdmin();
+ persist();
+ renderAdmin();
+ notify("Opció törölve.");
 }
+
+function resetDefaults(){
+ if(!confirm("Visszaállítod az összes gépet és alkatrészt az alapértelmezettre?"))return;
+ data=clone(defaultData);
+ adminSelectedPC=0;
+ adminSelectedCat="gpu";
+ persist();
+ renderHome();
+ switchAdminTab("models");
+ notify("Alapértelmezett adatok visszaállítva.");
+}
+
 renderHome();
 showHome();
 </script>
