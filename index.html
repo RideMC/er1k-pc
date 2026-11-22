@@ -1,965 +1,945 @@
+
 <!DOCTYPE html>
 <html lang="ro">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Er1k PC — Configurator 3D</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    body {
-      background-color: #070d19;
-      background-image:
-        radial-gradient(circle at 15% 15%, rgba(56, 189, 248, 0.16), transparent 40%),
-        radial-gradient(circle at 85% 20%, rgba(168, 85, 247, 0.12), transparent 42%),
-        linear-gradient(180deg, #091120 0%, #060b14 100%);
-      color: #f8fafc;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      overflow-x: hidden;
-    }
-    @keyframes viewReveal {
-      0% {
-        opacity: 0;
-        transform: translateY(14px) scale(0.99);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-    .view-anim {
-      animation: viewReveal 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
-    }
-    .dark-card {
-      background: linear-gradient(165deg, rgba(19, 29, 49, 0.9), rgba(10, 16, 29, 0.96));
-      border: 1px solid rgba(148, 163, 184, 0.2);
-      box-shadow: 0 18px 42px rgba(2, 6, 23, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-      transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.2s ease, box-shadow 0.2s ease;
-    }
-    .dark-card:hover {
-      border-color: rgba(56, 189, 248, 0.65);
-      box-shadow: 0 22px 48px rgba(2, 6, 23, 0.72), 0 0 24px rgba(56, 189, 248, 0.14);
-    }
-    .cyan-btn {
-      background: linear-gradient(135deg, #22d3ee, #0284c7);
-      box-shadow: 0 8px 24px rgba(14, 165, 233, 0.35);
-      transition: transform 0.16s ease, background 0.2s ease, box-shadow 0.2s ease;
-    }
-    .cyan-btn:hover:not(:disabled) {
-      background: linear-gradient(135deg, #67e8f9, #0ea5e9);
-      transform: translateY(-1px);
-      box-shadow: 0 12px 28px rgba(34, 211, 238, 0.42);
-    }
-    .cyan-btn:active:not(:disabled) {
-      transform: scale(0.97);
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Er1k PC — Gaming Computers</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+  --bg:#080808;
+  --panel:#111;
+  --panel2:#181818;
+  --border:#292929;
+  --white:#fff;
+  --muted:#999;
+  --accent:#d8d8d8;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg);
+  color:var(--white);
+  font-family:Inter,Arial,sans-serif;
+  min-height:100vh;
+}
+button,input,select{font:inherit}
+button{cursor:pointer}
+header{
+  height:78px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 7%;
+  position:sticky;
+  top:0;
+  background:rgba(8,8,8,.95);
+  backdrop-filter:blur(15px);
+  z-index:10;
+}
+.logo{
+  font-size:25px;
+  font-weight:900;
+  letter-spacing:-1.5px;
+}
+.logo span{color:#888}
+nav{display:flex;gap:28px;align-items:center}
+nav a{
+  color:#aaa;text-decoration:none;font-size:13px;
+  transition:.2s;
+}
+nav a:hover{color:white}
+.header-btn{
+  background:white;color:black;border:0;
+  padding:12px 20px;border-radius:5px;
+  font-size:12px;font-weight:800;
+}
+.page{display:none}
+.page.active{display:block}
+.hero{
+  padding:105px 7% 80px;
+  min-height:390px;
+  background:
+    radial-gradient(ellipse at 80% 20%,#292929 0%,transparent 40%),
+    linear-gradient(120deg,#090909,#111);
+}
+.eyebrow{
+  color:#aaa;font-size:11px;letter-spacing:4px;
+  text-transform:uppercase;margin-bottom:22px;
+}
+.hero h1{
+  font-size:clamp(42px,7vw,82px);
+  line-height:1.02;letter-spacing:-5px;
+  max-width:800px;font-weight:900;
+}
+.hero h1 span{color:#777}
+.hero p{
+  color:#999;margin-top:24px;
+  max-width:480px;line-height:1.8;font-size:14px;
+}
+.hero-actions{display:flex;gap:12px;margin-top:32px;flex-wrap:wrap}
+.btn-primary,.btn-secondary{
+  padding:15px 24px;border-radius:4px;
+  font-weight:800;font-size:12px;
+}
+.btn-primary{background:white;color:#080808;border:1px solid white}
+.btn-secondary{background:transparent;color:white;border:1px solid #444}
+.btn-primary:hover{background:#ddd}
+.btn-secondary:hover{border-color:white}
+.section{padding:65px 7%}
+.section-heading{
+  display:flex;justify-content:space-between;
+  align-items:end;margin-bottom:30px;gap:20px;
+}
+.section-heading h2{font-size:32px;letter-spacing:-1.5px}
+.section-heading p{color:#777;font-size:12px}
+.pc-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:16px;
+}
+.pc-card{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:7px;overflow:hidden;transition:.25s;
+}
+.pc-card:hover{transform:translateY(-5px);border-color:#777}
+.pc-image{
+  height:230px;background:linear-gradient(145deg,#202020,#0d0d0d);
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;padding:15px;
+}
+.pc-image img{width:100%;height:100%;object-fit:contain}
+.pc-info{padding:22px}
+.pc-info h3{font-size:18px;margin-bottom:8px}
+.pc-info p{color:#888;font-size:11px;line-height:1.6;min-height:36px}
+.pc-price{font-size:24px;font-weight:900;margin:18px 0}
+.pc-info button{
+  width:100%;padding:13px;background:white;color:black;
+  border:0;border-radius:3px;font-size:11px;font-weight:900;
+}
+.pc-info button:hover{background:#ccc}
+.features{
+  background:#101010;border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  display:grid;grid-template-columns:repeat(3,1fr);
+  padding:35px 7%;gap:25px;
+}
+.feature h3{font-size:14px;margin-bottom:8px}
+.feature p{font-size:11px;color:#888;line-height:1.7}
+footer{
+  padding:35px 7%;border-top:1px solid var(--border);
+  display:flex;justify-content:space-between;gap:20px;
+  color:#777;font-size:11px;flex-wrap:wrap;
+}
+.admin-link{
+  position:fixed;bottom:8px;left:10px;
+  font-size:9px;color:#444;text-decoration:none;z-index:30;
+}
+.admin-link:hover{color:white}
+
+/* CONFIGURATOR */
+.config-page{padding:35px 5% 70px}
+.back-btn{
+  background:none;border:0;color:#999;
+  font-size:12px;margin-bottom:25px;
+}
+.back-btn:hover{color:white}
+.config-title{
+  display:flex;justify-content:space-between;
+  align-items:end;gap:20px;margin-bottom:25px;flex-wrap:wrap;
+}
+.config-title h1{font-size:34px;letter-spacing:-1.5px}
+.config-title p{color:#888;font-size:12px;margin-top:8px}
+.config-layout{
+  display:grid;grid-template-columns:1fr 1.2fr 1fr;
+  gap:16px;align-items:start;
+}
+.config-column{display:flex;flex-direction:column;gap:13px}
+.option-box{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:6px;padding:18px;
+}
+.option-heading{
+  display:flex;justify-content:space-between;
+  align-items:center;margin-bottom:14px;
+}
+.option-heading h3{font-size:12px;text-transform:uppercase;letter-spacing:1px}
+.option-heading span{font-size:10px;color:#777}
+.option-select{
+  width:100%;background:#1c1c1c;color:white;
+  border:1px solid #333;padding:13px 10px;
+  border-radius:3px;font-size:11px;outline:none;
+}
+.option-select:focus{border-color:#aaa}
+.option-price{color:#aaa;font-size:11px;margin-top:10px}
+.center-pc{
+  background:radial-gradient(ellipse,#292929,#111 65%);
+  border:1px solid var(--border);border-radius:7px;
+  min-height:440px;display:flex;align-items:center;
+  justify-content:center;padding:25px;position:relative;
+}
+.center-pc img{width:100%;height:370px;object-fit:contain}
+.pc-placeholder{
+  width:160px;height:310px;border:3px solid #777;
+  border-radius:13px;background:linear-gradient(120deg,#252525,#090909);
+  position:relative;box-shadow:0 0 50px #444;
+}
+.pc-placeholder:before{
+  content:"";position:absolute;top:25px;left:15px;right:15px;
+  height:220px;border:1px solid #555;border-radius:7px;
+  background:radial-gradient(circle at 50% 25%,#777 0 25px,#222 27px);
+}
+.pc-placeholder:after{
+  content:"ER1K PC";position:absolute;bottom:18px;
+  width:100%;text-align:center;font-size:10px;
+  letter-spacing:2px;color:#aaa;
+}
+.config-summary{
+  margin-top:17px;background:var(--panel);
+  border:1px solid var(--border);padding:20px;
+  border-radius:6px;
+}
+.summary-row{
+  display:flex;justify-content:space-between;
+  color:#999;font-size:11px;padding:8px 0;
+  border-bottom:1px solid #242424;gap:12px;
+}
+.summary-row strong{color:white;text-align:right}
+.total-row{
+  display:flex;justify-content:space-between;
+  align-items:center;padding-top:20px;gap:15px;
+}
+.total-row span{color:#aaa;font-size:11px}
+.total-row strong{font-size:30px;font-weight:900}
+.order-btn{
+  width:100%;padding:16px;background:white;color:black;
+  border:0;border-radius:4px;font-weight:900;
+  margin-top:17px;font-size:12px;
+}
+.order-btn:hover{background:#ccc}
+.fixed-note{color:#777;font-size:10px;margin-top:12px;line-height:1.6}
+
+/* ADMIN */
+.admin-page{padding:40px 7% 80px;max-width:1100px;margin:auto}
+.admin-page h1{font-size:34px;margin-bottom:10px}
+.admin-page>p{color:#888;font-size:12px;margin-bottom:30px}
+.admin-panel{
+  background:var(--panel);border:1px solid var(--border);
+  padding:22px;border-radius:6px;margin-bottom:18px;
+}
+.admin-panel h2{font-size:16px;margin-bottom:18px}
+.admin-panel h3{font-size:12px;margin:20px 0 10px;color:#bbb}
+.admin-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:12px;
+}
+.admin-field{display:flex;flex-direction:column;gap:7px}
+.admin-field label{font-size:10px;color:#999}
+.admin-field input,.admin-field select{
+  background:#1c1c1c;border:1px solid #333;color:white;
+  padding:12px;border-radius:3px;width:100%;font-size:11px;
+}
+.admin-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:15px}
+.admin-actions button{
+  background:white;color:black;border:0;padding:12px 17px;
+  border-radius:3px;font-size:11px;font-weight:800;
+}
+.admin-actions button.danger{background:#541e1e;color:white}
+.admin-actions button.gray{background:#333;color:white}
+.admin-item{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:12px 0;border-bottom:1px solid #292929;gap:12px;
+  font-size:11px;
+}
+.admin-item button{
+  background:#333;color:white;border:0;padding:7px 10px;
+  border-radius:3px;font-size:10px;
+}
+.admin-item button.delete{background:#572020}
+.login-box{
+  max-width:380px;margin:100px auto;background:var(--panel);
+  border:1px solid var(--border);padding:30px;border-radius:7px;
+}
+.login-box h2{margin-bottom:20px}
+.login-box input{
+  width:100%;background:#222;border:1px solid #444;
+  color:white;padding:14px;margin-bottom:12px;
+}
+.login-box button{
+  width:100%;padding:14px;background:white;
+  border:0;font-weight:900;
+}
+.toast{
+  position:fixed;bottom:25px;right:25px;background:white;
+  color:black;padding:14px 20px;border-radius:4px;
+  font-size:12px;z-index:99;display:none;
+}
+@media(max-width:950px){
+  .pc-grid{grid-template-columns:repeat(2,1fr)}
+  .config-layout{grid-template-columns:1fr 1fr}
+  .center-pc{grid-column:1/-1;grid-row:1;min-height:320px}
+  .center-pc img{height:270px}
+}
+@media(max-width:600px){
+  header{padding:0 5%;height:65px}
+  nav{gap:10px}
+  nav a{display:none}
+  .hero{padding:75px 6% 65px}
+  .hero h1{letter-spacing:-2px}
+  .section{padding:45px 5%}
+  .pc-grid{grid-template-columns:1fr}
+  .features{grid-template-columns:1fr;padding:30px 6%}
+  .config-page{padding:25px 4%}
+  .config-layout{grid-template-columns:1fr}
+  .center-pc{grid-column:auto;grid-row:auto}
+  .admin-grid{grid-template-columns:1fr}
+  .total-row strong{font-size:25px}
+}
+</style>
 </head>
-<body class="min-h-screen flex flex-col">
-  <div id="app" class="flex-1 flex flex-col"></div>
+<body>
 
-  <script type="module">
-    const STORAGE_KEY = 'er1k_pc_site_v2';
-    const TIKTOK_URL = 'https://www.tiktok.com/@er1k.pc.build?_r=1&_t=ZN-9BcUhktscVy';
+<header>
+  <div class="logo">ER1K<span> PC</span></div>
+  <nav>
+    <a href="#" onclick="showHome()">ACASĂ</a>
+    <a href="#computers" onclick="showHome()">CONFIGURAȚII</a>
+    <a href="#contact">CONTACT</a>
+    <button class="header-btn" onclick="showHome()">DESCOPERĂ PC-URILE</button>
+  </nav>
+</header>
 
-    const DEFAULT_DATA = [
-      {
-        id: 'start', name: 'Er1k Start', basePrice: 2500, img: '',
-        gpus: [{ id: 'g1', name: 'GTX 1660 Super', price: 0 }, { id: 'g2', name: 'RX 6600', price: 250 }],
-        cpus: [{ id: 'c1', name: 'Ryzen 5 3600', price: 0 }, { id: 'c2', name: 'Ryzen 5 5600', price: 220 }],
-        ssds: [{ id: 's1', name: '512GB NVMe', price: 0 }, { id: 's2', name: '1TB NVMe', price: 180 }],
-        rams: [{ id: 'r1', name: '16GB DDR4', price: 0 }, { id: 'r2', name: '32GB DDR4', price: 200 }],
-        cases: [{ id: 'ca1', name: 'Carcasă Cyber Dark', price: 0, img: '' }],
-        coolers: [{ id: 'co1', name: 'Răcire CPU Standard', price: 0, img: '' }]
-      },
-      {
-        id: 'core', name: 'Er1k Core', basePrice: 3500, img: '',
-        gpus: [{ id: 'g1', name: 'RTX 3060', price: 0 }, { id: 'g2', name: 'RX 6700 XT', price: 400 }],
-        cpus: [{ id: 'c1', name: 'Ryzen 5 5600', price: 0 }, { id: 'c2', name: 'Ryzen 7 5700X', price: 320 }],
-        ssds: [{ id: 's1', name: '1TB NVMe', price: 0 }, { id: 's2', name: '2TB NVMe', price: 340 }],
-        rams: [{ id: 'r1', name: '16GB DDR4', price: 0 }, { id: 'r2', name: '32GB DDR4', price: 200 }],
-        cases: [{ id: 'ca1', name: 'Carcasă Glass Pro', price: 0, img: '' }],
-        coolers: [{ id: 'co1', name: 'AIO 240mm', price: 0, img: '' }]
-      },
-      {
-        id: 'pro', name: 'Er1k Pro', basePrice: 4800, img: '',
-        gpus: [{ id: 'g1', name: 'RTX 4060 Ti', price: 0 }, { id: 'g2', name: 'RX 7700 XT', price: 450 }],
-        cpus: [{ id: 'c1', name: 'Ryzen 5 7500F', price: 0 }, { id: 'c2', name: 'Ryzen 7 7700', price: 550 }],
-        ssds: [{ id: 's1', name: '1TB Gen4 NVMe', price: 0 }, { id: 's2', name: '2TB Gen4 NVMe', price: 360 }],
-        rams: [{ id: 'r1', name: '32GB DDR5', price: 0 }, { id: 'r2', name: '64GB DDR5', price: 500 }],
-        cases: [{ id: 'ca1', name: 'Carcasă Dual-Chamber', price: 0, img: '' }],
-        coolers: [{ id: 'co1', name: 'AIO 240mm ARGB', price: 0, img: '' }]
-      },
-      {
-        id: 'elite', name: 'Er1k Elite', basePrice: 6500, img: '',
-        gpus: [{ id: 'g1', name: 'RTX 4070 Super', price: 0 }, { id: 'g2', name: 'RX 7900 GRE', price: 250 }],
-        cpus: [{ id: 'c1', name: 'Ryzen 7 7700', price: 0 }, { id: 'c2', name: 'Ryzen 7 7800X3D', price: 850 }],
-        ssds: [{ id: 's1', name: '1TB Gen4 NVMe', price: 0 }, { id: 's2', name: '2TB Gen4 NVMe', price: 360 }],
-        rams: [{ id: 'r1', name: '32GB DDR5', price: 0 }, { id: 'r2', name: '64GB DDR5', price: 500 }],
-        cases: [{ id: 'ca1', name: 'Carcasă Elite Black', price: 0, img: '' }],
-        coolers: [{ id: 'co1', name: 'AIO 360mm', price: 0, img: '' }]
-      },
-      {
-        id: 'ultimate', name: 'Er1k Ultimate', basePrice: 9000, img: '',
-        gpus: [{ id: 'g1', name: 'RTX 4080 Super', price: 0 }, { id: 'g2', name: 'RTX 4090', price: 2800 }],
-        cpus: [{ id: 'c1', name: 'Ryzen 7 7800X3D', price: 0 }, { id: 'c2', name: 'Ryzen 9 7950X3D', price: 1100 }],
-        ssds: [{ id: 's1', name: '2TB Gen4 NVMe', price: 0 }, { id: 's2', name: '4TB Gen4 NVMe', price: 750 }],
-        rams: [{ id: 'r1', name: '32GB DDR5', price: 0 }, { id: 'r2', name: '64GB DDR5', price: 500 }],
-        cases: [{ id: 'ca1', name: 'Carcasă Ultimate Tower', price: 0, img: '' }],
-        coolers: [{ id: 'co1', name: 'AIO 360mm LCD', price: 0, img: '' }]
+<main>
+<section id="homePage" class="page active">
+  <div class="hero">
+    <div class="eyebrow">ER1K PC BUILDS · GAMING SYSTEMS</div>
+    <h1>BUILD YOUR<br><span>PERFECT PC.</span></h1>
+    <p>Calculatoare gaming configurate cu atenție. Alege sistemul potrivit și personalizează componentele după preferințele tale.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="document.getElementById('computers').scrollIntoView({behavior:'smooth'})">VEZI CONFIGURAȚIILE</button>
+      <button class="btn-secondary" onclick="showContact()">CONTACTEAZĂ-NE</button>
+    </div>
+  </div>
+
+  <section class="section" id="computers">
+    <div class="section-heading">
+      <div>
+        <div class="eyebrow">ALEGE SISTEMUL TĂU</div>
+        <h2>PC CONFIGURATIONS</h2>
+      </div>
+      <p>4 SISTEME · CONFIGURABILE</p>
+    </div>
+    <div class="pc-grid" id="pcGrid"></div>
+  </section>
+
+  <section class="features">
+    <div class="feature">
+      <h3>01 / CONFIGURAȚII PERSONALIZATE</h3>
+      <p>Alege componentele potrivite pentru nevoile și bugetul tău.</p>
+    </div>
+    <div class="feature">
+      <h3>02 / TESTARE</h3>
+      <p>Fiecare sistem este verificat înainte de livrare.</p>
+    </div>
+    <div class="feature">
+      <h3>03 / SUPORT</h3>
+      <p>Te ajutăm să alegi configurația potrivită.</p>
+    </div>
+  </section>
+</section>
+
+<section id="configPage" class="page config-page">
+  <button class="back-btn" onclick="showHome()">← ÎNAPOI LA CONFIGURAȚII</button>
+  <div class="config-title">
+    <div>
+      <div class="eyebrow">PERSONALIZEAZĂ SISTEMUL</div>
+      <h1 id="configName">Er1k Gaming</h1>
+      <p id="configDescription">Alege componentele pentru sistemul tău.</p>
+    </div>
+  </div>
+
+  <div class="config-layout">
+    <div class="config-column" id="leftOptions"></div>
+
+    <div>
+      <div class="center-pc" id="centerImage">
+        <div class="pc-placeholder"></div>
+      </div>
+      <div class="config-summary">
+        <div class="eyebrow">CONFIGURAȚIA TA</div>
+        <div id="summaryRows"></div>
+        <div class="total-row">
+          <span>PREȚ TOTAL</span>
+          <strong id="totalPrice">0 RON</strong>
+        </div>
+        <button class="order-btn" onclick="sendOrder()">SOLICITĂ ACEASTĂ CONFIGURAȚIE</button>
+        <p class="fixed-note">Prețurile sunt afișate în RON. Configurația finală se confirmă înainte de comandă.</p>
+      </div>
+    </div>
+
+    <div class="config-column" id="rightOptions"></div>
+  </div>
+</section>
+
+<section id="loginPage" class="page">
+  <div class="login-box">
+    <h2>ADMIN LOGIN</h2>
+    <input type="password" id="adminPassword" placeholder="Parolă administrator">
+    <button onclick="loginAdmin()">AUTENTIFICARE</button>
+    <p style="color:#777;font-size:11px;margin-top:15px" id="loginError"></p>
+    <button class="btn-secondary" style="margin-top:12px;width:100%" onclick="showHome()">ÎNAPOI</button>
+  </div>
+</section>
+
+<section id="adminPage" class="page admin-page">
+  <button class="back-btn" onclick="showHome()">← ÎNAPOI LA SITE</button>
+  <h1>ADMIN PANEL</h1>
+  <p>Gestionează calculatoarele, componentele, imaginile și prețurile.</p>
+  <div id="adminContent"></div>
+  <div class="admin-actions">
+    <button onclick="saveData()">SALVEAZĂ MODIFICĂRILE</button>
+    <button class="gray" onclick="logoutAdmin()">DECONECTARE</button>
+  </div>
+</section>
+</main>
+
+<footer id="contact">
+  <div><strong style="color:white">ER1K PC</strong> — GAMING SYSTEMS</div>
+  <div>© 2026 ER1K PC. ALL RIGHTS RESERVED.</div>
+  <div>Contact: completează aici datele tale</div>
+</footer>
+
+<a class="admin-link" href="#" onclick="showLogin();return false">admin</a>
+<div class="toast" id="toast"></div>
+
+<script>
+const ADMIN_PASSWORD = "er1k2026";
+const STORAGE_KEY = "er1k_pc_website_v1";
+
+const defaultData = {
+  pcs: [
+    {
+      id:"start",name:"Er1k Start",description:"Sistem accesibil pentru gaming și utilizare zilnică.",
+      price:1800,image:"",
+      fixed:{motherboard:"Placă de bază inclusă",psu:"Sursă inclusă"},
+      components:{
+        gpu:[
+          {name:"GTX 1050 Ti 4GB",price:0},
+          {name:"GTX 1650 4GB",price:150},
+          {name:"RX 580 8GB",price:250}
+        ],
+        cpu:[
+          {name:"Intel Core i5",price:0},
+          {name:"AMD Ryzen 5",price:100}
+        ],
+        ram:[
+          {name:"16GB DDR4",price:0},
+          {name:"32GB DDR4",price:180}
+        ],
+        ssd:[
+          {name:"500GB SSD",price:0},
+          {name:"1TB SSD",price:150}
+        ],
+        case:[
+          {name:"Carcasă Standard",price:0,image:""},
+          {name:"Carcasă Gaming RGB",price:120,image:""}
+        ],
+        cooler:[
+          {name:"Cooler Standard",price:0,image:""},
+          {name:"Cooler Tower RGB",price:100,image:""}
+        ]
       }
-    ];
-
-    function loadData() {
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) {
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_DATA));
-          return JSON.parse(JSON.stringify(DEFAULT_DATA));
-        }
-        return JSON.parse(raw);
-      } catch {
-        return JSON.parse(JSON.stringify(DEFAULT_DATA));
+    },
+    {
+      id:"gaming",name:"Er1k Gaming",description:"Performanță excelentă pentru gaming Full HD.",
+      price:2600,image:"",
+      fixed:{motherboard:"Placă de bază inclusă",psu:"Sursă inclusă"},
+      components:{
+        gpu:[
+          {name:"RX 6600 8GB",price:0},
+          {name:"RTX 3060 12GB",price:350},
+          {name:"RTX 4060 8GB",price:550}
+        ],
+        cpu:[
+          {name:"Ryzen 5 5500",price:0},
+          {name:"Ryzen 5 5600",price:200},
+          {name:"Intel Core i5",price:250}
+        ],
+        ram:[
+          {name:"16GB DDR4",price:0},
+          {name:"32GB DDR4",price:180}
+        ],
+        ssd:[
+          {name:"500GB SSD",price:0},
+          {name:"1TB SSD",price:150},
+          {name:"2TB SSD",price:350}
+        ],
+        case:[
+          {name:"Carcasă Gaming",price:0,image:""},
+          {name:"Carcasă RGB Premium",price:180,image:""}
+        ],
+        cooler:[
+          {name:"Cooler Standard",price:0,image:""},
+          {name:"Cooler Tower RGB",price:120,image:""}
+        ]
+      }
+    },
+    {
+      id:"pro",name:"Er1k Pro",description:"Un sistem puternic pentru gaming și multitasking.",
+      price:3800,image:"",
+      fixed:{motherboard:"Placă de bază inclusă",psu:"Sursă inclusă"},
+      components:{
+        gpu:[
+          {name:"RTX 4060 8GB",price:0},
+          {name:"RTX 4060 Ti 8GB",price:400},
+          {name:"RX 7700 XT 12GB",price:700}
+        ],
+        cpu:[
+          {name:"Ryzen 5 5600",price:0},
+          {name:"Ryzen 7 5700X",price:300},
+          {name:"Ryzen 5 7600",price:450}
+        ],
+        ram:[
+          {name:"32GB DDR4",price:0},
+          {name:"32GB DDR5",price:200},
+          {name:"64GB DDR5",price:450}
+        ],
+        ssd:[
+          {name:"1TB NVMe SSD",price:0},
+          {name:"2TB NVMe SSD",price:250}
+        ],
+        case:[
+          {name:"Carcasă Pro",price:0,image:""},
+          {name:"Carcasă Premium RGB",price:200,image:""}
+        ],
+        cooler:[
+          {name:"Cooler Tower",price:0,image:""},
+          {name:"Cooler ARGB",price:150,image:""}
+        ]
+      }
+    },
+    {
+      id:"ultimate",name:"Er1k Ultimate",description:"Configurație high-performance pentru gaming avansat.",
+      price:5500,image:"",
+      fixed:{motherboard:"Placă de bază inclusă",psu:"Sursă inclusă"},
+      components:{
+        gpu:[
+          {name:"RTX 4070 Super 12GB",price:0},
+          {name:"RTX 5070 12GB",price:600},
+          {name:"RTX 5070 Ti 16GB",price:1300}
+        ],
+        cpu:[
+          {name:"Ryzen 7 7700",price:0},
+          {name:"Ryzen 7 7800X3D",price:700},
+          {name:"Ryzen 7 9800X3D",price:1100}
+        ],
+        ram:[
+          {name:"32GB DDR5",price:0},
+          {name:"64GB DDR5",price:400}
+        ],
+        ssd:[
+          {name:"1TB NVMe SSD",price:0},
+          {name:"2TB NVMe SSD",price:250},
+          {name:"4TB NVMe SSD",price:600}
+        ],
+        case:[
+          {name:"Carcasă Ultimate",price:0,image:""},
+          {name:"Carcasă Premium Showcase",price:250,image:""}
+        ],
+        cooler:[
+          {name:"Cooler Tower Premium",price:0,image:""},
+          {name:"Liquid Cooler 240mm",price:250,image:""},
+          {name:"Liquid Cooler 360mm",price:400,image:""}
+        ]
       }
     }
+  ]
+};
 
-    function saveData(d) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
+let data = loadData();
+let currentPC = null;
+let selected = {};
+let adminLoggedIn = false;
+
+function loadData(){
+  try{
+    const saved=localStorage.getItem(STORAGE_KEY);
+    if(saved){
+      const parsed=JSON.parse(saved);
+      if(parsed.pcs && parsed.pcs.length===4) return parsed;
     }
+  }catch(e){}
+  return JSON.parse(JSON.stringify(defaultData));
+}
 
-    let pcs = loadData();
-    let state = {
-      view: 'home',
-      pcId: pcs[0].id,
-      gpuId: null,
-      cpuId: null,
-      ssdId: null,
-      ramId: null,
-      caseId: null,
-      coolerId: null,
-      modalOpen: false,
-      adminAuthed: false,
-      adminTab: pcs[0].id,
-      savedNotice: false,
-      animKey: 0
+function saveData(){
+  try{
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(data));
+    notify("Modificările au fost salvate!");
+    renderHome();
+  }catch(e){
+    notify("Imaginile sunt prea mari. Încearcă imagini mai mici.");
+  }
+}
+
+function showPage(id){
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function showHome(){showPage("homePage");renderHome()}
+function showLogin(){showPage("loginPage")}
+function showContact(){
+  document.getElementById("contact").scrollIntoView({behavior:"smooth"});
+}
+
+function money(n){
+  return Math.round(n).toLocaleString("ro-RO")+" RON";
+}
+
+function renderHome(){
+  const grid=document.getElementById("pcGrid");
+  grid.innerHTML="";
+  data.pcs.forEach(pc=>{
+    const card=document.createElement("article");
+    card.className="pc-card";
+    card.innerHTML=`
+      <div class="pc-image">
+        ${pc.image
+          ? `<img src="${pc.image}" alt="${escapeHTML(pc.name)}">`
+          : `<div class="pc-placeholder"></div>`}
+      </div>
+      <div class="pc-info">
+        <h3>${escapeHTML(pc.name)}</h3>
+        <p>${escapeHTML(pc.description)}</p>
+        <div class="pc-price">${money(pc.price)}</div>
+        <button>CONFIGUREAZĂ PC-UL →</button>
+      </div>`;
+    card.querySelector("button").onclick=()=>openConfigurator(pc.id);
+    grid.appendChild(card);
+  });
+}
+
+function escapeHTML(s){
+  return String(s??"").replace(/[&<>"']/g,c=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[c]));
+}
+
+function openConfigurator(id){
+  currentPC=data.pcs.find(p=>p.id===id);
+  if(!currentPC)return;
+  selected={};
+  Object.keys(currentPC.components).forEach(key=>{
+    selected[key]=0;
+  });
+  document.getElementById("configName").textContent=currentPC.name;
+  document.getElementById("configDescription").textContent=currentPC.description;
+  renderConfigurator();
+  showPage("configPage");
+}
+
+const labels={
+  gpu:"Placă video",
+  cpu:"Procesor",
+  ram:"Memorie RAM",
+  ssd:"SSD / Stocare",
+  case:"Carcasă PC",
+  cooler:"Răcire procesor"
+};
+
+function renderConfigurator(){
+  if(!currentPC)return;
+  const left=document.getElementById("leftOptions");
+  const right=document.getElementById("rightOptions");
+  left.innerHTML="";
+  right.innerHTML="";
+
+  ["gpu","cpu","case"].forEach(key=>left.appendChild(createOption(key)));
+  ["ssd","ram","cooler"].forEach(key=>right.appendChild(createOption(key)));
+
+  const center=document.getElementById("centerImage");
+  const caseOption=currentPC.components.case[selected.case||0];
+  const image=(caseOption&&caseOption.image)||currentPC.image;
+  center.innerHTML=image
+    ? `<img src="${image}" alt="PC">`
+    : `<div class="pc-placeholder"></div>`;
+
+  updateSummary();
+}
+
+function createOption(key){
+  const box=document.createElement("div");
+  box.className="option-box";
+  const options=currentPC.components[key]||[];
+  const index=selected[key]||0;
+  const chosen=options[index]||{name:"Nespecificat",price:0};
+  box.innerHTML=`
+    <div class="option-heading">
+      <h3>${labels[key]}</h3>
+      <span>${options.length} OPȚIUNI</span>
+    </div>
+    <select class="option-select">
+      ${options.map((item,i)=>`
+        <option value="${i}" ${i===index?"selected":""}>
+          ${escapeHTML(item.name)} ${item.price>0?"+ "+money(item.price):""}
+        </option>`).join("")}
+    </select>
+    <div class="option-price">
+      ${chosen.price>0?"Supliment: +"+money(chosen.price):"Inclus în configurație"}
+    </div>
+    ${chosen.image?`<img src="${chosen.image}" style="width:100%;height:100px;object-fit:contain;margin-top:12px">`:""}
+  `;
+  box.querySelector("select").onchange=e=>{
+    selected[key]=Number(e.target.value);
+    renderConfigurator();
+  };
+  return box;
+}
+
+function getTotal(){
+  let total=Number(currentPC.price)||0;
+  Object.keys(currentPC.components).forEach(key=>{
+    const item=currentPC.components[key][selected[key]||0];
+    if(item)total+=Number(item.price)||0;
+  });
+  return total;
+}
+
+function updateSummary(){
+  const rows=document.getElementById("summaryRows");
+  rows.innerHTML="";
+  const base=document.createElement("div");
+  base.className="summary-row";
+  base.innerHTML=`<span>Preț de bază</span><strong>${money(currentPC.price)}</strong>`;
+  rows.appendChild(base);
+
+  Object.keys(currentPC.components).forEach(key=>{
+    const item=currentPC.components[key][selected[key]||0];
+    if(!item)return;
+    const row=document.createElement("div");
+    row.className="summary-row";
+    row.innerHTML=`
+      <span>${labels[key]}</span>
+      <strong>${escapeHTML(item.name)}${item.price>0?" (+"+money(item.price)+")":""}</strong>`;
+    rows.appendChild(row);
+  });
+
+  document.getElementById("totalPrice").textContent=money(getTotal());
+}
+
+function sendOrder(){
+  const lines=[
+    "Bună ziua! Sunt interesat de următoarea configurație Er1k PC:",
+    "",
+    currentPC.name,
+    "Preț total: "+money(getTotal()),
+    ""
+  ];
+  Object.keys(currentPC.components).forEach(key=>{
+    const item=currentPC.components[key][selected[key]||0];
+    if(item)lines.push(labels[key]+": "+item.name);
+  });
+  const message=encodeURIComponent(lines.join("\n"));
+  // Schimbă numărul cu numărul tău de WhatsApp, în format internațional.
+  const whatsappNumber="";
+  if(whatsappNumber){
+    window.open("https://wa.me/"+whatsappNumber+"?text="+message,"_blank");
+  }else{
+    navigator.clipboard?.writeText(decodeURIComponent(message));
+    alert("Configurația a fost pregătită. Completează numărul WhatsApp în cod pentru a activa trimiterea directă.");
+  }
+}
+
+/* ADMIN */
+function loginAdmin(){
+  const password=document.getElementById("adminPassword").value;
+  if(password===ADMIN_PASSWORD){
+    adminLoggedIn=true;
+    document.getElementById("adminPassword").value="";
+    document.getElementById("loginError").textContent="";
+    renderAdmin();
+    showPage("adminPage");
+  }else{
+    document.getElementById("loginError").textContent="Parolă incorectă!";
+  }
+}
+function logoutAdmin(){
+  adminLoggedIn=false;
+  showHome();
+}
+function adminCheck(){
+  if(!adminLoggedIn){showLogin();return false}
+  return true;
+}
+
+function renderAdmin(){
+  if(!adminCheck())return;
+  const root=document.getElementById("adminContent");
+  root.innerHTML="";
+
+  data.pcs.forEach((pc,pcIndex)=>{
+    const panel=document.createElement("div");
+    panel.className="admin-panel";
+    panel.innerHTML=`
+      <h2>${escapeHTML(pc.name)}</h2>
+      <div class="admin-grid">
+        <div class="admin-field">
+          <label>NUMELE PC-ULUI</label>
+          <input id="pcname${pcIndex}" value="${escapeHTML(pc.name)}">
+        </div>
+        <div class="admin-field">
+          <label>PREȚ DE BAZĂ (RON)</label>
+          <input id="pcprice${pcIndex}" type="number" min="0" value="${pc.price}">
+        </div>
+        <div class="admin-field">
+          <label>DESCRIERE</label>
+          <input id="pcdesc${pcIndex}" value="${escapeHTML(pc.description)}">
+        </div>
+        <div class="admin-field">
+          <label>IMAGINE PC</label>
+          <input id="pcimage${pcIndex}" type="file" accept="image/*">
+        </div>
+      </div>
+      <div class="admin-actions">
+        <button onclick="updatePC(${pcIndex})">SALVEAZĂ DATE PC</button>
+      </div>
+      <h3>COMPONENTE FIXE — NU POT FI SCHIMBATE DE CLIENT</h3>
+      <div class="admin-grid">
+        <div class="admin-field">
+          <label>PLACĂ DE BAZĂ</label>
+          <input value="${escapeHTML(pc.fixed.motherboard)}" disabled>
+        </div>
+        <div class="admin-field">
+          <label>SURSĂ DE ALIMENTARE</label>
+          <input value="${escapeHTML(pc.fixed.psu)}" disabled>
+        </div>
+      </div>
+      <div id="componentAdmin${pcIndex}"></div>
+    `;
+    root.appendChild(panel);
+
+    const componentRoot=panel.querySelector("#componentAdmin"+pcIndex);
+    Object.keys(pc.components).forEach(key=>{
+      const section=document.createElement("div");
+      section.innerHTML=`
+        <h3>${labels[key].toUpperCase()} — OPȚIUNI</h3>
+        <div id="items${pcIndex}${key}"></div>
+        <div class="admin-grid">
+          <div class="admin-field">
+            <label>NUME COMPONENTĂ NOUĂ</label>
+            <input id="newname${pcIndex}${key}" placeholder="Ex: RTX 4060 8GB">
+          </div>
+          <div class="admin-field">
+            <label>SUPLIMENT DE PREȚ (RON)</label>
+            <input id="newprice${pcIndex}${key}" type="number" min="0" value="0">
+          </div>
+          ${["case","cooler"].includes(key)?`
+          <div class="admin-field">
+            <label>IMAGINE COMPONENTĂ</label>
+            <input id="newimage${pcIndex}${key}" type="file" accept="image/*">
+          </div>`:""}
+        </div>
+        <div class="admin-actions">
+          <button onclick="addOption(${pcIndex},'${key}')">+ ADAUGĂ COMPONENTĂ</button>
+        </div>
+      `;
+      componentRoot.appendChild(section);
+      renderAdminItems(pcIndex,key);
+    });
+  });
+}
+
+function renderAdminItems(pcIndex,key){
+  const list=document.getElementById("items"+pcIndex+key);
+  if(!list)return;
+  list.innerHTML="";
+  data.pcs[pcIndex].components[key].forEach((item,itemIndex)=>{
+    const row=document.createElement("div");
+    row.className="admin-item";
+    row.innerHTML=`
+      <div>
+        <strong>${escapeHTML(item.name)}</strong><br>
+        <span style="color:#888">${money(item.price)}</span>
+        ${item.image?" · Imagine încărcată":""}
+      </div>
+      <button class="delete">ȘTERGE</button>
+    `;
+    row.querySelector("button").onclick=()=>{
+      if(data.pcs[pcIndex].components[key].length<=1){
+        alert("Trebuie să existe cel puțin o opțiune.");
+        return;
+      }
+      data.pcs[pcIndex].components[key].splice(itemIndex,1);
+      renderAdmin();
     };
-
-    const BASE_GPU_X = 0.04;
-    const BASE_CPU_X = -0.34;
-    const BASE_RAM_X = -0.48;
-    const BASE_SSD_X = -0.34;
-
-    let targetOffsets = { gpu: 0, cpu: 0, ram: 0, ssd: 0 };
-    let animFrame = null;
-    let resizeObserver = null;
-    let THREE_MOD = null;
-    let CONTROLS_MOD = null;
-
-    function setHoverPart(part) {
-      if (part === 'gpu') {
-        targetOffsets = { gpu: 1.15, cpu: 0, ram: 0, ssd: 0 };
-      } else if (part === 'ssd') {
-        targetOffsets = { gpu: 0, cpu: 0, ram: 0, ssd: 1.1 };
-      } else if (part === 'ram') {
-        targetOffsets = { gpu: 0, cpu: 0, ram: 1.05, ssd: 0 };
-      } else if (part === 'cpu') {
-        targetOffsets = { gpu: 0, cpu: 1.02, ram: 1.05, ssd: 1.1 };
-      } else {
-        targetOffsets = { gpu: 0, cpu: 0, ram: 0, ssd: 0 };
-      }
-    }
-
-    function switchView(nextView, extra = {}) {
-      state = { ...state, ...extra, view: nextView, animKey: state.animKey + 1 };
-      setHoverPart(null);
-      render();
-    }
-
-    async function ensureThree() {
-      if (THREE_MOD && CONTROLS_MOD) return true;
-      try {
-        THREE_MOD = await import('https://esm.sh/three@0.160.0');
-        const ctrl = await import('https://esm.sh/three@0.160.0/examples/jsm/controls/OrbitControls.js');
-        CONTROLS_MOD = ctrl.OrbitControls;
-        return true;
-      } catch {
-        return false;
-      }
-    }
-
-    function buildDetailedFan(THREE, radius, frameMat, bladeMat, glowMat, accentMat) {
-      const fanGroup = new THREE.Group();
-      const outer = new THREE.Mesh(new THREE.TorusGeometry(radius, 0.025, 12, 36), frameMat);
-      const glow = new THREE.Mesh(new THREE.TorusGeometry(radius * 0.93, 0.014, 10, 36), glowMat);
-      const innerRing = new THREE.Mesh(new THREE.TorusGeometry(radius * 0.42, 0.01, 10, 28), accentMat);
-      const hub = new THREE.Mesh(new THREE.CylinderGeometry(radius * 0.28, radius * 0.28, 0.055, 20), frameMat);
-      hub.rotation.x = Math.PI / 2;
-      const cap = new THREE.Mesh(new THREE.CylinderGeometry(radius * 0.16, radius * 0.16, 0.062, 20), glowMat);
-      cap.rotation.x = Math.PI / 2;
-      fanGroup.add(outer, glow, innerRing, hub, cap);
-
-      const rotor = new THREE.Group();
-      const bladeCount = 7;
-      for (let i = 0; i < bladeCount; i++) {
-        const blade = new THREE.Mesh(new THREE.BoxGeometry(0.014, radius * 0.64, radius * 0.24), bladeMat);
-        const angle = (i / bladeCount) * Math.PI * 2;
-        blade.position.set(Math.cos(angle) * (radius * 0.56), Math.sin(angle) * (radius * 0.56), 0);
-        blade.rotation.z = angle + Math.PI / 2;
-        blade.rotation.y = 0.45;
-        rotor.add(blade);
-      }
-      fanGroup.add(rotor);
-      return { fanGroup, rotor };
-    }
-
-    async function mount3D(containerId, scaleMultiplier = 0.86) {
-      if (animFrame) cancelAnimationFrame(animFrame);
-      if (resizeObserver) {
-        resizeObserver.disconnect();
-        resizeObserver = null;
-      }
-
-      const host = document.getElementById(containerId);
-      if (!host) return;
-      host.innerHTML = '';
-
-      const ok = await ensureThree();
-      if (!ok || !document.getElementById(containerId)) return;
-
-      const THREE = THREE_MOD;
-      const OrbitControls = CONTROLS_MOD;
-
-      const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(44, 1, 0.1, 100);
-      camera.position.set(3.85, 1.48, 4.15);
-
-      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-      renderer.domElement.style.width = '100%';
-      renderer.domElement.style.height = '100%';
-      renderer.domElement.style.display = 'block';
-      host.appendChild(renderer.domElement);
-
-      function syncSize() {
-        const rect = host.getBoundingClientRect();
-        const cw = Math.max(Math.floor(rect.width), 280);
-        const ch = Math.max(Math.floor(rect.height), 260);
-        camera.aspect = cw / ch;
-        camera.updateProjectionMatrix();
-        renderer.setSize(cw, ch, false);
-      }
-      syncSize();
-
-      resizeObserver = new ResizeObserver(syncSize);
-      resizeObserver.observe(host);
-
-      const controls = new OrbitControls(camera, renderer.domElement);
-      controls.target.set(0, -0.05, 0);
-      controls.enableDamping = true;
-      controls.enablePan = false;
-      controls.autoRotate = true;
-      controls.autoRotateSpeed = 1.15;
-      controls.minDistance = 2.8;
-      controls.maxDistance = 6.8;
-
-      scene.add(new THREE.AmbientLight(0xe0f2fe, 1.85));
-      const keyLight = new THREE.DirectionalLight(0xffffff, 2.8);
-      keyLight.position.set(4.5, 6.5, 4.2);
-      scene.add(keyLight);
-
-      const cyanLight = new THREE.PointLight(0x22d3ee, 4.2, 18);
-      cyanLight.position.set(1.2, 0.4, 2.2);
-      scene.add(cyanLight);
-
-      const violetLight = new THREE.PointLight(0xc084fc, 2.6, 18);
-      violetLight.position.set(-2.4, 1.8, -1.8);
-      scene.add(violetLight);
-
-      const pcGroup = new THREE.Group();
-      pcGroup.scale.setScalar(scaleMultiplier);
-      scene.add(pcGroup);
-
-      const metalDark = new THREE.MeshStandardMaterial({ color: 0x162032, metalness: 0.78, roughness: 0.24 });
-      const shroudMat = new THREE.MeshStandardMaterial({ color: 0x1e2b42, metalness: 0.68, roughness: 0.30 });
-      const pcbMat = new THREE.MeshStandardMaterial({ color: 0x24344d, metalness: 0.55, roughness: 0.38 });
-      const heatsinkMat = new THREE.MeshStandardMaterial({ color: 0x334155, metalness: 0.82, roughness: 0.22 });
-      const bladeMat = new THREE.MeshStandardMaterial({ color: 0x2c3b52, metalness: 0.45, roughness: 0.35 });
-      const cyanGlow = new THREE.MeshBasicMaterial({ color: 0x22d3ee });
-      const violetGlow = new THREE.MeshBasicMaterial({ color: 0xc084fc });
-      const iceGlow = new THREE.MeshBasicMaterial({ color: 0xf0f9ff });
-
-      const backPlate = new THREE.Mesh(new THREE.BoxGeometry(0.07, 2.38, 2.16), metalDark);
-      backPlate.position.set(-0.74, 0, 0);
-      const topPlate = new THREE.Mesh(new THREE.BoxGeometry(1.56, 0.08, 2.18), metalDark);
-      topPlate.position.set(0, 1.15, 0);
-      const bottomPlate = new THREE.Mesh(new THREE.BoxGeometry(1.56, 0.1, 2.18), metalDark);
-      bottomPlate.position.set(0, -1.14, 0);
-      const cornerPillar = new THREE.Mesh(new THREE.BoxGeometry(0.05, 2.34, 0.05), metalDark);
-      cornerPillar.position.set(0.75, 0, 1.06);
-      pcGroup.add(backPlate, topPlate, bottomPlate, cornerPillar);
-
-      [[-0.56, -1.25, -0.78], [0.56, -1.25, -0.78], [-0.56, -1.25, 0.78], [0.56, -1.25, 0.78]].forEach(([fx, fy, fz]) => {
-        const foot = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.13, 0.12, 20), metalDark);
-        foot.position.set(fx, fy, fz);
-        pcGroup.add(foot);
-      });
-
-      const psuShroud = new THREE.Mesh(new THREE.BoxGeometry(1.44, 0.38, 2.04), shroudMat);
-      psuShroud.position.set(-0.01, -0.89, 0.01);
-      const psuStrip = new THREE.Mesh(new THREE.BoxGeometry(0.025, 0.035, 1.2), cyanGlow);
-      psuStrip.position.set(0.71, -0.72, 0.12);
-      pcGroup.add(psuShroud, psuStrip);
-
-      const mobo = new THREE.Mesh(new THREE.BoxGeometry(0.05, 1.38, 1.25), pcbMat);
-      mobo.position.set(-0.62, 0.16, -0.10);
-      const vrmTop = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.16, 0.72), heatsinkMat);
-      vrmTop.position.set(-0.54, 0.74, -0.24);
-      const vrmLeft = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.68, 0.16), heatsinkMat);
-      vrmLeft.position.set(-0.54, 0.34, -0.60);
-      pcGroup.add(mobo, vrmTop, vrmLeft);
-
-      const cpuGroup = new THREE.Group();
-      cpuGroup.position.set(BASE_CPU_X, 0.34, -0.18);
-      const pumpBlock = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.25, 0.16, 32), shroudMat);
-      pumpBlock.rotation.z = Math.PI / 2;
-      const pumpHalo = new THREE.Mesh(new THREE.TorusGeometry(0.22, 0.018, 12, 36), cyanGlow);
-      pumpHalo.rotation.y = Math.PI / 2;
-      pumpHalo.position.set(0.085, 0, 0);
-      const pumpInner = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.13, 0.175, 24), metalDark);
-      pumpInner.rotation.z = Math.PI / 2;
-      cpuGroup.add(pumpBlock, pumpHalo, pumpInner);
-      pcGroup.add(cpuGroup);
-
-      const tubeCurve1 = new THREE.CatmullRomCurve3([
-        new THREE.Vector3(-0.34, 0.44, -0.14),
-        new THREE.Vector3(-0.18, 0.88, 0.15),
-        new THREE.Vector3(0.06, 1.02, 0.56)
-      ]);
-      const tubeCurve2 = new THREE.CatmullRomCurve3([
-        new THREE.Vector3(-0.34, 0.24, -0.14),
-        new THREE.Vector3(-0.18, 0.78, 0.22),
-        new THREE.Vector3(0.06, 1.02, 0.66)
-      ]);
-      const tubeMat = new THREE.MeshStandardMaterial({ color: 0x334155, metalness: 0.4, roughness: 0.45 });
-      pcGroup.add(
-        new THREE.Mesh(new THREE.TubeGeometry(tubeCurve1, 24, 0.036, 12, false), tubeMat),
-        new THREE.Mesh(new THREE.TubeGeometry(tubeCurve2, 24, 0.036, 12, false), tubeMat)
-      );
-
-      const ramGroup = new THREE.Group();
-      ramGroup.position.set(BASE_RAM_X, 0.42, -0.12);
-      [-0.12, -0.05, 0.02, 0.09].forEach((rz, idx) => {
-        const stick = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.52, 0.036), shroudMat);
-        stick.position.set(0, 0, rz);
-        const ramLed = new THREE.Mesh(new THREE.BoxGeometry(0.016, 0.48, 0.014), idx % 2 === 0 ? cyanGlow : violetGlow);
-        ramLed.position.set(0.035, 0, rz);
-        ramGroup.add(stick, ramLed);
-      });
-      pcGroup.add(ramGroup);
-
-      const ssdGroup = new THREE.Group();
-      ssdGroup.position.set(BASE_SSD_X, -0.03, -0.12);
-      const ssdPcb = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.12, 0.56), pcbMat);
-      const ssdSink = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.11, 0.50), heatsinkMat);
-      ssdSink.position.set(0.025, 0, 0);
-      const ssdStrip = new THREE.Mesh(new THREE.BoxGeometry(0.015, 0.028, 0.44), cyanGlow);
-      ssdStrip.position.set(0.052, 0.02, 0);
-      ssdGroup.add(ssdPcb, ssdSink, ssdStrip);
-      pcGroup.add(ssdGroup);
-
-      const gpuGroup = new THREE.Group();
-      gpuGroup.position.set(BASE_GPU_X, -0.25, 0.06);
-      const gpuBackplate = new THREE.Mesh(new THREE.BoxGeometry(0.96, 0.03, 1.48), metalDark);
-      gpuBackplate.position.set(0, 0.12, 0);
-      const gpuShroud = new THREE.Mesh(new THREE.BoxGeometry(0.94, 0.18, 1.44), shroudMat);
-      gpuShroud.position.set(0, 0.02, 0);
-      const gpuSideBar = new THREE.Mesh(new THREE.BoxGeometry(0.035, 0.045, 1.36), cyanGlow);
-      gpuSideBar.position.set(0.48, 0.05, 0);
-      const gpuBracket = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.34, 0.08), heatsinkMat);
-      gpuBracket.position.set(0.44, 0.02, -0.74);
-
-      const gpuFanA = buildDetailedFan(THREE, 0.24, metalDark, bladeMat, cyanGlow, violetGlow);
-      gpuFanA.fanGroup.rotation.x = Math.PI / 2;
-      gpuFanA.fanGroup.position.set(0.04, -0.075, 0.34);
-
-      const gpuFanB = buildDetailedFan(THREE, 0.24, metalDark, bladeMat, violetGlow, cyanGlow);
-      gpuFanB.fanGroup.rotation.x = Math.PI / 2;
-      gpuFanB.fanGroup.position.set(0.04, -0.075, -0.26);
-
-      gpuGroup.add(gpuBackplate, gpuShroud, gpuSideBar, gpuBracket, gpuFanA.fanGroup, gpuFanB.fanGroup);
-      pcGroup.add(gpuGroup);
-
-      const rotors = [gpuFanA.rotor, gpuFanB.rotor];
-
-      [-0.64, 0, 0.64].forEach((fy, idx) => {
-        const f = buildDetailedFan(THREE, 0.27, metalDark, bladeMat, idx === 1 ? violetGlow : cyanGlow, iceGlow);
-        f.fanGroup.position.set(0.02, fy, 1.07);
-        pcGroup.add(f.fanGroup);
-        rotors.push(f.rotor);
-      });
-
-      [-0.52, 0.04, 0.60].forEach((tz, idx) => {
-        const tf = buildDetailedFan(THREE, 0.24, metalDark, bladeMat, idx % 2 === 0 ? cyanGlow : violetGlow, iceGlow);
-        tf.fanGroup.rotation.x = Math.PI / 2;
-        tf.fanGroup.position.set(0.04, 1.04, tz);
-        pcGroup.add(tf.fanGroup);
-        rotors.push(tf.rotor);
-      });
-
-      [-0.36, 0.36].forEach((bz) => {
-        const bf = buildDetailedFan(THREE, 0.22, metalDark, bladeMat, cyanGlow, violetGlow);
-        bf.fanGroup.rotation.x = -Math.PI / 2;
-        bf.fanGroup.position.set(0.08, -0.68, bz);
-        pcGroup.add(bf.fanGroup);
-        rotors.push(bf.rotor);
-      });
-
-      const rearFan = buildDetailedFan(THREE, 0.25, metalDark, bladeMat, violetGlow, cyanGlow);
-      rearFan.fanGroup.position.set(-0.22, 0.42, -1.07);
-      pcGroup.add(rearFan.fanGroup);
-      rotors.push(rearFan.rotor);
-
-      const glassMat = new THREE.MeshPhysicalMaterial({
-        color: 0xe0f2fe,
-        transparent: true,
-        opacity: 0.11,
-        roughness: 0.08,
-        metalness: 0.1
-      });
-      const sideGlass = new THREE.Mesh(new THREE.BoxGeometry(0.025, 2.16, 1.96), glassMat);
-      sideGlass.position.set(0.76, 0, 0);
-      const frontGlass = new THREE.Mesh(new THREE.BoxGeometry(1.48, 2.16, 0.025), glassMat);
-      frontGlass.position.set(0, 0, 1.06);
-      pcGroup.add(sideGlass, frontGlass);
-
-      function tick() {
-        animFrame = requestAnimationFrame(tick);
-        gpuGroup.position.x = THREE.MathUtils.lerp(gpuGroup.position.x, BASE_GPU_X + targetOffsets.gpu, 0.14);
-        cpuGroup.position.x = THREE.MathUtils.lerp(cpuGroup.position.x, BASE_CPU_X + targetOffsets.cpu, 0.14);
-        ramGroup.position.x = THREE.MathUtils.lerp(ramGroup.position.x, BASE_RAM_X + targetOffsets.ram, 0.14);
-        ssdGroup.position.x = THREE.MathUtils.lerp(ssdGroup.position.x, BASE_SSD_X + targetOffsets.ssd, 0.14);
-        rotors.forEach((r, idx) => {
-          r.rotation.z += idx % 2 === 0 ? 0.15 : -0.15;
-        });
-        controls.update();
-        renderer.render(scene, camera);
-      }
-      tick();
-    }
-
-    function selectPc(id) {
-      const pc = pcs.find((p) => p.id === id) || pcs[0];
-      switchView('config', {
-        pcId: pc.id,
-        gpuId: pc.gpus[0]?.id ?? null,
-        cpuId: pc.cpus[0]?.id ?? null,
-        ssdId: pc.ssds[0]?.id ?? null,
-        ramId: pc.rams[0]?.id ?? null,
-        caseId: null,
-        coolerId: null,
-        modalOpen: false
-      });
-    }
-
-    function calcTotal(pc) {
-      const pick = (list, id) => list.find((x) => x.id === id) || null;
-      const g = pick(pc.gpus, state.gpuId);
-      const c = pick(pc.cpus, state.cpuId);
-      const s = pick(pc.ssds, state.ssdId);
-      const r = pick(pc.rams, state.ramId);
-      const ca = pick(pc.cases, state.caseId);
-      const co = pick(pc.coolers, state.coolerId);
-      return {
-        g, c, s, r, ca, co,
-        total: pc.basePrice + (g?.price||0) + (c?.price||0) + (s?.price||0) + (r?.price||0) + (ca?.price||0) + (co?.price||0)
-      };
-    }
-
-    function render() {
-      const root = document.getElementById('app');
-
-      if (state.view === 'home') {
-        const featured = pcs[2] || pcs[0];
-        root.innerHTML = `
-          <div key="${state.animKey}" class="view-anim flex-1 flex flex-col">
-            <header class="border-b border-white/10 bg-[#080f1d]/90 backdrop-blur-md sticky top-0 z-30">
-              <div class="max-w-[1640px] mx-auto px-6 lg:px-10 py-4 flex justify-between items-center">
-                <div class="flex items-center gap-3">
-                  <span class="w-9 h-9 rounded-xl cyan-btn flex items-center justify-center text-slate-950 font-black text-base">E1</span>
-                  <span class="font-black text-xl tracking-wider text-white">ER1K <span class="text-cyan-400">PC</span></span>
-                </div>
-                <div class="flex items-center gap-4">
-                  <a href="#sisteme" class="hidden sm:inline-block text-sm font-semibold text-zinc-200 hover:text-cyan-400 px-3 py-1.5">Sisteme</a>
-                  <button id="goAdmin" class="text-sm font-bold px-4 py-2 rounded-xl border border-white/20 bg-white/10 text-white hover:border-cyan-400/60 hover:text-cyan-300 transition">Admin</button>
-                </div>
-              </div>
-            </header>
-
-            <section class="max-w-[1640px] mx-auto w-full px-6 lg:px-10 pt-12 pb-10 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-              <div class="lg:col-span-7">
-                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 text-cyan-300 text-xs font-bold mb-5">
-                  <span>●</span> Configurator 3D • Asamblare Custom
-                </div>
-                <h1 class="text-4xl sm:text-6xl xl:text-7xl font-black tracking-tight leading-[1.04] mb-5">
-                  PC Gaming <span class="text-cyan-400">Custom</span><br/>
-                  <span class="text-white">Performanță</span> <span class="text-zinc-200">Fără Limite</span>
-                </h1>
-                <p class="text-zinc-300 text-base md:text-lg max-w-2xl leading-relaxed mb-8">
-                  Alege unul dintre cele 5 modele principale Er1k PC, personalizează componentele și configurează-ți sistemul în 3D.
-                </p>
-                <div class="flex flex-wrap gap-4 mb-9">
-                  <button id="heroCfgBtn" class="cyan-btn px-7 py-4 rounded-xl text-slate-950 font-black text-sm md:text-base tracking-wide">
-                    Configurator PC →
-                  </button>
-                  <a href="#sisteme" class="px-7 py-4 rounded-xl border border-white/20 bg-white/10 text-white font-bold text-sm md:text-base hover:border-cyan-400/50 transition">
-                    Vezi Sisteme
-                  </a>
-                </div>
-                <div class="grid grid-cols-3 gap-4 max-w-xl">
-                  <div class="dark-card rounded-2xl p-4">
-                    <div class="text-lg md:text-xl font-black text-cyan-400">240+ FPS</div>
-                    <div class="text-xs text-zinc-300 mt-0.5">Gaming fluent</div>
-                  </div>
-                  <div class="dark-card rounded-2xl p-4">
-                    <div class="text-lg md:text-xl font-black text-cyan-400">5 Modele</div>
-                    <div class="text-xs text-zinc-300 mt-0.5">Start → Ultimate</div>
-                  </div>
-                  <div class="dark-card rounded-2xl p-4">
-                    <div class="text-lg md:text-xl font-black text-cyan-400">3D Live</div>
-                    <div class="text-xs text-zinc-300 mt-0.5">Răcire & GPU</div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="lg:col-span-5">
-                <div class="dark-card rounded-2xl p-5">
-                  <div class="flex items-center justify-between text-xs text-zinc-300 mb-3 px-1">
-                    <span class="font-bold uppercase tracking-wider">Previzualizare 3D</span>
-                    <span class="px-2.5 py-1 rounded-md bg-cyan-400/20 text-cyan-300 font-bold">${featured.name}</span>
-                  </div>
-                  <div id="hero3d" class="w-full h-80 md:h-96 rounded-xl overflow-hidden bg-gradient-to-br from-[#16223b] via-[#10192d] to-[#1f1635] border border-white/15"></div>
-                  <div class="mt-4 pt-4 border-t border-white/15 flex items-center justify-between">
-                    <div>
-                      <div class="text-xs text-zinc-300">De la</div>
-                      <div class="text-2xl font-black text-cyan-400">${featured.basePrice.toLocaleString('ro-RO')} RON</div>
-                    </div>
-                    <button data-pc="${featured.id}" class="pcCard cyan-btn px-5 py-3 rounded-xl text-slate-950 font-extrabold text-sm">
-                      Configurează
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            <main id="sisteme" class="max-w-[1640px] mx-auto w-full px-6 lg:px-10 py-10">
-              <div class="mb-6">
-                <p class="text-xs uppercase tracking-[0.2em] text-cyan-400 font-bold mb-1">Gama Principală</p>
-                <h2 class="text-3xl md:text-4xl font-black text-white">Cele 5 modele Er1k PC</h2>
-              </div>
-
-              <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-6">
-                ${pcs.map((pc) => `
-                  <div data-pc="${pc.id}" class="pcCard dark-card cursor-pointer rounded-2xl p-6 flex flex-col justify-between min-h-[430px]">
-                    <div>
-                      <div class="w-full h-64 rounded-xl overflow-hidden bg-[#0e1729] border border-white/15 mb-5 flex items-center justify-center">
-                        ${pc.img
-                          ? `<img src="${pc.img}" alt="${pc.name}" class="w-full h-full object-cover" />`
-                          : `<span class="text-xs text-zinc-400 font-medium">Fără imagine</span>`
-                        }
-                      </div>
-                      <span class="inline-block text-[11px] font-bold uppercase tracking-wider text-cyan-400 mb-1">Sistem Custom</span>
-                      <h3 class="text-2xl font-black text-white mb-6">${pc.name}</h3>
-                    </div>
-                    <div class="pt-4 border-t border-white/15 flex items-center justify-between gap-2">
-                      <span class="text-lg font-black text-cyan-400">${pc.basePrice.toLocaleString('ro-RO')} RON</span>
-                      <span class="cyan-btn px-4 py-2.5 rounded-xl text-slate-950 font-extrabold text-xs">Configurează</span>
-                    </div>
-                  </div>
-                `).join('')}
-              </div>
-
-              <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12 pt-8 border-t border-white/15">
-                <div class="dark-card rounded-2xl p-5">
-                  <div class="text-base font-extrabold text-white">Configurare Custom</div>
-                  <div class="text-xs text-zinc-300 mt-1">GPU, CPU, SSD, RAM, Carcasă & Răcire</div>
-                </div>
-                <div class="dark-card rounded-2xl p-5">
-                  <div class="text-base font-extrabold text-white">Prețuri Actualizate</div>
-                  <div class="text-xs text-zinc-300 mt-1">Calcul instant în RON</div>
-                </div>
-                <div class="dark-card rounded-2xl p-5">
-                  <div class="text-base font-extrabold text-white">Contact Rapid</div>
-                  <div class="text-xs text-zinc-300 mt-1">Comandă direct pe TikTok</div>
-                </div>
-                <div class="dark-card rounded-2xl p-5">
-                  <div class="text-base font-extrabold text-white">Calitate Testată</div>
-                  <div class="text-xs text-zinc-300 mt-1">Fiecare sistem verificat</div>
-                </div>
-              </div>
-            </main>
-          </div>
-        `;
-        document.getElementById('goAdmin').onclick = () => switchView('admin');
-        document.getElementById('heroCfgBtn').onclick = () => selectPc(featured.id);
-        document.querySelectorAll('.pcCard').forEach((el) => {
-          el.onclick = () => selectPc(el.getAttribute('data-pc'));
-        });
-        mount3D('hero3d', 0.86);
-        return;
-      }
-
-      if (state.view === 'config') {
-        const pc = pcs.find((p) => p.id === state.pcId) || pcs[0];
-        const { g, c, s, r, ca, co, total } = calcTotal(pc);
-        const extrasSum = (g?.price||0) + (c?.price||0) + (s?.price||0) + (r?.price||0) + (ca?.price||0) + (co?.price||0);
-        const canBuy = Boolean(ca && co);
-
-        const optionRows = (items, selectedId, cls) => items.map((it) => `
-          <button type="button" data-id="${it.id}" class="${cls} w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm border transition ${
-            selectedId === it.id
-              ? 'border-cyan-400 bg-cyan-400/15 text-white font-semibold shadow-[0_0_20px_rgba(34,211,238,0.16)]'
-              : 'border-white/10 bg-[#0a1120] text-zinc-300 hover:border-white/25'
-          }">
-            <span class="flex items-center gap-2.5 truncate pr-2">
-              <span class="w-2.5 h-2.5 rounded-full shrink-0 ${selectedId === it.id ? 'bg-cyan-400' : 'bg-zinc-600'}"></span>
-              <span class="truncate">${it.name}</span>
-            </span>
-            <span class="text-cyan-400 font-bold shrink-0">${it.price > 0 ? `+${it.price} RON` : 'Inclus'}</span>
-          </button>
-        `).join('');
-
-        const visualTiles = (items, selectedId, cls) => items.map((it) => `
-          <button type="button" data-id="${it.id}" class="${cls} rounded-xl overflow-hidden border text-left transition ${
-            selectedId === it.id
-              ? 'border-cyan-400 bg-cyan-400/15 ring-2 ring-cyan-400/35'
-              : 'border-white/10 bg-[#0a1120] hover:border-white/25'
-          }">
-            ${it.img
-              ? `<img src="${it.img}" alt="${it.name}" class="w-full h-24 object-cover" />`
-              : `<div class="w-full h-24 bg-[#101a2f] flex items-center justify-center text-[11px] text-zinc-400">Fără poză</div>`
-            }
-            <div class="p-3 flex items-center justify-between gap-2">
-              <span class="text-xs font-semibold truncate text-white">${it.name}</span>
-              <span class="text-xs font-bold text-cyan-400 shrink-0">${it.price > 0 ? `+${it.price}` : '0'} RON</span>
-            </div>
-          </button>
-        `).join('');
-
-        root.innerHTML = `
-          <div key="${state.animKey}" class="view-anim flex-1 flex flex-col">
-            <header class="border-b border-white/10 bg-[#080f1d]/90 backdrop-blur-md px-6 lg:px-10 py-4 flex justify-between items-center">
-              <button id="backHome" class="text-sm font-semibold text-cyan-400 hover:underline">← Înapoi</button>
-              <div class="flex items-center gap-2">
-                <span class="text-xs uppercase tracking-widest text-zinc-400 font-bold">Configurator</span>
-                <span class="font-black text-lg text-white">${pc.name}</span>
-              </div>
-              <button id="goAdmin" class="text-sm font-bold px-4 py-2 rounded-xl border border-white/20 bg-white/10 text-white">Admin</button>
-            </header>
-
-            <div class="max-w-[1640px] mx-auto w-full px-4 md:px-10 pt-8 pb-20">
-              <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                <!-- Bal: nagy 3D PC fókusz -->
-                <div class="lg:col-span-6 lg:sticky lg:top-20">
-                  <div class="dark-card p-4 sm:p-5 rounded-3xl">
-                    <div class="flex items-center justify-between text-xs text-zinc-300 mb-3 px-1">
-                      <span class="font-bold uppercase tracking-wider text-cyan-300">Vizualizare 3D Interactivă</span>
-                      <span class="text-zinc-400">Trage pe GPU / CPU / RAM / SSD</span>
-                    </div>
-                    <div id="cfg3d" class="w-full h-[440px] sm:h-[520px] rounded-2xl overflow-hidden bg-gradient-to-br from-[#182642] via-[#101a2e] to-[#26183d] border border-white/15"></div>
-                    <div class="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs">
-                      <div class="bg-[#0a1120]/90 border border-white/10 rounded-xl p-2.5">
-                        <div class="text-[10px] uppercase text-zinc-400 font-bold">GPU</div>
-                        <div class="font-semibold text-white truncate mt-0.5">${g?.name || '-'}</div>
-                      </div>
-                      <div class="bg-[#0a1120]/90 border border-white/10 rounded-xl p-2.5">
-                        <div class="text-[10px] uppercase text-zinc-400 font-bold">CPU</div>
-                        <div class="font-semibold text-white truncate mt-0.5">${c?.name || '-'}</div>
-                      </div>
-                      <div class="bg-[#0a1120]/90 border border-white/10 rounded-xl p-2.5">
-                        <div class="text-[10px] uppercase text-zinc-400 font-bold">RAM</div>
-                        <div class="font-semibold text-white truncate mt-0.5">${r?.name || '-'}</div>
-                      </div>
-                      <div class="bg-[#0a1120]/90 border border-white/10 rounded-xl p-2.5">
-                        <div class="text-[10px] uppercase text-zinc-400 font-bold">SSD</div>
-                        <div class="font-semibold text-white truncate mt-0.5">${s?.name || '-'}</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Jobb: rendezett konfigurátor panel -->
-                <div class="lg:col-span-6 space-y-5">
-                  <div class="dark-card p-6 rounded-3xl flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                    <div>
-                      <div class="text-xs uppercase tracking-[0.2em] text-cyan-400 font-bold mb-1">${pc.name}</div>
-                      <div class="text-3xl sm:text-5xl font-black text-white tracking-tight">
-                        ${total.toLocaleString('ro-RO')},00 <span class="text-lg sm:text-xl font-bold text-cyan-400">RON</span>
-                      </div>
-                      <div class="text-xs text-zinc-400 mt-1.5">
-                        Preț bază ${pc.basePrice.toLocaleString('ro-RO')} RON • Opțiuni +${extrasSum.toLocaleString('ro-RO')} RON
-                      </div>
-                    </div>
-                    <div class="text-xs text-zinc-300 bg-white/5 border border-white/10 rounded-2xl px-4 py-3">
-                      <div class="font-bold text-cyan-300">Asamblare Custom</div>
-                      <div class="text-zinc-400 mt-0.5">Testat & gata de livrare</div>
-                    </div>
-                  </div>
-
-                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div id="gpuBox" class="dark-card p-5 rounded-2xl">
-                      <div class="text-xs font-extrabold uppercase tracking-wider text-cyan-400 mb-3">Placă Video (GPU)</div>
-                      <div class="space-y-2">${optionRows(pc.gpus, state.gpuId, 'gpuBtn')}</div>
-                    </div>
-                    <div id="cpuBox" class="dark-card p-5 rounded-2xl">
-                      <div class="text-xs font-extrabold uppercase tracking-wider text-cyan-400 mb-3">Procesor (CPU)</div>
-                      <div class="space-y-2">${optionRows(pc.cpus, state.cpuId, 'cpuBtn')}</div>
-                    </div>
-                    <div id="ramBox" class="dark-card p-5 rounded-2xl">
-                      <div class="text-xs font-extrabold uppercase tracking-wider text-cyan-400 mb-3">Memorie (RAM)</div>
-                      <div class="space-y-2">${optionRows(pc.rams, state.ramId, 'ramBtn')}</div>
-                    </div>
-                    <div id="ssdBox" class="dark-card p-5 rounded-2xl">
-                      <div class="text-xs font-extrabold uppercase tracking-wider text-cyan-400 mb-3">Stocare (SSD)</div>
-                      <div class="space-y-2">${optionRows(pc.ssds, state.ssdId, 'ssdBtn')}</div>
-                    </div>
-                  </div>
-
-                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="dark-card p-5 rounded-2xl">
-                      <div class="text-xs font-extrabold uppercase tracking-wider text-cyan-400 mb-3">Carcasă PC *</div>
-                      <div class="grid grid-cols-2 gap-2.5">${visualTiles(pc.cases, state.caseId, 'caseBtn')}</div>
-                    </div>
-                    <div class="dark-card p-5 rounded-2xl">
-                      <div class="text-xs font-extrabold uppercase tracking-wider text-cyan-400 mb-3">Răcire CPU *</div>
-                      <div class="grid grid-cols-2 gap-2.5">${visualTiles(pc.coolers, state.coolerId, 'coolerBtn')}</div>
-                    </div>
-                  </div>
-
-                  <div class="dark-card p-5 rounded-2xl flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                    <div>
-                      <div class="text-sm font-bold text-white">Finalizare Configurație</div>
-                      ${!canBuy
-                        ? `<p class="text-amber-300 text-xs mt-0.5">Selectează Carcasă PC și Răcire CPU pentru a continua.</p>`
-                        : `<p class="text-emerald-300 text-xs mt-0.5">Toate componentele obligatorii sunt selectate.</p>`
-                      }
-                    </div>
-                    <button id="buyBtn" ${!canBuy ? 'disabled' : ''} class="cyan-btn px-10 py-3.5 rounded-xl disabled:opacity-40 disabled:cursor-not-allowed text-slate-950 font-black text-base shrink-0">
-                      Cumpără
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            ${state.modalOpen ? `
-              <div class="fixed inset-0 bg-black/75 flex items-center justify-center p-4 z-50 view-anim">
-                <div class="dark-card rounded-2xl max-w-md w-full p-6">
-                  <h3 class="text-xl font-black mb-4">${pc.name}</h3>
-                  <ul class="space-y-1.5 text-sm text-zinc-200 mb-4">
-                    <li>GPU: ${g?.name || '-'} (+${g?.price || 0} RON)</li>
-                    <li>CPU: ${c?.name || '-'} (+${c?.price || 0} RON)</li>
-                    <li>SSD: ${s?.name || '-'} (+${s?.price || 0} RON)</li>
-                    <li>RAM: ${r?.name || '-'} (+${r?.price || 0} RON)</li>
-                    <li>Carcasă PC: ${ca?.name || '-'} (+${ca?.price || 0} RON)</li>
-                    <li>Răcire CPU: ${co?.name || '-'} (+${co?.price || 0} RON)</li>
-                  </ul>
-                  <div class="text-xl font-black text-cyan-400 mb-5">Total: ${total.toLocaleString('ro-RO')} RON</div>
-                  <div class="flex gap-3">
-                    <button id="closeModal" class="px-4 py-3 rounded-xl border border-white/20 text-sm">Închide</button>
-                    <a href="${TIKTOK_URL}" target="_blank" rel="noopener noreferrer" class="cyan-btn flex-1 py-3 rounded-xl text-slate-950 font-black text-center text-sm">
-                      Scrie-mi pe TikTok
-                    </a>
-                  </div>
-                </div>
-              </div>
-            ` : ''}
-          </div>
-        `;
-
-        document.getElementById('backHome').onclick = () => switchView('home');
-        document.getElementById('goAdmin').onclick = () => switchView('admin');
-
-        const bindHover = (elId, part) => {
-          const el = document.getElementById(elId);
-          if (!el) return;
-          el.onmouseenter = () => setHoverPart(part);
-          el.onmouseleave = () => setHoverPart(null);
-        };
-        bindHover('gpuBox', 'gpu');
-        bindHover('cpuBox', 'cpu');
-        bindHover('ssdBox', 'ssd');
-        bindHover('ramBox', 'ram');
-
-        document.querySelectorAll('.gpuBtn').forEach((b) => b.onclick = () => { state.gpuId = b.dataset.id; render(); });
-        document.querySelectorAll('.cpuBtn').forEach((b) => b.onclick = () => { state.cpuId = b.dataset.id; render(); });
-        document.querySelectorAll('.ssdBtn').forEach((b) => b.onclick = () => { state.ssdId = b.dataset.id; render(); });
-        document.querySelectorAll('.ramBtn').forEach((b) => b.onclick = () => { state.ramId = b.dataset.id; render(); });
-        document.querySelectorAll('.caseBtn').forEach((b) => b.onclick = () => { state.caseId = b.dataset.id; render(); });
-        document.querySelectorAll('.coolerBtn').forEach((b) => b.onclick = () => { state.coolerId = b.dataset.id; render(); });
-
-        const buyBtn = document.getElementById('buyBtn');
-        if (buyBtn && canBuy) buyBtn.onclick = () => { state.modalOpen = true; render(); };
-        const closeModal = document.getElementById('closeModal');
-        if (closeModal) closeModal.onclick = () => { state.modalOpen = false; render(); };
-
-        mount3D('cfg3d', 0.88);
-        return;
-      }
-
-      if (state.view === 'admin') {
-        if (!state.adminAuthed) {
-          root.innerHTML = `
-            <div key="${state.animKey}" class="view-anim flex-1 flex flex-col">
-              <header class="border-b border-white/15 bg-[#080f1d]/90 px-6 py-4 flex justify-between items-center">
-                <button id="backHome" class="text-sm text-cyan-400 hover:underline">← Acasă</button>
-                <span class="font-bold text-white">Admin</span>
-                <div class="w-12"></div>
-              </header>
-              <div class="flex-1 flex items-center justify-center p-4">
-                <form id="adminForm" class="dark-card p-6 rounded-2xl max-w-xs w-full space-y-3">
-                  <div class="font-bold text-cyan-400">Autentificare Admin</div>
-                  <input id="adminPass" type="password" placeholder="Parola" class="w-full px-3 py-2 rounded-xl bg-[#0a1120] border border-white/20 text-sm" />
-                  <button type="submit" class="cyan-btn w-full py-2 rounded-xl text-slate-950 font-bold text-sm">Intră</button>
-                </form>
-              </div>
-            </div>
-          `;
-          document.getElementById('backHome').onclick = () => switchView('home');
-          document.getElementById('adminForm').onsubmit = (e) => {
-            e.preventDefault();
-            if (document.getElementById('adminPass').value === 'valakivok') {
-              state.adminAuthed = true;
-              state.animKey += 1;
-              render();
-            }
-          };
-          return;
-        }
-
-        const cur = pcs.find((p) => p.id === state.adminTab) || pcs[0];
-        const parts = [
-          ['gpus', 'GPU', false],
-          ['cpus', 'CPU', false],
-          ['ssds', 'SSD', false],
-          ['rams', 'RAM', false],
-          ['cases', 'Carcasă PC', true],
-          ['coolers', 'Răcire CPU', true]
-        ];
-
-        root.innerHTML = `
-          <div key="${state.animKey}" class="view-anim flex-1 flex flex-col">
-            <header class="border-b border-white/15 bg-[#080f1d]/90 px-6 py-4 flex justify-between items-center">
-              <button id="backHome" class="text-sm text-cyan-400 hover:underline">← Acasă</button>
-              <button id="saveAdmin" class="cyan-btn px-5 py-2 rounded-xl text-slate-950 font-bold text-sm">
-                ${state.savedNotice ? 'Salvat!' : 'Salvează'}
-              </button>
-            </header>
-
-            <div class="max-w-5xl mx-auto px-4 py-6 pb-20 space-y-5 w-full">
-              <div class="flex flex-wrap gap-2">
-                ${pcs.map((p) => `
-                  <button data-tab="${p.id}" class="pcTab px-4 py-2 rounded-xl text-sm font-bold ${
-                    p.id === cur.id ? 'cyan-btn text-slate-950' : 'dark-card text-zinc-200'
-                  }">${p.name}</button>
-                `).join('')}
-              </div>
-
-              <div class="dark-card p-4 rounded-2xl grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
-                <div>
-                  <div class="font-bold text-sm text-white">Preț de bază (${cur.name})</div>
-                  <input id="basePriceInput" type="number" value="${cur.basePrice}" class="mt-2 w-40 px-3 py-1.5 rounded-lg bg-[#0a1120] border border-white/20 font-bold text-cyan-400" />
-                </div>
-                <div>
-                  <div class="font-bold text-sm text-white mb-2">Imagine PC (${cur.name})</div>
-                  <div class="flex items-center gap-3">
-                    ${cur.img ? `<img src="${cur.img}" alt="${cur.name}" class="w-16 h-12 rounded-lg object-cover border border-white/15" />` : ''}
-                    <input id="pcImgInput" type="file" accept="image/*" class="text-xs text-zinc-300 max-w-[220px]" />
-                  </div>
-                </div>
-              </div>
-
-              ${parts.map(([key, label, hasImg]) => `
-                <div class="dark-card p-4 rounded-2xl">
-                  <div class="flex items-center justify-between mb-3">
-                    <span class="font-bold text-sm text-cyan-400">${label}</span>
-                    <button data-add="${key}" class="addPartBtn px-3 py-1 rounded-lg bg-white/10 text-zinc-200 text-xs font-bold">+ Adaugă</button>
-                  </div>
-                  <div class="space-y-2">
-                    ${cur[key].map((it) => `
-                      <div class="flex flex-wrap items-center gap-2 bg-[#0a1120] p-2 rounded-xl border border-white/10">
-                        <input type="text" data-part="${key}" data-id="${it.id}" data-field="name" value="${it.name}" class="partInput flex-1 min-w-[140px] px-2.5 py-1.5 rounded-lg bg-[#121e36] border border-white/15 text-sm" />
-                        <input type="number" data-part="${key}" data-id="${it.id}" data-field="price" value="${it.price}" class="partInput w-24 px-2.5 py-1.5 rounded-lg bg-[#121e36] border border-white/15 text-sm text-right text-cyan-400" />
-                        ${hasImg ? `<input type="file" accept="image/*" data-part="${key}" data-id="${it.id}" class="imgInput text-xs text-zinc-300 max-w-[170px]" />` : ''}
-                        <button data-part="${key}" data-id="${it.id}" class="delPartBtn px-2.5 py-1 rounded-lg bg-rose-500/20 text-rose-200 text-xs font-bold">Șterge</button>
-                      </div>
-                    `).join('')}
-                  </div>
-                </div>
-              `).join('')}
-            </div>
-          </div>
-        `;
-
-        document.getElementById('backHome').onclick = () => switchView('home');
-        document.getElementById('saveAdmin').onclick = () => {
-          saveData(pcs);
-          state.savedNotice = true;
-          render();
-          setTimeout(() => { state.savedNotice = false; render(); }, 1500);
-        };
-        document.querySelectorAll('.pcTab').forEach((b) => b.onclick = () => { state.adminTab = b.dataset.tab; state.animKey += 1; render(); });
-        document.getElementById('basePriceInput').onchange = (e) => { cur.basePrice = Number(e.target.value) || 0; };
-
-        document.getElementById('pcImgInput').onchange = (e) => {
-          const f = e.target.files?.[0];
-          if (!f) return;
-          const reader = new FileReader();
-          reader.onload = () => {
-            cur.img = String(reader.result || '');
-            saveData(pcs);
-            render();
-          };
-          reader.readAsDataURL(f);
-        };
-
-        document.querySelectorAll('.addPartBtn').forEach((b) => {
-          b.onclick = () => {
-            const k = b.dataset.add;
-            cur[k].push({ id: String(Date.now() + Math.random()), name: 'Opțiune nouă', price: 0, img: '' });
-            render();
-          };
-        });
-
-        document.querySelectorAll('.partInput').forEach((inp) => {
-          inp.onchange = () => {
-            const item = cur[inp.dataset.part].find((x) => x.id === inp.dataset.id);
-            if (!item) return;
-            item[inp.dataset.field] = inp.dataset.field === 'price' ? (Number(inp.value) || 0) : inp.value;
-          };
-        });
-
-        document.querySelectorAll('.imgInput').forEach((fi) => {
-          fi.onchange = () => {
-            const f = fi.files?.[0];
-            if (!f) return;
-            const reader = new FileReader();
-            reader.onload = () => {
-              const item = cur[fi.dataset.part].find((x) => x.id === fi.dataset.id);
-              if (item) item.img = String(reader.result || '');
-            };
-            reader.readAsDataURL(f);
-          };
-        });
-
-        document.querySelectorAll('.delPartBtn').forEach((b) => {
-          b.onclick = () => {
-            cur[b.dataset.part] = cur[b.dataset.part].filter((x) => x.id !== b.dataset.id);
-            render();
-          };
-        });
-      }
-    }
-
-    render();
-  </script>
+    list.appendChild(row);
+  });
+}
+
+function updatePC(index){
+  const pc=data.pcs[index];
+  pc.name=document.getElementById("pcname"+index).value;
+  pc.price=Math.max(0,Number(document.getElementById("pcprice"+index).value)||0);
+  pc.description=document.getElementById("pcdesc"+index).value;
+  const file=document.getElementById("pcimage"+index).files[0];
+  if(file){
+    readImage(file,image=>{
+      pc.image=image;
+      saveData();
+      renderAdmin();
+    });
+  }else{
+    saveData();
+    renderAdmin();
+  }
+}
+
+function addOption(pcIndex,key){
+  const nameInput=document.getElementById("newname"+pcIndex+key);
+  const priceInput=document.getElementById("newprice"+pcIndex+key);
+  const name=nameInput.value.trim();
+  const price=Math.max(0,Number(priceInput.value)||0);
+  if(!name){alert("Introdu numele componentei.");return}
+  const newItem={name,price};
+
+  const imageInput=document.getElementById("newimage"+pcIndex+key);
+  const file=imageInput?imageInput.files[0]:null;
+  if(file){
+    readImage(file,image=>{
+      newItem.image=image;
+      data.pcs[pcIndex].components[key].push(newItem);
+      saveData();
+      renderAdmin();
+    });
+  }else{
+    data.pcs[pcIndex].components[key].push(newItem);
+    saveData();
+    renderAdmin();
+  }
+}
+
+function readImage(file,callback){
+  if(!file.type.startsWith("image/")){
+    alert("Te rog selectează un fișier imagine.");
+    return;
+  }
+  if(file.size>1500000){
+    alert("Imaginea este prea mare. Folosește o imagine sub 1.5 MB.");
+    return;
+  }
+  const reader=new FileReader();
+  reader.onload=e=>callback(e.target.result);
+  reader.readAsDataURL(file);
+}
+
+function notify(message){
+  const toast=document.getElementById("toast");
+  toast.textContent=message;
+  toast.style.display="block";
+  setTimeout(()=>toast.style.display="none",2500);
+}
+
+renderHome();
+</script>
 </body>
 </html>
