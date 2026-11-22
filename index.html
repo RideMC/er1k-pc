@@ -40,7 +40,7 @@
 <body class="min-h-screen flex flex-col">
   <div id="app" class="flex-1 flex flex-col"></div>
 
-  <script>
+  <script type="module">
     const STORAGE_KEY = 'er1k_pc_site_v2';
     const TIKTOK_URL = 'https://www.tiktok.com/@er1k.pc.build?_r=1&_t=ZN-9BcUhktscVy';
 
@@ -126,165 +126,155 @@
     };
 
     let animFrame = null;
-    let gpuSlide = 0;
-    let targetGpuSlide = 0;
+    let targetGpuX = 0.06;
+    let THREE_MOD = null;
+    let CONTROLS_MOD = null;
 
-    function mount3D(containerId) {
+    async function ensureThree() {
+      if (THREE_MOD && CONTROLS_MOD) return true;
+      try {
+        THREE_MOD = await import('https://esm.sh/three@0.160.0');
+        const ctrl = await import('https://esm.sh/three@0.160.0/examples/jsm/controls/OrbitControls.js');
+        CONTROLS_MOD = ctrl.OrbitControls;
+        return true;
+      } catch {
+        return false;
+      }
+    }
+
+    async function mount3D(containerId) {
       if (animFrame) cancelAnimationFrame(animFrame);
       const host = document.getElementById(containerId);
       if (!host) return;
       host.innerHTML = '';
 
-      const canvas = document.createElement('canvas');
-      canvas.className = 'w-full h-full cursor-grab active:cursor-grabbing block';
-      host.appendChild(canvas);
+      const ok = await ensureThree();
+      if (!ok || !document.getElementById(containerId)) return;
 
-      const ctx = canvas.getContext('2d');
-      let yaw = -0.68;
-      let pitch = 0.22;
-      let fanAngle = 0;
-      let dragging = false;
-      let lastX = 0;
-      let lastY = 0;
+      const THREE = THREE_MOD;
+      const OrbitControls = CONTROLS_MOD;
 
-      function resize() {
-        const rect = host.getBoundingClientRect();
-        const dpr = Math.min(window.devicePixelRatio || 1, 2);
-        canvas.width = Math.max(rect.width * dpr, 1);
-        canvas.height = Math.max(rect.height * dpr, 1);
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const w = Math.max(host.clientWidth, 240);
+      const h = Math.max(host.clientHeight, 220);
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(42, w / h, 0.1, 100);
+      camera.position.set(3.3, 1.45, 3.5);
+
+      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer.setSize(w, h);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      host.appendChild(renderer.domElement);
+
+      const controls = new OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.enablePan = false;
+      controls.autoRotate = true;
+      controls.autoRotateSpeed = 1.4;
+      controls.minDistance = 2.4;
+      controls.maxDistance = 6.5;
+
+      scene.add(new THREE.AmbientLight(0x93c5fd, 1.3));
+      const keyLight = new THREE.DirectionalLight(0x38bdf8, 2.4);
+      keyLight.position.set(4, 6, 4);
+      scene.add(keyLight);
+
+      const rimLight = new THREE.PointLight(0x38bdf8, 3.2, 16);
+      rimLight.position.set(1.5, 0.5, 2.5);
+      scene.add(rimLight);
+
+      const pcGroup = new THREE.Group();
+      scene.add(pcGroup);
+
+      const chassisMat = new THREE.MeshStandardMaterial({
+        color: 0x0b101b,
+        metalness: 0.78,
+        roughness: 0.24
+      });
+      const cyanGlowMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
+      const gpuMat = new THREE.MeshStandardMaterial({
+        color: 0x111c33,
+        metalness: 0.7,
+        roughness: 0.25
+      });
+
+      // Main case outer frame
+      const backPanel = new THREE.Mesh(new THREE.BoxGeometry(0.08, 2.35, 2.15), chassisMat);
+      backPanel.position.set(-0.72, 0, 0);
+      const topPanel = new THREE.Mesh(new THREE.BoxGeometry(1.52, 0.08, 2.15), chassisMat);
+      topPanel.position.set(0, 1.13, 0);
+      const bottomPanel = new THREE.Mesh(new THREE.BoxGeometry(1.52, 0.1, 2.15), chassisMat);
+      bottomPanel.position.set(0, -1.12, 0);
+      const frontPanel = new THREE.Mesh(new THREE.BoxGeometry(1.52, 2.35, 0.08), chassisMat);
+      frontPanel.position.set(0, 0, 1.03);
+      pcGroup.add(backPanel, topPanel, bottomPanel, frontPanel);
+
+      // Feet
+      [[-0.55, -1.22, -0.75], [0.55, -1.22, -0.75], [-0.55, -1.22, 0.75], [0.55, -1.22, 0.75]].forEach(([fx, fy, fz]) => {
+        const foot = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.13, 0.12, 16), chassisMat);
+        foot.position.set(fx, fy, fz);
+        pcGroup.add(foot);
+      });
+
+      // Tempered glass side
+      const glass = new THREE.Mesh(
+        new THREE.BoxGeometry(0.03, 2.12, 1.92),
+        new THREE.MeshPhysicalMaterial({
+          color: 0x7dd3fc,
+          transparent: true,
+          opacity: 0.16,
+          roughness: 0.08,
+          metalness: 0.1
+        })
+      );
+      glass.position.set(0.74, 0, 0);
+      pcGroup.add(glass);
+
+      // Motherboard + CPU cooler
+      const mobo = new THREE.Mesh(
+        new THREE.BoxGeometry(0.06, 1.35, 1.25),
+        new THREE.MeshStandardMaterial({ color: 0x162238, metalness: 0.5, roughness: 0.4 })
+      );
+      mobo.position.set(-0.56, 0.12, -0.05);
+      const cooler = new THREE.Mesh(
+        new THREE.BoxGeometry(0.36, 0.42, 0.42),
+        new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.7, roughness: 0.25 })
+      );
+      cooler.position.set(-0.32, 0.28, -0.05);
+      const coolerRing = new THREE.Mesh(new THREE.TorusGeometry(0.16, 0.02, 10, 28), cyanGlowMat);
+      coolerRing.rotation.y = Math.PI / 2;
+      coolerRing.position.set(-0.13, 0.28, -0.05);
+      pcGroup.add(mobo, cooler, coolerRing);
+
+      // Sliding GPU
+      const gpuGroup = new THREE.Group();
+      gpuGroup.position.set(0.06, -0.22, 0.06);
+      const gpuBody = new THREE.Mesh(new THREE.BoxGeometry(0.95, 0.24, 1.42), gpuMat);
+      const gpuStrip = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.05, 1.34), cyanGlowMat);
+      gpuStrip.position.set(0.48, 0.02, 0);
+      gpuGroup.add(gpuBody, gpuStrip);
+      pcGroup.add(gpuGroup);
+
+      // Front fans
+      const fans = [];
+      [-0.62, 0, 0.62].forEach((fy) => {
+        const ring = new THREE.Mesh(new THREE.TorusGeometry(0.26, 0.026, 12, 32), cyanGlowMat);
+        ring.position.set(0.05, fy, 1.09);
+        const hub = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.09, 0.05, 16), chassisMat);
+        hub.rotation.x = Math.PI / 2;
+        hub.position.set(0.05, fy, 1.09);
+        pcGroup.add(ring, hub);
+        fans.push(hub);
+      });
+
+      function tick() {
+        animFrame = requestAnimationFrame(tick);
+        gpuGroup.position.x = THREE.MathUtils.lerp(gpuGroup.position.x, targetGpuX, 0.14);
+        fans.forEach((f) => { f.rotation.y += 0.12; });
+        controls.update();
+        renderer.render(scene, camera);
       }
-      resize();
-      window.onresize = resize;
-
-      canvas.onpointerdown = (e) => { dragging = true; lastX = e.clientX; lastY = e.clientY; };
-      window.onpointerup = () => { dragging = false; };
-      window.onpointermove = (e) => {
-        if (!dragging) return;
-        yaw += (e.clientX - lastX) * 0.01;
-        pitch = Math.max(-0.45, Math.min(0.6, pitch + (e.clientY - lastY) * 0.008));
-        lastX = e.clientX;
-        lastY = e.clientY;
-      };
-
-      function project(x, y, z, w, h) {
-        const cy = Math.cos(yaw), sy = Math.sin(yaw);
-        const cp = Math.cos(pitch), sp = Math.sin(pitch);
-        const x1 = x * cy - z * sy;
-        const z1 = x * sy + z * cy;
-        const y2 = y * cp - z1 * sp;
-        const z2 = y * sp + z1 * cp + 5.2;
-        const fov = Math.min(w, h) * 1.05;
-        const scale = fov / Math.max(z2, 1.2);
-        return { px: w * 0.5 + x1 * scale, py: h * 0.54 - y2 * scale, z: z2 };
-      }
-
-      function drawPoly(pts3, fill, stroke, lineWidth, w, h) {
-        const pts = pts3.map(([x, y, z]) => project(x, y, z, w, h));
-        ctx.beginPath();
-        pts.forEach((p, idx) => {
-          if (idx === 0) ctx.moveTo(p.px, p.py);
-          else ctx.lineTo(p.px, p.py);
-        });
-        ctx.closePath();
-        if (fill) {
-          ctx.fillStyle = fill;
-          ctx.fill();
-        }
-        if (stroke) {
-          ctx.strokeStyle = stroke;
-          ctx.lineWidth = lineWidth || 1.4;
-          ctx.stroke();
-        }
-      }
-
-      function drawBox(cx, cy, cz, sx, sy, sz, fill, stroke, w, h, lw = 1.4) {
-        const hx = sx / 2, hy = sy / 2, hz = sz / 2;
-        const v = [
-          [cx - hx, cy - hy, cz - hz], [cx + hx, cy - hy, cz - hz],
-          [cx + hx, cy + hy, cz - hz], [cx - hx, cy + hy, cz - hz],
-          [cx - hx, cy - hy, cz + hz], [cx + hx, cy - hy, cz + hz],
-          [cx + hx, cy + hy, cz + hz], [cx - hx, cy + hy, cz + hz]
-        ];
-        const faces = [
-          [0, 1, 2, 3], [4, 5, 6, 7],
-          [0, 1, 5, 4], [2, 3, 7, 6],
-          [0, 3, 7, 4], [1, 2, 6, 5]
-        ].map((idx) => ({
-          idx,
-          avgZ: idx.reduce((acc, i) => acc + project(v[i][0], v[i][1], v[i][2], w, h).z, 0) / 4
-        })).sort((a, b) => b.avgZ - a.avgZ);
-
-        faces.forEach(({ idx }) => {
-          drawPoly(idx.map((i) => v[i]), fill, stroke, lw, w, h);
-        });
-      }
-
-      function drawFan(cx, cy, cz, radius, angle, w, h) {
-        const ring = [];
-        const blades = 7;
-        for (let i = 0; i < 24; i++) {
-          const a = (i / 24) * Math.PI * 2;
-          ring.push([cx + Math.cos(a) * radius, cy + Math.sin(a) * radius, cz]);
-        }
-        drawPoly(ring, 'rgba(14, 24, 44, 0.75)', 'rgba(56, 189, 248, 0.9)', 1.5, w, h);
-
-        for (let b = 0; b < blades; b++) {
-          const a0 = angle + (b / blades) * Math.PI * 2;
-          const a1 = a0 + 0.34;
-          drawPoly([
-            [cx, cy, cz + 0.01],
-            [cx + Math.cos(a0) * (radius * 0.88), cy + Math.sin(a0) * (radius * 0.88), cz + 0.01],
-            [cx + Math.cos(a1) * (radius * 0.88), cy + Math.sin(a1) * (radius * 0.88), cz + 0.01]
-          ], 'rgba(56, 189, 248, 0.35)', 'rgba(186, 230, 253, 0.65)', 1, w, h);
-        }
-      }
-
-      function frame() {
-        animFrame = requestAnimationFrame(frame);
-        const w = canvas.clientWidth || host.clientWidth;
-        const h = canvas.clientHeight || host.clientHeight;
-        ctx.clearRect(0, 0, w, h);
-
-        if (!dragging) yaw += 0.004;
-        fanAngle += 0.14;
-        gpuSlide += (targetGpuSlide - gpuSlide) * 0.14;
-
-        const glow = ctx.createRadialGradient(w * 0.5, h * 0.56, 10, w * 0.5, h * 0.56, w * 0.45);
-        glow.addColorStop(0, 'rgba(56, 189, 248, 0.16)');
-        glow.addColorStop(1, 'rgba(3, 5, 9, 0)');
-        ctx.fillStyle = glow;
-        ctx.fillRect(0, 0, w, h);
-
-        // Feet
-        [[-0.5, -1.05, -0.7], [0.5, -1.05, -0.7], [-0.5, -1.05, 0.7], [0.5, -1.05, 0.7]].forEach(([fx, fy, fz]) => {
-          drawBox(fx, fy, fz, 0.22, 0.1, 0.22, 'rgba(15, 23, 42, 0.95)', 'rgba(148, 163, 184, 0.45)', w, h, 1.1);
-        });
-
-        // Main chassis
-        drawBox(0, 0, 0, 1.42, 2.0, 1.82, 'rgba(12, 18, 30, 0.28)', 'rgba(56, 189, 248, 0.75)', w, h, 1.6);
-
-        // PSU shroud
-        drawBox(0, -0.74, 0, 1.32, 0.44, 1.72, 'rgba(10, 14, 24, 0.95)', 'rgba(148, 163, 184, 0.4)', w, h, 1.3);
-
-        // Motherboard tray
-        drawBox(-0.45, 0.15, -0.05, 0.08, 1.15, 1.15, 'rgba(20, 30, 52, 0.9)', 'rgba(56, 189, 248, 0.45)', w, h, 1.2);
-
-        // CPU Cooler block + tubes
-        drawBox(-0.22, 0.35, -0.1, 0.34, 0.34, 0.34, 'rgba(15, 23, 42, 0.95)', 'rgba(125, 211, 252, 0.9)', w, h, 1.4);
-        drawBox(-0.22, 0.42, -0.45, 0.12, 0.12, 0.65, 'rgba(2, 132, 199, 0.75)', 'rgba(186, 230, 253, 0.85)', w, h, 1.2);
-
-        // Sliding GPU card
-        const gx = 0.05 + gpuSlide * 1.05;
-        drawBox(gx, -0.18, 0.05, 0.82, 0.22, 1.25, 'rgba(18, 28, 48, 0.95)', 'rgba(56, 189, 248, 0.95)', w, h, 1.5);
-        drawBox(gx + 0.35, -0.15, 0.05, 0.08, 0.06, 1.18, 'rgba(56, 189, 248, 0.95)', 'rgba(224, 242, 254, 1)', w, h, 1.2);
-
-        // Front RGB fans
-        [-0.52, 0.06, 0.64].forEach((fy) => {
-          drawFan(0.05, fy, 0.92, 0.25, fanAngle, w, h);
-        });
-      }
-      frame();
+      tick();
     }
 
     function selectPc(id) {
@@ -298,7 +288,7 @@
       state.caseId = null;
       state.coolerId = null;
       state.modalOpen = false;
-      targetGpuSlide = 0;
+      targetGpuX = 0.06;
       render();
     }
 
@@ -556,14 +546,14 @@
           ` : ''}
         `;
 
-        document.getElementById('backHome').onclick = () => { state.view = 'home'; targetGpuSlide = 0; render(); };
+        document.getElementById('backHome').onclick = () => { state.view = 'home'; targetGpuX = 0.06; render(); };
         document.getElementById('goAdmin').onclick = () => { state.view = 'admin'; render(); };
 
         const gpuBox = document.getElementById('gpuBox');
-        gpuBox.onmouseenter = () => { targetGpuSlide = 1; };
-        gpuBox.onmouseleave = () => { targetGpuSlide = 0; };
+        gpuBox.onmouseenter = () => { targetGpuX = 1.55; };
+        gpuBox.onmouseleave = () => { targetGpuX = 0.06; };
 
-        document.querySelectorAll('.gpuBtn').forEach((b) => b.onclick = () => { state.gpuId = b.dataset.id; targetGpuSlide = 0; render(); });
+        document.querySelectorAll('.gpuBtn').forEach((b) => b.onclick = () => { state.gpuId = b.dataset.id; targetGpuX = 0.06; render(); });
         document.querySelectorAll('.cpuBtn').forEach((b) => b.onclick = () => { state.cpuId = b.dataset.id; render(); });
         document.querySelectorAll('.ssdBtn').forEach((b) => b.onclick = () => { state.ssdId = b.dataset.id; render(); });
         document.querySelectorAll('.ramBtn').forEach((b) => b.onclick = () => { state.ramId = b.dataset.id; render(); });
