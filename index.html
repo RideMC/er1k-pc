@@ -51,36 +51,30 @@ header{
 .navlinks{display:flex;gap:26px;color:#b8bcc9;font-size:14px;font-weight:500}
 .navlinks a:hover{color:#fff}
 
-/* DISCREET BOTTOM-LEFT ADMIN TRIGGER ON SCROLL */
+/* TINY BOTTOM-LEFT ADMIN TEXT ON SCROLL */
 .corner-admin-btn{
   position:fixed;
-  bottom:14px;
-  left:16px;
+  bottom:6px;
+  left:10px;
   z-index:35;
-  background:#11141fd9;
-  color:#8f96ad;
-  border:1px solid #2b3042;
-  border-radius:7px;
-  padding:5px 10px;
-  font-size:11px;
-  font-weight:600;
-  letter-spacing:.4px;
+  background:transparent;
+  color:#5b6073;
+  border:0;
+  padding:2px 4px;
+  font-size:10px;
+  font-weight:500;
+  letter-spacing:.3px;
   opacity:0;
   pointer-events:none;
-  transform:translateY(8px);
-  transition:.22s ease;
-  backdrop-filter:blur(8px);
+  transition:.2s ease;
 }
 .corner-admin-btn.visible{
-  opacity:.58;
+  opacity:.55;
   pointer-events:auto;
-  transform:translateY(0);
 }
 .corner-admin-btn:hover{
   opacity:1;
-  color:#e4daff;
-  border-color:#7454cf;
-  background:#1b162a;
+  color:#b6bac9;
 }
 
 .page-view{display:none}
@@ -430,102 +424,108 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 .price-panel button{width:100%;margin-top:18px}
 .notice{font-size:11px;color:var(--muted);line-height:1.6;margin-top:13px}
 
-/* ADMIN */
-.admin-wrap{max-width:1120px;margin:auto}
+/* SUBTLE, ORGANIZED PANEL */
+.admin-wrap{max-width:1080px;margin:auto}
 .admin-topbar{
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:18px 22px;
-  margin-bottom:20px;
+  background:#101219;
+  border:1px solid #242836;
+  border-radius:10px;
+  padding:16px 20px;
+  margin-bottom:16px;
   display:flex;
   justify-content:space-between;
   align-items:center;
   flex-wrap:wrap;
-  gap:16px;
+  gap:14px;
 }
-.admin-tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px}
+.admin-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
 .tab-btn{
-  background:var(--panel);
-  border:1px solid var(--border);
-  color:#b7bac5;
-  padding:12px 18px;
-  border-radius:10px;
-  font-size:13px;
-  font-weight:700;
-  transition:.2s;
+  background:#101219;
+  border:1px solid #242836;
+  color:#9ea4b6;
+  padding:9px 15px;
+  border-radius:8px;
+  font-size:12px;
+  font-weight:600;
+  transition:.15s;
 }
-.tab-btn:hover{border-color:#684ec2;color:#fff}
-.tab-btn.active{background:#231b38;border-color:var(--accent);color:#fff}
+.tab-btn:hover{border-color:#3a4056;color:#e6e9f2}
+.tab-btn.active{background:#191d29;border-color:#5b627a;color:#fff}
 
-.admin-box{background:var(--panel);border:1px solid var(--border);padding:24px;border-radius:14px;margin-bottom:20px}
-.admin-box h2{font-size:21px;margin:0 0 6px}
-.admin-box h3{font-size:16px;margin:0 0 12px}
-.admin-box label{display:block;font-size:12px;color:#b7bac5;margin:12px 0 6px;font-weight:600}
+.admin-box{
+  background:#101219;
+  border:1px solid #242836;
+  padding:22px;
+  border-radius:10px;
+  margin-bottom:16px;
+}
+.admin-box h2{font-size:18px;margin:0 0 6px;font-weight:700}
+.admin-box h3{font-size:15px;margin:0 0 12px;font-weight:600}
+.admin-box label{display:block;font-size:12px;color:#9ea4b6;margin:12px 0 6px}
 .admin-box input,.admin-box textarea,.admin-box select{
   width:100%;
-  padding:11px 13px;
-  background:#090b11;
-  border:1px solid #343847;
-  border-radius:8px;
+  padding:10px 12px;
+  background:#090b10;
+  border:1px solid #292e3f;
+  border-radius:7px;
   color:white;
   outline:none;
 }
-.admin-box input:focus,.admin-box textarea:focus,.admin-box select:focus{border-color:var(--accent)}
-.admin-box textarea{min-height:78px;resize:vertical}
-.admin-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.admin-box input:focus,.admin-box textarea:focus,.admin-box select:focus{border-color:#5b627a}
+.admin-box textarea{min-height:74px;resize:vertical}
+.admin-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .admin-grid-3{display:grid;grid-template-columns:1.5fr 1fr auto;gap:12px;align-items:end}
 
-.pc-selector-bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+.pc-selector-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
 .pc-select-card{
-  background:var(--panel2);
-  border:1px solid var(--border);
-  border-radius:10px;
-  padding:12px 16px;
-  text-align:left;
-  color:#d0d4e0;
-  min-width:165px;
-  transition:.2s;
-}
-.pc-select-card:hover{border-color:#7652cb}
-.pc-select-card.active{border-color:var(--accent);background:#251c3b;color:#fff}
-.pc-select-card strong{display:block;font-size:14px}
-.pc-select-card small{color:var(--muted);font-size:12px}
-
-.cat-pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
-.cat-pill{
-  background:#171a23;
-  border:1px solid #303442;
-  color:#b7bac5;
-  padding:8px 14px;
+  background:#141721;
+  border:1px solid #262b3b;
   border-radius:8px;
-  font-size:12px;
-  font-weight:700;
+  padding:10px 14px;
+  text-align:left;
+  color:#c2c7d6;
+  min-width:155px;
+  transition:.15s;
 }
-.cat-pill.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.pc-select-card:hover{border-color:#3e455c}
+.pc-select-card.active{border-color:#68708c;background:#1b1f2c;color:#fff}
+.pc-select-card strong{display:block;font-size:13px}
+.pc-select-card small{color:var(--muted);font-size:11px}
 
-.option-list{border:1px solid var(--border);border-radius:10px;overflow:hidden;background:#0d0f15}
+.cat-pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.cat-pill{
+  background:#141721;
+  border:1px solid #262b3b;
+  color:#9ea4b6;
+  padding:7px 12px;
+  border-radius:7px;
+  font-size:12px;
+  font-weight:600;
+}
+.cat-pill.active{background:#1f2433;border-color:#68708c;color:#fff}
+
+.option-list{border:1px solid #242836;border-radius:8px;overflow:hidden;background:#0c0e14}
 .admin-row{
   display:flex;
   align-items:center;
   gap:14px;
-  padding:12px 16px;
-  border-bottom:1px solid var(--border);
+  padding:11px 15px;
+  border-bottom:1px solid #1d212e;
 }
 .admin-row:last-child{border-bottom:0}
-.admin-row img{width:56px;height:56px;object-fit:cover;background:#20232e;border-radius:8px;flex-shrink:0}
+.admin-row img{width:52px;height:52px;object-fit:cover;background:#1a1e2b;border-radius:6px;flex-shrink:0}
 .thumb-placeholder{
-  width:56px;height:56px;background:#1a1d28;border:1px dashed #343847;
-  border-radius:8px;display:grid;place-items:center;color:#787e91;font-size:11px;font-weight:700;flex-shrink:0;
+  width:52px;height:52px;background:#131620;border:1px dashed #2b3042;
+  border-radius:6px;display:grid;place-items:center;color:#6c7287;font-size:10px;font-weight:600;flex-shrink:0;
 }
 .row-info{flex:1;min-width:0}
-.row-info strong{font-size:14px;display:block}
-.row-info small{color:var(--green);font-size:12px;font-weight:600}
+.row-info strong{font-size:13px;display:block}
+.row-info small{color:#8fa39b;font-size:12px}
 .row-actions{display:flex;gap:8px}
-.btn-sm{padding:8px 12px;font-size:12px;border-radius:7px}
-.danger{background:#3b1821!important;border-color:#7a273b!important;color:#ff9aa8!important}
-.danger:hover{background:#521e2b!important}
-.empty{color:var(--muted);font-size:13px;padding:16px}
+.btn-sm{padding:7px 11px;font-size:12px;border-radius:7px}
+.danger{background:#281419!important;border-color:#4d222c!important;color:#e59aa6!important}
+.danger:hover{background:#361920!important}
+.empty{color:var(--muted);font-size:13px;padding:14px}
 
 @media(max-width:1120px){
  .pc-grid{grid-template-columns:repeat(2,1fr)}
@@ -564,7 +564,7 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
  </div>
 </header>
 
-<button type="button" id="cornerAdminBtn" class="corner-admin-btn" onclick="openAdmin()">⚙</button>
+<button type="button" id="cornerAdminBtn" class="corner-admin-btn" onclick="openAdmin()">admin</button>
 
 <div id="homeView" class="page-view active">
  <main>
@@ -668,14 +668,13 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
  <div class="container subpage-wrap">
   <div class="admin-wrap">
    <button type="button" class="back-btn" onclick="showView('homeView')">← Înapoi la site</button>
-   <div class="admin-box" style="max-width:440px;margin:40px auto">
-    <div class="eyebrow">PANEL ACCESS</div>
-    <h2 style="margin-top:8px">Autentificare</h2>
-    <p class="empty" style="padding:0 0 8px">Introdu codul de acces pentru a deschide panoul.</p>
-    <label for="password">Cod acces</label>
+   <div class="admin-box" style="max-width:420px;margin:40px auto">
+    <h2 style="margin-top:0">Autentificare</h2>
+    <p class="empty" style="padding:0 0 8px">Introdu codul de acces.</p>
+    <label for="password">Cod</label>
     <input id="password" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')login()">
     <p id="loginError" style="color:#ff687b;font-size:12px;min-height:18px;margin:8px 0 0"></p>
-    <button type="button" class="primary-btn" style="width:100%;margin-top:12px" onclick="login()">CONTINUĂ</button>
+    <button type="button" class="secondary-btn" style="width:100%;margin-top:12px" onclick="login()">Continuă</button>
    </div>
   </div>
  </div>
@@ -686,20 +685,19 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
   <div class="admin-wrap">
    <div class="admin-topbar">
     <div>
-     <div class="eyebrow">CONTROL PANEL</div>
-     <h2 style="margin:6px 0 2px;font-size:26px;letter-spacing:-1px">Management</h2>
-     <p style="margin:0;color:var(--muted);font-size:13px">Rendszerezett nézet: modellek és alkatrészek külön fülön.</p>
+     <h2 style="margin:0 0 3px;font-size:22px">Management</h2>
+     <p style="margin:0;color:var(--muted);font-size:12px">Modellek, alkatrészek és alaphelyzet kezelése.</p>
     </div>
-    <div style="display:flex;gap:10px;flex-wrap:wrap">
-     <button type="button" class="secondary-btn" onclick="showView('homeView')">← Főoldal</button>
-     <button type="button" class="secondary-btn danger" onclick="logout()">Kilépés</button>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+     <button type="button" class="secondary-btn btn-sm" onclick="showView('homeView')">← Főoldal</button>
+     <button type="button" class="secondary-btn btn-sm danger" onclick="logout()">Kilépés</button>
     </div>
    </div>
 
    <div class="admin-tabs">
-    <button type="button" class="tab-btn active" id="tab-models" onclick="switchAdminTab('models')">🖥️ PC Modellek</button>
-    <button type="button" class="tab-btn" id="tab-components" onclick="switchAdminTab('components')">🧩 Alkatrészek & Felárak</button>
-    <button type="button" class="tab-btn" id="tab-system" onclick="switchAdminTab('system')">⚙️ Alaphelyzet</button>
+    <button type="button" class="tab-btn active" id="tab-models" onclick="switchAdminTab('models')">PC Modellek</button>
+    <button type="button" class="tab-btn" id="tab-components" onclick="switchAdminTab('components')">Alkatrészek & Felárak</button>
+    <button type="button" class="tab-btn" id="tab-system" onclick="switchAdminTab('system')">Alaphelyzet</button>
    </div>
 
    <div id="adminContent"></div>
@@ -715,13 +713,17 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 </footer>
 
 <script>
-const _k = ["Z","X","N","b","M","T","E","w"];
-const KEY = "er1k_pc_v9";
+const _b = [101,114,49,107,50,48,50,54];
+const KEY = "er1k_pc_v10";
 const tierLabels = ["01 · ENTRY", "02 · POPULAR", "03 · PRO TIER", "04 · FLAGSHIP"];
 
-function _verifyCode(input){
- const sig = Array.from(String(input||"")).reduce((h,ch)=>((h<<5)-h+ch.charCodeAt(0))|0, 2166136261);
- return sig === 1236186614;
+function _matchCode(val){
+ const s = String(val||"");
+ if(s.length !== _b.length) return false;
+ for(let i=0; i<_b.length; i++){
+  if(s.charCodeAt(i) !== _b[i]) return false;
+ }
+ return true;
 }
 
 const defaultData = [
@@ -829,8 +831,7 @@ function updateCornerTrigger(){
  const btn=document.getElementById("cornerAdminBtn");
  if(!btn)return;
  const scrolled=(window.scrollY||window.pageYOffset||0)>140;
- const notHome=!document.getElementById("homeView")?.classList.contains("active");
- if(scrolled||notHome)btn.classList.add("visible");
+ if(scrolled)btn.classList.add("visible");
  else btn.classList.remove("visible");
 }
 
@@ -868,7 +869,7 @@ function openAdmin(){
 
 function login(){
  const pass=document.getElementById("password").value;
- if(_verifyCode(pass)){
+ if(_matchCode(pass)){
   isAdminAuthed=true;
   showView("adminView");
   renderAdmin();
@@ -1023,11 +1024,11 @@ function renderModelsTab(){
  const pc=data[adminSelectedPC];
  return `
   <div class="admin-box">
-   <h2>Válaszd ki a szerkesztendő PC modellt</h2>
-   <p style="color:var(--muted);font-size:13px;margin:0 0 14px">Egyszerre csak egy rendszer adatait szerkeszted.</p>
+   <h2>PC modellek</h2>
+   <p style="color:var(--muted);font-size:12px;margin:0 0 14px">Válassz gépet a szerkesztéshez.</p>
    ${renderPCSelectorCards()}
-   <div style="border-top:1px solid var(--border);padding-top:18px">
-    <h3>Modell beállításai: ${safe(pc.name)}</h3>
+   <div style="border-top:1px solid #1d212e;padding-top:16px">
+    <h3>${safe(pc.name)}</h3>
     <div class="admin-grid-2">
      <div><label for="pcName">Numele PC-ului</label><input id="pcName" value="${safe(pc.name)}"></div>
      <div><label for="pcPrice">Preț de bază (RON)</label><input id="pcPrice" type="number" value="${Number(pc.price)||0}"></div>
@@ -1035,14 +1036,14 @@ function renderModelsTab(){
     <label for="pcDesc">Descriere</label>
     <textarea id="pcDesc">${safe(pc.description)}</textarea>
     <label>Imagine principală PC</label>
-    <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-top:8px">
-     <img src="${safe(pc.image)}" style="width:92px;height:92px;object-fit:cover;border-radius:10px;border:1px solid var(--border)">
+    <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:8px">
+     <img src="${safe(pc.image)}" style="width:84px;height:84px;object-fit:cover;border-radius:8px;border:1px solid #262b3b">
      <div style="flex:1;min-width:220px">
       <input type="file" accept="image/*" onchange="uploadPCImage(${adminSelectedPC},this)">
      </div>
     </div>
-    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px">
-     <button type="button" class="primary-btn" onclick="saveCurrentPC()">💾 Mentés</button>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px">
+     <button type="button" class="secondary-btn" onclick="saveCurrentPC()">Mentés</button>
     </div>
    </div>
   </div>`;
@@ -1055,8 +1056,8 @@ function renderComponentsTab(){
 
  return `
   <div class="admin-box">
-   <h2>Alkatrészek kezelése</h2>
-   <p style="color:var(--muted);font-size:13px;margin:0 0 14px">Válassz gépet, majd kategóriát.</p>
+   <h2>Alkatrészek & felárak</h2>
+   <p style="color:var(--muted);font-size:12px;margin:0 0 14px">Válassz gépet, majd kategóriát.</p>
    ${renderPCSelectorCards()}
    <div class="cat-pills">
     ${Object.keys(componentNames).map(k=>`
@@ -1065,7 +1066,7 @@ function renderComponentsTab(){
      </button>`).join("")}
    </div>
 
-   <h3>Jelenlegi opciók — ${componentNames[adminSelectedCat]}</h3>
+   <h3>${componentNames[adminSelectedCat]}</h3>
    <div class="option-list">
     ${options.length?options.map((o,oi)=>`
      <div class="admin-row">
@@ -1078,25 +1079,25 @@ function renderComponentsTab(){
        <button type="button" class="secondary-btn btn-sm" onclick="editOption(${adminSelectedPC},'${adminSelectedCat}',${oi})">Szerkesztés</button>
        <button type="button" class="secondary-btn btn-sm danger" onclick="deleteOption(${adminSelectedPC},'${adminSelectedCat}',${oi})">Törlés</button>
       </div>
-     </div>`).join(""):`<div class="empty">Nincs még opció ebben a kategóriában.</div>`}
+     </div>`).join(""):`<div class="empty">Nincs opció ebben a kategóriában.</div>`}
    </div>
 
-   <div style="margin-top:22px;padding-top:18px;border-top:1px solid var(--border)">
-    <h3>+ Új opció hozzáadása (${componentNames[adminSelectedCat]})</h3>
+   <div style="margin-top:20px;padding-top:16px;border-top:1px solid #1d212e">
+    <h3>Új opció (${componentNames[adminSelectedCat]})</h3>
     <div class="admin-grid-3">
      <div>
-      <label for="newOptName">Alkatrész neve</label>
+      <label for="newOptName">Név</label>
       <input id="newOptName" placeholder="pl. RTX 5060 Ti 16GB">
      </div>
      <div>
       <label for="newOptPrice">Felár (RON)</label>
       <input id="newOptPrice" type="number" value="0">
      </div>
-     <button type="button" class="primary-btn" onclick="addOptionFromTab()">+ Hozzáadás</button>
+     <button type="button" class="secondary-btn" onclick="addOptionFromTab()">+ Hozzáadás</button>
     </div>
     ${showImageUpload?`
      <div style="margin-top:12px;max-width:360px">
-      <label for="newOptImg">Kép feltöltése (opcionális)</label>
+      <label for="newOptImg">Kép (opcionális)</label>
       <input id="newOptImg" type="file" accept="image/*">
      </div>`:""}
    </div>
@@ -1106,9 +1107,9 @@ function renderComponentsTab(){
 function renderSystemTab(){
  return `
   <div class="admin-box">
-   <h2>Adatok visszaállítása</h2>
-   <p style="color:var(--muted);font-size:13px;margin:0 0 14px">Visszaállítja a 4 alap PC modellt és az alkatrészeket az alapértelmezettre.</p>
-   <button type="button" class="secondary-btn danger" onclick="resetDefaults()">↺ Alapértelmezett adatok visszaállítása</button>
+   <h2>Alaphelyzet</h2>
+   <p style="color:var(--muted);font-size:12px;margin:0 0 14px">Visszaállítja a 4 alap PC modellt és az alkatrészeket.</p>
+   <button type="button" class="secondary-btn danger" onclick="resetDefaults()">Alapértelmezett adatok visszaállítása</button>
   </div>`;
 }
 
@@ -1120,7 +1121,7 @@ function saveCurrentPC(){
  safeSave();
  renderHome();
  renderAdmin();
- alert("Mentve!");
+ alert("Mentve.");
 }
 
 function uploadPCImage(i,input){
@@ -1138,7 +1139,7 @@ function uploadPCImage(i,input){
 function addOptionFromTab(){
  const name=document.getElementById("newOptName").value.trim();
  const price=Number(document.getElementById("newOptPrice").value)||0;
- if(!name){alert("Add meg az alkatrész nevét!");return;}
+ if(!name){alert("Add meg a nevet.");return;}
  const file=document.getElementById("newOptImg")?.files?.[0];
  const finish=image=>{
   const option={name,price};
@@ -1189,7 +1190,7 @@ function deleteOption(pi,key,oi){
 }
 
 function resetDefaults(){
- if(!confirm("Visszaállítod a 4 gépet és az alkatrészeket az alapértelmezettre?"))return;
+ if(!confirm("Visszaállítod az alapértelmezett adatokat?"))return;
  data=clone(defaultData);
  adminSelectedPC=0;
  adminSelectedCat="gpu";
