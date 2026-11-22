@@ -142,6 +142,30 @@
       }
     }
 
+    function buildDetailedFan(THREE, radius, frameMat, bladeMat, glowMat) {
+      const fanGroup = new THREE.Group();
+      const outer = new THREE.Mesh(new THREE.TorusGeometry(radius, 0.024, 12, 36), frameMat);
+      const glow = new THREE.Mesh(new THREE.TorusGeometry(radius * 0.92, 0.012, 10, 36), glowMat);
+      const hub = new THREE.Mesh(new THREE.CylinderGeometry(radius * 0.28, radius * 0.28, 0.055, 20), frameMat);
+      hub.rotation.x = Math.PI / 2;
+      const cap = new THREE.Mesh(new THREE.CylinderGeometry(radius * 0.16, radius * 0.16, 0.062, 20), glowMat);
+      cap.rotation.x = Math.PI / 2;
+      fanGroup.add(outer, glow, hub, cap);
+
+      const rotor = new THREE.Group();
+      const bladeCount = 7;
+      for (let i = 0; i < bladeCount; i++) {
+        const blade = new THREE.Mesh(new THREE.BoxGeometry(0.014, radius * 0.62, radius * 0.22), bladeMat);
+        const angle = (i / bladeCount) * Math.PI * 2;
+        blade.position.set(Math.cos(angle) * (radius * 0.54), Math.sin(angle) * (radius * 0.54), 0);
+        blade.rotation.z = angle + Math.PI / 2;
+        blade.rotation.y = 0.42;
+        rotor.add(blade);
+      }
+      fanGroup.add(rotor);
+      return { fanGroup, rotor };
+    }
+
     async function mount3D(containerId) {
       if (animFrame) cancelAnimationFrame(animFrame);
       const host = document.getElementById(containerId);
@@ -158,8 +182,8 @@
       const h = Math.max(host.clientHeight, 220);
 
       const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(42, w / h, 0.1, 100);
-      camera.position.set(3.3, 1.45, 3.5);
+      const camera = new THREE.PerspectiveCamera(40, w / h, 0.1, 100);
+      camera.position.set(3.45, 1.5, 3.65);
 
       const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
       renderer.setSize(w, h);
@@ -170,107 +194,161 @@
       controls.enableDamping = true;
       controls.enablePan = false;
       controls.autoRotate = true;
-      controls.autoRotateSpeed = 1.4;
-      controls.minDistance = 2.4;
+      controls.autoRotateSpeed = 1.25;
+      controls.minDistance = 2.5;
       controls.maxDistance = 6.5;
 
-      scene.add(new THREE.AmbientLight(0x93c5fd, 1.3));
-      const keyLight = new THREE.DirectionalLight(0x38bdf8, 2.4);
-      keyLight.position.set(4, 6, 4);
+      scene.add(new THREE.AmbientLight(0xbae6fd, 1.35));
+      const keyLight = new THREE.DirectionalLight(0x7dd3fc, 2.5);
+      keyLight.position.set(4.5, 6.5, 4.2);
       scene.add(keyLight);
 
-      const rimLight = new THREE.PointLight(0x38bdf8, 3.2, 16);
-      rimLight.position.set(1.5, 0.5, 2.5);
-      scene.add(rimLight);
+      const fillLight = new THREE.PointLight(0x38bdf8, 3.4, 16);
+      fillLight.position.set(1.2, 0.4, 2.2);
+      scene.add(fillLight);
+
+      const backLight = new THREE.PointLight(0x0284c7, 2.2, 16);
+      backLight.position.set(-3.2, 2.0, -2.5);
+      scene.add(backLight);
 
       const pcGroup = new THREE.Group();
       scene.add(pcGroup);
 
-      const chassisMat = new THREE.MeshStandardMaterial({
-        color: 0x0b101b,
-        metalness: 0.78,
-        roughness: 0.24
-      });
-      const cyanGlowMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
-      const gpuMat = new THREE.MeshStandardMaterial({
-        color: 0x111c33,
-        metalness: 0.7,
-        roughness: 0.25
-      });
+      const metalDark = new THREE.MeshStandardMaterial({ color: 0x0c111d, metalness: 0.82, roughness: 0.24 });
+      const shroudMat = new THREE.MeshStandardMaterial({ color: 0x111827, metalness: 0.72, roughness: 0.32 });
+      const pcbMat = new THREE.MeshStandardMaterial({ color: 0x17253b, metalness: 0.55, roughness: 0.42 });
+      const heatsinkMat = new THREE.MeshStandardMaterial({ color: 0x1f2937, metalness: 0.85, roughness: 0.22 });
+      const bladeMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.45, roughness: 0.38 });
+      const cyanGlow = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
+      const cyanSoft = new THREE.MeshBasicMaterial({ color: 0x7dd3fc });
 
-      // Main case outer frame
-      const backPanel = new THREE.Mesh(new THREE.BoxGeometry(0.08, 2.35, 2.15), chassisMat);
-      backPanel.position.set(-0.72, 0, 0);
-      const topPanel = new THREE.Mesh(new THREE.BoxGeometry(1.52, 0.08, 2.15), chassisMat);
-      topPanel.position.set(0, 1.13, 0);
-      const bottomPanel = new THREE.Mesh(new THREE.BoxGeometry(1.52, 0.1, 2.15), chassisMat);
-      bottomPanel.position.set(0, -1.12, 0);
-      const frontPanel = new THREE.Mesh(new THREE.BoxGeometry(1.52, 2.35, 0.08), chassisMat);
-      frontPanel.position.set(0, 0, 1.03);
-      pcGroup.add(backPanel, topPanel, bottomPanel, frontPanel);
+      // Chassis pillars & panels
+      const backPlate = new THREE.Mesh(new THREE.BoxGeometry(0.07, 2.38, 2.16), metalDark);
+      backPlate.position.set(-0.74, 0, 0);
+      const topPlate = new THREE.Mesh(new THREE.BoxGeometry(1.56, 0.08, 2.18), metalDark);
+      topPlate.position.set(0, 1.15, 0);
+      const bottomPlate = new THREE.Mesh(new THREE.BoxGeometry(1.56, 0.1, 2.18), metalDark);
+      bottomPlate.position.set(0, -1.14, 0);
+      const frontBezel = new THREE.Mesh(new THREE.BoxGeometry(1.54, 2.34, 0.07), shroudMat);
+      frontBezel.position.set(0, 0, 1.04);
+      const frontTrim = new THREE.Mesh(new THREE.BoxGeometry(0.03, 2.24, 0.02), cyanGlow);
+      frontTrim.position.set(0.72, 0, 1.08);
+      pcGroup.add(backPlate, topPlate, bottomPlate, frontBezel, frontTrim);
 
-      // Feet
-      [[-0.55, -1.22, -0.75], [0.55, -1.22, -0.75], [-0.55, -1.22, 0.75], [0.55, -1.22, 0.75]].forEach(([fx, fy, fz]) => {
-        const foot = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.13, 0.12, 16), chassisMat);
+      // Rubberized feet
+      [[-0.56, -1.25, -0.78], [0.56, -1.25, -0.78], [-0.56, -1.25, 0.78], [0.56, -1.25, 0.78]].forEach(([fx, fy, fz]) => {
+        const foot = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.13, 0.12, 20), metalDark);
         foot.position.set(fx, fy, fz);
         pcGroup.add(foot);
       });
 
-      // Tempered glass side
+      // PSU shroud + ventilation ribs
+      const psuShroud = new THREE.Mesh(new THREE.BoxGeometry(1.42, 0.46, 2.02), shroudMat);
+      psuShroud.position.set(-0.02, -0.84, 0.02);
+      const psuBadge = new THREE.Mesh(new THREE.BoxGeometry(0.03, 0.06, 0.55), cyanSoft);
+      psuBadge.position.set(0.69, -0.76, 0.35);
+      pcGroup.add(psuShroud, psuBadge);
+
+      // Motherboard + VRM heatsinks + RAM sticks
+      const mobo = new THREE.Mesh(new THREE.BoxGeometry(0.05, 1.38, 1.25), pcbMat);
+      mobo.position.set(-0.62, 0.14, -0.08);
+      const vrmTop = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.16, 0.72), heatsinkMat);
+      vrmTop.position.set(-0.54, 0.72, -0.22);
+      const vrmLeft = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.68, 0.16), heatsinkMat);
+      vrmLeft.position.set(-0.54, 0.32, -0.58);
+      pcGroup.add(mobo, vrmTop, vrmLeft);
+
+      [-0.22, -0.14, -0.06, 0.02].forEach((rz, idx) => {
+        const stick = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.52, 0.035), shroudMat);
+        stick.position.set(-0.52, 0.38, rz);
+        const ramLed = new THREE.Mesh(new THREE.BoxGeometry(0.015, 0.48, 0.012), idx % 2 === 0 ? cyanGlow : cyanSoft);
+        ramLed.position.set(-0.485, 0.38, rz);
+        pcGroup.add(stick, ramLed);
+      });
+
+      // AIO CPU pump block + curved coolant tubes
+      const pumpBlock = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.22, 0.16, 28), shroudMat);
+      pumpBlock.rotation.z = Math.PI / 2;
+      pumpBlock.position.set(-0.46, 0.34, -0.16);
+      const pumpHalo = new THREE.Mesh(new THREE.TorusGeometry(0.19, 0.016, 12, 32), cyanGlow);
+      pumpHalo.rotation.y = Math.PI / 2;
+      pumpHalo.position.set(-0.37, 0.34, -0.16);
+      pcGroup.add(pumpBlock, pumpHalo);
+
+      const tubeCurve1 = new THREE.CatmullRomCurve3([
+        new THREE.Vector3(-0.48, 0.44, -0.12),
+        new THREE.Vector3(-0.35, 0.85, 0.22),
+        new THREE.Vector3(-0.22, 0.98, 0.78)
+      ]);
+      const tubeCurve2 = new THREE.CatmullRomCurve3([
+        new THREE.Vector3(-0.48, 0.24, -0.12),
+        new THREE.Vector3(-0.35, 0.74, 0.26),
+        new THREE.Vector3(-0.22, 0.92, 0.78)
+      ]);
+      const tubeMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.35, roughness: 0.55 });
+      pcGroup.add(
+        new THREE.Mesh(new THREE.TubeGeometry(tubeCurve1, 24, 0.036, 12, false), tubeMat),
+        new THREE.Mesh(new THREE.TubeGeometry(tubeCurve2, 24, 0.036, 12, false), tubeMat)
+      );
+
+      // Detailed sliding GPU with dual fans + heatsink fins + RGB bar
+      const gpuGroup = new THREE.Group();
+      gpuGroup.position.set(0.06, -0.25, 0.06);
+
+      const gpuBackplate = new THREE.Mesh(new THREE.BoxGeometry(0.96, 0.03, 1.48), metalDark);
+      gpuBackplate.position.set(0, 0.12, 0);
+      const gpuShroud = new THREE.Mesh(new THREE.BoxGeometry(0.94, 0.18, 1.44), shroudMat);
+      gpuShroud.position.set(0, 0.02, 0);
+      const gpuSideBar = new THREE.Mesh(new THREE.BoxGeometry(0.035, 0.045, 1.36), cyanGlow);
+      gpuSideBar.position.set(0.48, 0.05, 0);
+      const gpuBracket = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.34, 0.08), heatsinkMat);
+      gpuBracket.position.set(0.44, 0.02, -0.74);
+
+      const gpuFanA = buildDetailedFan(THREE, 0.24, metalDark, bladeMat, cyanSoft);
+      gpuFanA.fanGroup.rotation.x = Math.PI / 2;
+      gpuFanA.fanGroup.position.set(0.04, -0.075, 0.34);
+
+      const gpuFanB = buildDetailedFan(THREE, 0.24, metalDark, bladeMat, cyanSoft);
+      gpuFanB.fanGroup.rotation.x = Math.PI / 2;
+      gpuFanB.fanGroup.position.set(0.04, -0.075, -0.26);
+
+      gpuGroup.add(gpuBackplate, gpuShroud, gpuSideBar, gpuBracket, gpuFanA.fanGroup, gpuFanB.fanGroup);
+      pcGroup.add(gpuGroup);
+
+      // 3 front intake fans + 1 rear exhaust fan
+      const rotors = [gpuFanA.rotor, gpuFanB.rotor];
+      [-0.64, 0, 0.64].forEach((fy) => {
+        const f = buildDetailedFan(THREE, 0.27, metalDark, bladeMat, cyanGlow);
+        f.fanGroup.position.set(0.02, fy, 1.09);
+        pcGroup.add(f.fanGroup);
+        rotors.push(f.rotor);
+      });
+
+      const rearFan = buildDetailedFan(THREE, 0.24, metalDark, bladeMat, cyanSoft);
+      rearFan.fanGroup.position.set(-0.22, 0.42, -1.09);
+      pcGroup.add(rearFan.fanGroup);
+      rotors.push(rearFan.rotor);
+
+      // Tempered glass side panel
       const glass = new THREE.Mesh(
-        new THREE.BoxGeometry(0.03, 2.12, 1.92),
+        new THREE.BoxGeometry(0.025, 2.16, 1.94),
         new THREE.MeshPhysicalMaterial({
-          color: 0x7dd3fc,
+          color: 0xbae6fd,
           transparent: true,
-          opacity: 0.16,
+          opacity: 0.14,
           roughness: 0.08,
           metalness: 0.1
         })
       );
-      glass.position.set(0.74, 0, 0);
+      glass.position.set(0.76, 0, 0);
       pcGroup.add(glass);
-
-      // Motherboard + CPU cooler
-      const mobo = new THREE.Mesh(
-        new THREE.BoxGeometry(0.06, 1.35, 1.25),
-        new THREE.MeshStandardMaterial({ color: 0x162238, metalness: 0.5, roughness: 0.4 })
-      );
-      mobo.position.set(-0.56, 0.12, -0.05);
-      const cooler = new THREE.Mesh(
-        new THREE.BoxGeometry(0.36, 0.42, 0.42),
-        new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.7, roughness: 0.25 })
-      );
-      cooler.position.set(-0.32, 0.28, -0.05);
-      const coolerRing = new THREE.Mesh(new THREE.TorusGeometry(0.16, 0.02, 10, 28), cyanGlowMat);
-      coolerRing.rotation.y = Math.PI / 2;
-      coolerRing.position.set(-0.13, 0.28, -0.05);
-      pcGroup.add(mobo, cooler, coolerRing);
-
-      // Sliding GPU
-      const gpuGroup = new THREE.Group();
-      gpuGroup.position.set(0.06, -0.22, 0.06);
-      const gpuBody = new THREE.Mesh(new THREE.BoxGeometry(0.95, 0.24, 1.42), gpuMat);
-      const gpuStrip = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.05, 1.34), cyanGlowMat);
-      gpuStrip.position.set(0.48, 0.02, 0);
-      gpuGroup.add(gpuBody, gpuStrip);
-      pcGroup.add(gpuGroup);
-
-      // Front fans
-      const fans = [];
-      [-0.62, 0, 0.62].forEach((fy) => {
-        const ring = new THREE.Mesh(new THREE.TorusGeometry(0.26, 0.026, 12, 32), cyanGlowMat);
-        ring.position.set(0.05, fy, 1.09);
-        const hub = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.09, 0.05, 16), chassisMat);
-        hub.rotation.x = Math.PI / 2;
-        hub.position.set(0.05, fy, 1.09);
-        pcGroup.add(ring, hub);
-        fans.push(hub);
-      });
 
       function tick() {
         animFrame = requestAnimationFrame(tick);
         gpuGroup.position.x = THREE.MathUtils.lerp(gpuGroup.position.x, targetGpuX, 0.14);
-        fans.forEach((f) => { f.rotation.y += 0.12; });
+        rotors.forEach((r, idx) => {
+          r.rotation.z += idx % 2 === 0 ? 0.14 : -0.14;
+        });
         controls.update();
         renderer.render(scene, camera);
       }
