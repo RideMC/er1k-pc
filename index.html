@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Er1k PC — Configurator 3D</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+  <style>
+    body { background:#040918; color:#fff; font-family:system-ui,-apple-system,sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen">
+  <div id="app"></div>
+
+  <script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+    const STORAGE_KEY = 'er1k_pc_site_v1';
+    const TIKTOK_URL = 'https://www.tiktok.com/@er1k.pc.build?_r=1&_t=ZN-9BcUhktscVy';
+
+    const DEFAULT_DATA = [
+      {
+        id: 'start', name: 'Er1k Start', basePrice: 2500,
+        gpus: [{ id: 'g1', name: 'GTX 1660 Super', price: 0 }, { id: 'g2', name: 'RX 6600', price: 250 }],
+        cpus: [{ id: 'c1', name: 'Ryzen 5 3600', price: 0 }, { id: 'c2', name: 'Ryzen 5 5600', price: 220 }],
+        ssds: [{ id: 's1', name: '512GB NVMe', price: 0 }, { id: 's2', name: '1TB NVMe', price: 180 }],
+        rams: [{ id: 'r1', name: '16GB DDR4', price: 0 }, { id: 'r2', name: '32GB DDR4', price: 200 }],
+        cases: [{ id: 'ca1', name: 'Carcasă Cyber Blue', price: 0, img: '' }],
+        coolers: [{ id: 'co1', name: 'Răcire CPU Standard', price: 0, img: '' }]
+      },
+      {
+        id: 'core', name: 'Er1k Core', basePrice: 3500,
+        gpus: [{ id: 'g1', name: 'RTX 3060', price: 0 }, { id: 'g2', name: 'RX 6700 XT', price: 400 }],
+        cpus: [{ id: 'c1', name: 'Ryzen 5 5600', price: 0 }, { id: 'c2', name: 'Ryzen 7 5700X', price: 320 }],
+        ssds: [{ id: 's1', name: '1TB NVMe', price: 0 }, { id: 's2', name: '2TB NVMe', price: 340 }],
+        rams: [{ id: 'r1', name: '16GB DDR4', price: 0 }, { id: 'r2', name: '32GB DDR4', price: 200 }],
+        cases: [{ id: 'ca1', name: 'Carcasă Glass Pro', price: 0, img: '' }],
+        coolers: [{ id: 'co1', name: 'AIO 240mm', price: 0, img: '' }]
+      },
+      {
+        id: 'pro', name: 'Er1k Pro', basePrice: 4800,
+        gpus: [{ id: 'g1', name: 'RTX 4060 Ti', price: 0 }, { id: 'g2', name: 'RX 7700 XT', price: 450 }],
+        cpus: [{ id: 'c1', name: 'Ryzen 5 7500F', price: 0 }, { id: 'c2', name: 'Ryzen 7 7700', price: 550 }],
+        ssds: [{ id: 's1', name: '1TB Gen4 NVMe', price: 0 }, { id: 's2', name: '2TB Gen4 NVMe', price: 360 }],
+        rams: [{ id: 'r1', name: '32GB DDR5', price: 0 }, { id: 'r2', name: '64GB DDR5', price: 500 }],
+        cases: [{ id: 'ca1', name: 'Carcasă Dual-Chamber', price: 0, img: '' }],
+        coolers: [{ id: 'co1', name: 'AIO 240mm ARGB', price: 0, img: '' }]
+      },
+      {
+        id: 'elite', name: 'Er1k Elite', basePrice: 6500,
+        gpus: [{ id: 'g1', name: 'RTX 4070 Super', price: 0 }, { id: 'g2', name: 'RX 7900 GRE', price: 250 }],
+        cpus: [{ id: 'c1', name: 'Ryzen 7 7700', price: 0 }, { id: 'c2', name: 'Ryzen 7 7800X3D', price: 850 }],
+        ssds: [{ id: 's1', name: '1TB Gen4 NVMe', price: 0 }, { id: 's2', name: '2TB Gen4 NVMe', price: 360 }],
+        rams: [{ id: 'r1', name: '32GB DDR5', price: 0 }, { id: 'r2', name: '64GB DDR5', price: 500 }],
+        cases: [{ id: 'ca1', name: 'Carcasă Elite Blue', price: 0, img: '' }],
+        coolers: [{ id: 'co1', name: 'AIO 360mm', price: 0, img: '' }]
+      },
+      {
+        id: 'ultimate', name: 'Er1k Ultimate', basePrice: 9000,
+        gpus: [{ id: 'g1', name: 'RTX 4080 Super', price: 0 }, { id: 'g2', name: 'RTX 4090', price: 2800 }],
+        cpus: [{ id: 'c1', name: 'Ryzen 7 7800X3D', price: 0 }, { id: 'c2', name: 'Ryzen 9 7950X3D', price: 1100 }],
+        ssds: [{ id: 's1', name: '2TB Gen4 NVMe', price: 0 }, { id: 's2', name: '4TB Gen4 NVMe', price: 750 }],
+        rams: [{ id: 'r1', name: '32GB DDR5', price: 0 }, { id: 'r2', name: '64GB DDR5', price: 500 }],
+        cases: [{ id: 'ca1', name: 'Carcasă Ultimate Tower', price: 0, img: '' }],
+        coolers: [{ id: 'co1', name: 'AIO 360mm LCD', price: 0, img: '' }]
+      }
+    ];
+
+    function loadData() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_DATA));
+          return structuredClone(DEFAULT_DATA);
+        }
+        return JSON.parse(raw);
+      } catch {
+        return structuredClone(DEFAULT_DATA);
+      }
+    }
+
+    function saveData(d) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
+    }
+
+    let pcs = loadData();
+    let state = {
+      view: 'home',
+      pcId: pcs[0].id,
+      gpuId: null,
+      cpuId: null,
+      ssdId: null,
+      ramId: null,
+      caseId: null,
+      coolerId: null,
+      modalOpen: false,
+      adminAuthed: false,
+      adminTab: pcs[0].id,
+      savedNotice: false
+    };
+
+    let threeAnimId = null;
+    let targetGpuX = 0.05;
+
+    function mount3D(containerId) {
+      if (threeAnimId) cancelAnimationFrame(threeAnimId);
+      const box = document.getElementById(containerId);
+      if (!box) return;
+      box.innerHTML = '';
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(42, box.clientWidth / Math.max(box.clientHeight, 1), 0.1, 100);
+      camera.position.set(3.2, 1.4, 3.4);
+
+      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer.setSize(box.clientWidth, box.clientHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      box.appendChild(renderer.domElement);
+
+      const controls = new OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.enablePan = false;
+      controls.minDistance = 2.5;
+      controls.maxDistance = 6.2;
+
+      scene.add(new THREE.AmbientLight(0x7dd3fc, 1.1));
+      const p1 = new THREE.PointLight(0x38bdf8, 3, 20);
+      p1.position.set(4, 4, 4);
+      scene.add(p1);
+      const p2 = new THREE.PointLight(0x1d4ed8, 2.2, 20);
+      p2.position.set(-4, -2, -3);
+      scene.add(p2);
+
+      const tower = new THREE.Group();
+      scene.add(tower);
+
+      const frame = new THREE.Mesh(
+        new THREE.BoxGeometry(1.5, 2.3, 2.1),
+        new THREE.MeshStandardMaterial({ color: 0x091633, metalness: 0.7, roughness: 0.25 })
+      );
+      tower.add(frame);
+
+      const glass = new THREE.Mesh(
+        new THREE.BoxGeometry(0.03, 2.1, 1.9),
+        new THREE.MeshPhysicalMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.16, roughness: 0.1 })
+      );
+      glass.position.set(0.76, 0, 0);
+      tower.add(glass);
+
+      const gpuMesh = new THREE.Group();
+      gpuMesh.position.set(0.05, -0.15, 0.05);
+      const gpuCard = new THREE.Mesh(
+        new THREE.BoxGeometry(0.85, 0.2, 1.35),
+        new THREE.MeshStandardMaterial({ color: 0x2563eb, metalness: 0.7, roughness: 0.25 })
+      );
+      const gpuLed = new THREE.Mesh(
+        new THREE.BoxGeometry(0.03, 0.05, 1.3),
+        new THREE.MeshBasicMaterial({ color: 0x38bdf8 })
+      );
+      gpuLed.position.set(0.43, 0, 0);
+      gpuMesh.add(gpuCard, gpuLed);
+      tower.add(gpuMesh);
+
+      [-0.6, 0, 0.6].forEach((y) => {
+        const fan = new THREE.Mesh(
+          new THREE.TorusGeometry(0.24, 0.025, 10, 24),
+          new THREE.MeshBasicMaterial({ color: 0x38bdf8 })
+        );
+        fan.position.set(0.1, y, 1.02);
+        tower.add(fan);
+      });
+
+      function tick() {
+        threeAnimId = requestAnimationFrame(tick);
+        gpuMesh.position.x = THREE.MathUtils.lerp(gpuMesh.position.x, targetGpuX, 0.14);
+        controls.update();
+        renderer.render(scene, camera);
+      }
+      tick();
+    }
+
+    function selectPc(id) {
+      const pc = pcs.find((p) => p.id === id) || pcs[0];
+      state.view = 'config';
+      state.pcId = pc.id;
+      state.gpuId = pc.gpus[0]?.id ?? null;
+      state.cpuId = pc.cpus[0]?.id ?? null;
+      state.ssdId = pc.ssds[0]?.id ?? null;
+      state.ramId = pc.rams[0]?.id ?? null;
+      state.caseId = null;
+      state.coolerId = null;
+      state.modalOpen = false;
+      targetGpuX = 0.05;
+      render();
+    }
+
+    function calcTotal(pc) {
+      const pick = (list, id) => list.find((x) => x.id === id) || null;
+      const g = pick(pc.gpus, state.gpuId);
+      const c = pick(pc.cpus, state.cpuId);
+      const s = pick(pc.ssds, state.ssdId);
+      const r = pick(pc.rams, state.ramId);
+      const ca = pick(pc.cases, state.caseId);
+      const co = pick(pc.coolers, state.coolerId);
+      return {
+        g, c, s, r, ca, co,
+        total: pc.basePrice + (g?.price||0) + (c?.price||0) + (s?.price||0) + (r?.price||0) + (ca?.price||0) + (co?.price||0)
+      };
+    }
+
+    function render() {
+      const root = document.getElementById('app');
+
+      if (state.view === 'home') {
+        root.innerHTML = `
+          <header class="border-b border-sky-500/20 bg-[#060f26]/90 px-6 py-4 flex justify-between items-center">
+            <span class="font-black text-xl tracking-wider text-sky-400">ER1K PC</span>
+            <button id="goAdmin" class="text-xs px-3 py-1.5 rounded-lg border border-sky-500/30 text-sky-300 hover:bg-sky-500/10">Admin</button>
+          </header>
+          <section class="max-w-6xl mx-auto px-6 py-10 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <div>
+              <p class="text-xs uppercase tracking-widest text-sky-400 font-bold mb-2">Configurator 3D</p>
+              <h1 class="text-4xl md:text-5xl font-black mb-4">Sisteme <span class="text-sky-400">Er1k PC</span></h1>
+              <p class="text-slate-300 text-sm md:text-base">Alege unul dintre cele 5 modele principale și configurează-l în 3D.</p>
+            </div>
+            <div id="hero3d" class="w-full h-80 rounded-2xl bg-[#07132e] border border-sky-500/25"></div>
+          </section>
+          <main class="max-w-6xl mx-auto px-6 pb-20">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              ${pcs.map((pc) => `
+                <div data-pc="${pc.id}" class="pcCard cursor-pointer rounded-2xl bg-[#07132e] border border-sky-500/25 hover:border-sky-400 p-6 transition flex flex-col justify-between">
+                  <h2 class="text-2xl font-extrabold mb-6">${pc.name}</h2>
+                  <div class="flex items-center justify-between pt-4 border-t border-sky-500/15">
+                    <span class="text-xl font-black text-sky-400">${pc.basePrice.toLocaleString('ro-RO')} RON</span>
+                    <span class="px-4 py-2 rounded-xl bg-sky-500 text-slate-950 font-bold text-sm">Configurează</span>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </main>
+        `;
+        document.getElementById('goAdmin').onclick = () => { state.view = 'admin'; render(); };
+        document.querySelectorAll('.pcCard').forEach((el) => {
+          el.onclick = () => selectPc(el.getAttribute('data-pc'));
+        });
+        mount3D('hero3d');
+        return;
+      }
+
+      if (state.view === 'config') {
+        const pc = pcs.find((p) => p.id === state.pcId) || pcs[0];
+        const { g, c, s, r, ca, co, total } = calcTotal(pc);
+        const canBuy = Boolean(ca && co);
+
+        const listHtml = (items, selectedId, cls) => items.map((it) => `
+          <button type="button" data-id="${it.id}" class="${cls} w-full flex justify-between items-center px-3 py-2 rounded-xl text-sm border ${
+            selectedId === it.id ? 'border-sky-400 bg-sky-500/20 text-white font-semibold' : 'border-slate-800 bg-[#040918] text-slate-300'
+          }">
+            <span class="truncate pr-2">${it.name}</span>
+            <span class="text-sky-400 font-bold shrink-0">+${it.price} RON</span>
+          </button>
+        `).join('');
+
+        const cardGridHtml = (items, selectedId, cls) => items.map((it) => `
+          <button type="button" data-id="${it.id}" class="${cls} rounded-xl overflow-hidden border text-left ${
+            selectedId === it.id ? 'border-sky-400 bg-sky-500/20 ring-2 ring-sky-400/40' : 'border-slate-800 bg-[#040918]'
+          }">
+            ${it.img ? `<img src="${it.img}" alt="${it.name}" class="w-full h-24 object-cover" />` : `<div class="w-full h-24 bg-[#091838] flex items-center justify-center text-xs text-sky-400/70">Fără poză</div>`}
+            <div class="p-2.5">
+              <div class="text-xs font-semibold truncate">${it.name}</div>
+              <div class="text-xs font-bold text-sky-400 mt-1">+${it.price} RON</div>
+            </div>
+          </button>
+        `).join('');
+
+        root.innerHTML = `
+          <header class="border-b border-sky-500/20 bg-[#060f26] px-6 py-4 flex justify-between items-center">
+            <button id="backHome" class="text-sm text-sky-400 hover:underline">← Înapoi</button>
+            <span class="font-bold text-sky-300">${pc.name}</span>
+            <button id="goAdmin" class="text-xs px-3 py-1.5 rounded-lg border border-sky-500/30 text-sky-300">Admin</button>
+          </header>
+
+          <div class="max-w-7xl mx-auto px-4 md:px-6 pt-6 pb-20">
+            <div class="text-center mb-6">
+              <div class="text-4xl md:text-6xl font-black text-sky-400">${total.toLocaleString('ro-RO')} RON</div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+              <div class="lg:col-span-3 space-y-4">
+                <div id="gpuBox" class="p-4 rounded-2xl bg-[#07132e] border border-sky-500/25 hover:border-sky-400 transition">
+                  <div class="text-xs font-bold uppercase text-sky-400 mb-2">GPU</div>
+                  <div class="space-y-1.5">${listHtml(pc.gpus, state.gpuId, 'gpuBtn')}</div>
+                </div>
+                <div class="p-4 rounded-2xl bg-[#07132e] border border-sky-500/25">
+                  <div class="text-xs font-bold uppercase text-sky-400 mb-2">CPU</div>
+                  <div class="space-y-1.5">${listHtml(pc.cpus, state.cpuId, 'cpuBtn')}</div>
+                </div>
+              </div>
+
+              <div class="lg:col-span-6">
+                <div id="cfg3d" class="w-full h-96 md:h-[440px] rounded-2xl bg-[#07132e] border border-sky-500/25"></div>
+              </div>
+
+              <div class="lg:col-span-3 space-y-4">
+                <div class="p-4 rounded-2xl bg-[#07132e] border border-sky-500/25">
+                  <div class="text-xs font-bold uppercase text-sky-400 mb-2">SSD</div>
+                  <div class="space-y-1.5">${listHtml(pc.ssds, state.ssdId, 'ssdBtn')}</div>
+                </div>
+                <div class="p-4 rounded-2xl bg-[#07132e] border border-sky-500/25">
+                  <div class="text-xs font-bold uppercase text-sky-400 mb-2">RAM</div>
+                  <div class="space-y-1.5">${listHtml(pc.rams, state.ramId, 'ramBtn')}</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+              <div class="p-5 rounded-2xl bg-[#07132e] border border-sky-500/25">
+                <div class="text-xs font-bold uppercase text-sky-400 mb-3">Carcasă PC *</div>
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">${cardGridHtml(pc.cases, state.caseId, 'caseBtn')}</div>
+              </div>
+              <div class="p-5 rounded-2xl bg-[#07132e] border border-sky-500/25">
+                <div class="text-xs font-bold uppercase text-sky-400 mb-3">Răcire CPU *</div>
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">${cardGridHtml(pc.coolers, state.coolerId, 'coolerBtn')}</div>
+              </div>
+            </div>
+
+            <div class="mt-10 text-center">
+              ${!canBuy ? `<p class="text-amber-400 text-xs mb-3">Selectează Carcasă PC și Răcire CPU.</p>` : ''}
+              <button id="buyBtn" ${!canBuy ? 'disabled' : ''} class="px-10 py-4 rounded-2xl bg-sky-500 hover:bg-sky-400 disabled:opacity-40 disabled:cursor-not-allowed text-slate-950 font-black text-lg">
+                Cumpără
+              </button>
+            </div>
+          </div>
+
+          ${state.modalOpen ? `
+            <div class="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
+              <div class="bg-[#07132e] border border-sky-400/40 rounded-2xl max-w-md w-full p-6">
+                <h3 class="text-xl font-black mb-4">${pc.name}</h3>
+                <ul class="space-y-1.5 text-sm text-slate-200 mb-4">
+                  <li>GPU: ${g?.name || '-'} (+${g?.price || 0} RON)</li>
+                  <li>CPU: ${c?.name || '-'} (+${c?.price || 0} RON)</li>
+                  <li>SSD: ${s?.name || '-'} (+${s?.price || 0} RON)</li>
+                  <li>RAM: ${r?.name || '-'} (+${r?.price || 0} RON)</li>
+                  <li>Carcasă PC: ${ca?.name || '-'} (+${ca?.price || 0} RON)</li>
+                  <li>Răcire CPU: ${co?.name || '-'} (+${co?.price || 0} RON)</li>
+                </ul>
+                <div class="text-xl font-black text-sky-400 mb-5">Total: ${total.toLocaleString('ro-RO')} RON</div>
+                <div class="flex gap-3">
+                  <button id="closeModal" class="px-4 py-3 rounded-xl border border-slate-700 text-sm">Închide</button>
+                  <a href="${TIKTOK_URL}" target="_blank" rel="noopener noreferrer" class="flex-1 py-3 rounded-xl bg-sky-500 text-slate-950 font-black text-center text-sm">
+                    Scrie-mi pe TikTok
+                  </a>
+                </div>
+              </div>
+            </div>
+          ` : ''}
+        `;
+
+        document.getElementById('backHome').onclick = () => { state.view = 'home'; targetGpuX = 0.05; render(); };
+        document.getElementById('goAdmin').onclick = () => { state.view = 'admin'; render(); };
+
+        const gpuBox = document.getElementById('gpuBox');
+        gpuBox.onmouseenter = () => { targetGpuX = 1.55; };
+        gpuBox.onmouseleave = () => { targetGpuX = 0.05; };
+
+        document.querySelectorAll('.gpuBtn').forEach((b) => b.onclick = () => { state.gpuId = b.dataset.id; targetGpuX = 0.05; render(); });
+        document.querySelectorAll('.cpuBtn').forEach((b) => b.onclick = () => { state.cpuId = b.dataset.id; render(); });
+        document.querySelectorAll('.ssdBtn').forEach((b) => b.onclick = () => { state.ssdId = b.dataset.id; render(); });
+        document.querySelectorAll('.ramBtn').forEach((b) => b.onclick = () => { state.ramId = b.dataset.id; render(); });
+        document.querySelectorAll('.caseBtn').forEach((b) => b.onclick = () => { state.caseId = b.dataset.id; render(); });
+        document.querySelectorAll('.coolerBtn').forEach((b) => b.onclick = () => { state.coolerId = b.dataset.id; render(); });
+
+        const buyBtn = document.getElementById('buyBtn');
+        if (buyBtn && canBuy) buyBtn.onclick = () => { state.modalOpen = true; render(); };
+        const closeModal = document.getElementById('closeModal');
+        if (closeModal) closeModal.onclick = () => { state.modalOpen = false; render(); };
+
+        mount3D('cfg3d');
+        return;
+      }
+
+      if (state.view === 'admin') {
+        if (!state.adminAuthed) {
+          root.innerHTML = `
+            <header class="border-b border-sky-500/20 bg-[#060f26] px-6 py-4 flex justify-between items-center">
+              <button id="backHome" class="text-sm text-sky-400 hover:underline">← Acasă</button>
+              <span class="font-bold text-sky-300">Admin</span>
+              <div class="w-12"></div>
+            </header>
+            <div class="min-h-[80vh] flex items-center justify-center p-4">
+              <form id="adminForm" class="bg-[#07132e] border border-sky-500/30 p-6 rounded-2xl max-w-xs w-full space-y-3">
+                <div class="font-bold text-sky-400">Autentificare Admin</div>
+                <input id="adminPass" type="password" placeholder="Parola" class="w-full px-3 py-2 rounded-xl bg-[#040918] border border-slate-700 text-sm" />
+                <button type="submit" class="w-full py-2 rounded-xl bg-sky-500 text-slate-950 font-bold text-sm">Intră</button>
+              </form>
+            </div>
+          `;
+          document.getElementById('backHome').onclick = () => { state.view = 'home'; render(); };
+          document.getElementById('adminForm').onsubmit = (e) => {
+            e.preventDefault();
+            if (document.getElementById('adminPass').value === 'valakivok') {
+              state.adminAuthed = true;
+              render();
+            }
+          };
+          return;
+        }
+
+        const cur = pcs.find((p) => p.id === state.adminTab) || pcs[0];
+        const parts = [
+          ['gpus', 'GPU', false],
+          ['cpus', 'CPU', false],
+          ['ssds', 'SSD', false],
+          ['rams', 'RAM', false],
+          ['cases', 'Carcasă PC', true],
+          ['coolers', 'Răcire CPU', true]
+        ];
+
+        root.innerHTML = `
+          <header class="border-b border-sky-500/20 bg-[#060f26] px-6 py-4 flex justify-between items-center">
+            <button id="backHome" class="text-sm text-sky-400 hover:underline">← Acasă</button>
+            <button id="saveAdmin" class="px-5 py-2 rounded-xl bg-sky-500 text-slate-950 font-bold text-sm">
+              ${state.savedNotice ? 'Salvat!' : 'Salvează'}
+            </button>
+          </header>
+
+          <div class="max-w-5xl mx-auto px-4 py-6 pb-20 space-y-5">
+            <div class="flex flex-wrap gap-2">
+              ${pcs.map((p) => `
+                <button data-tab="${p.id}" class="pcTab px-4 py-2 rounded-xl text-sm font-bold ${
+                  p.id === cur.id ? 'bg-sky-500 text-slate-950' : 'bg-[#07132e] text-slate-300 border border-sky-500/20'
+                }">${p.name}</button>
+              `).join('')}
+            </div>
+
+            <div class="p-4 rounded-2xl bg-[#07132e] border border-sky-500/25 flex items-center justify-between">
+              <span class="font-bold text-sm">Preț de bază (${cur.name})</span>
+              <input id="basePriceInput" type="number" value="${cur.basePrice}" class="w-32 px-3 py-1.5 rounded-lg bg-[#040918] border border-slate-700 text-right font-bold text-sky-400" />
+            </div>
+
+            ${parts.map(([key, label, hasImg]) => `
+              <div class="p-4 rounded-2xl bg-[#07132e] border border-sky-500/25">
+                <div class="flex items-center justify-between mb-3">
+                  <span class="font-bold text-sm text-sky-400">${label}</span>
+                  <button data-add="${key}" class="addPartBtn px-3 py-1 rounded-lg bg-sky-500/20 text-sky-300 text-xs font-bold">+ Adaugă</button>
+                </div>
+                <div class="space-y-2">
+                  ${cur[key].map((it) => `
+                    <div class="flex flex-wrap items-center gap-2 bg-[#040918] p-2 rounded-xl">
+                      <input type="text" data-part="${key}" data-id="${it.id}" data-field="name" value="${it.name}" class="partInput flex-1 min-w-[140px] px-2.5 py-1.5 rounded-lg bg-[#07132e] border border-slate-700 text-sm" />
+                      <input type="number" data-part="${key}" data-id="${it.id}" data-field="price" value="${it.price}" class="partInput w-24 px-2.5 py-1.5 rounded-lg bg-[#07132e] border border-slate-700 text-sm text-right text-sky-400" />
+                      ${hasImg ? `<input type="file" accept="image/*" data-part="${key}" data-id="${it.id}" class="imgInput text-xs text-slate-400 max-w-[170px]" />` : ''}
+                      <button data-part="${key}" data-id="${it.id}" class="delPartBtn px-2.5 py-1 rounded-lg bg-rose-500/15 text-rose-400 text-xs font-bold">Șterge</button>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        `;
+
+        document.getElementById('backHome').onclick = () => { state.view = 'home'; render(); };
+        document.getElementById('saveAdmin').onclick = () => {
+          saveData(pcs);
+          state.savedNotice = true;
+          render();
+          setTimeout(() => { state.savedNotice = false; render(); }, 1500);
+        };
+        document.querySelectorAll('.pcTab').forEach((b) => b.onclick = () => { state.adminTab = b.dataset.tab; render(); });
+        document.getElementById('basePriceInput').onchange = (e) => { cur.basePrice = Number(e.target.value) || 0; };
+
+        document.querySelectorAll('.addPartBtn').forEach((b) => {
+          b.onclick = () => {
+            const k = b.dataset.add;
+            cur[k].push({ id: String(Date.now() + Math.random()), name: 'Opțiune nouă', price: 0, img: '' });
+            render();
+          };
+        });
+
+        document.querySelectorAll('.partInput').forEach((inp) => {
+          inp.onchange = () => {
+            const item = cur[inp.dataset.part].find((x) => x.id === inp.dataset.id);
+            if (!item) return;
+            item[inp.dataset.field] = inp.dataset.field === 'price' ? (Number(inp.value) || 0) : inp.value;
+          };
+        });
+
+        document.querySelectorAll('.imgInput').forEach((fi) => {
+          fi.onchange = () => {
+            const f = fi.files?.[0];
+            if (!f) return;
+            const reader = new FileReader();
+            reader.onload = () => {
+              const item = cur[fi.dataset.part].find((x) => x.id === fi.dataset.id);
+              if (item) item.img = String(reader.result || '');
+            };
+            reader.readAsDataURL(f);
+          };
+        });
+
+        document.querySelectorAll('.delPartBtn').forEach((b) => {
+          b.onclick = () => {
+            cur[b.dataset.part] = cur[b.dataset.part].filter((x) => x.id !== b.dataset.id);
+            render();
+          };
+        });
+      }
+    }
+
+    render();
+  </script>
+</body>
+</html>
