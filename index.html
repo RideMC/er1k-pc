@@ -9,31 +9,53 @@
     body {
       background-color: #030509;
       background-image:
-        radial-gradient(circle at 18% 12%, rgba(56, 189, 248, 0.10), transparent 40%),
-        radial-gradient(circle at 82% 18%, rgba(14, 165, 233, 0.08), transparent 42%),
+        radial-gradient(circle at 18% 12%, rgba(56, 189, 248, 0.11), transparent 40%),
+        radial-gradient(circle at 82% 18%, rgba(14, 165, 233, 0.09), transparent 42%),
         linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
         linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
       background-size: 100% 100%, 100% 100%, 48px 48px, 48px 48px;
       color: #f8fafc;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overflow-x: hidden;
+    }
+    @keyframes viewReveal {
+      0% {
+        opacity: 0;
+        transform: translateY(18px) scale(0.988);
+        filter: blur(4px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+      }
+    }
+    .view-anim {
+      animation: viewReveal 0.34s cubic-bezier(0.22, 1, 0.36, 1) both;
     }
     .dark-card {
       background: linear-gradient(165deg, rgba(15, 20, 32, 0.95), rgba(6, 8, 14, 0.99));
       border: 1px solid rgba(148, 163, 184, 0.18);
       box-shadow: 0 20px 45px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.06);
-      transition: all 0.2s ease;
+      transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.22s ease, box-shadow 0.22s ease;
     }
     .dark-card:hover {
-      border-color: rgba(56, 189, 248, 0.6);
-      transform: translateY(-2px);
-      box-shadow: 0 24px 55px rgba(0, 0, 0, 0.85), 0 0 26px rgba(56, 189, 248, 0.14);
+      border-color: rgba(56, 189, 248, 0.65);
+      transform: translateY(-4px);
+      box-shadow: 0 26px 58px rgba(0, 0, 0, 0.88), 0 0 28px rgba(56, 189, 248, 0.16);
     }
     .cyan-btn {
       background: linear-gradient(135deg, #38bdf8, #0284c7);
-      box-shadow: 0 8px 24px rgba(14, 165, 233, 0.32);
+      box-shadow: 0 8px 24px rgba(14, 165, 233, 0.34);
+      transition: transform 0.16s ease, background 0.2s ease, box-shadow 0.2s ease;
     }
-    .cyan-btn:hover {
+    .cyan-btn:hover:not(:disabled) {
       background: linear-gradient(135deg, #7dd3fc, #0ea5e9);
+      transform: translateY(-1px);
+      box-shadow: 0 12px 28px rgba(56, 189, 248, 0.45);
+    }
+    .cyan-btn:active:not(:disabled) {
+      transform: scale(0.97);
     }
   </style>
 </head>
@@ -122,13 +144,39 @@
       modalOpen: false,
       adminAuthed: false,
       adminTab: pcs[0].id,
-      savedNotice: false
+      savedNotice: false,
+      animKey: 0
     };
 
+    const BASE_GPU_X = 0.06;
+    const BASE_CPU_X = -0.37;
+    const BASE_RAM_X = -0.50;
+    const BASE_SSD_X = -0.36;
+
+    let targetOffsets = { gpu: 0, cpu: 0, ram: 0, ssd: 0 };
     let animFrame = null;
-    let targetGpuX = 0.06;
     let THREE_MOD = null;
     let CONTROLS_MOD = null;
+
+    function setHoverPart(part) {
+      if (part === 'gpu') {
+        targetOffsets = { gpu: 1.55, cpu: 0, ram: 0, ssd: 0 };
+      } else if (part === 'ssd') {
+        targetOffsets = { gpu: 0, cpu: 0, ram: 0, ssd: 1.45 };
+      } else if (part === 'ram') {
+        targetOffsets = { gpu: 0, cpu: 0, ram: 1.38, ssd: 0 };
+      } else if (part === 'cpu') {
+        targetOffsets = { gpu: 0, cpu: 1.35, ram: 1.38, ssd: 1.45 };
+      } else {
+        targetOffsets = { gpu: 0, cpu: 0, ram: 0, ssd: 0 };
+      }
+    }
+
+    function switchView(nextView, extra = {}) {
+      state = { ...state, ...extra, view: nextView, animKey: state.animKey + 1 };
+      setHoverPart(null);
+      render();
+    }
 
     async function ensureThree() {
       if (THREE_MOD && CONTROLS_MOD) return true;
@@ -183,7 +231,7 @@
 
       const scene = new THREE.Scene();
       const camera = new THREE.PerspectiveCamera(40, w / h, 0.1, 100);
-      camera.position.set(3.45, 1.5, 3.65);
+      camera.position.set(3.55, 1.55, 3.75);
 
       const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
       renderer.setSize(w, h);
@@ -194,9 +242,9 @@
       controls.enableDamping = true;
       controls.enablePan = false;
       controls.autoRotate = true;
-      controls.autoRotateSpeed = 1.25;
-      controls.minDistance = 2.5;
-      controls.maxDistance = 6.5;
+      controls.autoRotateSpeed = 1.2;
+      controls.minDistance = 2.6;
+      controls.maxDistance = 6.8;
 
       scene.add(new THREE.AmbientLight(0xbae6fd, 1.35));
       const keyLight = new THREE.DirectionalLight(0x7dd3fc, 2.5);
@@ -206,10 +254,6 @@
       const fillLight = new THREE.PointLight(0x38bdf8, 3.4, 16);
       fillLight.position.set(1.2, 0.4, 2.2);
       scene.add(fillLight);
-
-      const backLight = new THREE.PointLight(0x0284c7, 2.2, 16);
-      backLight.position.set(-3.2, 2.0, -2.5);
-      scene.add(backLight);
 
       const pcGroup = new THREE.Group();
       scene.add(pcGroup);
@@ -222,7 +266,7 @@
       const cyanGlow = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
       const cyanSoft = new THREE.MeshBasicMaterial({ color: 0x7dd3fc });
 
-      // Chassis pillars & panels
+      // Case body + feet
       const backPlate = new THREE.Mesh(new THREE.BoxGeometry(0.07, 2.38, 2.16), metalDark);
       backPlate.position.set(-0.74, 0, 0);
       const topPlate = new THREE.Mesh(new THREE.BoxGeometry(1.56, 0.08, 2.18), metalDark);
@@ -235,21 +279,20 @@
       frontTrim.position.set(0.72, 0, 1.08);
       pcGroup.add(backPlate, topPlate, bottomPlate, frontBezel, frontTrim);
 
-      // Rubberized feet
       [[-0.56, -1.25, -0.78], [0.56, -1.25, -0.78], [-0.56, -1.25, 0.78], [0.56, -1.25, 0.78]].forEach(([fx, fy, fz]) => {
         const foot = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.13, 0.12, 20), metalDark);
         foot.position.set(fx, fy, fz);
         pcGroup.add(foot);
       });
 
-      // PSU shroud + ventilation ribs
+      // PSU shroud
       const psuShroud = new THREE.Mesh(new THREE.BoxGeometry(1.42, 0.46, 2.02), shroudMat);
       psuShroud.position.set(-0.02, -0.84, 0.02);
       const psuBadge = new THREE.Mesh(new THREE.BoxGeometry(0.03, 0.06, 0.55), cyanSoft);
       psuBadge.position.set(0.69, -0.76, 0.35);
       pcGroup.add(psuShroud, psuBadge);
 
-      // Motherboard + VRM heatsinks + RAM sticks
+      // Motherboard + VRM heatsinks
       const mobo = new THREE.Mesh(new THREE.BoxGeometry(0.05, 1.38, 1.25), pcbMat);
       mobo.position.set(-0.62, 0.14, -0.08);
       const vrmTop = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.16, 0.72), heatsinkMat);
@@ -258,43 +301,43 @@
       vrmLeft.position.set(-0.54, 0.32, -0.58);
       pcGroup.add(mobo, vrmTop, vrmLeft);
 
-      [-0.22, -0.14, -0.06, 0.02].forEach((rz, idx) => {
-        const stick = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.52, 0.035), shroudMat);
-        stick.position.set(-0.52, 0.38, rz);
-        const ramLed = new THREE.Mesh(new THREE.BoxGeometry(0.015, 0.48, 0.012), idx % 2 === 0 ? cyanGlow : cyanSoft);
-        ramLed.position.set(-0.485, 0.38, rz);
-        pcGroup.add(stick, ramLed);
-      });
-
-      // AIO CPU pump block + curved coolant tubes
+      // Sliding CPU cooler group
+      const cpuGroup = new THREE.Group();
+      cpuGroup.position.set(BASE_CPU_X, 0.34, -0.16);
       const pumpBlock = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.22, 0.16, 28), shroudMat);
       pumpBlock.rotation.z = Math.PI / 2;
-      pumpBlock.position.set(-0.46, 0.34, -0.16);
       const pumpHalo = new THREE.Mesh(new THREE.TorusGeometry(0.19, 0.016, 12, 32), cyanGlow);
       pumpHalo.rotation.y = Math.PI / 2;
-      pumpHalo.position.set(-0.37, 0.34, -0.16);
-      pcGroup.add(pumpBlock, pumpHalo);
+      pumpHalo.position.set(0.085, 0, 0);
+      cpuGroup.add(pumpBlock, pumpHalo);
+      pcGroup.add(cpuGroup);
 
-      const tubeCurve1 = new THREE.CatmullRomCurve3([
-        new THREE.Vector3(-0.48, 0.44, -0.12),
-        new THREE.Vector3(-0.35, 0.85, 0.22),
-        new THREE.Vector3(-0.22, 0.98, 0.78)
-      ]);
-      const tubeCurve2 = new THREE.CatmullRomCurve3([
-        new THREE.Vector3(-0.48, 0.24, -0.12),
-        new THREE.Vector3(-0.35, 0.74, 0.26),
-        new THREE.Vector3(-0.22, 0.92, 0.78)
-      ]);
-      const tubeMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.35, roughness: 0.55 });
-      pcGroup.add(
-        new THREE.Mesh(new THREE.TubeGeometry(tubeCurve1, 24, 0.036, 12, false), tubeMat),
-        new THREE.Mesh(new THREE.TubeGeometry(tubeCurve2, 24, 0.036, 12, false), tubeMat)
-      );
+      // Sliding RAM group (4 sticks)
+      const ramGroup = new THREE.Group();
+      ramGroup.position.set(BASE_RAM_X, 0.42, -0.12);
+      [-0.14, -0.06, 0.02, 0.10].forEach((rz, idx) => {
+        const stick = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.52, 0.036), shroudMat);
+        stick.position.set(0, 0, rz);
+        const ramLed = new THREE.Mesh(new THREE.BoxGeometry(0.016, 0.48, 0.014), idx % 2 === 0 ? cyanGlow : cyanSoft);
+        ramLed.position.set(0.035, 0, rz);
+        ramGroup.add(stick, ramLed);
+      });
+      pcGroup.add(ramGroup);
 
-      // Detailed sliding GPU with dual fans + heatsink fins + RGB bar
+      // Sliding M.2 NVMe SSD group
+      const ssdGroup = new THREE.Group();
+      ssdGroup.position.set(BASE_SSD_X, -0.03, -0.12);
+      const ssdPcb = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.12, 0.56), pcbMat);
+      const ssdSink = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.11, 0.50), heatsinkMat);
+      ssdSink.position.set(0.025, 0, 0);
+      const ssdStrip = new THREE.Mesh(new THREE.BoxGeometry(0.015, 0.028, 0.44), cyanGlow);
+      ssdStrip.position.set(0.052, 0.02, 0);
+      ssdGroup.add(ssdPcb, ssdSink, ssdStrip);
+      pcGroup.add(ssdGroup);
+
+      // Sliding GPU group
       const gpuGroup = new THREE.Group();
-      gpuGroup.position.set(0.06, -0.25, 0.06);
-
+      gpuGroup.position.set(BASE_GPU_X, -0.25, 0.06);
       const gpuBackplate = new THREE.Mesh(new THREE.BoxGeometry(0.96, 0.03, 1.48), metalDark);
       gpuBackplate.position.set(0, 0.12, 0);
       const gpuShroud = new THREE.Mesh(new THREE.BoxGeometry(0.94, 0.18, 1.44), shroudMat);
@@ -315,7 +358,7 @@
       gpuGroup.add(gpuBackplate, gpuShroud, gpuSideBar, gpuBracket, gpuFanA.fanGroup, gpuFanB.fanGroup);
       pcGroup.add(gpuGroup);
 
-      // 3 front intake fans + 1 rear exhaust fan
+      // Front + rear fans
       const rotors = [gpuFanA.rotor, gpuFanB.rotor];
       [-0.64, 0, 0.64].forEach((fy) => {
         const f = buildDetailedFan(THREE, 0.27, metalDark, bladeMat, cyanGlow);
@@ -345,7 +388,10 @@
 
       function tick() {
         animFrame = requestAnimationFrame(tick);
-        gpuGroup.position.x = THREE.MathUtils.lerp(gpuGroup.position.x, targetGpuX, 0.14);
+        gpuGroup.position.x = THREE.MathUtils.lerp(gpuGroup.position.x, BASE_GPU_X + targetOffsets.gpu, 0.14);
+        cpuGroup.position.x = THREE.MathUtils.lerp(cpuGroup.position.x, BASE_CPU_X + targetOffsets.cpu, 0.14);
+        ramGroup.position.x = THREE.MathUtils.lerp(ramGroup.position.x, BASE_RAM_X + targetOffsets.ram, 0.14);
+        ssdGroup.position.x = THREE.MathUtils.lerp(ssdGroup.position.x, BASE_SSD_X + targetOffsets.ssd, 0.14);
         rotors.forEach((r, idx) => {
           r.rotation.z += idx % 2 === 0 ? 0.14 : -0.14;
         });
@@ -357,17 +403,16 @@
 
     function selectPc(id) {
       const pc = pcs.find((p) => p.id === id) || pcs[0];
-      state.view = 'config';
-      state.pcId = pc.id;
-      state.gpuId = pc.gpus[0]?.id ?? null;
-      state.cpuId = pc.cpus[0]?.id ?? null;
-      state.ssdId = pc.ssds[0]?.id ?? null;
-      state.ramId = pc.rams[0]?.id ?? null;
-      state.caseId = null;
-      state.coolerId = null;
-      state.modalOpen = false;
-      targetGpuX = 0.06;
-      render();
+      switchView('config', {
+        pcId: pc.id,
+        gpuId: pc.gpus[0]?.id ?? null,
+        cpuId: pc.cpus[0]?.id ?? null,
+        ssdId: pc.ssds[0]?.id ?? null,
+        ramId: pc.rams[0]?.id ?? null,
+        caseId: null,
+        coolerId: null,
+        modalOpen: false
+      });
     }
 
     function calcTotal(pc) {
@@ -390,123 +435,125 @@
       if (state.view === 'home') {
         const featured = pcs[2] || pcs[0];
         root.innerHTML = `
-          <header class="border-b border-white/10 bg-[#05080f]/90 backdrop-blur-md sticky top-0 z-30">
-            <div class="max-w-[1520px] mx-auto px-6 lg:px-10 py-4 flex justify-between items-center">
-              <div class="flex items-center gap-3">
-                <span class="w-9 h-9 rounded-xl cyan-btn flex items-center justify-center text-slate-950 font-black text-base">E1</span>
-                <span class="font-black text-xl tracking-wider text-white">ER1K <span class="text-sky-400">PC</span></span>
+          <div key="${state.animKey}" class="view-anim flex-1 flex flex-col">
+            <header class="border-b border-white/10 bg-[#05080f]/90 backdrop-blur-md sticky top-0 z-30">
+              <div class="max-w-[1600px] mx-auto px-6 lg:px-10 py-4 flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                  <span class="w-9 h-9 rounded-xl cyan-btn flex items-center justify-center text-slate-950 font-black text-base">E1</span>
+                  <span class="font-black text-xl tracking-wider text-white">ER1K <span class="text-sky-400">PC</span></span>
+                </div>
+                <div class="flex items-center gap-4">
+                  <a href="#sisteme" class="hidden sm:inline-block text-sm font-semibold text-zinc-300 hover:text-sky-400 px-3 py-1.5">Sisteme</a>
+                  <button id="goAdmin" class="text-sm font-bold px-4 py-2 rounded-xl border border-white/15 bg-white/5 text-zinc-200 hover:border-sky-400/50 hover:text-sky-300 transition">Admin</button>
+                </div>
               </div>
-              <div class="flex items-center gap-4">
-                <a href="#sisteme" class="hidden sm:inline-block text-sm font-semibold text-zinc-300 hover:text-sky-400 px-3 py-1.5">Sisteme</a>
-                <button id="goAdmin" class="text-sm font-bold px-4 py-2 rounded-xl border border-white/15 bg-white/5 text-zinc-200 hover:border-sky-400/50 hover:text-sky-300 transition">Admin</button>
-              </div>
-            </div>
-          </header>
+            </header>
 
-          <section class="max-w-[1520px] mx-auto px-6 lg:px-10 pt-12 pb-10 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-            <div class="lg:col-span-7">
-              <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-sky-400 text-xs font-bold mb-5">
-                <span>●</span> Configurator 3D • Asamblare Custom
-              </div>
-              <h1 class="text-4xl sm:text-6xl xl:text-7xl font-black tracking-tight leading-[1.04] mb-5">
-                PC Gaming <span class="text-sky-400">Custom</span><br/>
-                <span class="text-white">Performanță</span> <span class="text-zinc-300">Fără Limite</span>
-              </h1>
-              <p class="text-zinc-400 text-base md:text-lg max-w-2xl leading-relaxed mb-8">
-                Alege unul dintre cele 5 modele principale Er1k PC, personalizează componentele și configurează-ți sistemul în 3D.
-              </p>
-              <div class="flex flex-wrap gap-4 mb-9">
-                <button id="heroCfgBtn" class="cyan-btn px-7 py-4 rounded-xl text-slate-950 font-black text-sm md:text-base tracking-wide">
-                  Configurator PC →
-                </button>
-                <a href="#sisteme" class="px-7 py-4 rounded-xl border border-white/15 bg-white/5 text-zinc-200 font-bold text-sm md:text-base hover:border-sky-400/40 transition">
-                  Vezi Sisteme
-                </a>
-              </div>
-              <div class="grid grid-cols-3 gap-4 max-w-xl">
-                <div class="dark-card rounded-2xl p-4">
-                  <div class="text-lg md:text-xl font-black text-sky-400">240+ FPS</div>
-                  <div class="text-xs text-zinc-400 mt-0.5">Gaming fluent</div>
+            <section class="max-w-[1600px] mx-auto w-full px-6 lg:px-10 pt-12 pb-10 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+              <div class="lg:col-span-7">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-sky-400 text-xs font-bold mb-5">
+                  <span>●</span> Configurator 3D • Asamblare Custom
                 </div>
-                <div class="dark-card rounded-2xl p-4">
-                  <div class="text-lg md:text-xl font-black text-sky-400">5 Modele</div>
-                  <div class="text-xs text-zinc-400 mt-0.5">Start → Ultimate</div>
-                </div>
-                <div class="dark-card rounded-2xl p-4">
-                  <div class="text-lg md:text-xl font-black text-sky-400">3D Live</div>
-                  <div class="text-xs text-zinc-400 mt-0.5">Răcire & GPU</div>
-                </div>
-              </div>
-            </div>
-
-            <div class="lg:col-span-5">
-              <div class="dark-card rounded-2xl p-5">
-                <div class="flex items-center justify-between text-xs text-zinc-400 mb-3 px-1">
-                  <span class="font-bold uppercase tracking-wider">Previzualizare 3D</span>
-                  <span class="px-2.5 py-1 rounded-md bg-sky-400/15 text-sky-300 font-bold">${featured.name}</span>
-                </div>
-                <div id="hero3d" class="w-full h-80 md:h-96 rounded-xl overflow-hidden bg-[#05070c] border border-white/10"></div>
-                <div class="mt-4 pt-4 border-t border-white/10 flex items-center justify-between">
-                  <div>
-                    <div class="text-xs text-zinc-400">De la</div>
-                    <div class="text-2xl font-black text-sky-400">${featured.basePrice.toLocaleString('ro-RO')} RON</div>
-                  </div>
-                  <button data-pc="${featured.id}" class="pcCard cyan-btn px-5 py-3 rounded-xl text-slate-950 font-extrabold text-sm">
-                    Configurează
+                <h1 class="text-4xl sm:text-6xl xl:text-7xl font-black tracking-tight leading-[1.04] mb-5">
+                  PC Gaming <span class="text-sky-400">Custom</span><br/>
+                  <span class="text-white">Performanță</span> <span class="text-zinc-300">Fără Limite</span>
+                </h1>
+                <p class="text-zinc-400 text-base md:text-lg max-w-2xl leading-relaxed mb-8">
+                  Alege unul dintre cele 5 modele principale Er1k PC, personalizează componentele și configurează-ți sistemul în 3D.
+                </p>
+                <div class="flex flex-wrap gap-4 mb-9">
+                  <button id="heroCfgBtn" class="cyan-btn px-7 py-4 rounded-xl text-slate-950 font-black text-sm md:text-base tracking-wide">
+                    Configurator PC →
                   </button>
+                  <a href="#sisteme" class="px-7 py-4 rounded-xl border border-white/15 bg-white/5 text-zinc-200 font-bold text-sm md:text-base hover:border-sky-400/40 transition">
+                    Vezi Sisteme
+                  </a>
+                </div>
+                <div class="grid grid-cols-3 gap-4 max-w-xl">
+                  <div class="dark-card rounded-2xl p-4">
+                    <div class="text-lg md:text-xl font-black text-sky-400">240+ FPS</div>
+                    <div class="text-xs text-zinc-400 mt-0.5">Gaming fluent</div>
+                  </div>
+                  <div class="dark-card rounded-2xl p-4">
+                    <div class="text-lg md:text-xl font-black text-sky-400">5 Modele</div>
+                    <div class="text-xs text-zinc-400 mt-0.5">Start → Ultimate</div>
+                  </div>
+                  <div class="dark-card rounded-2xl p-4">
+                    <div class="text-lg md:text-xl font-black text-sky-400">3D Live</div>
+                    <div class="text-xs text-zinc-400 mt-0.5">Răcire & GPU</div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </section>
 
-          <main id="sisteme" class="max-w-[1520px] mx-auto px-6 lg:px-10 py-10">
-            <div class="mb-6">
-              <p class="text-xs uppercase tracking-[0.2em] text-sky-400 font-bold mb-1">Gama Principală</p>
-              <h2 class="text-2xl md:text-4xl font-black text-white">Cele 5 modele Er1k PC</h2>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-5">
-              ${pcs.map((pc) => `
-                <div data-pc="${pc.id}" class="pcCard dark-card cursor-pointer rounded-2xl p-5 flex flex-col justify-between min-h-[370px]">
-                  <div>
-                    <div class="w-full h-52 rounded-xl overflow-hidden bg-[#070a10] border border-white/10 mb-4 flex items-center justify-center">
-                      ${pc.img
-                        ? `<img src="${pc.img}" alt="${pc.name}" class="w-full h-full object-cover" />`
-                        : `<span class="text-xs text-zinc-500 font-medium">Fără imagine</span>`
-                      }
+              <div class="lg:col-span-5">
+                <div class="dark-card rounded-2xl p-5">
+                  <div class="flex items-center justify-between text-xs text-zinc-400 mb-3 px-1">
+                    <span class="font-bold uppercase tracking-wider">Previzualizare 3D</span>
+                    <span class="px-2.5 py-1 rounded-md bg-sky-400/15 text-sky-300 font-bold">${featured.name}</span>
+                  </div>
+                  <div id="hero3d" class="w-full h-80 md:h-96 rounded-xl overflow-hidden bg-[#05070c] border border-white/10"></div>
+                  <div class="mt-4 pt-4 border-t border-white/10 flex items-center justify-between">
+                    <div>
+                      <div class="text-xs text-zinc-400">De la</div>
+                      <div class="text-2xl font-black text-sky-400">${featured.basePrice.toLocaleString('ro-RO')} RON</div>
                     </div>
-                    <span class="inline-block text-[11px] font-bold uppercase tracking-wider text-sky-400 mb-1">Sistem Custom</span>
-                    <h3 class="text-xl font-black text-white mb-5">${pc.name}</h3>
-                  </div>
-                  <div class="pt-4 border-t border-white/10 flex items-center justify-between gap-2">
-                    <span class="text-base font-black text-sky-400">${pc.basePrice.toLocaleString('ro-RO')} RON</span>
-                    <span class="cyan-btn px-4 py-2.5 rounded-xl text-slate-950 font-extrabold text-xs">Configurează</span>
+                    <button data-pc="${featured.id}" class="pcCard cyan-btn px-5 py-3 rounded-xl text-slate-950 font-extrabold text-sm">
+                      Configurează
+                    </button>
                   </div>
                 </div>
-              `).join('')}
-            </div>
+              </div>
+            </section>
 
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12 pt-8 border-t border-white/10">
-              <div class="dark-card rounded-2xl p-5">
-                <div class="text-base font-extrabold text-white">Configurare Custom</div>
-                <div class="text-xs text-zinc-400 mt-1">GPU, CPU, SSD, RAM, Carcasă & Răcire</div>
+            <main id="sisteme" class="max-w-[1600px] mx-auto w-full px-6 lg:px-10 py-10">
+              <div class="mb-6">
+                <p class="text-xs uppercase tracking-[0.2em] text-sky-400 font-bold mb-1">Gama Principală</p>
+                <h2 class="text-3xl md:text-4xl font-black text-white">Cele 5 modele Er1k PC</h2>
               </div>
-              <div class="dark-card rounded-2xl p-5">
-                <div class="text-base font-extrabold text-white">Prețuri Actualizate</div>
-                <div class="text-xs text-zinc-400 mt-1">Calcul instant în RON</div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-6">
+                ${pcs.map((pc) => `
+                  <div data-pc="${pc.id}" class="pcCard dark-card cursor-pointer rounded-2xl p-6 flex flex-col justify-between min-h-[430px]">
+                    <div>
+                      <div class="w-full h-64 rounded-xl overflow-hidden bg-[#070a10] border border-white/10 mb-5 flex items-center justify-center">
+                        ${pc.img
+                          ? `<img src="${pc.img}" alt="${pc.name}" class="w-full h-full object-cover" />`
+                          : `<span class="text-xs text-zinc-500 font-medium">Fără imagine</span>`
+                        }
+                      </div>
+                      <span class="inline-block text-[11px] font-bold uppercase tracking-wider text-sky-400 mb-1">Sistem Custom</span>
+                      <h3 class="text-2xl font-black text-white mb-6">${pc.name}</h3>
+                    </div>
+                    <div class="pt-4 border-t border-white/10 flex items-center justify-between gap-2">
+                      <span class="text-lg font-black text-sky-400">${pc.basePrice.toLocaleString('ro-RO')} RON</span>
+                      <span class="cyan-btn px-4 py-2.5 rounded-xl text-slate-950 font-extrabold text-xs">Configurează</span>
+                    </div>
+                  </div>
+                `).join('')}
               </div>
-              <div class="dark-card rounded-2xl p-5">
-                <div class="text-base font-extrabold text-white">Contact Rapid</div>
-                <div class="text-xs text-zinc-400 mt-1">Comandă direct pe TikTok</div>
+
+              <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12 pt-8 border-t border-white/10">
+                <div class="dark-card rounded-2xl p-5">
+                  <div class="text-base font-extrabold text-white">Configurare Custom</div>
+                  <div class="text-xs text-zinc-400 mt-1">GPU, CPU, SSD, RAM, Carcasă & Răcire</div>
+                </div>
+                <div class="dark-card rounded-2xl p-5">
+                  <div class="text-base font-extrabold text-white">Prețuri Actualizate</div>
+                  <div class="text-xs text-zinc-400 mt-1">Calcul instant în RON</div>
+                </div>
+                <div class="dark-card rounded-2xl p-5">
+                  <div class="text-base font-extrabold text-white">Contact Rapid</div>
+                  <div class="text-xs text-zinc-400 mt-1">Comandă direct pe TikTok</div>
+                </div>
+                <div class="dark-card rounded-2xl p-5">
+                  <div class="text-base font-extrabold text-white">Calitate Testată</div>
+                  <div class="text-xs text-zinc-400 mt-1">Fiecare sistem verificat</div>
+                </div>
               </div>
-              <div class="dark-card rounded-2xl p-5">
-                <div class="text-base font-extrabold text-white">Calitate Testată</div>
-                <div class="text-xs text-zinc-400 mt-1">Fiecare sistem verificat</div>
-              </div>
-            </div>
-          </main>
+            </main>
+          </div>
         `;
-        document.getElementById('goAdmin').onclick = () => { state.view = 'admin'; render(); };
+        document.getElementById('goAdmin').onclick = () => switchView('admin');
         document.getElementById('heroCfgBtn').onclick = () => selectPc(featured.id);
         document.querySelectorAll('.pcCard').forEach((el) => {
           el.onclick = () => selectPc(el.getAttribute('data-pc'));
@@ -542,96 +589,105 @@
         `).join('');
 
         root.innerHTML = `
-          <header class="border-b border-white/10 bg-[#05080f]/90 px-6 lg:px-10 py-4 flex justify-between items-center">
-            <button id="backHome" class="text-sm font-semibold text-sky-400 hover:underline">← Înapoi</button>
-            <span class="font-extrabold text-lg text-white">${pc.name}</span>
-            <button id="goAdmin" class="text-sm font-bold px-4 py-2 rounded-xl border border-white/15 bg-white/5 text-zinc-200">Admin</button>
-          </header>
+          <div key="${state.animKey}" class="view-anim flex-1 flex flex-col">
+            <header class="border-b border-white/10 bg-[#05080f]/90 px-6 lg:px-10 py-4 flex justify-between items-center">
+              <button id="backHome" class="text-sm font-semibold text-sky-400 hover:underline">← Înapoi</button>
+              <span class="font-extrabold text-lg text-white">${pc.name}</span>
+              <button id="goAdmin" class="text-sm font-bold px-4 py-2 rounded-xl border border-white/15 bg-white/5 text-zinc-200">Admin</button>
+            </header>
 
-          <div class="max-w-[1520px] mx-auto px-4 md:px-10 pt-6 pb-20">
-            <div class="text-center mb-6">
-              <div class="text-4xl md:text-6xl font-black text-sky-400">${total.toLocaleString('ro-RO')} RON</div>
-            </div>
+            <div class="max-w-[1600px] mx-auto w-full px-4 md:px-10 pt-6 pb-20">
+              <div class="text-center mb-6">
+                <div class="text-4xl md:text-6xl font-black text-sky-400">${total.toLocaleString('ro-RO')} RON</div>
+              </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-              <div class="lg:col-span-3 space-y-4">
-                <div id="gpuBox" class="dark-card p-5 rounded-2xl">
-                  <div class="text-xs font-bold uppercase tracking-wider text-sky-400 mb-3">GPU</div>
-                  <div class="space-y-2">${listHtml(pc.gpus, state.gpuId, 'gpuBtn')}</div>
+              <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                <div class="lg:col-span-3 space-y-4">
+                  <div id="gpuBox" class="dark-card p-5 rounded-2xl">
+                    <div class="text-xs font-bold uppercase tracking-wider text-sky-400 mb-3">GPU</div>
+                    <div class="space-y-2">${listHtml(pc.gpus, state.gpuId, 'gpuBtn')}</div>
+                  </div>
+                  <div id="cpuBox" class="dark-card p-5 rounded-2xl">
+                    <div class="text-xs font-bold uppercase tracking-wider text-sky-400 mb-3">CPU</div>
+                    <div class="space-y-2">${listHtml(pc.cpus, state.cpuId, 'cpuBtn')}</div>
+                  </div>
+                </div>
+
+                <div class="lg:col-span-6">
+                  <div id="cfg3d" class="dark-card w-full h-[430px] md:h-[540px] rounded-2xl overflow-hidden"></div>
+                </div>
+
+                <div class="lg:col-span-3 space-y-4">
+                  <div id="ssdBox" class="dark-card p-5 rounded-2xl">
+                    <div class="text-xs font-bold uppercase tracking-wider text-sky-400 mb-3">SSD</div>
+                    <div class="space-y-2">${listHtml(pc.ssds, state.ssdId, 'ssdBtn')}</div>
+                  </div>
+                  <div id="ramBox" class="dark-card p-5 rounded-2xl">
+                    <div class="text-xs font-bold uppercase tracking-wider text-sky-400 mb-3">RAM</div>
+                    <div class="space-y-2">${listHtml(pc.rams, state.ramId, 'ramBtn')}</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+                <div class="dark-card p-5 rounded-2xl">
+                  <div class="text-xs font-bold uppercase tracking-wider text-sky-400 mb-3">Carcasă PC *</div>
+                  <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">${cardGridHtml(pc.cases, state.caseId, 'caseBtn')}</div>
                 </div>
                 <div class="dark-card p-5 rounded-2xl">
-                  <div class="text-xs font-bold uppercase tracking-wider text-sky-400 mb-3">CPU</div>
-                  <div class="space-y-2">${listHtml(pc.cpus, state.cpuId, 'cpuBtn')}</div>
+                  <div class="text-xs font-bold uppercase tracking-wider text-sky-400 mb-3">Răcire CPU *</div>
+                  <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">${cardGridHtml(pc.coolers, state.coolerId, 'coolerBtn')}</div>
                 </div>
               </div>
 
-              <div class="lg:col-span-6">
-                <div id="cfg3d" class="dark-card w-full h-[420px] md:h-[520px] rounded-2xl overflow-hidden"></div>
+              <div class="mt-10 text-center">
+                ${!canBuy ? `<p class="text-amber-300 text-xs mb-3">Selectează Carcasă PC și Răcire CPU.</p>` : ''}
+                <button id="buyBtn" ${!canBuy ? 'disabled' : ''} class="cyan-btn px-12 py-4 rounded-2xl disabled:opacity-40 disabled:cursor-not-allowed text-slate-950 font-black text-lg">
+                  Cumpără
+                </button>
               </div>
+            </div>
 
-              <div class="lg:col-span-3 space-y-4">
-                <div class="dark-card p-5 rounded-2xl">
-                  <div class="text-xs font-bold uppercase tracking-wider text-sky-400 mb-3">SSD</div>
-                  <div class="space-y-2">${listHtml(pc.ssds, state.ssdId, 'ssdBtn')}</div>
+            ${state.modalOpen ? `
+              <div class="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50 view-anim">
+                <div class="dark-card rounded-2xl max-w-md w-full p-6">
+                  <h3 class="text-xl font-black mb-4">${pc.name}</h3>
+                  <ul class="space-y-1.5 text-sm text-zinc-200 mb-4">
+                    <li>GPU: ${g?.name || '-'} (+${g?.price || 0} RON)</li>
+                    <li>CPU: ${c?.name || '-'} (+${c?.price || 0} RON)</li>
+                    <li>SSD: ${s?.name || '-'} (+${s?.price || 0} RON)</li>
+                    <li>RAM: ${r?.name || '-'} (+${r?.price || 0} RON)</li>
+                    <li>Carcasă PC: ${ca?.name || '-'} (+${ca?.price || 0} RON)</li>
+                    <li>Răcire CPU: ${co?.name || '-'} (+${co?.price || 0} RON)</li>
+                  </ul>
+                  <div class="text-xl font-black text-sky-400 mb-5">Total: ${total.toLocaleString('ro-RO')} RON</div>
+                  <div class="flex gap-3">
+                    <button id="closeModal" class="px-4 py-3 rounded-xl border border-white/15 text-sm">Închide</button>
+                    <a href="${TIKTOK_URL}" target="_blank" rel="noopener noreferrer" class="cyan-btn flex-1 py-3 rounded-xl text-slate-950 font-black text-center text-sm">
+                      Scrie-mi pe TikTok
+                    </a>
+                  </div>
                 </div>
-                <div class="dark-card p-5 rounded-2xl">
-                  <div class="text-xs font-bold uppercase tracking-wider text-sky-400 mb-3">RAM</div>
-                  <div class="space-y-2">${listHtml(pc.rams, state.ramId, 'ramBtn')}</div>
-                </div>
               </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-              <div class="dark-card p-5 rounded-2xl">
-                <div class="text-xs font-bold uppercase tracking-wider text-sky-400 mb-3">Carcasă PC *</div>
-                <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">${cardGridHtml(pc.cases, state.caseId, 'caseBtn')}</div>
-              </div>
-              <div class="dark-card p-5 rounded-2xl">
-                <div class="text-xs font-bold uppercase tracking-wider text-sky-400 mb-3">Răcire CPU *</div>
-                <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">${cardGridHtml(pc.coolers, state.coolerId, 'coolerBtn')}</div>
-              </div>
-            </div>
-
-            <div class="mt-10 text-center">
-              ${!canBuy ? `<p class="text-amber-300 text-xs mb-3">Selectează Carcasă PC și Răcire CPU.</p>` : ''}
-              <button id="buyBtn" ${!canBuy ? 'disabled' : ''} class="cyan-btn px-12 py-4 rounded-2xl disabled:opacity-40 disabled:cursor-not-allowed text-slate-950 font-black text-lg">
-                Cumpără
-              </button>
-            </div>
+            ` : ''}
           </div>
-
-          ${state.modalOpen ? `
-            <div class="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
-              <div class="dark-card rounded-2xl max-w-md w-full p-6">
-                <h3 class="text-xl font-black mb-4">${pc.name}</h3>
-                <ul class="space-y-1.5 text-sm text-zinc-200 mb-4">
-                  <li>GPU: ${g?.name || '-'} (+${g?.price || 0} RON)</li>
-                  <li>CPU: ${c?.name || '-'} (+${c?.price || 0} RON)</li>
-                  <li>SSD: ${s?.name || '-'} (+${s?.price || 0} RON)</li>
-                  <li>RAM: ${r?.name || '-'} (+${r?.price || 0} RON)</li>
-                  <li>Carcasă PC: ${ca?.name || '-'} (+${ca?.price || 0} RON)</li>
-                  <li>Răcire CPU: ${co?.name || '-'} (+${co?.price || 0} RON)</li>
-                </ul>
-                <div class="text-xl font-black text-sky-400 mb-5">Total: ${total.toLocaleString('ro-RO')} RON</div>
-                <div class="flex gap-3">
-                  <button id="closeModal" class="px-4 py-3 rounded-xl border border-white/15 text-sm">Închide</button>
-                  <a href="${TIKTOK_URL}" target="_blank" rel="noopener noreferrer" class="cyan-btn flex-1 py-3 rounded-xl text-slate-950 font-black text-center text-sm">
-                    Scrie-mi pe TikTok
-                  </a>
-                </div>
-              </div>
-            </div>
-          ` : ''}
         `;
 
-        document.getElementById('backHome').onclick = () => { state.view = 'home'; targetGpuX = 0.06; render(); };
-        document.getElementById('goAdmin').onclick = () => { state.view = 'admin'; render(); };
+        document.getElementById('backHome').onclick = () => switchView('home');
+        document.getElementById('goAdmin').onclick = () => switchView('admin');
 
-        const gpuBox = document.getElementById('gpuBox');
-        gpuBox.onmouseenter = () => { targetGpuX = 1.55; };
-        gpuBox.onmouseleave = () => { targetGpuX = 0.06; };
+        const bindHover = (elId, part) => {
+          const el = document.getElementById(elId);
+          if (!el) return;
+          el.onmouseenter = () => setHoverPart(part);
+          el.onmouseleave = () => setHoverPart(null);
+        };
+        bindHover('gpuBox', 'gpu');
+        bindHover('cpuBox', 'cpu');
+        bindHover('ssdBox', 'ssd');
+        bindHover('ramBox', 'ram');
 
-        document.querySelectorAll('.gpuBtn').forEach((b) => b.onclick = () => { state.gpuId = b.dataset.id; targetGpuX = 0.06; render(); });
+        document.querySelectorAll('.gpuBtn').forEach((b) => b.onclick = () => { state.gpuId = b.dataset.id; render(); });
         document.querySelectorAll('.cpuBtn').forEach((b) => b.onclick = () => { state.cpuId = b.dataset.id; render(); });
         document.querySelectorAll('.ssdBtn').forEach((b) => b.onclick = () => { state.ssdId = b.dataset.id; render(); });
         document.querySelectorAll('.ramBtn').forEach((b) => b.onclick = () => { state.ramId = b.dataset.id; render(); });
@@ -650,24 +706,27 @@
       if (state.view === 'admin') {
         if (!state.adminAuthed) {
           root.innerHTML = `
-            <header class="border-b border-white/10 bg-[#05080f]/90 px-6 py-4 flex justify-between items-center">
-              <button id="backHome" class="text-sm text-sky-400 hover:underline">← Acasă</button>
-              <span class="font-bold text-white">Admin</span>
-              <div class="w-12"></div>
-            </header>
-            <div class="flex-1 flex items-center justify-center p-4">
-              <form id="adminForm" class="dark-card p-6 rounded-2xl max-w-xs w-full space-y-3">
-                <div class="font-bold text-sky-400">Autentificare Admin</div>
-                <input id="adminPass" type="password" placeholder="Parola" class="w-full px-3 py-2 rounded-xl bg-[#05080f] border border-white/15 text-sm" />
-                <button type="submit" class="cyan-btn w-full py-2 rounded-xl text-slate-950 font-bold text-sm">Intră</button>
-              </form>
+            <div key="${state.animKey}" class="view-anim flex-1 flex flex-col">
+              <header class="border-b border-white/10 bg-[#05080f]/90 px-6 py-4 flex justify-between items-center">
+                <button id="backHome" class="text-sm text-sky-400 hover:underline">← Acasă</button>
+                <span class="font-bold text-white">Admin</span>
+                <div class="w-12"></div>
+              </header>
+              <div class="flex-1 flex items-center justify-center p-4">
+                <form id="adminForm" class="dark-card p-6 rounded-2xl max-w-xs w-full space-y-3">
+                  <div class="font-bold text-sky-400">Autentificare Admin</div>
+                  <input id="adminPass" type="password" placeholder="Parola" class="w-full px-3 py-2 rounded-xl bg-[#05080f] border border-white/15 text-sm" />
+                  <button type="submit" class="cyan-btn w-full py-2 rounded-xl text-slate-950 font-bold text-sm">Intră</button>
+                </form>
+              </div>
             </div>
           `;
-          document.getElementById('backHome').onclick = () => { state.view = 'home'; render(); };
+          document.getElementById('backHome').onclick = () => switchView('home');
           document.getElementById('adminForm').onsubmit = (e) => {
             e.preventDefault();
             if (document.getElementById('adminPass').value === 'valakivok') {
               state.adminAuthed = true;
+              state.animKey += 1;
               render();
             }
           };
@@ -685,65 +744,67 @@
         ];
 
         root.innerHTML = `
-          <header class="border-b border-white/10 bg-[#05080f]/90 px-6 py-4 flex justify-between items-center">
-            <button id="backHome" class="text-sm text-sky-400 hover:underline">← Acasă</button>
-            <button id="saveAdmin" class="cyan-btn px-5 py-2 rounded-xl text-slate-950 font-bold text-sm">
-              ${state.savedNotice ? 'Salvat!' : 'Salvează'}
-            </button>
-          </header>
+          <div key="${state.animKey}" class="view-anim flex-1 flex flex-col">
+            <header class="border-b border-white/10 bg-[#05080f]/90 px-6 py-4 flex justify-between items-center">
+              <button id="backHome" class="text-sm text-sky-400 hover:underline">← Acasă</button>
+              <button id="saveAdmin" class="cyan-btn px-5 py-2 rounded-xl text-slate-950 font-bold text-sm">
+                ${state.savedNotice ? 'Salvat!' : 'Salvează'}
+              </button>
+            </header>
 
-          <div class="max-w-5xl mx-auto px-4 py-6 pb-20 space-y-5 w-full">
-            <div class="flex flex-wrap gap-2">
-              ${pcs.map((p) => `
-                <button data-tab="${p.id}" class="pcTab px-4 py-2 rounded-xl text-sm font-bold ${
-                  p.id === cur.id ? 'cyan-btn text-slate-950' : 'dark-card text-zinc-300'
-                }">${p.name}</button>
+            <div class="max-w-5xl mx-auto px-4 py-6 pb-20 space-y-5 w-full">
+              <div class="flex flex-wrap gap-2">
+                ${pcs.map((p) => `
+                  <button data-tab="${p.id}" class="pcTab px-4 py-2 rounded-xl text-sm font-bold ${
+                    p.id === cur.id ? 'cyan-btn text-slate-950' : 'dark-card text-zinc-300'
+                  }">${p.name}</button>
+                `).join('')}
+              </div>
+
+              <div class="dark-card p-4 rounded-2xl grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
+                <div>
+                  <div class="font-bold text-sm text-white">Preț de bază (${cur.name})</div>
+                  <input id="basePriceInput" type="number" value="${cur.basePrice}" class="mt-2 w-40 px-3 py-1.5 rounded-lg bg-[#05080f] border border-white/15 font-bold text-sky-400" />
+                </div>
+                <div>
+                  <div class="font-bold text-sm text-white mb-2">Imagine PC (${cur.name})</div>
+                  <div class="flex items-center gap-3">
+                    ${cur.img ? `<img src="${cur.img}" alt="${cur.name}" class="w-16 h-12 rounded-lg object-cover border border-white/15" />` : ''}
+                    <input id="pcImgInput" type="file" accept="image/*" class="text-xs text-zinc-300 max-w-[220px]" />
+                  </div>
+                </div>
+              </div>
+
+              ${parts.map(([key, label, hasImg]) => `
+                <div class="dark-card p-4 rounded-2xl">
+                  <div class="flex items-center justify-between mb-3">
+                    <span class="font-bold text-sm text-sky-400">${label}</span>
+                    <button data-add="${key}" class="addPartBtn px-3 py-1 rounded-lg bg-white/10 text-zinc-200 text-xs font-bold">+ Adaugă</button>
+                  </div>
+                  <div class="space-y-2">
+                    ${cur[key].map((it) => `
+                      <div class="flex flex-wrap items-center gap-2 bg-[#05080f] p-2 rounded-xl border border-white/5">
+                        <input type="text" data-part="${key}" data-id="${it.id}" data-field="name" value="${it.name}" class="partInput flex-1 min-w-[140px] px-2.5 py-1.5 rounded-lg bg-[#0d121d] border border-white/10 text-sm" />
+                        <input type="number" data-part="${key}" data-id="${it.id}" data-field="price" value="${it.price}" class="partInput w-24 px-2.5 py-1.5 rounded-lg bg-[#0d121d] border border-white/10 text-sm text-right text-sky-400" />
+                        ${hasImg ? `<input type="file" accept="image/*" data-part="${key}" data-id="${it.id}" class="imgInput text-xs text-zinc-400 max-w-[170px]" />` : ''}
+                        <button data-part="${key}" data-id="${it.id}" class="delPartBtn px-2.5 py-1 rounded-lg bg-rose-500/15 text-rose-300 text-xs font-bold">Șterge</button>
+                      </div>
+                    `).join('')}
+                  </div>
+                </div>
               `).join('')}
             </div>
-
-            <div class="dark-card p-4 rounded-2xl grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
-              <div>
-                <div class="font-bold text-sm text-white">Preț de bază (${cur.name})</div>
-                <input id="basePriceInput" type="number" value="${cur.basePrice}" class="mt-2 w-40 px-3 py-1.5 rounded-lg bg-[#05080f] border border-white/15 font-bold text-sky-400" />
-              </div>
-              <div>
-                <div class="font-bold text-sm text-white mb-2">Imagine PC (${cur.name})</div>
-                <div class="flex items-center gap-3">
-                  ${cur.img ? `<img src="${cur.img}" alt="${cur.name}" class="w-16 h-12 rounded-lg object-cover border border-white/15" />` : ''}
-                  <input id="pcImgInput" type="file" accept="image/*" class="text-xs text-zinc-300 max-w-[220px]" />
-                </div>
-              </div>
-            </div>
-
-            ${parts.map(([key, label, hasImg]) => `
-              <div class="dark-card p-4 rounded-2xl">
-                <div class="flex items-center justify-between mb-3">
-                  <span class="font-bold text-sm text-sky-400">${label}</span>
-                  <button data-add="${key}" class="addPartBtn px-3 py-1 rounded-lg bg-white/10 text-zinc-200 text-xs font-bold">+ Adaugă</button>
-                </div>
-                <div class="space-y-2">
-                  ${cur[key].map((it) => `
-                    <div class="flex flex-wrap items-center gap-2 bg-[#05080f] p-2 rounded-xl border border-white/5">
-                      <input type="text" data-part="${key}" data-id="${it.id}" data-field="name" value="${it.name}" class="partInput flex-1 min-w-[140px] px-2.5 py-1.5 rounded-lg bg-[#0d121d] border border-white/10 text-sm" />
-                      <input type="number" data-part="${key}" data-id="${it.id}" data-field="price" value="${it.price}" class="partInput w-24 px-2.5 py-1.5 rounded-lg bg-[#0d121d] border border-white/10 text-sm text-right text-sky-400" />
-                      ${hasImg ? `<input type="file" accept="image/*" data-part="${key}" data-id="${it.id}" class="imgInput text-xs text-zinc-400 max-w-[170px]" />` : ''}
-                      <button data-part="${key}" data-id="${it.id}" class="delPartBtn px-2.5 py-1 rounded-lg bg-rose-500/15 text-rose-300 text-xs font-bold">Șterge</button>
-                    </div>
-                  `).join('')}
-                </div>
-              </div>
-            `).join('')}
           </div>
         `;
 
-        document.getElementById('backHome').onclick = () => { state.view = 'home'; render(); };
+        document.getElementById('backHome').onclick = () => switchView('home');
         document.getElementById('saveAdmin').onclick = () => {
           saveData(pcs);
           state.savedNotice = true;
           render();
           setTimeout(() => { state.savedNotice = false; render(); }, 1500);
         };
-        document.querySelectorAll('.pcTab').forEach((b) => b.onclick = () => { state.adminTab = b.dataset.tab; render(); });
+        document.querySelectorAll('.pcTab').forEach((b) => b.onclick = () => { state.adminTab = b.dataset.tab; state.animKey += 1; render(); });
         document.getElementById('basePriceInput').onchange = (e) => { cur.basePrice = Number(e.target.value) || 0; };
 
         document.getElementById('pcImgInput').onchange = (e) => {
