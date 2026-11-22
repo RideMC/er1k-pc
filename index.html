@@ -113,8 +113,17 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 .model-pill:hover{border-color:#7652cb;color:#fff}
 .model-pill.active{background:var(--accent);border-color:var(--accent);color:#fff}
 
-.config-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(330px,.9fr) 310px;gap:20px;align-items:start}
-.component-column{display:flex;flex-direction:column;gap:18px}
+/* CUSTOM CONFIGURATOR GRID:
+   Top row:    [GPU + CPU]        [CENTER CASE STAGE]      [RAM + SSD]
+   Bottom row: [CASE (bal lent)]  [REZUMAT CONFIGURAȚIE]   [COOLER (jobb lent)]
+*/
+.config-board{
+  display:grid;
+  grid-template-columns:minmax(270px,1fr) minmax(340px,1.08fr) minmax(270px,1fr);
+  gap:20px;
+  align-items:start;
+}
+.zone-col{display:flex;flex-direction:column;gap:18px}
 .component-section{background:var(--panel);border:1px solid var(--border);border-radius:13px;padding:20px}
 .component-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}
 .component-title h3{font-size:16px;margin:0}
@@ -128,15 +137,22 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 .choice small{display:block;color:var(--muted);font-size:11px;margin-top:6px}
 .choice .extra{color:var(--green);font-weight:800}
 
-.pc-stage{position:sticky;top:105px;background:radial-gradient(circle at 50% 40%,#36225b,#15131f 65%,#101119);border:1px solid #39304d;border-radius:17px;padding:22px;text-align:center}
+.center-stack{display:flex;flex-direction:column;gap:18px}
+.pc-stage{
+  background:radial-gradient(circle at 50% 40%,#36225b,#15131f 65%,#101119);
+  border:1px solid #39304d;
+  border-radius:17px;
+  padding:22px;
+  text-align:center;
+}
 .stage-label{font-size:11px;letter-spacing:2px;color:#b69aff;font-weight:800}
-.stage-image{width:100%;aspect-ratio:1/1;object-fit:contain;margin:14px 0;border-radius:12px}
+.stage-image{width:100%;max-height:360px;aspect-ratio:1/1;object-fit:contain;margin:14px 0;border-radius:12px;background:#0e101780}
 .stage-name{font-size:20px;font-weight:800}
 .stage-caption{font-size:12px;color:var(--muted);margin-top:7px}
 
-.price-panel{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:21px;position:sticky;top:105px}
+.price-panel{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:22px}
 .price-panel h3{margin:0 0 18px;font-size:19px}
-.summary-line{display:flex;justify-content:space-between;gap:10px;margin:12px 0;font-size:12px;color:#b9bdc9}
+.summary-line{display:flex;justify-content:space-between;gap:10px;margin:11px 0;font-size:12px;color:#b9bdc9}
 .summary-line span:last-child{color:white;text-align:right;font-weight:600}
 .summary-line.surcharge span:last-child{color:var(--green)}
 .summary-total{border-top:1px solid var(--border);margin-top:18px;padding-top:18px}
@@ -145,6 +161,7 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 .price-panel button{width:100%;margin-top:18px}
 .notice{font-size:11px;color:var(--muted);line-height:1.6;margin-top:13px}
 
+/* ADMIN */
 .admin-wrap{max-width:1120px;margin:auto}
 .admin-topbar{
   background:var(--panel);
@@ -241,10 +258,10 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 .danger:hover{background:#521e2b!important}
 .empty{color:var(--muted);font-size:13px;padding:16px}
 
-@media(max-width:1100px){
+@media(max-width:1120px){
  .pc-grid{grid-template-columns:repeat(2,1fr)}
- .config-layout{grid-template-columns:1fr 1fr}
- .price-panel{grid-column:1/-1;position:static}
+ .config-board{grid-template-columns:1fr 1fr}
+ .center-stack{grid-column:1/-1;order:-1}
 }
 @media(max-width:760px){
  .hero{padding:65px 0}
@@ -259,9 +276,8 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
  section{padding:60px 0}
  .pc-grid{grid-template-columns:1fr}
  .feature-grid{grid-template-columns:1fr}
- .config-layout{grid-template-columns:1fr}
- .pc-stage{position:static;grid-row:1}
- .price-panel{grid-column:auto}
+ .config-board{grid-template-columns:1fr}
+ .center-stack{grid-column:auto;order:-1}
  .config-heading h1{font-size:33px}
  .admin-grid-2,.admin-grid-3{grid-template-columns:1fr}
  .footer-inner{flex-direction:column;align-items:flex-start}
@@ -347,16 +363,23 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
    </div>
    <div class="model-switcher" id="modelSwitcher"></div>
   </div>
-  <div class="config-layout">
-   <div class="component-column" id="leftComponents"></div>
-   <div class="pc-stage">
-    <div class="stage-label">YOUR CUSTOM BUILD</div>
-    <img class="stage-image" id="stageImage" src="" alt="PC case">
-    <div class="stage-name" id="stageCaseName">PC Case</div>
-    <div class="stage-caption">Imaginea se schimbă în funcție de carcasa aleasă.</div>
+
+  <div class="config-board">
+   <!-- BAL OSZLOP: fent GPU + CPU, lent CARCASĂ -->
+   <div class="zone-col">
+    <div id="topLeftComponents" class="zone-col"></div>
+    <div id="bottomLeftComponent"></div>
    </div>
-   <div>
-    <div class="component-column" id="rightComponents"></div>
+
+   <!-- KÖZÉPSŐ OSZLOP: fent kiválasztott CARCASĂ képe, alatta REZUMAT CONFIGURAȚIE -->
+   <div class="center-stack">
+    <div class="pc-stage">
+     <div class="stage-label">YOUR CUSTOM BUILD</div>
+     <img class="stage-image" id="stageImage" src="" alt="PC case">
+     <div class="stage-name" id="stageCaseName">PC Case</div>
+     <div class="stage-caption">Imaginea se schimbă în funcție de carcasa aleasă.</div>
+    </div>
+
     <div class="price-panel">
      <h3>Rezumat configurație</h3>
      <div id="summary"></div>
@@ -367,6 +390,12 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
      <button type="button" class="primary-btn" onclick="orderPC()">SOLICITĂ OFERTĂ</button>
      <div class="notice">Prețul final poate fi confirmat în funcție de disponibilitatea componentelor.</div>
     </div>
+   </div>
+
+   <!-- JOBB OSZLOP: fent RAM + SSD, lent RĂCIRE PROCESOR -->
+   <div class="zone-col">
+    <div id="topRightComponents" class="zone-col"></div>
+    <div id="bottomRightComponent"></div>
    </div>
   </div>
  </div>
@@ -424,7 +453,7 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 
 <script>
 const ADMIN_PASSWORD = "er1k2026";
-const KEY = "er1k_pc_v6";
+const KEY = "er1k_pc_v7";
 
 const defaultData = [
  {
@@ -435,8 +464,11 @@ const defaultData = [
    cpu:[{name:"Ryzen 5 3600",price:0},{name:"Ryzen 5 5500",price:150},{name:"Ryzen 5 5600",price:250}],
    ram:[{name:"16GB DDR4",price:0},{name:"32GB DDR4",price:180}],
    ssd:[{name:"500GB NVMe",price:0},{name:"1TB NVMe",price:180}],
-   case:[{name:"Basic Black Case",price:0,image:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=700&q=85"}],
-   cooler:[{name:"Stock Cooler",price:0,image:""}]
+   case:[
+    {name:"Basic Black Case",price:0,image:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=700&q=85"},
+    {name:"Glass Airflow Case",price:120,image:"https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=700&q=85"}
+   ],
+   cooler:[{name:"Stock Cooler",price:0,image:""},{name:"Tower Air Cooler",price:90,image:""}]
   }
  },
  {
@@ -447,7 +479,10 @@ const defaultData = [
    cpu:[{name:"Ryzen 5 5600",price:0},{name:"Ryzen 5 5600X",price:100},{name:"Ryzen 7 5700X",price:250}],
    ram:[{name:"16GB DDR4",price:0},{name:"32GB DDR4",price:180}],
    ssd:[{name:"1TB NVMe",price:0},{name:"2TB NVMe",price:250}],
-   case:[{name:"RGB Gaming Case",price:0,image:"https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=700&q=85"},{name:"White Gaming Case",price:150,image:""}],
+   case:[
+    {name:"RGB Gaming Case",price:0,image:"https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=700&q=85"},
+    {name:"White Gaming Case",price:150,image:"https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=700&q=85"}
+   ],
    cooler:[{name:"Air Cooler",price:0,image:""},{name:"ARGB Air Cooler",price:100,image:""}]
   }
  },
@@ -459,7 +494,10 @@ const defaultData = [
    cpu:[{name:"Ryzen 5 7600",price:0},{name:"Ryzen 7 7700",price:450},{name:"Ryzen 7 7800X3D",price:900}],
    ram:[{name:"32GB DDR5",price:0},{name:"64GB DDR5",price:350}],
    ssd:[{name:"1TB NVMe",price:0},{name:"2TB NVMe",price:250}],
-   case:[{name:"Premium Black Case",price:0,image:"https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=700&q=85"}],
+   case:[
+    {name:"Premium Black Case",price:0,image:"https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=700&q=85"},
+    {name:"Panoramic Glass Case",price:220,image:"https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=700&q=85"}
+   ],
    cooler:[{name:"Tower Air Cooler",price:0,image:""},{name:"240mm AIO",price:250,image:""}]
   }
  },
@@ -471,7 +509,10 @@ const defaultData = [
    cpu:[{name:"Ryzen 7 7800X3D",price:0},{name:"Ryzen 7 9800X3D",price:600}],
    ram:[{name:"32GB DDR5",price:0},{name:"64GB DDR5",price:350}],
    ssd:[{name:"2TB NVMe",price:0},{name:"4TB NVMe",price:450}],
-   case:[{name:"Ultimate Black Case",price:0,image:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=700&q=85"}],
+   case:[
+    {name:"Ultimate Black Case",price:0,image:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=700&q=85"},
+    {name:"Dual-Chamber Showcase",price:280,image:"https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=700&q=85"}
+   ],
    cooler:[{name:"360mm AIO",price:0,image:""},{name:"Premium 360mm AIO",price:250,image:""}]
   }
  }
@@ -599,14 +640,15 @@ function renderModelSwitcher(){
 
 function renderConfig(){
  const pc=data[activePC];
- const keys=Object.keys(componentNames);
- document.getElementById("leftComponents").innerHTML=keys.slice(0,3).map(k=>renderColumn(k,pc)).join("");
- document.getElementById("rightComponents").innerHTML=keys.slice(3).map(k=>renderColumn(k,pc)).join("");
+ document.getElementById("topLeftComponents").innerHTML=["gpu","cpu"].map(k=>renderComponentBox(k,pc)).join("");
+ document.getElementById("bottomLeftComponent").innerHTML=renderComponentBox("case",pc);
+ document.getElementById("topRightComponents").innerHTML=["ram","ssd"].map(k=>renderComponentBox(k,pc)).join("");
+ document.getElementById("bottomRightComponent").innerHTML=renderComponentBox("cooler",pc);
  updateStage();
  updateSummary();
 }
 
-function renderColumn(key,pc){
+function renderComponentBox(key,pc){
  const options=pc.components[key]||[];
  return `<div class="component-section">
   <div class="component-title"><h3>${componentNames[key]}</h3><span>${options.length} OPȚIUNI</span></div>
