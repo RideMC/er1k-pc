@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Er1k PC Builds</title>
+<title>Er1k PC Builds · Editor</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
@@ -309,7 +309,6 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
   padding:20px;
   box-shadow:0 10px 26px #0005;
 }
-/* KIJEMELT CONFIG BLOKK */
 .component-section.config-highlight{
   background:linear-gradient(160deg,#241942,#141624 72%);
   border:2px solid #9a70ff;
@@ -380,7 +379,6 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
   place-items:center;
 }
 
-/* BRAND COLORED TILES */
 .choice.brand-blue{
   border-color:#3b82f6;
   background:linear-gradient(160deg,#122242,#121726);
@@ -396,7 +394,6 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 }
 .choice.brand-blue.selected::after{background:#2563eb}
 
-/* NAGYON FINOM, VISSZAFOGOTT BORDÓS-PIROS AMD-RE */
 .choice.brand-red{
   border-color:#6e323d;
   background:linear-gradient(160deg,#1e1418,#14131b);
@@ -449,7 +446,6 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
   box-shadow:0 18px 48px #0008,0 0 40px #8b5cf624;
 }
 .stage-label{font-size:11px;letter-spacing:2.4px;color:#cbb4ff;font-weight:800}
-/* FÜGGŐLEGESEN MAGASABB / HOSSZÚKÁS CARCASĂ KÉP */
 .stage-image{
   width:100%;
   aspect-ratio:4 / 5;
@@ -463,7 +459,6 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 .stage-name{font-size:21px;font-weight:800;letter-spacing:-.4px}
 .stage-caption{font-size:12px;color:#a9afc4;margin-top:6px}
 
-/* KÜLÖN SPECIFIKÁCIÓS SÁV A REZUMAT FELETT */
 .spec-strip-box{
   background:linear-gradient(180deg,#121520,#0e111a);
   border:1px solid #2b3144;
@@ -811,8 +806,8 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
   <div class="admin-wrap">
    <div class="admin-topbar">
     <div>
-     <h2 style="margin:0 0 3px;font-size:22px">Panou Administrare</h2>
-     <p style="margin:0;color:var(--muted);font-size:12px">Administrare modele PC, componente și resetare.</p>
+     <h2 style="margin:0 0 3px;font-size:22px">Panou Administrare (Editor)</h2>
+     <p style="margin:0;color:var(--muted);font-size:12px">Szerkeszd a 4 PC-t és az opciókat, majd másold ki a JSON-t a Resetare fülön.</p>
     </div>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
      <button type="button" class="secondary-btn btn-sm" onclick="showView('homeView')">← Pagina principală</button>
@@ -823,7 +818,7 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
    <div class="admin-tabs">
     <button type="button" class="tab-btn active" id="tab-models" onclick="switchAdminTab('models')">Modele PC</button>
     <button type="button" class="tab-btn" id="tab-components" onclick="switchAdminTab('components')">Componente & Prețuri</button>
-    <button type="button" class="tab-btn" id="tab-system" onclick="switchAdminTab('system')">Resetare</button>
+    <button type="button" class="tab-btn" id="tab-system" onclick="switchAdminTab('system')">Resetare & Export</button>
    </div>
 
    <div id="adminContent"></div>
@@ -840,9 +835,9 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 
 <script>
 const _b = [101,114,49,107,50,48,50,54];
-const KEY = "er1k_pc_v21";
-const SEL_KEY = "er1k_pc_selected_v21";
-const LEGACY_KEYS = ["er1k_pc_v20","er1k_pc_v19","er1k_pc_v18","er1k_pc_v17","er1k_pc_v16","er1k_pc_v10"];
+const KEY = "er1k_pc_editor_v1";
+const SEL_KEY = "er1k_pc_editor_sel_v1";
+const LEGACY_KEYS = ["er1k_pc_v21","er1k_pc_v20","er1k_pc_v19","er1k_pc_v18","er1k_pc_v17","er1k_pc_v16","er1k_pc_v10"];
 const WHATSAPP_NUMBER = "40771103552";
 const tierLabels = ["01 · ENTRY", "02 · POPULAR", "03 · PRO TIER", "04 · FLAGSHIP"];
 
@@ -983,7 +978,7 @@ function normalizeData(list){
   const fallback = defaultData[idx] || defaultData[0];
   const mergedComponents = {};
   for(const key of Object.keys(componentNames)){
-   if(Array.isArray(pc.components?.[key]) && pc.components[key].length > 0){
+   if(Array.isArray(pc.components?.[key])){
     mergedComponents[key] = pc.components[key];
    }else{
     mergedComponents[key] = clone(fallback.components[key] || []);
@@ -1026,17 +1021,73 @@ function safeLoad(){
  return clone(defaultData);
 }
 
-function safeSave(){
+/* Biztonságos mentés: ha megtelt a localStorage, kiszedi a legnehezebb base64 képeket, hogy a törlés/szerkesztés NE akadjon el */
+function safeSave(allowFallbackStrip = true){
+ if(!window.localStorage)return true;
  try{
-  if(window.localStorage){
-   window.localStorage.setItem(KEY,JSON.stringify(data));
-   return true;
-  }
+  window.localStorage.setItem(KEY, JSON.stringify(data));
+  return true;
  }catch(e){
-  alert("Spațiul de stocare al browserului (localStorage) este plin din cauza dimensiunii imaginilor. Încearcă o imagine mai mică.");
+  if(!allowFallbackStrip){
+   return false;
+  }
+  const copy = clone(data);
+  const candidates = [];
+  copy.forEach((pc, pi)=>{
+   if(typeof pc.image === "string" && pc.image.startsWith("data:image/")){
+    candidates.push({len: pc.image.length, get: ()=>pc.image, set: v=>{pc.image=v;}});
+   }
+   Object.keys(pc.components || {}).forEach(ck=>{
+    (pc.components[ck] || []).forEach((opt, oi)=>{
+     if(typeof opt.image === "string" && opt.image.startsWith("data:image/")){
+      candidates.push({len: opt.image.length, get: ()=>opt.image, set: v=>{opt.image=v;}});
+     }
+    });
+   });
+  });
+  candidates.sort((a,b)=>b.len - a.len);
+  for(const item of candidates){
+   const fallbackUrl = defaultData[0]?.image || "";
+   item.set(fallbackUrl);
+   try{
+    window.localStorage.setItem(KEY, JSON.stringify(copy));
+    data = copy;
+    alert("A localStorage megtelt a nagy képek miatt, ezért a legnehezebb beágyazott képek helyett alapértelmezett kép került be, de a művelet sikeresen mentésre került.");
+    return true;
+   }catch(err2){}
+  }
+  alert("A böngésző localStorage tárhelye teljesen megtelt. Kisebb képeket használj vagy törölj ki régi kulcsokat.");
   return false;
  }
- return true;
+}
+
+/* Kép tömörítése canvas segítségével, hogy ne foglaljon sok helyet a localStorage-ban */
+function compressImageFile(file, maxWidth = 850, quality = 0.72){
+ return new Promise(resolve=>{
+  const reader = new FileReader();
+  reader.onload = ()=>{
+   const img = new Image();
+   img.onload = ()=>{
+    const scale = Math.min(1, maxWidth / (img.width || maxWidth));
+    const w = Math.max(1, Math.round((img.width || maxWidth) * scale));
+    const h = Math.max(1, Math.round((img.height || maxWidth) * scale));
+    const canvas = document.createElement("canvas");
+    canvas.width = w;
+    canvas.height = h;
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0, w, h);
+    try{
+     resolve(canvas.toDataURL("image/jpeg", quality));
+    }catch(e){
+     resolve(reader.result);
+    }
+   };
+   img.onerror = ()=>resolve(reader.result);
+   img.src = reader.result;
+  };
+  reader.onerror = ()=>resolve("");
+  reader.readAsDataURL(file);
+ });
 }
 
 function loadSavedSelections(){
@@ -1467,14 +1518,20 @@ function renderComponentsTab(){
 function renderSystemTab(){
  return `
   <div class="admin-box">
-   <h2>Resetare & Export date</h2>
-   <p style="color:var(--muted);font-size:12px;margin:0 0 14px">Resetează cele 4 modele PC și componentele la valorile implicite, sau copiază JSON-ul actual.</p>
+   <h2>Resetare & Export JSON</h2>
+   <p style="color:var(--muted);font-size:12px;margin:0 0 14px">Másold ki a JSON-t és küldd el itt a chatben, hogy beégessem a végleges kódba.</p>
    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px">
-    <button type="button" class="secondary-btn" onclick="copyCurrentDataJson()">Copiază JSON actual</button>
-    <button type="button" class="secondary-btn danger" onclick="resetDefaults()">Resetează la valorile implicite</button>
+    <button type="button" class="primary-btn btn-sm" onclick="copyCurrentDataJson()">Copiază JSON actual</button>
+    <button type="button" class="secondary-btn btn-sm" onclick="refreshJsonBox()">Reîncarcă JSON</button>
+    <button type="button" class="secondary-btn btn-sm danger" onclick="resetDefaults()">Resetează la valorile implicite</button>
    </div>
-   <textarea id="jsonExportBox" readonly style="min-height:110px;font-family:monospace;font-size:11px">${safe(JSON.stringify(data))}</textarea>
+   <textarea id="jsonExportBox" readonly style="min-height:130px;font-family:monospace;font-size:11px">${safe(JSON.stringify(data))}</textarea>
   </div>`;
+}
+
+function refreshJsonBox(){
+ const box = document.getElementById("jsonExportBox");
+ if(box) box.value = JSON.stringify(data);
 }
 
 function copyCurrentDataJson(){
@@ -1497,55 +1554,52 @@ function saveCurrentPC(){
  pc.price=Number(document.getElementById("pcPrice").value)||0;
  pc.cardBadge=document.getElementById("pcCardBadge").value.trim();
  pc.description=document.getElementById("pcDesc").value.trim();
- if(!safeSave())return;
+ safeSave(true);
  renderHome();
  renderAdmin();
  alert("Salvat.");
 }
 
-function uploadPCImage(i,input){
+async function uploadPCImage(i,input){
  const file=input.files[0];if(!file)return;
  const prev=data[i].image;
- const reader=new FileReader();
- reader.onload=()=>{
-  data[i].image=reader.result;
-  if(!safeSave()){
-   data[i].image=prev;
-   return;
-  }
-  renderHome();
-  renderAdmin();
- };
- reader.readAsDataURL(file);
+ const compressed = await compressImageFile(file, 850, 0.72);
+ if(!compressed)return;
+ data[i].image=compressed;
+ if(!safeSave(false)){
+  data[i].image=prev;
+  alert("A kép túl nagy a localStorage számára. Próbálj kisebb képet.");
+  return;
+ }
+ renderHome();
+ renderAdmin();
 }
 
-function addOptionFromTab(){
+async function addOptionFromTab(){
  const name=document.getElementById("newOptName").value.trim();
  const price=Number(document.getElementById("newOptPrice").value)||0;
  if(!name){alert("Introdu denumirea.");return;}
  const file=document.getElementById("newOptImg")?.files?.[0];
- const finish=image=>{
-  const option={name,price};
-  if(image)option.image=image;
-  if(!Array.isArray(data[adminSelectedPC].components[adminSelectedCat])){
-   data[adminSelectedPC].components[adminSelectedCat]=[];
-  }
-  const targetList=data[adminSelectedPC].components[adminSelectedCat];
-  targetList.push(option);
-  if(!safeSave()){
-   targetList.pop();
-   return;
-  }
-  renderAdmin();
-  if(adminSelectedPC===activePC){
-   renderConfig();
-  }
- };
+ let image = "";
  if(file){
-  const reader=new FileReader();
-  reader.onload=()=>finish(reader.result);
-  reader.readAsDataURL(file);
- }else finish("");
+  image = await compressImageFile(file, 800, 0.7);
+ }
+ const option={name,price};
+ if(image)option.image=image;
+ if(!Array.isArray(data[adminSelectedPC].components[adminSelectedCat])){
+  data[adminSelectedPC].components[adminSelectedCat]=[];
+ }
+ const targetList=data[adminSelectedPC].components[adminSelectedCat];
+ targetList.push(option);
+ if(!safeSave(false)){
+  targetList.pop();
+  alert("A tárhely megtelt a kép miatt. Próbáld kép nélkül vagy kisebb képpel.");
+  return;
+ }
+ renderAdmin();
+ if(adminSelectedPC===activePC){
+  renderConfig();
+ }
 }
 
 function editOption(pi,key,oi){
@@ -1561,39 +1615,32 @@ function editOption(pi,key,oi){
   if(confirm("Vrei să schimbi și imaginea?")){
    const picker=document.createElement("input");
    picker.type="file";picker.accept="image/*";
-   picker.onchange=()=>{
+   picker.onchange=async ()=>{
     const file=picker.files[0];if(!file)return;
-    const reader=new FileReader();
-    reader.onload=()=>{
-     o.image=reader.result;
-     if(!safeSave()){
-      data[pi].components[key][oi]=prevSnapshot;
-      return;
-     }
-     renderAdmin();
-     if(pi===activePC)renderConfig();
-    };
-    reader.readAsDataURL(file);
+    const compressed = await compressImageFile(file, 800, 0.7);
+    if(!compressed)return;
+    o.image=compressed;
+    if(!safeSave(false)){
+     data[pi].components[key][oi]=prevSnapshot;
+     alert("A kép túl nagy a localStorage számára.");
+     return;
+    }
+    renderAdmin();
+    if(pi===activePC)renderConfig();
    };
    picker.click();
    return;
   }
  }
- if(!safeSave()){
-  data[pi].components[key][oi]=prevSnapshot;
-  return;
- }
+ safeSave(true);
  renderAdmin();
  if(pi===activePC)renderConfig();
 }
 
 function deleteOption(pi,key,oi){
  if(!confirm("Ștergi această opțiune?"))return;
- const removed=data[pi].components[key].splice(oi,1);
- if(!safeSave()){
-  data[pi].components[key].splice(oi,0,...removed);
-  return;
- }
+ data[pi].components[key].splice(oi,1);
+ safeSave(true);
  renderAdmin();
  if(pi===activePC)renderConfig();
 }
@@ -1603,7 +1650,7 @@ function resetDefaults(){
  data=clone(defaultData);
  adminSelectedPC=0;
  adminSelectedCat="config";
- safeSave();
+ safeSave(true);
  try{ window.localStorage?.removeItem(SEL_KEY); }catch(e){}
  renderHome();
  if(document.getElementById("configView")?.classList.contains("active")){
