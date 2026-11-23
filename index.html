@@ -795,14 +795,31 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 
 <script>
 const _b = [101,114,49,107,50,48,50,54];
-const KEY = "er1k_pc_per_config_gpu_v6";
-const SEL_KEY = "er1k_pc_per_config_gpu_sel_v6";
-const LEGACY_KEYS = ["er1k_pc_per_config_gpu_v5", "er1k_pc_per_config_gpu_v4"];
+const KEY = "er1k_pc_per_config_gpu_v7";
+const SEL_KEY = "er1k_pc_per_config_gpu_sel_v7";
+const LEGACY_KEYS = ["er1k_pc_per_config_gpu_v6", "er1k_pc_per_config_gpu_v5", "er1k_pc_per_config_gpu_v4"];
 const WHATSAPP_NUMBER = "40771103552";
 const tierLabels = ["01 · START", "02 · GAMER", "03 · PRO TIER", "04 · ULTIMATE"];
 
 const PROFIT_MARGIN = 750;
-const BASE_COOLER_PRICE = 90;
+const BASE_COOLER_PRICE = 60; // Minifreeze (60 RON) = alap hűtés (Inclus în preț)
+const BASE_RAM_16GB = 450;
+const BASE_SSD_500GB = 300;
+const BASE_RAM_32GB_DDR5 = 2550;
+
+// Legolcsóbb kompatibilis alaplapok:
+const MOBO_AM4_CHEAP = 300;      // Olcsó AM4 (A520M - 300 RON)
+const MOBO_INTEL_ENTRY = 300;    // Belépő LGA 1700 (H610M - 300 RON)
+const MOBO_INTEL_B760 = 520;     // B760M DDR4 - 520 RON
+const MOBO_AM5_DDR5 = 510;       // AM5 B650M DDR5 - 510 RON
+const MOBO_INTEL_DDR5 = 1105;    // Z790 DDR5 - 1105 RON
+
+// Tápok:
+const PSU_550W = 230;
+const PSU_650W = 400;
+const PSU_750W = 430;
+const PSU_850W = 470;
+const PSU_1000W = 700;
 
 function _matchCode(val){
  const s = String(val||"");
@@ -836,16 +853,15 @@ const baseCases = [
 ];
 
 const baseCoolers = [
- {name:"Cooler CPU ProGaming Standard (90 RON)",price:90,image:""},
- {name:"Cooler CPU ProGaming CoreFrost",price:95,image:"https://i.postimg.cc/sxXrZh0Y/image.png"},
  {name:"Cooler CPU ProGaming Minifreeze",price:60,image:"https://i.postimg.cc/Y0swNC5c/image.png"},
- {name:"Cooler CPU AIO ProGaming Ice View 360",price:269,image:"https://i.postimg.cc/BQj3S2Fx/image.png"},
- {name:"Cooler CPU ProGaming CoreView S6",price:200,image:"https://i.postimg.cc/j2CpjrDR/image.png"},
- {name:"Cooler CPU ProGaming ThermoGuard DTX",price:150,image:"https://i.postimg.cc/Dy4VknVZ/image.png"},
- {name:"Cooler CPU AIO ProGaming Glacier View 360",price:450,image:"https://i.postimg.cc/5t3Tqtzs/image.png"},
+ {name:"Cooler CPU ProGaming CoreFrost",price:95,image:"https://i.postimg.cc/sxXrZh0Y/image.png"},
  {name:"Cooler CPU ProGaming TwinStorm X6",price:140,image:"https://i.postimg.cc/BZyyCk8b/image.png"},
+ {name:"Cooler CPU ProGaming ThermoGuard DTX",price:150,image:"https://i.postimg.cc/Dy4VknVZ/image.png"},
+ {name:"Cooler CPU ProGaming CoreView S6",price:200,image:"https://i.postimg.cc/j2CpjrDR/image.png"},
+ {name:"Cooler, Enermax, AIO, Aquafusion II, 240mm",price:222,image:"https://i.postimg.cc/4NpgHsWr/image.png"},
+ {name:"Cooler CPU AIO ProGaming Ice View 360",price:269,image:"https://i.postimg.cc/BQj3S2Fx/image.png"},
  {name:"Cooler CPU AIO ProGaming IcePulse360",price:375,image:"https://i.postimg.cc/3xjcYwt0/image.png"},
- {name:"Cooler, Enermax, AIO, Aquafusion II, 240mm",price:222,image:"https://i.postimg.cc/4NpgHsWr/image.png"}
+ {name:"Cooler CPU AIO ProGaming Glacier View 360",price:450,image:"https://i.postimg.cc/5t3Tqtzs/image.png"}
 ];
 
 const startGpuOrder = ["GTX 1060 6GB", "GTX 1660 6GB", "RX 580 8GB", "GTX 1660 Super 6GB"];
@@ -900,33 +916,37 @@ const defaultData = [
  {
   id:"start",
   name:"Er1k Start",
-  description:"Un sistem accesibil pentru gaming și utilizare zilnică (A520M + 16GB DDR4 + 500GB NVMe + MSI 550W).",
+  description:"Un sistem accesibil pentru gaming și utilizare zilnică (16GB DDR4 + 500GB NVMe + Minifreeze).",
   price:0,
   cardBadge:"",
   image:"https://i.postimg.cc/Y9L0LTGx/image.png",
   components:{
    config:[
     {
+     // Ryzen 5 3600 (372) + GTX 1060 (400) + A520M (300) + 16GB DDR4 (450) + 500GB NVMe (300) + 550W (230) + Minifreeze (60) + Profit (750)
      name:"AMD Ryzen 5 3600 + GTX 1060 6GB",
-     price:2222 + 450 + 300 + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     price:372 + 400 + MOBO_AM4_CHEAP + BASE_RAM_16GB + BASE_SSD_500GB + PSU_550W + BASE_COOLER_PRICE + PROFIT_MARGIN,
      defaultGpu:"GTX 1060 6GB",
      gpuOptions:makeStartGpus()
     },
     {
+     // Ryzen 5 3600 (372) + GTX 1660 (400) + A520M (300) + 16GB DDR4 (450) + 500GB NVMe (300) + 550W (230) + Minifreeze (60) + Profit (750)
      name:"AMD Ryzen 5 3600 + GTX 1660 6GB",
-     price:2222 + 450 + 300 + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     price:372 + 400 + MOBO_AM4_CHEAP + BASE_RAM_16GB + BASE_SSD_500GB + PSU_550W + BASE_COOLER_PRICE + PROFIT_MARGIN,
      defaultGpu:"GTX 1660 6GB",
      gpuOptions:makeStartGpus()
     },
     {
+     // Ryzen 5 5500 (500) + RX 580 (300) + A520M (300) + 16GB DDR4 (450) + 500GB NVMe (300) + 550W (230) + Minifreeze (60) + Profit (750)
      name:"AMD Ryzen 5 5500 + RX 580 8GB",
-     price:2250 + 450 + 300 + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     price:500 + 300 + MOBO_AM4_CHEAP + BASE_RAM_16GB + BASE_SSD_500GB + PSU_550W + BASE_COOLER_PRICE + PROFIT_MARGIN,
      defaultGpu:"RX 580 8GB",
      gpuOptions:makeStartGpus()
     },
     {
+     // Ryzen 5 5500 (500) + GTX 1660 Super (650) + A520M (300) + 16GB DDR4 (450) + 500GB NVMe (300) + 550W (230) + Minifreeze (60) + Profit (750)
      name:"AMD Ryzen 5 5500 + GTX 1660 Super 6GB",
-     price:2600 + 450 + 300 + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     price:500 + 650 + MOBO_AM4_CHEAP + BASE_RAM_16GB + BASE_SSD_500GB + PSU_550W + BASE_COOLER_PRICE + PROFIT_MARGIN,
      defaultGpu:"GTX 1660 Super 6GB",
      gpuOptions:makeStartGpus()
     }
@@ -950,33 +970,37 @@ const defaultData = [
  {
   id:"gamer",
   name:"Er1k Gamer",
-  description:"Performanță excelentă pentru gaming Full HD și QHD (16GB DDR4 + 500GB/1TB NVMe + MSI 550W/650W).",
+  description:"Performanță excelentă pentru gaming Full HD și QHD (16GB DDR4 + 500GB NVMe + Minifreeze).",
   price:0,
   cardBadge:"",
   image:"https://i.postimg.cc/B62s03PF/image.png",
   components:{
    config:[
     {
+     // Ryzen 5 5500 (500) + Arc B570 (1800) + A520M (300) + 16GB DDR4 (450) + 500GB NVMe (300) + 650W (400) + Minifreeze (60) + Profit (750)
      name:"AMD Ryzen 5 5500 + Intel Arc B570 10GB",
-     price:3962 + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     price:500 + 1800 + MOBO_AM4_CHEAP + BASE_RAM_16GB + BASE_SSD_500GB + PSU_650W + BASE_COOLER_PRICE + PROFIT_MARGIN,
      defaultGpu:"Intel Arc B570 10GB",
      gpuOptions:makeGamerGpus()
     },
     {
+     // Ryzen 5 5600 (600) + RTX 3050 (1500) + A520M (300) + 16GB DDR4 (450) + 500GB NVMe (300) + 650W (400) + Minifreeze (60) + Profit (750)
      name:"AMD Ryzen 5 5600 + RTX 3050 8GB",
-     price:3762 + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     price:600 + 1500 + MOBO_AM4_CHEAP + BASE_RAM_16GB + BASE_SSD_500GB + PSU_650W + BASE_COOLER_PRICE + PROFIT_MARGIN,
      defaultGpu:"RTX 3050 8GB",
      gpuOptions:makeGamerGpus()
     },
     {
+     // i5-12400F (659) + RTX 5050 (2300) + H610M (300) + 16GB DDR4 (450) + 500GB NVMe (300) + 650W (400) + Minifreeze (60) + Profit (750)
      name:"Intel Core i5-12400F + RTX 5050 8GB",
-     price:4949 + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     price:659 + 2300 + MOBO_INTEL_ENTRY + BASE_RAM_16GB + BASE_SSD_500GB + PSU_650W + BASE_COOLER_PRICE + PROFIT_MARGIN,
      defaultGpu:"RTX 5050 8GB",
      gpuOptions:makeGamerGpus()
     },
     {
+     // i5-12400F (659) + RX 7600 (2500) + H610M (300) + 16GB DDR4 (450) + 500GB NVMe (300) + 650W (400) + Minifreeze (60) + Profit (750)
      name:"Intel Core i5-12400F + RX 7600 8GB",
-     price:5149 + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     price:659 + 2500 + MOBO_INTEL_ENTRY + BASE_RAM_16GB + BASE_SSD_500GB + PSU_650W + BASE_COOLER_PRICE + PROFIT_MARGIN,
      defaultGpu:"RX 7600 8GB",
      gpuOptions:makeGamerGpus()
     }
@@ -1001,33 +1025,37 @@ const defaultData = [
  {
   id:"pro",
   name:"Er1k Pro",
-  description:"Putere suplimentară pentru gaming și multitasking (RAM + NVMe + MSI 650W/750W).",
+  description:"Putere suplimentară pentru gaming și multitasking (16GB DDR4 / 32GB DDR5 + 500GB NVMe + Minifreeze).",
   price:0,
   cardBadge:"",
   image:"https://i.postimg.cc/ZnDwsBYP/image.png",
   components:{
    config:[
     {
+     // Ryzen 7 5700X (800) + RTX 5060 (3000) + A520M (300) + 16GB DDR4 (450) + 500GB NVMe (300) + 750W (430) + Minifreeze (60) + Profit (750)
      name:"AMD Ryzen 7 5700X + RTX 5060 8GB",
-     price:6070 + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     price:800 + 3000 + MOBO_AM4_CHEAP + BASE_RAM_16GB + BASE_SSD_500GB + PSU_750W + BASE_COOLER_PRICE + PROFIT_MARGIN,
      defaultGpu:"RTX 5060 8GB",
      gpuOptions:makeProGpus()
     },
     {
+     // Ryzen 5 7600 (932) + RX 9060 XT (3500) + B650M DDR5 (510) + 32GB DDR5 (2550) + 500GB NVMe (300) + 750W (430) + Minifreeze (60) + Profit (750)
      name:"AMD Ryzen 5 7600 + RX 9060 XT 16GB (AM5 DDR5)",
-     price:8512 + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     price:932 + 3500 + MOBO_AM5_DDR5 + BASE_RAM_32GB_DDR5 + BASE_SSD_500GB + PSU_750W + BASE_COOLER_PRICE + PROFIT_MARGIN,
      defaultGpu:"RX 9060 XT 16GB",
      gpuOptions:makeProGpus()
     },
     {
+     // i5-14400F (771) + RTX 5060 Ti (4500) + B760M DDR4 (520) + 16GB DDR4 (450) + 500GB NVMe (300) + 750W (430) + Minifreeze (60) + Profit (750)
      name:"Intel Core i5-14400F + RTX 5060 Ti 16GB",
-     price:7691 + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     price:771 + 4500 + MOBO_INTEL_B760 + BASE_RAM_16GB + BASE_SSD_500GB + PSU_750W + BASE_COOLER_PRICE + PROFIT_MARGIN,
      defaultGpu:"RTX 5060 Ti 16GB",
      gpuOptions:makeProGpus()
     },
     {
+     // Ryzen 5 7600 (932) + RX 9070 (4400) + B650M DDR5 (510) + 32GB DDR5 (2550) + 500GB NVMe (300) + 750W (430) + Minifreeze (60) + Profit (750)
      name:"AMD Ryzen 5 7600 + RX 9070 16GB (AM5 DDR5)",
-     price:9442 + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     price:932 + 4400 + MOBO_AM5_DDR5 + BASE_RAM_32GB_DDR5 + BASE_SSD_500GB + PSU_750W + BASE_COOLER_PRICE + PROFIT_MARGIN,
      defaultGpu:"RX 9070 16GB",
      gpuOptions:makeProGpus()
     }
@@ -1053,33 +1081,37 @@ const defaultData = [
  {
   id:"ultimate",
   name:"Er1k Ultimate",
-  description:"High-end sistem pentru performanță fără compromisuri (DDR5 6000MHz + MSI 850W/1000W).",
+  description:"High-end sistem pentru performanță fără compromisuri (DDR5 6000MHz + 500GB NVMe + Minifreeze).",
   price:0,
   cardBadge:"",
   image:"https://i.postimg.cc/Y9L0LTGx/image.png",
   components:{
    config:[
     {
+     // Ryzen 7 7800X3D (1549) + RTX 5070 (5000) + B650M DDR5 (510) + 32GB DDR5 (2550) + 500GB NVMe (300) + 850W (470) + Minifreeze (60) + Profit (750)
      name:"AMD Ryzen 7 7800X3D + RTX 5070 12GB",
-     price:10699 + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     price:1549 + 5000 + MOBO_AM5_DDR5 + BASE_RAM_32GB_DDR5 + BASE_SSD_500GB + PSU_850W + BASE_COOLER_PRICE + PROFIT_MARGIN,
      defaultGpu:"RTX 5070 12GB",
      gpuOptions:makeUltimateGpus()
     },
     {
+     // Ryzen 7 7800X3D (1549) + RX 9070 XT (4400) + B650M DDR5 (510) + 32GB DDR5 (2550) + 500GB NVMe (300) + 850W (470) + Minifreeze (60) + Profit (750)
      name:"AMD Ryzen 7 7800X3D + RX 9070 XT 16GB",
-     price:10099 + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     price:1549 + 4400 + MOBO_AM5_DDR5 + BASE_RAM_32GB_DDR5 + BASE_SSD_500GB + PSU_850W + BASE_COOLER_PRICE + PROFIT_MARGIN,
      defaultGpu:"RX 9070 XT 16GB",
      gpuOptions:makeUltimateGpus()
     },
     {
+     // i7-14700KF (1885) + RTX 5070 (5000) + Z790 DDR5 (1105) + 32GB DDR5 (2550) + 500GB NVMe (300) + 850W (470) + Minifreeze (60) + Profit (750)
      name:"Intel Core i7-14700KF + RTX 5070 12GB",
-     price:11630 + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     price:1885 + 5000 + MOBO_INTEL_DDR5 + BASE_RAM_32GB_DDR5 + BASE_SSD_500GB + PSU_850W + BASE_COOLER_PRICE + PROFIT_MARGIN,
      defaultGpu:"RTX 5070 12GB",
      gpuOptions:makeUltimateGpus()
     },
     {
-     name:"AMD Ryzen 7 9800X3D + RTX 5070 Ti 16GB (2TB + 1000W)",
-     price:15554 + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     // Ryzen 7 9800X3D (2124) + RTX 5070 Ti (8000) + B650M DDR5 (510) + 32GB DDR5 (2550) + 500GB NVMe (300) + 1000W (700) + Minifreeze (60) + Profit (750)
+     name:"AMD Ryzen 7 9800X3D + RTX 5070 Ti 16GB (1000W)",
+     price:2124 + 8000 + MOBO_AM5_DDR5 + BASE_RAM_32GB_DDR5 + BASE_SSD_500GB + PSU_1000W + BASE_COOLER_PRICE + PROFIT_MARGIN,
      defaultGpu:"RTX 5070 Ti 16GB",
      gpuOptions:makeUltimateGpus()
     }
@@ -1115,14 +1147,30 @@ const componentNames={
 
 function clone(x){return JSON.parse(JSON.stringify(x))}
 
-function isBaseIncludedOption(key, opt){
+function isConfigDdr5Base(cfg){
+ const n = String(cfg?.name || "").toLowerCase();
+ return n.includes("7600") || n.includes("7800x3d") || n.includes("9800x3d") || n.includes("14700kf");
+}
+
+function isBaseIncludedOption(key, opt, pc, cfgIdx = 0){
  if(!opt) return false;
- if(typeof opt.includedInBase === "boolean") return opt.includedInBase;
  const n = String(opt.name || "").toLowerCase();
- if(key === "ram") return n.startsWith("16gb");
- if(key === "ssd") return n.startsWith("500gb") && n.includes("nvme");
- if(key === "case") return (Number(opt.price) || 0) === 0;
- if(key === "cooler") return (Number(opt.price) || 0) === BASE_COOLER_PRICE;
+ const cfg = pc?.components?.config?.[cfgIdx] || pc?.components?.config?.[0];
+ if(key === "ram"){
+  if(isConfigDdr5Base(cfg)){
+   return n.includes("ddr5") && n.includes("32gb");
+  }
+  return n.startsWith("16gb");
+ }
+ if(key === "ssd"){
+  return n.startsWith("500gb") && n.includes("nvme");
+ }
+ if(key === "case"){
+  return (Number(opt.price) || 0) === 0;
+ }
+ if(key === "cooler"){
+  return (Number(opt.price) || 0) === BASE_COOLER_PRICE;
+ }
  return false;
 }
 
@@ -1140,7 +1188,13 @@ function getOptionAddOnPrice(key, opt, pc, cfgIdx = 0){
  if(key === "cooler"){
   return (Number(opt.price) || 0) - BASE_COOLER_PRICE;
  }
- if(isBaseIncludedOption(key, opt)){
+ if(key === "ram"){
+  const cfg = pc?.components?.config?.[cfgIdx] || pc?.components?.config?.[0];
+  const baseRamPrice = isConfigDdr5Base(cfg) ? BASE_RAM_32GB_DDR5 : BASE_RAM_16GB;
+  if(isBaseIncludedOption("ram", opt, pc, cfgIdx)) return 0;
+  return (Number(opt.price) || 0) - baseRamPrice;
+ }
+ if(isBaseIncludedOption(key, opt, pc, cfgIdx)){
   return 0;
  }
  return Number(opt.price) || 0;
@@ -1183,18 +1237,7 @@ function normalizePCConfigs(pc, fallbackPC){
 }
 
 function normalizeCategoryItems(key, items, fallbackItems){
- const list = Array.isArray(items) && items.length > 0 ? items : clone(fallbackItems || []);
- return list.map(opt => {
-  const copy = { ...opt };
-  if(key === "ram"){
-   const n = String(copy.name || "").toLowerCase();
-   copy.includedInBase = n.startsWith("16gb");
-  }else if(key === "ssd"){
-   const n = String(copy.name || "").toLowerCase();
-   copy.includedInBase = n.startsWith("500gb") && n.includes("nvme");
-  }
-  return copy;
- });
+ return Array.isArray(items) && items.length > 0 ? items : clone(fallbackItems || []);
 }
 
 function normalizeData(list){
@@ -1375,11 +1418,11 @@ function getDefaultIndexForCategory(pc, key, cfgIdx = 0){
   return 0;
  }
  if(key === "ram"){
-  const idx = list.findIndex(o => isBaseIncludedOption("ram", o));
+  const idx = list.findIndex(o => isBaseIncludedOption("ram", o, pc, cfgIdx));
   return idx >= 0 ? idx : 0;
  }
  if(key === "ssd"){
-  const idx = list.findIndex(o => isBaseIncludedOption("ssd", o));
+  const idx = list.findIndex(o => isBaseIncludedOption("ssd", o, pc, cfgIdx));
   return idx >= 0 ? idx : 0;
  }
  if(key === "case"){
@@ -1593,6 +1636,9 @@ function choose(key,i){
   if(key === "config"){
    const pc = data[activePC];
    selected.gpu = getDefaultIndexForCategory(pc, "gpu", i);
+   selected.ram = getDefaultIndexForCategory(pc, "ram", i);
+   selected.ssd = getDefaultIndexForCategory(pc, "ssd", i);
+   selected.cooler = getDefaultIndexForCategory(pc, "cooler", i);
   }
  }
  persistSelectedForPC(activePC, selected);
