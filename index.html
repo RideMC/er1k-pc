@@ -370,6 +370,40 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 .choice strong{font-size:13px;display:block;line-height:1.4;padding-right:18px}
 .choice small{display:block;color:var(--green);font-weight:800;font-size:12px;margin-top:6px}
 
+/* EXTRA QUANTITY SELECTOR */
+.qty-row{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  margin-top:9px;
+  padding-top:8px;
+  border-top:1px solid #2b3044;
+  flex-wrap:wrap;
+}
+.qty-row span{
+  font-size:11px;
+  color:#b4bacd;
+  font-weight:700;
+  margin-right:2px;
+}
+.qty-btn{
+  background:#121520;
+  border:1px solid #373d52;
+  color:#d9deed;
+  border-radius:6px;
+  padding:3px 8px;
+  font-size:11px;
+  font-weight:800;
+  line-height:1.2;
+  transition:.15s;
+}
+.qty-btn:hover{border-color:#8b5cf6;color:#fff}
+.qty-btn.active{
+  background:var(--accent);
+  border-color:#a882ff;
+  color:#fff;
+}
+
 .center-stack{display:flex;flex-direction:column;gap:18px}
 .pc-stage{
   background:radial-gradient(circle at 50% 35%,#4a2c82,#181526 66%,#0f1119);
@@ -554,10 +588,11 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
  .component-title{margin-bottom:12px;padding-bottom:8px}
  .component-title h3{font-size:14px}
  .choices{grid-template-columns:1fr;gap:8px}
- .choice{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:11px}
+ .choice{display:flex;align-items:flex-start;gap:12px;padding:10px 12px;border-radius:11px}
  .choice.selected{padding:9px 11px}
- .choice.selected::after{top:50%;right:10px;transform:translateY(-50%)}
+ .choice.selected::after{top:22px;right:10px;transform:none}
  .choice img{width:56px;height:56px;margin-bottom:0;flex-shrink:0;border-radius:8px}
+ .choice > div{flex:1;min-width:0}
  .choice strong{font-size:13px;padding-right:26px}
  .choice small{font-size:11.5px;margin-top:3px}
 
@@ -687,7 +722,7 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 </footer>
 
 <script>
-const SEL_KEY = "er1k_pc_per_config_gpu_sel_v11";
+const SEL_KEY = "er1k_pc_per_config_gpu_sel_v12";
 const WHATSAPP_NUMBER = "40771103552";
 const tierLabels = ["01 · START", "02 · GAMER", "03 · PRO TIER", "04 · ULTIMATE"];
 
@@ -741,6 +776,16 @@ const baseCoolers = [
  {name:"Cooler CPU AIO ProGaming Ice View 360",price:269,image:"https://i.postimg.cc/BQj3S2Fx/image.png"},
  {name:"Cooler CPU AIO ProGaming IcePulse360",price:375,image:"https://i.postimg.cc/3xjcYwt0/image.png"},
  {name:"Cooler CPU AIO ProGaming Glacier View 360",price:450,image:"https://i.postimg.cc/5t3Tqtzs/image.png"}
+];
+
+const baseExtras = [
+ {name:"+500GB SATA SSD",price:450,allowQty:false},
+ {name:"Placa de retea Wireless Bluetooth 5.2, Wi-Fi 6",price:180,image:"https://i.postimg.cc/qMYxS6yG/image.png",allowQty:false},
+ {name:"Placa de retea Wireless Bluetooth 5.2, Wi-Fi 6",price:150,image:"https://i.postimg.cc/x88LF9dR/image.png",allowQty:false},
+ {name:"Ventilator Carcasă Negru ARGB",price:25,unit:"BUC",image:"https://i.postimg.cc/Jtwtc8H3/image.png",allowQty:true,qtyOptions:[1,2,3,4,6]},
+ {name:"Ventilator Carcasă Alb ARGB",price:25,unit:"BUC",image:"https://i.postimg.cc/W49GmDNM/image.png",allowQty:true,qtyOptions:[1,2,3,4,6]},
+ {name:"Kit Tastatura, Mouse RGB",price:100,image:"https://i.postimg.cc/CLyj4p0T/image.png",allowQty:false},
+ {name:"Kit Tastatura, Mouse, Casti, Mousepad RGB",price:175,image:"https://i.postimg.cc/c4Nnn7Rf/image.png",allowQty:false}
 ];
 
 const startGpuOrder = ["GTX 1060 6GB", "GTX 1660 6GB", "RX 580 8GB", "GTX 1660 Super 6GB"];
@@ -837,9 +882,7 @@ const data = [
    ],
    case:JSON.parse(JSON.stringify(baseCases)),
    cooler:JSON.parse(JSON.stringify(baseCoolers)),
-   extra:[
-    {name:"+500GB SATA SSD",price:450}
-   ]
+   extra:JSON.parse(JSON.stringify(baseExtras))
   }
  },
  {
@@ -888,9 +931,7 @@ const data = [
    ],
    case:JSON.parse(JSON.stringify(baseCases)),
    cooler:JSON.parse(JSON.stringify(baseCoolers)),
-   extra:[
-    {name:"+500GB SATA SSD",price:450}
-   ]
+   extra:JSON.parse(JSON.stringify(baseExtras))
   }
  },
  {
@@ -940,9 +981,7 @@ const data = [
    ],
    case:JSON.parse(JSON.stringify(baseCases)),
    cooler:JSON.parse(JSON.stringify(baseCoolers)),
-   extra:[
-    {name:"+500GB SATA SSD",price:450}
-   ]
+   extra:JSON.parse(JSON.stringify(baseExtras))
   }
  },
  {
@@ -991,9 +1030,7 @@ const data = [
    ],
    case:JSON.parse(JSON.stringify(baseCases)),
    cooler:JSON.parse(JSON.stringify(baseCoolers)),
-   extra:[
-    {name:"+500GB SATA SSD",price:450}
-   ]
+   extra:JSON.parse(JSON.stringify(baseExtras))
   }
  }
 ];
@@ -1037,9 +1074,43 @@ function isBaseIncludedOption(key, opt, pc, cfgIdx = 0){
  return false;
 }
 
-function getOptionAddOnPrice(key, opt, pc, cfgIdx = 0){
+function getExtraQty(idx){
+ const map = selected.extraQty || {};
+ const q = Number(map[idx]);
+ return (q && q > 0) ? q : 1;
+}
+
+function getExtraItemPrice(opt, idx){
+ if(!opt) return 0;
+ const unitPrice = Number(opt.price) || 0;
+ const qty = opt.allowQty ? getExtraQty(idx) : 1;
+ return unitPrice * qty;
+}
+
+function getSelectedExtrasList(pc){
+ const list = pc?.components?.extra || [];
+ const arr = Array.isArray(selected.extra) ? selected.extra : [];
+ const result = [];
+ for(let i = 0; i < list.length; i++){
+  if(arr.includes(i)){
+   const opt = list[i];
+   const qty = opt.allowQty ? getExtraQty(i) : 1;
+   const totalItemPrice = getExtraItemPrice(opt, i);
+   const label = opt.allowQty
+    ? `${opt.name} (${qty} ${opt.unit || "BUC"})`
+    : opt.name;
+   result.push({index: i, opt, qty, label, price: totalItemPrice});
+  }
+ }
+ return result;
+}
+
+function getOptionAddOnPrice(key, opt, pc, cfgIdx = 0, idx = 0){
  if(!opt) return 0;
  if(key === "config") return 0;
+ if(key === "extra"){
+  return getExtraItemPrice(opt, idx);
+ }
  if(key === "gpu"){
   const cfg = pc?.components?.config?.[cfgIdx] || pc?.components?.config?.[0];
   const gpuList = Array.isArray(cfg?.gpuOptions) ? cfg.gpuOptions : [];
@@ -1119,7 +1190,7 @@ function getOptionsForCategory(pc, key, cfgIdx = 0){
 
 function getDefaultIndexForCategory(pc, key, cfgIdx = 0){
  const list = getOptionsForCategory(pc, key, cfgIdx);
- if(key === "extra") return -1;
+ if(key === "extra") return [];
  if(key === "gpu"){
   const cfg = pc?.components?.config?.[cfgIdx] || pc?.components?.config?.[0];
   const target = String(cfg?.defaultGpu || "").toLowerCase();
@@ -1209,11 +1280,19 @@ function initSelectionForPC(pc, pcIndex){
   const savedVal = savedForThis[key];
   const defIdx = getDefaultIndexForCategory(pc, key, selected.config);
   if(key === "extra"){
-   selected[key] = (typeof savedVal === "number" && savedVal >= -1 && savedVal < list.length) ? savedVal : -1;
+   if(Array.isArray(savedVal)){
+    selected.extra = savedVal.filter(idx => typeof idx === "number" && idx >= 0 && idx < list.length);
+   }else if(typeof savedVal === "number" && savedVal >= 0 && savedVal < list.length){
+    selected.extra = [savedVal];
+   }else{
+    selected.extra = [];
+   }
   }else{
    selected[key] = (typeof savedVal === "number" && savedVal >= 0 && savedVal < list.length) ? savedVal : defIdx;
   }
  }
+
+ selected.extraQty = (savedForThis.extraQty && typeof savedForThis.extraQty === "object") ? clone(savedForThis.extraQty) : {};
 }
 
 function openPC(i){
@@ -1249,14 +1328,20 @@ function renderConfig(){
   const list = getOptionsForCategory(pc, key, selected.config);
   const defIdx = getDefaultIndexForCategory(pc, key, selected.config);
   if(key === "extra"){
-   if(typeof selected[key]!=="number" || selected[key]<-1 || selected[key]>=list.length){
-    selected[key]=-1;
+   if(!Array.isArray(selected.extra)){
+    selected.extra = [];
+   }else{
+    selected.extra = selected.extra.filter(idx => typeof idx === "number" && idx >= 0 && idx < list.length);
    }
   }else{
    if(typeof selected[key]!=="number" || selected[key]<0 || selected[key]>=list.length){
     selected[key]=defIdx;
    }
   }
+ }
+
+ if(!selected.extraQty || typeof selected.extraQty !== "object"){
+  selected.extraQty = {};
  }
 
  const isMobile = window.innerWidth <= 760;
@@ -1302,26 +1387,71 @@ function renderComponentBox(key,pc){
   <div class="component-title"><h3>${componentNames[key]}</h3><span>${badgeText}</span></div>
   ${gpuNote}
   <div class="choices">${options.length ? options.map((o,i)=>{
-   const isSelected = selected[key] === i;
-   const delta = getOptionAddOnPrice(key, o, pc, selected.config);
-   const badgePrice = (key === "config") ? "" : `<small>${formatPlusRon(delta)}</small>`;
+   const isSelected = (key === "extra")
+    ? (Array.isArray(selected.extra) && selected.extra.includes(i))
+    : (selected[key] === i);
+   const delta = getOptionAddOnPrice(key, o, pc, selected.config, i);
+
+   let priceLabelHtml = "";
+   if(key !== "config"){
+    if(key === "extra" && o.allowQty){
+     const q = getExtraQty(i);
+     const unitTxt = `${Number(o.price) || 0} RON/${o.unit || "BUC"}`;
+     priceLabelHtml = `<small>${isSelected ? `${q}x (${formatPlusRon(delta)})` : unitTxt}</small>`;
+    }else{
+     priceLabelHtml = `<small>${formatPlusRon(delta)}</small>`;
+    }
+   }
+
+   let qtyControlsHtml = "";
+   if(key === "extra" && o.allowQty){
+    const currentQ = getExtraQty(i);
+    const qList = Array.isArray(o.qtyOptions) ? o.qtyOptions : [1,2,3,4,6];
+    qtyControlsHtml = `<div class="qty-row" onclick="event.stopPropagation()">
+     <span>Buc:</span>
+     ${qList.map(qVal => `
+      <button
+       type="button"
+       class="qty-btn ${(isSelected && currentQ === qVal) ? "active" : ""}"
+       onclick="setExtraQty(${i}, ${qVal})"
+      >${qVal}</button>
+     `).join("")}
+    </div>`;
+   }
+
    return `
-   <button
-    type="button"
+   <div
+    role="button"
+    tabindex="0"
     class="choice ${isSelected ? "selected" : ""}"
     onclick="choose('${key}',${i})"
+    onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();choose('${key}',${i})}"
    >
     ${o.image?`<img src="${safe(o.image)}" alt="">`:""}
-    <strong>${safe(o.name)}</strong>
-    ${badgePrice}
-   </button>`;
+    <div>
+     <strong>${safe(o.name)}</strong>
+     ${priceLabelHtml}
+     ${qtyControlsHtml}
+    </div>
+   </div>`;
   }).join("") : `<div class="empty" style="grid-column:1/-1">Nu există opțiuni GPU setate pentru acest CONFIG.</div>`}</div>
  </div>`;
 }
 
 function choose(key,i){
  if(key === "extra"){
-  selected[key] = (selected[key] === i) ? -1 : i;
+  if(!Array.isArray(selected.extra)) selected.extra = [];
+  const pos = selected.extra.indexOf(i);
+  if(pos >= 0){
+   selected.extra.splice(pos, 1);
+  }else{
+   selected.extra.push(i);
+   const pc = data[activePC];
+   const opt = pc?.components?.extra?.[i];
+   if(opt?.allowQty && !selected.extraQty?.[i]){
+    selected.extraQty[i] = 1;
+   }
+  }
  }else{
   selected[key] = i;
   if(key === "config"){
@@ -1336,13 +1466,26 @@ function choose(key,i){
  renderConfig();
 }
 
+function setExtraQty(extraIdx, qtyVal){
+ if(!selected.extraQty || typeof selected.extraQty !== "object"){
+  selected.extraQty = {};
+ }
+ selected.extraQty[extraIdx] = qtyVal;
+ if(!Array.isArray(selected.extra)) selected.extra = [];
+ if(!selected.extra.includes(extraIdx)){
+  selected.extra.push(extraIdx);
+ }
+ persistSelectedForPC(activePC, selected);
+ renderConfig();
+}
+
 function currentOption(key){
  const pc=data[activePC];
  if(!pc)return null;
+ if(key === "extra") return null;
  const list = getOptionsForCategory(pc, key, selected.config);
- const idx = selected[key] ?? (key === "extra" ? -1 : 0);
- if(idx < 0) return null;
- return list[idx] || (key === "extra" ? null : list[0]) || null;
+ const idx = selected[key] ?? 0;
+ return list[idx] || list[0] || null;
 }
 
 function updateStage(){
@@ -1397,7 +1540,7 @@ function computeTotalForCurrentSelection(pc){
  const ssd = currentOption("ssd");
  const cooler = currentOption("cooler");
  const pcCase = currentOption("case");
- const extra = currentOption("extra");
+ const extrasSelected = getSelectedExtrasList(pc);
 
  const baseCfgPrice = Number(cfg ? cfg.price : (pc.price || 0)) || 0;
  const gpuAdd = getOptionAddOnPrice("gpu", gpu, pc, selected.config);
@@ -1405,7 +1548,7 @@ function computeTotalForCurrentSelection(pc){
  const ssdAdd = getOptionAddOnPrice("ssd", ssd, pc, selected.config);
  const coolerAdd = getOptionAddOnPrice("cooler", cooler, pc, selected.config);
  const caseAdd = getOptionAddOnPrice("case", pcCase, pc, selected.config);
- const extraAdd = getOptionAddOnPrice("extra", extra, pc, selected.config);
+ const extraAdd = extrasSelected.reduce((sum, item) => sum + (Number(item.price) || 0), 0);
 
  return {
   baseCfgPrice,
@@ -1415,6 +1558,7 @@ function computeTotalForCurrentSelection(pc){
   coolerAdd,
   caseAdd,
   extraAdd,
+  extrasSelected,
   total: (Number(pc.price) || 0) + baseCfgPrice + gpuAdd + ramAdd + ssdAdd + coolerAdd + caseAdd + extraAdd
  };
 }
@@ -1424,16 +1568,16 @@ function updateSummary(){
  const calc = computeTotalForCurrentSelection(pc);
  let html="";
 
+ const singleKeys = ["config","gpu","ram","ssd","cooler","case"];
  const deltas = {
   gpu: calc.gpuAdd,
   ram: calc.ramAdd,
   ssd: calc.ssdAdd,
   cooler: calc.coolerAdd,
-  case: calc.caseAdd,
-  extra: calc.extraAdd
+  case: calc.caseAdd
  };
 
- for(const key of Object.keys(componentNames)){
+ for(const key of singleKeys){
   const o=currentOption(key);
   if(!o)continue;
   html+=`<div class="summary-line"><span>${componentNames[key]}</span><span>${safe(o.name)}</span></div>`;
@@ -1443,16 +1587,28 @@ function updateSummary(){
   }
  }
 
+ for(const ex of calc.extrasSelected){
+  html+=`<div class="summary-line"><span>OPȚIUNI EXTRA</span><span>${safe(ex.label)}</span></div>`;
+  html+=`<div class="summary-line surcharge"><span>Opțiune</span><span>${formatPlusRon(ex.price)}</span></div>`;
+ }
+
  document.getElementById("summary").innerHTML=html;
  document.getElementById("totalPrice").textContent=money(calc.total);
 }
 
 function orderPC(){
  const pc=data[activePC];
- const lines=Object.keys(componentNames).map(k=>{
+ const singleKeys = ["config","gpu","ram","ssd","cooler","case"];
+ const lines = singleKeys.map(k=>{
   const o=currentOption(k);
   return o?componentNames[k]+": "+o.name:"";
  }).filter(Boolean);
+
+ const extrasSelected = getSelectedExtrasList(pc);
+ for(const ex of extrasSelected){
+  lines.push("OPȚIUNI EXTRA: " + ex.label + " (" + money(ex.price) + ")");
+ }
+
  const total=document.getElementById("totalPrice").textContent;
  const message=`Bună! Sunt interesat de ${pc.name}.\n${lines.join("\n")}\nPreț estimativ: ${total}`;
  window.location.href=`https://wa.me/${WHATSAPP_NUMBER}?text=`+encodeURIComponent(message);
