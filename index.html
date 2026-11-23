@@ -723,27 +723,68 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 </footer>
 
 <script>
-const SEL_KEY = "er1k_pc_per_config_gpu_sel_v14";
+const SEL_KEY = "er1k_pc_per_config_gpu_sel_v15";
 const WHATSAPP_NUMBER = "40771103552";
 const tierLabels = ["01 · START", "02 · GAMER", "03 · PRO TIER", "04 · ULTIMATE"];
 
+// Egységes profit minden alapkonfigurációnál
 const PROFIT_MARGIN = 750;
+
+// Alap hűtő, RAM és SSD árak
 const BASE_COOLER_PRICE = 60;
-const BASE_RAM_16GB = 450;
-const BASE_SSD_500GB = 300;
-const BASE_RAM_32GB_DDR5 = 2550;
+const RAM_16GB_DDR4 = 450;
+const RAM_32GB_DDR4 = 850;
+const RAM_32GB_DDR5 = 2550;
 
+const SSD_500GB = 300;
+const SSD_1TB = 450;
+const SSD_2TB = 1500;
+
+// Alaplap árak
 const MOBO_AM4_CHEAP = 300;
+const MOBO_AM4_STRONG = 400;
 const MOBO_INTEL_ENTRY = 300;
-const MOBO_INTEL_B760 = 520;
-const MOBO_AM5_DDR5 = 510;
+const MOBO_INTEL_B760 = 330;
 const MOBO_INTEL_DDR5 = 1105;
+const MOBO_AM5_DDR5 = 510;
 
+// MSI MAG táp árak
 const PSU_550W = 230;
 const PSU_650W = 400;
 const PSU_750W = 430;
 const PSU_850W = 470;
 const PSU_1000W = 700;
+
+// CPU árak
+const CPU_R5_3600 = 372;
+const CPU_R5_5500 = 500;
+const CPU_R5_5600 = 600;
+const CPU_R7_5700X = 800;
+const CPU_R5_7600 = 932;
+const CPU_R7_7800X3D = 1549;
+const CPU_R7_9800X3D = 2124;
+const CPU_I5_12400F = 659;
+const CPU_I5_14400F = 771;
+const CPU_I7_14700KF = 1885;
+
+// GPU árak
+const GPU_GTX_1060 = 400;
+const GPU_GTX_1660 = 400;
+const GPU_GTX_1660_SUPER = 650;
+const GPU_RX_580 = 300;
+const GPU_RTX_3050 = 1500;
+const GPU_RTX_3060 = 2600;
+const GPU_ARC_B570 = 1800;
+const GPU_ARC_B580 = 2546;
+const GPU_RTX_5050 = 2300;
+const GPU_RX_7600 = 2500;
+const GPU_RTX_5060 = 3000;
+const GPU_RTX_5060_TI = 4500;
+const GPU_RX_9060_XT = 3500;
+const GPU_RX_9070 = 4400;
+const GPU_RX_9070_XT = 4400;
+const GPU_RTX_5070 = 5000;
+const GPU_RTX_5070_TI = 8000;
 
 const baseCases = [
  {name:"Carcasa ProGaming Vision Negru",price:0,image:"https://i.postimg.cc/Y9L0LTGx/image.png"},
@@ -791,10 +832,10 @@ const baseExtras = [
 
 const startGpuOrder = ["GTX 1060 6GB", "GTX 1660 6GB", "RX 580 8GB", "GTX 1660 Super 6GB"];
 const startGpuPrices = {
- "GTX 1060 6GB": 400,
- "GTX 1660 6GB": 400,
- "RX 580 8GB": 300,
- "GTX 1660 Super 6GB": 650
+ "GTX 1060 6GB": GPU_GTX_1060,
+ "GTX 1660 6GB": GPU_GTX_1660,
+ "RX 580 8GB": GPU_RX_580,
+ "GTX 1660 Super 6GB": GPU_GTX_1660_SUPER
 };
 function makeStartGpus(){
  return startGpuOrder.map(n => ({name: n, price: startGpuPrices[n]}));
@@ -802,12 +843,12 @@ function makeStartGpus(){
 
 const gamerGpuOrder = ["Intel Arc B570 10GB", "RTX 3050 8GB", "RTX 5050 8GB", "RX 7600 8GB", "Intel Arc B580 12GB", "RTX 3060 12GB"];
 const gamerGpuPrices = {
- "Intel Arc B570 10GB": 1800,
- "RTX 3050 8GB": 1500,
- "RTX 5050 8GB": 2300,
- "RX 7600 8GB": 2500,
- "Intel Arc B580 12GB": 2546,
- "RTX 3060 12GB": 2600
+ "Intel Arc B570 10GB": GPU_ARC_B570,
+ "RTX 3050 8GB": GPU_RTX_3050,
+ "RTX 5050 8GB": GPU_RTX_5050,
+ "RX 7600 8GB": GPU_RX_7600,
+ "Intel Arc B580 12GB": GPU_ARC_B580,
+ "RTX 3060 12GB": GPU_RTX_3060
 };
 function makeGamerGpus(){
  return gamerGpuOrder.map(n => ({name: n, price: gamerGpuPrices[n]}));
@@ -815,11 +856,11 @@ function makeGamerGpus(){
 
 const proGpuOrder = ["RTX 5060 8GB", "RTX 3060 12GB", "RX 9060 XT 16GB", "RX 9070 16GB", "RTX 5060 Ti 16GB"];
 const proGpuPrices = {
- "RTX 5060 8GB": 3000,
- "RTX 3060 12GB": 2600,
- "RX 9060 XT 16GB": 3500,
- "RX 9070 16GB": 4400,
- "RTX 5060 Ti 16GB": 4500
+ "RTX 5060 8GB": GPU_RTX_5060,
+ "RTX 3060 12GB": GPU_RTX_3060,
+ "RX 9060 XT 16GB": GPU_RX_9060_XT,
+ "RX 9070 16GB": GPU_RX_9070,
+ "RTX 5060 Ti 16GB": GPU_RTX_5060_TI
 };
 function makeProGpus(){
  return proGpuOrder.map(n => ({name: n, price: proGpuPrices[n]}));
@@ -827,11 +868,11 @@ function makeProGpus(){
 
 const ultimateGpuOrder = ["RTX 5070 12GB", "RX 9070 16GB", "RX 9070 XT 16GB", "RTX 5060 Ti 16GB", "RTX 5070 Ti 16GB"];
 const ultimateGpuPrices = {
- "RTX 5070 12GB": 5000,
- "RX 9070 16GB": 4400,
- "RX 9070 XT 16GB": 4400,
- "RTX 5060 Ti 16GB": 4500,
- "RTX 5070 Ti 16GB": 8000
+ "RTX 5070 12GB": GPU_RTX_5070,
+ "RX 9070 16GB": GPU_RX_9070,
+ "RX 9070 XT 16GB": GPU_RX_9070_XT,
+ "RTX 5060 Ti 16GB": GPU_RTX_5060_TI,
+ "RTX 5070 Ti 16GB": GPU_RTX_5070_TI
 };
 function makeUltimateGpus(){
  return ultimateGpuOrder.map(n => ({name: n, price: ultimateGpuPrices[n]}));
@@ -849,37 +890,37 @@ const data = [
    config:[
     {
      name:"AMD Ryzen 5 3600 + GTX 1060 6GB",
-     price:372 + 400 + MOBO_AM4_CHEAP + BASE_RAM_16GB + BASE_SSD_500GB + PSU_550W + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     price:CPU_R5_3600 + GPU_GTX_1060 + MOBO_AM4_CHEAP + RAM_16GB_DDR4 + SSD_500GB + PSU_550W + BASE_COOLER_PRICE + PROFIT_MARGIN,
      defaultGpu:"GTX 1060 6GB",
      gpuOptions:makeStartGpus()
     },
     {
      name:"AMD Ryzen 5 3600 + GTX 1660 6GB",
-     price:372 + 400 + MOBO_AM4_CHEAP + BASE_RAM_16GB + BASE_SSD_500GB + PSU_550W + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     price:CPU_R5_3600 + GPU_GTX_1660 + MOBO_AM4_CHEAP + RAM_16GB_DDR4 + SSD_500GB + PSU_550W + BASE_COOLER_PRICE + PROFIT_MARGIN,
      defaultGpu:"GTX 1660 6GB",
      gpuOptions:makeStartGpus()
     },
     {
      name:"AMD Ryzen 5 5500 + RX 580 8GB",
-     price:500 + 300 + MOBO_AM4_CHEAP + BASE_RAM_16GB + BASE_SSD_500GB + PSU_550W + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     price:CPU_R5_5500 + GPU_RX_580 + MOBO_AM4_CHEAP + RAM_16GB_DDR4 + SSD_500GB + PSU_550W + BASE_COOLER_PRICE + PROFIT_MARGIN,
      defaultGpu:"RX 580 8GB",
      gpuOptions:makeStartGpus()
     },
     {
      name:"AMD Ryzen 5 5500 + GTX 1660 Super 6GB",
-     price:500 + 650 + MOBO_AM4_CHEAP + BASE_RAM_16GB + BASE_SSD_500GB + PSU_550W + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     price:CPU_R5_5500 + GPU_GTX_1660_SUPER + MOBO_AM4_CHEAP + RAM_16GB_DDR4 + SSD_500GB + PSU_550W + BASE_COOLER_PRICE + PROFIT_MARGIN,
      defaultGpu:"GTX 1660 Super 6GB",
      gpuOptions:makeStartGpus()
     }
    ],
    gpu:[],
    ram:[
-    {name:"16GB (2x8GB) DDR4 3200MHz",price:450,includedInBase:true},
-    {name:"32GB (2x16GB) DDR4 3200MHz",price:850,includedInBase:false}
+    {name:"16GB (2x8GB) DDR4 3200MHz",price:RAM_16GB_DDR4,includedInBase:true},
+    {name:"32GB (2x16GB) DDR4 3200MHz",price:RAM_32GB_DDR4,includedInBase:false}
    ],
    ssd:[
-    {name:"500GB M.2 NVMe",price:300,includedInBase:true},
-    {name:"1TB M.2 NVMe",price:450,includedInBase:false}
+    {name:"500GB M.2 NVMe",price:SSD_500GB,includedInBase:true},
+    {name:"1TB M.2 NVMe",price:SSD_1TB,includedInBase:false}
    ],
    case:JSON.parse(JSON.stringify(baseCases)),
    cooler:JSON.parse(JSON.stringify(baseCoolers)),
@@ -889,7 +930,7 @@ const data = [
  {
   id:"gamer",
   name:"Er1k Gamer",
-  description:"Performanță excelentă pentru gaming Full HD și QHD (16GB DDR4 + 500GB NVMe + Minifreeze).",
+  description:"Performanță excelentă pentru gaming Full HD și QHD (16GB DDR4 + 1TB NVMe + Minifreeze).",
   price:0,
   cardBadge:"",
   image:"https://i.postimg.cc/B62s03PF/image.png",
@@ -897,38 +938,37 @@ const data = [
    config:[
     {
      name:"AMD Ryzen 5 5500 + Intel Arc B570 10GB",
-     price:500 + 1800 + MOBO_AM4_CHEAP + BASE_RAM_16GB + BASE_SSD_500GB + PSU_650W + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     price:CPU_R5_5500 + GPU_ARC_B570 + MOBO_AM4_CHEAP + RAM_16GB_DDR4 + SSD_1TB + PSU_550W + BASE_COOLER_PRICE + PROFIT_MARGIN,
      defaultGpu:"Intel Arc B570 10GB",
      gpuOptions:makeGamerGpus()
     },
     {
      name:"AMD Ryzen 5 5600 + RTX 3050 8GB",
-     price:600 + 1500 + MOBO_AM4_CHEAP + BASE_RAM_16GB + BASE_SSD_500GB + PSU_650W + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     price:CPU_R5_5600 + GPU_RTX_3050 + MOBO_AM4_CHEAP + RAM_16GB_DDR4 + SSD_1TB + PSU_550W + BASE_COOLER_PRICE + PROFIT_MARGIN,
      defaultGpu:"RTX 3050 8GB",
      gpuOptions:makeGamerGpus()
     },
     {
      name:"Intel Core i5-12400F + RTX 5050 8GB",
-     price:659 + 2300 + MOBO_INTEL_ENTRY + BASE_RAM_16GB + BASE_SSD_500GB + PSU_650W + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     price:CPU_I5_12400F + GPU_RTX_5050 + MOBO_INTEL_ENTRY + RAM_16GB_DDR4 + SSD_1TB + PSU_550W + BASE_COOLER_PRICE + PROFIT_MARGIN,
      defaultGpu:"RTX 5050 8GB",
      gpuOptions:makeGamerGpus()
     },
     {
      name:"Intel Core i5-12400F + RX 7600 8GB",
-     price:659 + 2500 + MOBO_INTEL_ENTRY + BASE_RAM_16GB + BASE_SSD_500GB + PSU_650W + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     price:CPU_I5_12400F + GPU_RX_7600 + MOBO_INTEL_ENTRY + RAM_16GB_DDR4 + SSD_1TB + PSU_550W + BASE_COOLER_PRICE + PROFIT_MARGIN,
      defaultGpu:"RX 7600 8GB",
      gpuOptions:makeGamerGpus()
     }
    ],
    gpu:[],
    ram:[
-    {name:"16GB (2x8GB) DDR4 3200MHz",price:450,includedInBase:true},
-    {name:"32GB (2x16GB) DDR4 3200MHz",price:850,includedInBase:false}
+    {name:"16GB (2x8GB) DDR4 3200MHz",price:RAM_16GB_DDR4,includedInBase:true},
+    {name:"32GB (2x16GB) DDR4 3200MHz",price:RAM_32GB_DDR4,includedInBase:false}
    ],
    ssd:[
-    {name:"500GB M.2 NVMe",price:300,includedInBase:true},
-    {name:"1TB M.2 NVMe",price:450,includedInBase:false},
-    {name:"2TB M.2 NVMe",price:1500,includedInBase:false}
+    {name:"1TB M.2 NVMe",price:SSD_1TB,includedInBase:true},
+    {name:"2TB M.2 NVMe",price:SSD_2TB,includedInBase:false}
    ],
    case:JSON.parse(JSON.stringify(baseCases)),
    cooler:JSON.parse(JSON.stringify(baseCoolers)),
@@ -938,7 +978,7 @@ const data = [
  {
   id:"pro",
   name:"Er1k Pro",
-  description:"Putere suplimentară pentru gaming și multitasking (16GB DDR4 / 32GB DDR5 + 500GB NVMe + Minifreeze).",
+  description:"Putere suplimentară pentru gaming și multitasking (16GB DDR4 / 32GB DDR5 + 1TB NVMe + Minifreeze).",
   price:0,
   cardBadge:"",
   image:"https://i.postimg.cc/ZnDwsBYP/image.png",
@@ -946,39 +986,38 @@ const data = [
    config:[
     {
      name:"AMD Ryzen 7 5700X + RTX 5060 8GB",
-     price:800 + 3000 + MOBO_AM4_CHEAP + BASE_RAM_16GB + BASE_SSD_500GB + PSU_750W + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     price:CPU_R7_5700X + GPU_RTX_5060 + MOBO_AM4_CHEAP + RAM_16GB_DDR4 + SSD_1TB + PSU_650W + BASE_COOLER_PRICE + PROFIT_MARGIN,
      defaultGpu:"RTX 5060 8GB",
      gpuOptions:makeProGpus()
     },
     {
      name:"AMD Ryzen 5 7600 + RX 9060 XT 16GB (AM5 DDR5)",
-     price:932 + 3500 + MOBO_AM5_DDR5 + BASE_RAM_32GB_DDR5 + BASE_SSD_500GB + PSU_750W + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     price:CPU_R5_7600 + GPU_RX_9060_XT + MOBO_AM5_DDR5 + RAM_32GB_DDR5 + SSD_1TB + PSU_650W + BASE_COOLER_PRICE + PROFIT_MARGIN,
      defaultGpu:"RX 9060 XT 16GB",
      gpuOptions:makeProGpus()
     },
     {
      name:"Intel Core i5-14400F + RTX 5060 Ti 16GB",
-     price:771 + 4500 + MOBO_INTEL_B760 + BASE_RAM_16GB + BASE_SSD_500GB + PSU_750W + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     price:CPU_I5_14400F + GPU_RTX_5060_TI + MOBO_INTEL_B760 + RAM_16GB_DDR4 + SSD_1TB + PSU_650W + BASE_COOLER_PRICE + PROFIT_MARGIN,
      defaultGpu:"RTX 5060 Ti 16GB",
      gpuOptions:makeProGpus()
     },
     {
      name:"AMD Ryzen 5 7600 + RX 9070 16GB (AM5 DDR5)",
-     price:932 + 4400 + MOBO_AM5_DDR5 + BASE_RAM_32GB_DDR5 + BASE_SSD_500GB + PSU_750W + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     price:CPU_R5_7600 + GPU_RX_9070 + MOBO_AM5_DDR5 + RAM_32GB_DDR5 + SSD_1TB + PSU_650W + BASE_COOLER_PRICE + PROFIT_MARGIN,
      defaultGpu:"RX 9070 16GB",
      gpuOptions:makeProGpus()
     }
    ],
    gpu:[],
    ram:[
-    {name:"16GB (2x8GB) DDR4 3200MHz",price:450,includedInBase:true},
-    {name:"32GB (2x16GB) DDR4 3200MHz",price:850,includedInBase:false},
-    {name:"32GB (2x16GB) DDR5 6000MHz",price:2550,includedInBase:false}
+    {name:"16GB (2x8GB) DDR4 3200MHz",price:RAM_16GB_DDR4,includedInBase:true},
+    {name:"32GB (2x16GB) DDR4 3200MHz",price:RAM_32GB_DDR4,includedInBase:false},
+    {name:"32GB (2x16GB) DDR5 6000MHz",price:RAM_32GB_DDR5,includedInBase:false}
    ],
    ssd:[
-    {name:"500GB M.2 NVMe",price:300,includedInBase:true},
-    {name:"1TB M.2 NVMe",price:450,includedInBase:false},
-    {name:"2TB M.2 NVMe",price:1500,includedInBase:false}
+    {name:"1TB M.2 NVMe",price:SSD_1TB,includedInBase:true},
+    {name:"2TB M.2 NVMe",price:SSD_2TB,includedInBase:false}
    ],
    case:JSON.parse(JSON.stringify(baseCases)),
    cooler:JSON.parse(JSON.stringify(baseCoolers)),
@@ -988,7 +1027,7 @@ const data = [
  {
   id:"ultimate",
   name:"Er1k Ultimate",
-  description:"High-end sistem pentru performanță fără compromisuri (DDR5 6000MHz + 500GB NVMe + Minifreeze).",
+  description:"High-end sistem pentru performanță fără compromisuri (DDR5 6000MHz + 1TB NVMe + Minifreeze).",
   price:0,
   cardBadge:"",
   image:"https://i.postimg.cc/Y9L0LTGx/image.png",
@@ -996,38 +1035,37 @@ const data = [
    config:[
     {
      name:"AMD Ryzen 7 7800X3D + RTX 5070 12GB",
-     price:1549 + 5000 + MOBO_AM5_DDR5 + BASE_RAM_32GB_DDR5 + BASE_SSD_500GB + PSU_850W + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     price:CPU_R7_7800X3D + GPU_RTX_5070 + MOBO_AM5_DDR5 + RAM_32GB_DDR5 + SSD_1TB + PSU_850W + BASE_COOLER_PRICE + PROFIT_MARGIN,
      defaultGpu:"RTX 5070 12GB",
      gpuOptions:makeUltimateGpus()
     },
     {
      name:"AMD Ryzen 7 7800X3D + RX 9070 XT 16GB",
-     price:1549 + 4400 + MOBO_AM5_DDR5 + BASE_RAM_32GB_DDR5 + BASE_SSD_500GB + PSU_850W + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     price:CPU_R7_7800X3D + GPU_RX_9070_XT + MOBO_AM5_DDR5 + RAM_32GB_DDR5 + SSD_1TB + PSU_850W + BASE_COOLER_PRICE + PROFIT_MARGIN,
      defaultGpu:"RX 9070 XT 16GB",
      gpuOptions:makeUltimateGpus()
     },
     {
      name:"Intel Core i7-14700KF + RTX 5070 12GB",
-     price:1885 + 5000 + MOBO_INTEL_DDR5 + BASE_RAM_32GB_DDR5 + BASE_SSD_500GB + PSU_850W + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     price:CPU_I7_14700KF + GPU_RTX_5070 + MOBO_INTEL_DDR5 + RAM_32GB_DDR5 + SSD_1TB + PSU_850W + BASE_COOLER_PRICE + PROFIT_MARGIN,
      defaultGpu:"RTX 5070 12GB",
      gpuOptions:makeUltimateGpus()
     },
     {
      name:"AMD Ryzen 7 9800X3D + RTX 5070 Ti 16GB (1000W)",
-     price:2124 + 8000 + MOBO_AM5_DDR5 + BASE_RAM_32GB_DDR5 + BASE_SSD_500GB + PSU_1000W + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     price:CPU_R7_9800X3D + GPU_RTX_5070_TI + MOBO_AM5_DDR5 + RAM_32GB_DDR5 + SSD_1TB + PSU_1000W + BASE_COOLER_PRICE + PROFIT_MARGIN,
      defaultGpu:"RTX 5070 Ti 16GB",
      gpuOptions:makeUltimateGpus()
     }
    ],
    gpu:[],
    ram:[
-    {name:"16GB (2x8GB) DDR4 3200MHz",price:450,includedInBase:true},
-    {name:"32GB (2x16GB) DDR5 6000MHz",price:2550,includedInBase:false}
+    {name:"16GB (2x8GB) DDR4 3200MHz",price:RAM_16GB_DDR4,includedInBase:true},
+    {name:"32GB (2x16GB) DDR5 6000MHz",price:RAM_32GB_DDR5,includedInBase:false}
    ],
    ssd:[
-    {name:"500GB M.2 NVMe",price:300,includedInBase:true},
-    {name:"1TB M.2 NVMe",price:450,includedInBase:false},
-    {name:"2TB M.2 NVMe",price:1500,includedInBase:false}
+    {name:"1TB M.2 NVMe",price:SSD_1TB,includedInBase:true},
+    {name:"2TB M.2 NVMe",price:SSD_2TB,includedInBase:false}
    ],
    case:JSON.parse(JSON.stringify(baseCases)),
    cooler:JSON.parse(JSON.stringify(baseCoolers)),
@@ -1053,6 +1091,10 @@ function isConfigDdr5Base(cfg){
  return n.includes("7600") || n.includes("7800x3d") || n.includes("9800x3d") || n.includes("14700kf");
 }
 
+function getBaseSsdPriceForPc(pc){
+ return pc?.id === "start" ? SSD_500GB : SSD_1TB;
+}
+
 function isBaseIncludedOption(key, opt, pc, cfgIdx = 0){
  if(!opt) return false;
  const n = String(opt.name || "").toLowerCase();
@@ -1064,7 +1106,10 @@ function isBaseIncludedOption(key, opt, pc, cfgIdx = 0){
   return n.startsWith("16gb");
  }
  if(key === "ssd"){
-  return n.startsWith("500gb") && n.includes("nvme");
+  if(pc?.id === "start"){
+   return n.startsWith("500gb") && n.includes("nvme");
+  }
+  return n.startsWith("1tb") && n.includes("nvme");
  }
  if(key === "case"){
   return (Number(opt.price) || 0) === 0;
@@ -1125,9 +1170,14 @@ function getOptionAddOnPrice(key, opt, pc, cfgIdx = 0, idx = 0){
  }
  if(key === "ram"){
   const cfg = pc?.components?.config?.[cfgIdx] || pc?.components?.config?.[0];
-  const baseRamPrice = isConfigDdr5Base(cfg) ? BASE_RAM_32GB_DDR5 : BASE_RAM_16GB;
+  const baseRamPrice = isConfigDdr5Base(cfg) ? RAM_32GB_DDR5 : RAM_16GB_DDR4;
   if(isBaseIncludedOption("ram", opt, pc, cfgIdx)) return 0;
   return (Number(opt.price) || 0) - baseRamPrice;
+ }
+ if(key === "ssd"){
+  const baseSsdPrice = getBaseSsdPriceForPc(pc);
+  if(isBaseIncludedOption("ssd", opt, pc, cfgIdx)) return 0;
+  return (Number(opt.price) || 0) - baseSsdPrice;
  }
  if(isBaseIncludedOption(key, opt, pc, cfgIdx)){
   return 0;
