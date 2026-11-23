@@ -566,8 +566,8 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
  .model-switcher{width:100%;display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
  .model-pill{padding:9px 10px;text-align:center;font-size:12px}
 
- .config-board{grid-template-columns:1fr;gap:14px}
- .zone-col,.zone-group,.center-stack{gap:14px;order:0}
+ .config-board{display:flex;flex-direction:column;gap:14px}
+ .zone-col,.zone-group,.center-stack{display:flex;flex-direction:column;gap:14px}
 
  .pc-stage{padding:16px;border-radius:15px}
  .stage-image{aspect-ratio:1 / 1;max-height:310px;margin:10px 0 12px;border-radius:12px}
@@ -677,14 +677,14 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
    <div class="model-switcher" id="modelSwitcher"></div>
   </div>
 
-  <div class="config-board">
-   <div class="zone-col">
+  <div class="config-board" id="configBoard">
+   <div class="zone-col" id="leftCol">
     <div id="topLeftComponents" class="zone-group"></div>
     <div id="bottomLeftComponents" class="zone-group"></div>
    </div>
 
-   <div class="center-stack">
-    <div class="pc-stage">
+   <div class="center-stack" id="centerStack">
+    <div class="pc-stage" id="pcStage">
      <div class="stage-label">CARCASĂ</div>
      <img class="stage-image" id="stageImage" src="" alt="PC case">
      <div class="stage-name" id="stageCaseName">PC Case</div>
@@ -693,7 +693,7 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 
     <div class="spec-strip-box" id="specStripBox"></div>
 
-    <div class="price-panel">
+    <div class="price-panel" id="pricePanel">
      <h3>Rezumat configurație</h3>
      <div id="summary"></div>
      <div class="summary-total">
@@ -707,7 +707,7 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
     <div id="bottomCenterComponents" class="zone-group"></div>
    </div>
 
-   <div class="zone-col">
+   <div class="zone-col" id="rightCol">
     <div id="topRightComponents" class="zone-group"></div>
    </div>
   </div>
@@ -722,7 +722,7 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 </footer>
 
 <script>
-const SEL_KEY = "er1k_pc_per_config_gpu_sel_v12";
+const SEL_KEY = "er1k_pc_per_config_gpu_sel_v13";
 const WHATSAPP_NUMBER = "40771103552";
 const tierLabels = ["01 · START", "02 · GAMER", "03 · PRO TIER", "04 · ULTIMATE"];
 
@@ -779,7 +779,7 @@ const baseCoolers = [
 ];
 
 const baseExtras = [
- {name:"+500GB SATA SSD",price:450,allowQty:false},
+ {name:"+500GB SATA SSD",price:450,image:"https://i.postimg.cc/HsfP5hZk/image.png",allowQty:false},
  {name:"Placa de retea Wireless Bluetooth 5.2, Wi-Fi 6",price:180,image:"https://i.postimg.cc/qMYxS6yG/image.png",allowQty:false},
  {name:"Placa de retea Wireless Bluetooth 5.2, Wi-Fi 6",price:150,image:"https://i.postimg.cc/x88LF9dR/image.png",allowQty:false},
  {name:"Ventilator Carcasă Negru ARGB",price:25,unit:"BUC",image:"https://i.postimg.cc/Jtwtc8H3/image.png",allowQty:true,qtyOptions:[1,2,3,4,6]},
@@ -1314,6 +1314,53 @@ function renderModelSwitcher(){
  `).join("");
 }
 
+function restoreDesktopBoardStructure(){
+ const board = document.getElementById("configBoard");
+ const leftCol = document.getElementById("leftCol");
+ const centerStack = document.getElementById("centerStack");
+ const rightCol = document.getElementById("rightCol");
+ const topLeft = document.getElementById("topLeftComponents");
+ const bottomLeft = document.getElementById("bottomLeftComponents");
+ const topRight = document.getElementById("topRightComponents");
+ const bottomCenter = document.getElementById("bottomCenterComponents");
+ const stage = document.getElementById("pcStage");
+ const specStrip = document.getElementById("specStripBox");
+ const pricePanel = document.getElementById("pricePanel");
+
+ if(!board || !leftCol || !centerStack || !rightCol) return;
+
+ if(topLeft.parentElement !== leftCol) leftCol.appendChild(topLeft);
+ if(bottomLeft.parentElement !== leftCol) leftCol.appendChild(bottomLeft);
+ if(topRight.parentElement !== rightCol) rightCol.appendChild(topRight);
+
+ if(stage.parentElement !== centerStack) centerStack.appendChild(stage);
+ if(specStrip.parentElement !== centerStack) centerStack.appendChild(specStrip);
+ if(pricePanel.parentElement !== centerStack) centerStack.appendChild(pricePanel);
+ if(bottomCenter.parentElement !== centerStack) centerStack.appendChild(bottomCenter);
+
+ if(leftCol.parentElement !== board) board.appendChild(leftCol);
+ if(centerStack.parentElement !== board) board.appendChild(centerStack);
+ if(rightCol.parentElement !== board) board.appendChild(rightCol);
+}
+
+function arrangeMobileBoardStructure(pc){
+ const board = document.getElementById("configBoard");
+ const stage = document.getElementById("pcStage");
+ const specStrip = document.getElementById("specStripBox");
+ const pricePanel = document.getElementById("pricePanel");
+ if(!board || !stage || !specStrip || !pricePanel) return;
+
+ const mobileOrder = ["config", "gpu", "ram", "ssd", "case", "cooler"];
+ const boxesHtml = mobileOrder.map(k => renderComponentBox(k, pc)).join("");
+
+ board.innerHTML =
+  boxesHtml +
+  stage.outerHTML +
+  specStrip.outerHTML +
+  pricePanel.outerHTML +
+  renderComponentBox("extra", pc);
+}
+
 function renderConfig(){
  const pc=data[activePC];
  if(!pc)return;
@@ -1347,11 +1394,9 @@ function renderConfig(){
  const isMobile = window.innerWidth <= 760;
 
  if(isMobile){
-  document.getElementById("topLeftComponents").innerHTML=["config","gpu","ram","ssd"].map(k=>renderComponentBox(k,pc)).join("");
-  document.getElementById("bottomLeftComponents").innerHTML=["case","cooler"].map(k=>renderComponentBox(k,pc)).join("");
-  document.getElementById("topRightComponents").innerHTML="";
-  document.getElementById("bottomCenterComponents").innerHTML=["extra"].map(k=>renderComponentBox(k,pc)).join("");
+  arrangeMobileBoardStructure(pc);
  }else{
+  restoreDesktopBoardStructure();
   document.getElementById("topLeftComponents").innerHTML=["config","gpu"].map(k=>renderComponentBox(k,pc)).join("");
   document.getElementById("bottomLeftComponents").innerHTML=["case"].map(k=>renderComponentBox(k,pc)).join("");
   document.getElementById("topRightComponents").innerHTML=["ram","ssd","cooler"].map(k=>renderComponentBox(k,pc)).join("");
