@@ -385,51 +385,6 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
   place-items:center;
 }
 
-.choice.brand-blue{
-  border-color:#3b82f6;
-  background:linear-gradient(160deg,#122242,#121726);
-}
-.choice.brand-blue:hover{
-  border-color:#60a5fa;
-  background:linear-gradient(160deg,#172c56,#161d30);
-}
-.choice.brand-blue.selected{
-  border:2px solid #60a5fa;
-  padding:12px;
-  box-shadow:0 0 22px #3b82f644;
-}
-.choice.brand-blue.selected::after{background:#2563eb}
-
-.choice.brand-red{
-  border-color:#6e323d;
-  background:linear-gradient(160deg,#1e1418,#14131b);
-}
-.choice.brand-red:hover{
-  border-color:#8c4250;
-  background:linear-gradient(160deg,#26181e,#181620);
-}
-.choice.brand-red.selected{
-  border:2px solid #9e4b5b;
-  padding:12px;
-  box-shadow:0 0 14px #6e323d2b;
-}
-.choice.brand-red.selected::after{background:#7d3946}
-
-.choice.brand-green{
-  border-color:#22c55e;
-  background:linear-gradient(160deg,#113322,#11191e);
-}
-.choice.brand-green:hover{
-  border-color:#4ade80;
-  background:linear-gradient(160deg,#16422c,#152026);
-}
-.choice.brand-green.selected{
-  border:2px solid #4ade80;
-  padding:12px;
-  box-shadow:0 0 22px #22c55e44;
-}
-.choice.brand-green.selected::after{background:#16a34a}
-
 .choice img{
   width:100%;
   height:105px;
@@ -840,11 +795,14 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 
 <script>
 const _b = [101,114,49,107,50,48,50,54];
-const KEY = "er1k_pc_per_config_gpu_v4";
-const SEL_KEY = "er1k_pc_per_config_gpu_sel_v4";
-const LEGACY_KEYS = [];
+const KEY = "er1k_pc_per_config_gpu_v5";
+const SEL_KEY = "er1k_pc_per_config_gpu_sel_v5";
+const LEGACY_KEYS = ["er1k_pc_per_config_gpu_v4"];
 const WHATSAPP_NUMBER = "40771103552";
 const tierLabels = ["01 · START", "02 · GAMER", "03 · PRO TIER", "04 · ULTIMATE"];
+
+const PROFIT_MARGIN = 750;
+const BASE_COOLER_PRICE = 90;
 
 function _matchCode(val){
  const s = String(val||"");
@@ -855,11 +813,93 @@ function _matchCode(val){
  return true;
 }
 
+const baseCases = [
+ {name:"Carcasa ProGaming Vision Negru",price:0,image:"https://i.postimg.cc/Y9L0LTGx/image.png"},
+ {name:"Carcasa ProGaming Vision Alb",price:10,image:"https://i.postimg.cc/SQ8jSFbP/image.png"},
+ {name:"Carcasa ProGaming Alma, Alb",price:30,image:"https://i.postimg.cc/XY2YHn97/image.png"},
+ {name:"Carcasa ProGaming Alma, Negru",price:30,image:"https://i.postimg.cc/XJ5NYFmP/image.png"},
+ {name:"Carcasa ProGaming Element, Negru",price:45,image:"https://i.postimg.cc/qvZpcjdC/image.png"},
+ {name:"Carcasa ProGaming Hive, Negru",price:60,image:"https://i.postimg.cc/B62s03PF/image.png"},
+ {name:"Carcasa ProGaming Bastion, Alb",price:70,image:"https://i.postimg.cc/wMVp1kVj/image.png"},
+ {name:"Carcasa ProGaming Diamond, Alb",price:75,image:"https://i.postimg.cc/L8hpsLZ8/image.png"},
+ {name:"Carcasa ProGaming Diamond, Negru",price:75,image:"https://i.postimg.cc/RhMrxHBx/image.png"},
+ {name:"Carcasa ProGaming Hive, Alb",price:80,image:"https://i.postimg.cc/MKPCgHr6/image.png"},
+ {name:"Carcasa ProGaming Triple X, Negru",price:90,image:"https://i.postimg.cc/vTPKR2hh/image.png"},
+ {name:"Carcasa ProGaming Ambra, Negru",price:115,image:"https://i.postimg.cc/pXT7QxVw/image.png"},
+ {name:"Carcasa ProGaming Ambra, Alb",price:115,image:"https://i.postimg.cc/1zxjZq0z/image.png"},
+ {name:"Carcasa ProGaming Kian, Alb",price:170,image:"https://i.postimg.cc/63cjRbkX/image.png"},
+ {name:"Carcasa ProGaming Kian, Negru",price:195,image:"https://i.postimg.cc/ZnDwsBYP/image.png"},
+ {name:"Carcasa ProGaming Kian V2, Negru",price:0,image:"https://i.postimg.cc/xTcxJRgh/image.png"},
+ {name:"Carcasa ProGaming Kian V2, Alb",price:210,image:"https://i.postimg.cc/02FtpwB0/image.png"},
+ {name:"Carcasa ProGaming Banshee, Negru",price:255,image:"https://i.postimg.cc/gcB4Whds/image.png"},
+ {name:"Carcasa ProGaming Banshee, Alb",price:280,image:"https://i.postimg.cc/Cxb4k68C/image.png"}
+];
+
+const baseCoolers = [
+ {name:"Cooler CPU ProGaming Standard (90 RON)",price:90,image:""},
+ {name:"Cooler CPU ProGaming CoreFrost",price:95,image:"https://i.postimg.cc/sxXrZh0Y/image.png"},
+ {name:"Cooler CPU ProGaming Minifreeze",price:60,image:"https://i.postimg.cc/Y0swNC5c/image.png"},
+ {name:"Cooler CPU AIO ProGaming Ice View 360",price:269,image:"https://i.postimg.cc/BQj3S2Fx/image.png"},
+ {name:"Cooler CPU ProGaming CoreView S6",price:200,image:"https://i.postimg.cc/j2CpjrDR/image.png"},
+ {name:"Cooler CPU ProGaming ThermoGuard DTX",price:150,image:"https://i.postimg.cc/Dy4VknVZ/image.png"},
+ {name:"Cooler CPU AIO ProGaming Glacier View 360",price:450,image:"https://i.postimg.cc/5t3Tqtzs/image.png"},
+ {name:"Cooler CPU ProGaming TwinStorm X6",price:140,image:"https://i.postimg.cc/BZyyCk8b/image.png"},
+ {name:"Cooler CPU AIO ProGaming IcePulse360",price:375,image:"https://i.postimg.cc/3xjcYwt0/image.png"},
+ {name:"Cooler, Enermax, AIO, Aquafusion II, 240mm",price:222,image:"https://i.postimg.cc/4NpgHsWr/image.png"}
+];
+
 /*
- * Minden opció saját önálló árát (`price`) mutatja (nem "+ ... RON" és nem "Inclus în preț").
- * A CONFIG elemeknél a `price` a teljes alapkonfiguráció ára.
- * A GPU opcióknál a `price` az adott videokártya önálló ára; a végösszeg az alapkonfig GPU-jához képesti különbséggel módosul.
+ * Bázisárak: tartalmazza a megadott konfigurációkat + 16GB RAM (450) + 500GB NVMe (300) + legolcsóbb ház (0) + 90 RON hűtő (90) + 750 RON profit.
+ * A GPU opciók sorrendje minden configban azonos és fix (nem ugrál).
  */
+const startGpuOrder = ["GTX 1060 6GB", "GTX 1660 6GB", "RX 580 8GB", "GTX 1660 Super 6GB"];
+const startGpuPrices = {
+ "GTX 1060 6GB": 400,
+ "GTX 1660 6GB": 400,
+ "RX 580 8GB": 300,
+ "GTX 1660 Super 6GB": 650
+};
+function makeStartGpus(){
+ return startGpuOrder.map(n => ({name: n, price: startGpuPrices[n]}));
+}
+
+const gamerGpuOrder = ["Intel Arc B570 10GB", "RTX 3050 8GB", "RTX 5050 8GB", "RX 7600 8GB", "Intel Arc B580 12GB", "RTX 3060 12GB"];
+const gamerGpuPrices = {
+ "Intel Arc B570 10GB": 1800,
+ "RTX 3050 8GB": 1500,
+ "RTX 5050 8GB": 2300,
+ "RX 7600 8GB": 2500,
+ "Intel Arc B580 12GB": 2546,
+ "RTX 3060 12GB": 2600
+};
+function makeGamerGpus(){
+ return gamerGpuOrder.map(n => ({name: n, price: gamerGpuPrices[n]}));
+}
+
+const proGpuOrder = ["RTX 5060 8GB", "RTX 3060 12GB", "RX 9060 XT 16GB", "RX 9070 16GB", "RTX 5060 Ti 16GB"];
+const proGpuPrices = {
+ "RTX 5060 8GB": 3000,
+ "RTX 3060 12GB": 2600,
+ "RX 9060 XT 16GB": 3500,
+ "RX 9070 16GB": 4400,
+ "RTX 5060 Ti 16GB": 4500
+};
+function makeProGpus(){
+ return proGpuOrder.map(n => ({name: n, price: proGpuPrices[n]}));
+}
+
+const ultimateGpuOrder = ["RTX 5070 12GB", "RX 9070 16GB", "RX 9070 XT 16GB", "RTX 5060 Ti 16GB", "RTX 5070 Ti 16GB"];
+const ultimateGpuPrices = {
+ "RTX 5070 12GB": 5000,
+ "RX 9070 16GB": 4400,
+ "RX 9070 XT 16GB": 4400,
+ "RTX 5060 Ti 16GB": 4500,
+ "RTX 5070 Ti 16GB": 8000
+};
+function makeUltimateGpus(){
+ return ultimateGpuOrder.map(n => ({name: n, price: ultimateGpuPrices[n]}));
+}
+
 const defaultData = [
  {
   id:"start",
@@ -871,79 +911,41 @@ const defaultData = [
   components:{
    config:[
     {
-     name:"Start 1: AMD Ryzen 5 3600 + GTX 1060 6GB",
-     price:2222,
-     gpuOptions:[
-      {name:"GTX 1060 6GB",price:400},
-      {name:"RX 580 8GB",price:300},
-      {name:"GTX 1660 6GB",price:400},
-      {name:"GTX 1660 Super 6GB",price:650}
-     ]
+     name:"AMD Ryzen 5 3600 + GTX 1060 6GB",
+     price:2222 + 450 + 300 + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     defaultGpu:"GTX 1060 6GB",
+     gpuOptions:makeStartGpus()
     },
     {
-     name:"Start 2: AMD Ryzen 5 3600 + GTX 1660 6GB",
-     price:2222,
-     gpuOptions:[
-      {name:"GTX 1660 6GB",price:400},
-      {name:"RX 580 8GB",price:300},
-      {name:"GTX 1060 6GB",price:400},
-      {name:"GTX 1660 Super 6GB",price:650}
-     ]
+     name:"AMD Ryzen 5 3600 + GTX 1660 6GB",
+     price:2222 + 450 + 300 + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     defaultGpu:"GTX 1660 6GB",
+     gpuOptions:makeStartGpus()
     },
     {
-     name:"Start 3: AMD Ryzen 5 5500 + RX 580 8GB",
-     price:2250,
-     gpuOptions:[
-      {name:"RX 580 8GB",price:300},
-      {name:"GTX 1060 6GB",price:400},
-      {name:"GTX 1660 6GB",price:400},
-      {name:"GTX 1660 Super 6GB",price:650}
-     ]
+     name:"AMD Ryzen 5 5500 + RX 580 8GB",
+     price:2250 + 450 + 300 + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     defaultGpu:"RX 580 8GB",
+     gpuOptions:makeStartGpus()
     },
     {
-     name:"Start 4: AMD Ryzen 5 5500 + GTX 1660 Super 6GB",
-     price:2600,
-     gpuOptions:[
-      {name:"GTX 1660 Super 6GB",price:650},
-      {name:"RX 580 8GB",price:300},
-      {name:"GTX 1060 6GB",price:400},
-      {name:"GTX 1660 6GB",price:400}
-     ]
+     name:"AMD Ryzen 5 5500 + GTX 1660 Super 6GB",
+     price:2600 + 450 + 300 + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     defaultGpu:"GTX 1660 Super 6GB",
+     gpuOptions:makeStartGpus()
     }
    ],
    gpu:[],
    ram:[
-    {name:"16GB (2x8GB) DDR4 3200MHz",price:450},
-    {name:"32GB (2x16GB) DDR4 3200MHz",price:850}
+    {name:"16GB (2x8GB) DDR4 3200MHz",price:450,includedInBase:true},
+    {name:"32GB (2x16GB) DDR4 3200MHz",price:850,includedInBase:false}
    ],
    ssd:[
-    {name:"500GB M.2 NVMe",price:300},
-    {name:"1TB M.2 NVMe",price:450}
+    {name:"500GB M.2 NVMe",price:300,includedInBase:true},
+    {name:"1TB M.2 NVMe",price:450,includedInBase:false}
    ],
-   case:[
-    {name:"Carcasa ProGaming Vision Negru",price:0,image:"https://i.postimg.cc/Y9L0LTGx/image.png"},
-    {name:"Carcasa ProGaming Vision Alb",price:10,image:"https://i.postimg.cc/SQ8jSFbP/image.png"},
-    {name:"Carcasa ProGaming Alma, Alb",price:30,image:"https://i.postimg.cc/XY2YHn97/image.png"},
-    {name:"Carcasa ProGaming Alma, Negru",price:30,image:"https://i.postimg.cc/XJ5NYFmP/image.png"},
-    {name:"Carcasa ProGaming Element, Negru",price:45,image:"https://i.postimg.cc/qvZpcjdC/image.png"},
-    {name:"Carcasa ProGaming Hive, Negru",price:60,image:"https://i.postimg.cc/B62s03PF/image.png"},
-    {name:"Carcasa ProGaming Bastion, Alb",price:70,image:"https://i.postimg.cc/wMVp1kVj/image.png"},
-    {name:"Carcasa ProGaming Diamond, Alb",price:75,image:"https://i.postimg.cc/L8hpsLZ8/image.png"},
-    {name:"Carcasa ProGaming Diamond, Negru",price:75,image:"https://i.postimg.cc/RhMrxHBx/image.png"},
-    {name:"Carcasa ProGaming Hive, Alb",price:80,image:"https://i.postimg.cc/MKPCgHr6/image.png"},
-    {name:"Carcasa ProGaming Triple X, Negru",price:90,image:"https://i.postimg.cc/vTPKR2hh/image.png"},
-    {name:"Carcasa ProGaming Ambra, Negru",price:115,image:"https://i.postimg.cc/pXT7QxVw/image.png"},
-    {name:"Carcasa ProGaming Ambra, Alb",price:115,image:"https://i.postimg.cc/1zxjZq0z/image.png"},
-    {name:"Carcasa ProGaming Kian, Alb",price:170,image:"https://i.postimg.cc/63cjRbkX/image.png"},
-    {name:"Carcasa ProGaming Kian, Negru",price:195,image:"https://i.postimg.cc/ZnDwsBYP/image.png"},
-    {name:"Carcasa ProGaming Kian V2, Negru",price:0,image:"https://i.postimg.cc/xTcxJRgh/image.png"},
-    {name:"Carcasa ProGaming Kian V2, Alb",price:210,image:"https://i.postimg.cc/02FtpwB0/image.png"},
-    {name:"Carcasa ProGaming Banshee, Negru",price:255,image:"https://i.postimg.cc/gcB4Whds/image.png"},
-    {name:"Carcasa ProGaming Banshee, Alb",price:280,image:"https://i.postimg.cc/Cxb4k68C/image.png"}
-   ],
-   cooler:[
-    {name:"Standard Cooler",price:0,image:""}
-   ],
+   case:JSON.parse(JSON.stringify(baseCases)),
+   cooler:JSON.parse(JSON.stringify(baseCoolers)),
    extra:[
     {name:"+500GB SATA SSD",price:450}
    ]
@@ -952,94 +954,49 @@ const defaultData = [
  {
   id:"gamer",
   name:"Er1k Gamer",
-  description:"Performanță excelentă pentru gaming Full HD și QHD (16GB DDR4 + 1TB NVMe + MSI 550W/650W).",
+  description:"Performanță excelentă pentru gaming Full HD și QHD (16GB DDR4 + 500GB/1TB NVMe + MSI 550W/650W).",
   price:0,
   cardBadge:"",
   image:"https://i.postimg.cc/B62s03PF/image.png",
   components:{
    config:[
     {
-     name:"Gamer 1: AMD Ryzen 5 5500 + Intel Arc B570 10GB",
-     price:3962,
-     gpuOptions:[
-      {name:"Intel Arc B570 10GB",price:1800},
-      {name:"RTX 3050 8GB",price:1500},
-      {name:"RTX 5050 8GB",price:2300},
-      {name:"RX 7600 8GB",price:2500},
-      {name:"Intel Arc B580 12GB",price:2546},
-      {name:"RTX 3060 12GB",price:2600}
-     ]
+     name:"AMD Ryzen 5 5500 + Intel Arc B570 10GB",
+     price:3962 + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     defaultGpu:"Intel Arc B570 10GB",
+     gpuOptions:makeGamerGpus()
     },
     {
-     name:"Gamer 2: AMD Ryzen 5 5600 + RTX 3050 8GB",
-     price:3762,
-     gpuOptions:[
-      {name:"RTX 3050 8GB",price:1500},
-      {name:"Intel Arc B570 10GB",price:1800},
-      {name:"RTX 5050 8GB",price:2300},
-      {name:"RX 7600 8GB",price:2500},
-      {name:"Intel Arc B580 12GB",price:2546},
-      {name:"RTX 3060 12GB",price:2600}
-     ]
+     name:"AMD Ryzen 5 5600 + RTX 3050 8GB",
+     price:3762 + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     defaultGpu:"RTX 3050 8GB",
+     gpuOptions:makeGamerGpus()
     },
     {
-     name:"Gamer 3: Intel Core i5-12400F + GeForce RTX 5050 8GB",
-     price:4949,
-     gpuOptions:[
-      {name:"GeForce RTX 5050 8GB",price:2300},
-      {name:"RTX 3050 8GB",price:1500},
-      {name:"Intel Arc B570 10GB",price:1800},
-      {name:"RX 7600 8GB",price:2500},
-      {name:"Intel Arc B580 12GB",price:2546},
-      {name:"RTX 3060 12GB",price:2600}
-     ]
+     name:"Intel Core i5-12400F + RTX 5050 8GB",
+     price:4949 + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     defaultGpu:"RTX 5050 8GB",
+     gpuOptions:makeGamerGpus()
     },
     {
-     name:"Gamer 4: Intel Core i5-12400F + Radeon RX 7600 8GB",
-     price:5149,
-     gpuOptions:[
-      {name:"Radeon RX 7600 8GB",price:2500},
-      {name:"RTX 3050 8GB",price:1500},
-      {name:"Intel Arc B570 10GB",price:1800},
-      {name:"RTX 5050 8GB",price:2300},
-      {name:"Intel Arc B580 12GB",price:2546},
-      {name:"RTX 3060 12GB",price:2600}
-     ]
+     name:"Intel Core i5-12400F + RX 7600 8GB",
+     price:5149 + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     defaultGpu:"RX 7600 8GB",
+     gpuOptions:makeGamerGpus()
     }
    ],
    gpu:[],
    ram:[
-    {name:"16GB (2x8GB) DDR4 3200MHz",price:450},
-    {name:"32GB (2x16GB) DDR4 3200MHz",price:850}
+    {name:"16GB (2x8GB) DDR4 3200MHz",price:450,includedInBase:true},
+    {name:"32GB (2x16GB) DDR4 3200MHz",price:850,includedInBase:false}
    ],
    ssd:[
-    {name:"1TB M.2 NVMe",price:450},
-    {name:"2TB M.2 NVMe",price:1500}
+    {name:"500GB M.2 NVMe",price:300,includedInBase:true},
+    {name:"1TB M.2 NVMe",price:450,includedInBase:false},
+    {name:"2TB M.2 NVMe",price:1500,includedInBase:false}
    ],
-   case:[
-    {name:"Carcasa ProGaming Vision Negru",price:0,image:"https://i.postimg.cc/Y9L0LTGx/image.png"},
-    {name:"Carcasa ProGaming Vision Alb",price:10,image:"https://i.postimg.cc/SQ8jSFbP/image.png"},
-    {name:"Carcasa ProGaming Alma, Alb",price:30,image:"https://i.postimg.cc/XY2YHn97/image.png"},
-    {name:"Carcasa ProGaming Alma, Negru",price:30,image:"https://i.postimg.cc/XJ5NYFmP/image.png"},
-    {name:"Carcasa ProGaming Element, Negru",price:45,image:"https://i.postimg.cc/qvZpcjdC/image.png"},
-    {name:"Carcasa ProGaming Hive, Negru",price:60,image:"https://i.postimg.cc/B62s03PF/image.png"},
-    {name:"Carcasa ProGaming Bastion, Alb",price:70,image:"https://i.postimg.cc/wMVp1kVj/image.png"},
-    {name:"Carcasa ProGaming Diamond, Alb",price:75,image:"https://i.postimg.cc/L8hpsLZ8/image.png"},
-    {name:"Carcasa ProGaming Diamond, Negru",price:75,image:"https://i.postimg.cc/RhMrxHBx/image.png"},
-    {name:"Carcasa ProGaming Hive, Alb",price:80,image:"https://i.postimg.cc/MKPCgHr6/image.png"},
-    {name:"Carcasa ProGaming Triple X, Negru",price:90,image:"https://i.postimg.cc/vTPKR2hh/image.png"},
-    {name:"Carcasa ProGaming Ambra, Negru",price:115,image:"https://i.postimg.cc/pXT7QxVw/image.png"},
-    {name:"Carcasa ProGaming Ambra, Alb",price:115,image:"https://i.postimg.cc/1zxjZq0z/image.png"},
-    {name:"Carcasa ProGaming Kian, Alb",price:170,image:"https://i.postimg.cc/63cjRbkX/image.png"},
-    {name:"Carcasa ProGaming Kian, Negru",price:195,image:"https://i.postimg.cc/ZnDwsBYP/image.png"},
-    {name:"Carcasa ProGaming Kian V2, Negru",price:0,image:"https://i.postimg.cc/xTcxJRgh/image.png"},
-    {name:"Carcasa ProGaming Kian V2, Alb",price:210,image:"https://i.postimg.cc/02FtpwB0/image.png"},
-    {name:"Carcasa ProGaming Banshee, Negru",price:255,image:"https://i.postimg.cc/gcB4Whds/image.png"},
-    {name:"Carcasa ProGaming Banshee, Alb",price:280,image:"https://i.postimg.cc/Cxb4k68C/image.png"}
-   ],
-   cooler:[
-    {name:"Standard Cooler",price:0,image:""}
-   ],
+   case:JSON.parse(JSON.stringify(baseCases)),
+   cooler:JSON.parse(JSON.stringify(baseCoolers)),
    extra:[
     {name:"+500GB SATA SSD",price:450}
    ]
@@ -1048,90 +1005,50 @@ const defaultData = [
  {
   id:"pro",
   name:"Er1k Pro",
-  description:"Putere suplimentară pentru gaming și multitasking (32GB RAM + 1TB NVMe + MSI 650W/750W).",
+  description:"Putere suplimentară pentru gaming și multitasking (RAM + NVMe + MSI 650W/750W).",
   price:0,
   cardBadge:"",
   image:"https://i.postimg.cc/ZnDwsBYP/image.png",
   components:{
    config:[
     {
-     name:"Pro 1: AMD Ryzen 7 5700X + RTX 5060 8GB",
-     price:6070,
-     gpuOptions:[
-      {name:"RTX 5060 8GB",price:3000},
-      {name:"RTX 3060 12GB",price:2600},
-      {name:"RX 9060 XT 16GB",price:3500},
-      {name:"RX 9070 16GB",price:4400},
-      {name:"RTX 5060 Ti 16GB",price:4500}
-     ]
+     name:"AMD Ryzen 7 5700X + RTX 5060 8GB",
+     price:6070 + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     defaultGpu:"RTX 5060 8GB",
+     gpuOptions:makeProGpus()
     },
     {
-     name:"Pro 2: AMD Ryzen 5 7600 + RX 9060 XT 16GB (AM5 DDR5)",
-     price:8512,
-     gpuOptions:[
-      {name:"RX 9060 XT 16GB",price:3500},
-      {name:"RTX 3060 12GB",price:2600},
-      {name:"RTX 5060 8GB",price:3000},
-      {name:"RX 9070 16GB",price:4400},
-      {name:"RTX 5060 Ti 16GB",price:4500}
-     ]
+     name:"AMD Ryzen 5 7600 + RX 9060 XT 16GB (AM5 DDR5)",
+     price:8512 + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     defaultGpu:"RX 9060 XT 16GB",
+     gpuOptions:makeProGpus()
     },
     {
-     name:"Pro 3: Intel Core i5-14400F + RTX 5060 Ti 16GB",
-     price:7691,
-     gpuOptions:[
-      {name:"RTX 5060 Ti 16GB",price:4500},
-      {name:"RTX 3060 12GB",price:2600},
-      {name:"RTX 5060 8GB",price:3000},
-      {name:"RX 9060 XT 16GB",price:3500},
-      {name:"RX 9070 16GB",price:4400}
-     ]
+     name:"Intel Core i5-14400F + RTX 5060 Ti 16GB",
+     price:7691 + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     defaultGpu:"RTX 5060 Ti 16GB",
+     gpuOptions:makeProGpus()
     },
     {
-     name:"Pro 4: AMD Ryzen 5 7600 + RX 9070 16GB (AM5 DDR5)",
-     price:9442,
-     gpuOptions:[
-      {name:"RX 9070 16GB",price:4400},
-      {name:"RTX 3060 12GB",price:2600},
-      {name:"RTX 5060 8GB",price:3000},
-      {name:"RX 9060 XT 16GB",price:3500},
-      {name:"RTX 5060 Ti 16GB",price:4500}
-     ]
+     name:"AMD Ryzen 5 7600 + RX 9070 16GB (AM5 DDR5)",
+     price:9442 + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     defaultGpu:"RX 9070 16GB",
+     gpuOptions:makeProGpus()
     }
    ],
    gpu:[],
    ram:[
-    {name:"32GB (2x16GB) DDR4 3200MHz",price:850},
-    {name:"32GB (2x16GB) DDR5 6000MHz",price:2550}
+    {name:"16GB (2x8GB) DDR4 3200MHz",price:450,includedInBase:true},
+    {name:"32GB (2x16GB) DDR4 3200MHz",price:850,includedInBase:false},
+    {name:"32GB (2x16GB) DDR5 6000MHz",price:2550,includedInBase:false}
    ],
    ssd:[
-    {name:"1TB M.2 NVMe",price:450},
-    {name:"2TB M.2 NVMe",price:1500}
+    {name:"500GB M.2 NVMe",price:300,includedInBase:true},
+    {name:"1TB M.2 NVMe",price:450,includedInBase:false},
+    {name:"2TB M.2 NVMe",price:1500,includedInBase:false}
    ],
-   case:[
-    {name:"Carcasa ProGaming Vision Negru",price:0,image:"https://i.postimg.cc/Y9L0LTGx/image.png"},
-    {name:"Carcasa ProGaming Vision Alb",price:10,image:"https://i.postimg.cc/SQ8jSFbP/image.png"},
-    {name:"Carcasa ProGaming Alma, Alb",price:30,image:"https://i.postimg.cc/XY2YHn97/image.png"},
-    {name:"Carcasa ProGaming Alma, Negru",price:30,image:"https://i.postimg.cc/XJ5NYFmP/image.png"},
-    {name:"Carcasa ProGaming Element, Negru",price:45,image:"https://i.postimg.cc/qvZpcjdC/image.png"},
-    {name:"Carcasa ProGaming Hive, Negru",price:60,image:"https://i.postimg.cc/B62s03PF/image.png"},
-    {name:"Carcasa ProGaming Bastion, Alb",price:70,image:"https://i.postimg.cc/wMVp1kVj/image.png"},
-    {name:"Carcasa ProGaming Diamond, Alb",price:75,image:"https://i.postimg.cc/L8hpsLZ8/image.png"},
-    {name:"Carcasa ProGaming Diamond, Negru",price:75,image:"https://i.postimg.cc/RhMrxHBx/image.png"},
-    {name:"Carcasa ProGaming Hive, Alb",price:80,image:"https://i.postimg.cc/MKPCgHr6/image.png"},
-    {name:"Carcasa ProGaming Triple X, Negru",price:90,image:"https://i.postimg.cc/vTPKR2hh/image.png"},
-    {name:"Carcasa ProGaming Ambra, Negru",price:115,image:"https://i.postimg.cc/pXT7QxVw/image.png"},
-    {name:"Carcasa ProGaming Ambra, Alb",price:115,image:"https://i.postimg.cc/1zxjZq0z/image.png"},
-    {name:"Carcasa ProGaming Kian, Alb",price:170,image:"https://i.postimg.cc/63cjRbkX/image.png"},
-    {name:"Carcasa ProGaming Kian, Negru",price:195,image:"https://i.postimg.cc/ZnDwsBYP/image.png"},
-    {name:"Carcasa ProGaming Kian V2, Negru",price:0,image:"https://i.postimg.cc/xTcxJRgh/image.png"},
-    {name:"Carcasa ProGaming Kian V2, Alb",price:210,image:"https://i.postimg.cc/02FtpwB0/image.png"},
-    {name:"Carcasa ProGaming Banshee, Negru",price:255,image:"https://i.postimg.cc/gcB4Whds/image.png"},
-    {name:"Carcasa ProGaming Banshee, Alb",price:280,image:"https://i.postimg.cc/Cxb4k68C/image.png"}
-   ],
-   cooler:[
-    {name:"Standard Cooler",price:0,image:""}
-   ],
+   case:JSON.parse(JSON.stringify(baseCases)),
+   cooler:JSON.parse(JSON.stringify(baseCoolers)),
    extra:[
     {name:"+500GB SATA SSD",price:450}
    ]
@@ -1140,89 +1057,49 @@ const defaultData = [
  {
   id:"ultimate",
   name:"Er1k Ultimate",
-  description:"High-end sistem pentru performanță fără compromisuri (32GB DDR5 6000MHz + MSI 850W/1000W).",
+  description:"High-end sistem pentru performanță fără compromisuri (DDR5 6000MHz + MSI 850W/1000W).",
   price:0,
   cardBadge:"",
   image:"https://i.postimg.cc/Y9L0LTGx/image.png",
   components:{
    config:[
     {
-     name:"Ultimate 1: AMD Ryzen 7 7800X3D + RTX 5070 12GB",
-     price:10699,
-     gpuOptions:[
-      {name:"RTX 5070 12GB",price:5000},
-      {name:"RX 9070 16GB",price:4400},
-      {name:"RX 9070 XT 16GB",price:4400},
-      {name:"RTX 5060 Ti 16GB",price:4500},
-      {name:"RTX 5070 Ti 16GB",price:8000}
-     ]
+     name:"AMD Ryzen 7 7800X3D + RTX 5070 12GB",
+     price:10699 + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     defaultGpu:"RTX 5070 12GB",
+     gpuOptions:makeUltimateGpus()
     },
     {
-     name:"Ultimate 2: AMD Ryzen 7 7800X3D + RX 9070 XT 16GB",
-     price:10099,
-     gpuOptions:[
-      {name:"RX 9070 XT 16GB",price:4400},
-      {name:"RX 9070 16GB",price:4400},
-      {name:"RTX 5060 Ti 16GB",price:4500},
-      {name:"RTX 5070 12GB",price:5000},
-      {name:"RTX 5070 Ti 16GB",price:8000}
-     ]
+     name:"AMD Ryzen 7 7800X3D + RX 9070 XT 16GB",
+     price:10099 + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     defaultGpu:"RX 9070 XT 16GB",
+     gpuOptions:makeUltimateGpus()
     },
     {
-     name:"Ultimate 3: Intel Core i7-14700KF + RTX 5070 12GB",
-     price:11630,
-     gpuOptions:[
-      {name:"RTX 5070 12GB",price:5000},
-      {name:"RX 9070 16GB",price:4400},
-      {name:"RX 9070 XT 16GB",price:4400},
-      {name:"RTX 5060 Ti 16GB",price:4500},
-      {name:"RTX 5070 Ti 16GB",price:8000}
-     ]
+     name:"Intel Core i7-14700KF + RTX 5070 12GB",
+     price:11630 + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     defaultGpu:"RTX 5070 12GB",
+     gpuOptions:makeUltimateGpus()
     },
     {
-     name:"Ultimate 4: AMD Ryzen 7 9800X3D + RTX 5070 Ti 16GB (2TB + 1000W)",
-     price:15554,
-     gpuOptions:[
-      {name:"RTX 5070 Ti 16GB",price:8000},
-      {name:"RX 9070 16GB",price:4400},
-      {name:"RX 9070 XT 16GB",price:4400},
-      {name:"RTX 5060 Ti 16GB",price:4500},
-      {name:"RTX 5070 12GB",price:5000}
-     ]
+     name:"AMD Ryzen 7 9800X3D + RTX 5070 Ti 16GB (2TB + 1000W)",
+     price:15554 + BASE_COOLER_PRICE + PROFIT_MARGIN,
+     defaultGpu:"RTX 5070 Ti 16GB",
+     gpuOptions:makeUltimateGpus()
     }
    ],
    gpu:[],
    ram:[
-    {name:"32GB (2x16GB) DDR5 6000MHz",price:2550}
+    {name:"16GB (2x8GB) DDR4 3200MHz",price:450,includedInBase:true},
+    {name:"32GB (2x16GB) DDR5 6000MHz",price:2550,includedInBase:false}
    ],
    ssd:[
-    {name:"1TB M.2 NVMe",price:450},
-    {name:"2TB M.2 NVMe",price:1500}
+    {name:"500GB M.2 NVMe",price:300,includedInBase:true},
+    {name:"1TB M.2 NVMe",price:450,includedInBase:false},
+    {name:"2TB M.2 NVMe",price:1500,includedInBase:false}
    ],
-   case:[
-    {name:"Carcasa ProGaming Vision Negru",price:0,image:"https://i.postimg.cc/Y9L0LTGx/image.png"},
-    {name:"Carcasa ProGaming Vision Alb",price:10,image:"https://i.postimg.cc/SQ8jSFbP/image.png"},
-    {name:"Carcasa ProGaming Alma, Alb",price:30,image:"https://i.postimg.cc/XY2YHn97/image.png"},
-    {name:"Carcasa ProGaming Alma, Negru",price:30,image:"https://i.postimg.cc/XJ5NYFmP/image.png"},
-    {name:"Carcasa ProGaming Element, Negru",price:45,image:"https://i.postimg.cc/qvZpcjdC/image.png"},
-    {name:"Carcasa ProGaming Hive, Negru",price:60,image:"https://i.postimg.cc/B62s03PF/image.png"},
-    {name:"Carcasa ProGaming Bastion, Alb",price:70,image:"https://i.postimg.cc/wMVp1kVj/image.png"},
-    {name:"Carcasa ProGaming Diamond, Alb",price:75,image:"https://i.postimg.cc/L8hpsLZ8/image.png"},
-    {name:"Carcasa ProGaming Diamond, Negru",price:75,image:"https://i.postimg.cc/RhMrxHBx/image.png"},
-    {name:"Carcasa ProGaming Hive, Alb",price:80,image:"https://i.postimg.cc/MKPCgHr6/image.png"},
-    {name:"Carcasa ProGaming Triple X, Negru",price:90,image:"https://i.postimg.cc/vTPKR2hh/image.png"},
-    {name:"Carcasa ProGaming Ambra, Negru",price:115,image:"https://i.postimg.cc/pXT7QxVw/image.png"},
-    {name:"Carcasa ProGaming Ambra, Alb",price:115,image:"https://i.postimg.cc/1zxjZq0z/image.png"},
-    {name:"Carcasa ProGaming Kian, Alb",price:170,image:"https://i.postimg.cc/63cjRbkX/image.png"},
-    {name:"Carcasa ProGaming Kian, Negru",price:195,image:"https://i.postimg.cc/ZnDwsBYP/image.png"},
-    {name:"Carcasa ProGaming Kian V2, Negru",price:0,image:"https://i.postimg.cc/xTcxJRgh/image.png"},
-    {name:"Carcasa ProGaming Kian V2, Alb",price:210,image:"https://i.postimg.cc/02FtpwB0/image.png"},
-    {name:"Carcasa ProGaming Banshee, Negru",price:255,image:"https://i.postimg.cc/gcB4Whds/image.png"},
-    {name:"Carcasa ProGaming Banshee, Alb",price:280,image:"https://i.postimg.cc/Cxb4k68C/image.png"}
-   ],
-   cooler:[
-    {name:"Standard Cooler",price:0,image:""}
-   ],
+   case:JSON.parse(JSON.stringify(baseCases)),
+   cooler:JSON.parse(JSON.stringify(baseCoolers)),
    extra:[
     {name:"+500GB SATA SSD",price:450}
    ]
@@ -1241,6 +1118,44 @@ const componentNames={
 };
 
 function clone(x){return JSON.parse(JSON.stringify(x))}
+
+function isBaseIncludedOption(key, opt){
+ if(!opt) return false;
+ if(opt.includedInBase === true) return true;
+ const n = String(opt.name || "").toLowerCase();
+ if(key === "ram" && n.includes("16gb")) return true;
+ if(key === "ssd" && n.includes("500gb") && n.includes("nvme")) return true;
+ if(key === "case" && (Number(opt.price) || 0) === 0) return true;
+ if(key === "cooler" && (Number(opt.price) || 0) === BASE_COOLER_PRICE) return true;
+ return false;
+}
+
+function getOptionAddOnPrice(key, opt, pc, cfgIdx = 0){
+ if(!opt) return 0;
+ if(key === "config") return 0;
+ if(key === "gpu"){
+  const cfg = pc?.components?.config?.[cfgIdx] || pc?.components?.config?.[0];
+  const gpuList = Array.isArray(cfg?.gpuOptions) ? cfg.gpuOptions : [];
+  const defaultGpuName = String(cfg?.defaultGpu || "").toLowerCase();
+  const baseGpu = gpuList.find(g => String(g.name || "").toLowerCase() === defaultGpuName) || gpuList[0];
+  if(!baseGpu || opt === baseGpu) return 0;
+  return (Number(opt.price) || 0) - (Number(baseGpu.price) || 0);
+ }
+ if(key === "cooler"){
+  return (Number(opt.price) || 0) - BASE_COOLER_PRICE;
+ }
+ if(isBaseIncludedOption(key, opt)){
+  return 0;
+ }
+ return Number(opt.price) || 0;
+}
+
+function formatPlusRon(amount){
+ const val = Number(amount) || 0;
+ if(val === 0) return "Inclus în preț";
+ if(val > 0) return "+ " + val.toLocaleString("ro-RO") + " RON";
+ return "- " + Math.abs(val).toLocaleString("ro-RO") + " RON";
+}
 
 function normalizePCConfigs(pc, fallbackPC){
  const rawConfigs = Array.isArray(pc.components?.config) && pc.components.config.length > 0
@@ -1265,6 +1180,7 @@ function normalizePCConfigs(pc, fallbackPC){
    ...cfg,
    name: cfg.name || fallbackCfg?.name || "Config",
    price: Number(cfg.price) || 0,
+   defaultGpu: cfg.defaultGpu || fallbackCfg?.defaultGpu || gpuOptions[0]?.name || "",
    gpuOptions
   };
  });
@@ -1437,6 +1353,37 @@ function getOptionsForCategory(pc, key, cfgIdx = 0){
  return Array.isArray(pc.components[key]) ? pc.components[key] : [];
 }
 
+function getDefaultIndexForCategory(pc, key, cfgIdx = 0){
+ const list = getOptionsForCategory(pc, key, cfgIdx);
+ if(key === "extra") return -1;
+ if(key === "gpu"){
+  const cfg = pc?.components?.config?.[cfgIdx] || pc?.components?.config?.[0];
+  const target = String(cfg?.defaultGpu || "").toLowerCase();
+  if(target){
+   const found = list.findIndex(o => String(o.name || "").toLowerCase() === target);
+   if(found >= 0) return found;
+  }
+  return 0;
+ }
+ if(key === "ram"){
+  const idx = list.findIndex(o => isBaseIncludedOption("ram", o));
+  return idx >= 0 ? idx : 0;
+ }
+ if(key === "ssd"){
+  const idx = list.findIndex(o => isBaseIncludedOption("ssd", o));
+  return idx >= 0 ? idx : 0;
+ }
+ if(key === "case"){
+  const idx = list.findIndex(o => (Number(o.price) || 0) === 0);
+  return idx >= 0 ? idx : 0;
+ }
+ if(key === "cooler"){
+  const idx = list.findIndex(o => (Number(o.price) || 0) === BASE_COOLER_PRICE);
+  return idx >= 0 ? idx : 0;
+ }
+ return 0;
+}
+
 function updateCornerTrigger(){
  const btn=document.getElementById("cornerAdminBtn");
  if(!btn)return;
@@ -1523,25 +1470,6 @@ function renderHome(){
  }).join("");
 }
 
-function getBrandClass(key, option){
- const name = String(option?.name || "").toLowerCase();
-
- if(key === "config"){
-  if(name.includes("intel") || name.includes("12400") || name.includes("14400") || name.includes("14700")) return "brand-blue";
-  if(name.includes("ryzen") || name.includes("amd") || name.includes("rx ")) return "brand-red";
-  return "";
- }
-
- if(key === "gpu"){
-  if(name.includes("arc") || name.includes("intel")) return "brand-blue";
-  if(name.includes("rtx") || name.includes("gtx") || name.includes("nvidia")) return "brand-green";
-  if(name.includes("rx ") || name.startsWith("rx") || name.includes("radeon") || name.includes("amd")) return "brand-red";
-  return "";
- }
-
- return "";
-}
-
 function initSelectionForPC(pc, pcIndex){
  const allSaved = loadSavedSelections();
  const pcKey = String(pc?.id || pcIndex);
@@ -1556,10 +1484,11 @@ function initSelectionForPC(pc, pcIndex){
   if(key === "config") continue;
   const list = getOptionsForCategory(pc, key, selected.config);
   const savedVal = savedForThis[key];
+  const defIdx = getDefaultIndexForCategory(pc, key, selected.config);
   if(key === "extra"){
    selected[key] = (typeof savedVal === "number" && savedVal >= -1 && savedVal < list.length) ? savedVal : -1;
   }else{
-   selected[key] = (typeof savedVal === "number" && savedVal >= 0 && savedVal < list.length) ? savedVal : 0;
+   selected[key] = (typeof savedVal === "number" && savedVal >= 0 && savedVal < list.length) ? savedVal : defIdx;
   }
  }
 }
@@ -1595,13 +1524,14 @@ function renderConfig(){
  for(const key of Object.keys(componentNames)){
   if(key === "config") continue;
   const list = getOptionsForCategory(pc, key, selected.config);
+  const defIdx = getDefaultIndexForCategory(pc, key, selected.config);
   if(key === "extra"){
    if(typeof selected[key]!=="number" || selected[key]<-1 || selected[key]>=list.length){
     selected[key]=-1;
    }
   }else{
    if(typeof selected[key]!=="number" || selected[key]<0 || selected[key]>=list.length){
-    selected[key]=0;
+    selected[key]=defIdx;
    }
   }
  }
@@ -1622,7 +1552,7 @@ function renderComponentBox(key,pc){
  const isHighlight = key === "config";
  const badgeText = key === "extra" ? "OPȚIONAL" : `${options.length} OPȚIUNI`;
  const gpuNote = (key === "gpu" && activeCfg)
-  ? `<div class="component-subnote">Prețuri GPU pentru config: <strong>${safe(activeCfg.name)}</strong></div>`
+  ? `<div class="component-subnote">Opțiuni GPU pentru: <strong>${safe(activeCfg.name)}</strong></div>`
   : "";
 
  return `<div class="component-section ${isHighlight ? "config-highlight" : ""}">
@@ -1630,16 +1560,17 @@ function renderComponentBox(key,pc){
   ${gpuNote}
   <div class="choices">${options.length ? options.map((o,i)=>{
    const isSelected = selected[key] === i;
-   const brandClass = getBrandClass(key, o);
+   const delta = getOptionAddOnPrice(key, o, pc, selected.config);
+   const badgePrice = (key === "config") ? "" : `<small>${formatPlusRon(delta)}</small>`;
    return `
    <button
     type="button"
-    class="choice ${brandClass} ${isSelected ? "selected" : ""}"
+    class="choice ${isSelected ? "selected" : ""}"
     onclick="choose('${key}',${i})"
    >
     ${o.image?`<img src="${safe(o.image)}" alt="">`:""}
     <strong>${safe(o.name)}</strong>
-    <small>${money(o.price)}</small>
+    ${badgePrice}
    </button>`;
   }).join("") : `<div class="empty" style="grid-column:1/-1">Nu există opțiuni GPU setate pentru acest CONFIG.</div>`}</div>
  </div>`;
@@ -1651,7 +1582,8 @@ function choose(key,i){
  }else{
   selected[key] = i;
   if(key === "config"){
-   selected.gpu = 0;
+   const pc = data[activePC];
+   selected.gpu = getDefaultIndexForCategory(pc, "gpu", i);
   }
  }
  persistSelectedForPC(activePC, selected);
@@ -1714,31 +1646,30 @@ function updateSpecStrip(){
 
 function computeTotalForCurrentSelection(pc){
  const cfg = currentOption("config");
- const gpuList = getOptionsForCategory(pc, "gpu", selected.config);
- const defaultGpu = gpuList[0];
- const chosenGpu = currentOption("gpu");
+ const gpu = currentOption("gpu");
  const ram = currentOption("ram");
  const ssd = currentOption("ssd");
  const cooler = currentOption("cooler");
  const pcCase = currentOption("case");
  const extra = currentOption("extra");
 
- const cfgPrice = Number(cfg ? cfg.price : (pc.price || 0)) || 0;
- const gpuDelta = (chosenGpu && defaultGpu)
-  ? ((Number(chosenGpu.price) || 0) - (Number(defaultGpu.price) || 0))
-  : 0;
-
- const addOns =
-  (Number(ram ? ram.price : 0) || 0) +
-  (Number(ssd ? ssd.price : 0) || 0) +
-  (Number(cooler ? cooler.price : 0) || 0) +
-  (Number(pcCase ? pcCase.price : 0) || 0) +
-  (Number(extra ? extra.price : 0) || 0);
+ const baseCfgPrice = Number(cfg ? cfg.price : (pc.price || 0)) || 0;
+ const gpuAdd = getOptionAddOnPrice("gpu", gpu, pc, selected.config);
+ const ramAdd = getOptionAddOnPrice("ram", ram, pc, selected.config);
+ const ssdAdd = getOptionAddOnPrice("ssd", ssd, pc, selected.config);
+ const coolerAdd = getOptionAddOnPrice("cooler", cooler, pc, selected.config);
+ const caseAdd = getOptionAddOnPrice("case", pcCase, pc, selected.config);
+ const extraAdd = getOptionAddOnPrice("extra", extra, pc, selected.config);
 
  return {
-  cfgPrice,
-  gpuDelta,
-  total: (Number(pc.price) || 0) + cfgPrice + gpuDelta + addOns
+  baseCfgPrice,
+  gpuAdd,
+  ramAdd,
+  ssdAdd,
+  coolerAdd,
+  caseAdd,
+  extraAdd,
+  total: (Number(pc.price) || 0) + baseCfgPrice + gpuAdd + ramAdd + ssdAdd + coolerAdd + caseAdd + extraAdd
  };
 }
 
@@ -1747,16 +1678,22 @@ function updateSummary(){
  const calc = computeTotalForCurrentSelection(pc);
  let html="";
 
+ const deltas = {
+  gpu: calc.gpuAdd,
+  ram: calc.ramAdd,
+  ssd: calc.ssdAdd,
+  cooler: calc.coolerAdd,
+  case: calc.caseAdd,
+  extra: calc.extraAdd
+ };
+
  for(const key of Object.keys(componentNames)){
   const o=currentOption(key);
   if(!o)continue;
   html+=`<div class="summary-line"><span>${componentNames[key]}</span><span>${safe(o.name)}</span></div>`;
-  if(key === "gpu" && calc.gpuDelta !== 0){
-   html+=`<div class="summary-line surcharge"><span>Diferență GPU</span><span>${calc.gpuDelta > 0 ? "+ " + money(calc.gpuDelta) : "- " + money(Math.abs(calc.gpuDelta))}</span></div>`;
-  }else if(key === "case"){
-   html+=`<div class="summary-line surcharge"><span>Preț carcasă</span><span>${Number(o.price) > 0 ? "+ " + money(o.price) : "Inclus în preț"}</span></div>`;
-  }else if(key !== "config" && key !== "gpu" && Number(o.price) > 0){
-   html+=`<div class="summary-line surcharge"><span>Preț componentă</span><span>${money(o.price)}</span></div>`;
+  if(key !== "config"){
+   const d = deltas[key] || 0;
+   html+=`<div class="summary-line surcharge"><span>Opțiune</span><span>${formatPlusRon(d)}</span></div>`;
   }
  }
 
