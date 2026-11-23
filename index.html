@@ -289,9 +289,19 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
   display:grid;
   grid-template-columns:minmax(275px,1fr) minmax(360px,1.15fr) minmax(275px,1fr);
   gap:22px;
-  align-items:start;
+  align-items:stretch;
 }
-.zone-col{display:flex;flex-direction:column;gap:18px}
+.zone-col{
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  gap:18px;
+}
+.zone-group{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
 
 .component-section{
   background:linear-gradient(180deg,#141722,#10121b);
@@ -387,21 +397,21 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 }
 .choice.brand-blue.selected::after{background:#2563eb}
 
-/* FINOM, LÁGY PIROS AMD-RE */
+/* NAGYON FINOM, VISSZAFOGOTT BORDÓS-PIROS AMD-RE */
 .choice.brand-red{
-  border-color:#9e3b4b;
-  background:linear-gradient(160deg,#261419,#15121a);
+  border-color:#6e323d;
+  background:linear-gradient(160deg,#1e1418,#14131b);
 }
 .choice.brand-red:hover{
-  border-color:#c45668;
-  background:linear-gradient(160deg,#301920,#191520);
+  border-color:#8c4250;
+  background:linear-gradient(160deg,#26181e,#181620);
 }
 .choice.brand-red.selected{
-  border:2px solid #c45668;
+  border:2px solid #9e4b5b;
   padding:12px;
-  box-shadow:0 0 18px #9e3b4b33;
+  box-shadow:0 0 14px #6e323d2b;
 }
-.choice.brand-red.selected::after{background:#9e3b4b}
+.choice.brand-red.selected::after{background:#7d3946}
 
 .choice.brand-green{
   border-color:#22c55e;
@@ -440,7 +450,7 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
   box-shadow:0 18px 48px #0008,0 0 40px #8b5cf624;
 }
 .stage-label{font-size:11px;letter-spacing:2.4px;color:#cbb4ff;font-weight:800}
-/* HOSSZÚKÁSABB CARCASĂ KÉP */
+/* HOSSZÚKÁS CARCASĂ KÉP */
 .stage-image{
   width:100%;
   aspect-ratio:16 / 10;
@@ -705,7 +715,8 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 
   <div class="config-board">
    <div class="zone-col">
-    <div id="topLeftComponents" class="zone-col"></div>
+    <div id="topLeftComponents" class="zone-group"></div>
+    <div id="bottomLeftComponents" class="zone-group"></div>
    </div>
 
    <div class="center-stack">
@@ -727,10 +738,13 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
      <button type="button" class="primary-btn" onclick="orderPC()">SOLICITĂ OFERTĂ</button>
      <div class="notice">Prețul final poate fi confirmat în funcție de disponibilitatea componentelor.</div>
     </div>
+
+    <div id="bottomCenterComponents" class="zone-group"></div>
    </div>
 
    <div class="zone-col">
-    <div id="topRightComponents" class="zone-col"></div>
+    <div id="topRightComponents" class="zone-group"></div>
+    <div id="bottomRightComponents" class="zone-group"></div>
    </div>
   </div>
  </div>
@@ -786,7 +800,7 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 
 <script>
 const _b = [101,114,49,107,50,48,50,54];
-const KEY = "er1k_pc_v16";
+const KEY = "er1k_pc_v17";
 const tierLabels = ["01 · ENTRY", "02 · POPULAR", "03 · PRO TIER", "04 · FLAGSHIP"];
 
 function _matchCode(val){
@@ -944,7 +958,7 @@ function normalizeData(list){
 function safeLoad(){
  try{
   if(!window.localStorage)return clone(defaultData);
-  const raw = window.localStorage.getItem(KEY) || window.localStorage.getItem("er1k_pc_v10");
+  const raw = window.localStorage.getItem(KEY) || window.localStorage.getItem("er1k_pc_v16") || window.localStorage.getItem("er1k_pc_v10");
   if(!raw)return clone(defaultData);
   const parsed=JSON.parse(raw);
   if(Array.isArray(parsed)&&parsed.length>0)return normalizeData(parsed);
@@ -1120,10 +1134,17 @@ function renderConfig(){
    }
   }
  }
- // Bal oldal: Config (CPU+GPU) fent, Placă video alatta, majd Carcasă és Răcire procesor
- document.getElementById("topLeftComponents").innerHTML=["config","gpu","case","cooler"].map(k=>renderComponentBox(k,pc)).join("");
- // Jobb oldal: Memorie RAM fent, SSD alatta, majd Opțiuni extra (nem kötelező)
- document.getElementById("topRightComponents").innerHTML=["ram","ssd","extra"].map(k=>renderComponentBox(k,pc)).join("");
+ // Bal oszlop: fent Config + Placă video, lent egyvonalban Carcasă
+ document.getElementById("topLeftComponents").innerHTML=["config","gpu"].map(k=>renderComponentBox(k,pc)).join("");
+ document.getElementById("bottomLeftComponents").innerHTML=["case"].map(k=>renderComponentBox(k,pc)).join("");
+
+ // Jobb oszlop: fent Memorie RAM + SSD, lent egyvonalban Răcire procesor
+ document.getElementById("topRightComponents").innerHTML=["ram","ssd"].map(k=>renderComponentBox(k,pc)).join("");
+ document.getElementById("bottomRightComponents").innerHTML=["cooler"].map(k=>renderComponentBox(k,pc)).join("");
+
+ // Közép alul (Rezumat configurație + Solicită ofertă alatt): Opțiuni extra
+ document.getElementById("bottomCenterComponents").innerHTML=["extra"].map(k=>renderComponentBox(k,pc)).join("");
+
  updateStage();
  updateSummary();
 }
@@ -1467,4 +1488,3 @@ updateCornerTrigger();
 </script>
 </body>
 </html>
-```[cite: 6]
