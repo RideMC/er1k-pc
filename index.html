@@ -840,7 +840,9 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 
 <script>
 const _b = [101,114,49,107,50,48,50,54];
-const KEY = "er1k_pc_v20";
+const KEY = "er1k_pc_v21";
+const SEL_KEY = "er1k_pc_selected_v21";
+const LEGACY_KEYS = ["er1k_pc_v20","er1k_pc_v19","er1k_pc_v18","er1k_pc_v17","er1k_pc_v16","er1k_pc_v10"];
 const WHATSAPP_NUMBER = "40771103552";
 const tierLabels = ["01 · ENTRY", "02 · POPULAR", "03 · PRO TIER", "04 · FLAGSHIP"];
 
@@ -852,9 +854,6 @@ function _matchCode(val){
  }
  return true;
 }
-
-/* FIX ADATOK: minden eszközön (PC-n és telefonon is) ugyanazok a PC-k és opciók futnak */
-const FIXED_DATA_OVERRIDE = null; // Ha fix JSON-t akarsz beégetni minden eszközre, ide illeszd be a tömböt
 
 const defaultData = [
  {
@@ -984,7 +983,7 @@ function normalizeData(list){
   const fallback = defaultData[idx] || defaultData[0];
   const mergedComponents = {};
   for(const key of Object.keys(componentNames)){
-   if(Array.isArray(pc.components?.[key])){
+   if(Array.isArray(pc.components?.[key]) && pc.components[key].length > 0){
     mergedComponents[key] = pc.components[key];
    }else{
     mergedComponents[key] = clone(fallback.components[key] || []);
@@ -1000,15 +999,29 @@ function normalizeData(list){
 }
 
 function safeLoad(){
- if(Array.isArray(FIXED_DATA_OVERRIDE) && FIXED_DATA_OVERRIDE.length > 0){
-  return normalizeData(clone(FIXED_DATA_OVERRIDE));
- }
  try{
   if(!window.localStorage)return clone(defaultData);
-  const raw = window.localStorage.getItem(KEY);
+  let raw = window.localStorage.getItem(KEY);
+  let migratedFromLegacy = false;
+  if(!raw){
+   for(const lk of LEGACY_KEYS){
+    const oldRaw = window.localStorage.getItem(lk);
+    if(oldRaw){
+     raw = oldRaw;
+     migratedFromLegacy = true;
+     break;
+    }
+   }
+  }
   if(!raw)return clone(defaultData);
   const parsed=JSON.parse(raw);
-  if(Array.isArray(parsed)&&parsed.length>0)return normalizeData(parsed);
+  if(Array.isArray(parsed)&&parsed.length>0){
+   const normalized = normalizeData(parsed);
+   if(migratedFromLegacy){
+    try{ window.localStorage.setItem(KEY, JSON.stringify(normalized)); }catch(e){}
+   }
+   return normalized;
+  }
  }catch(e){}
  return clone(defaultData);
 }
@@ -1024,6 +1037,28 @@ function safeSave(){
   return false;
  }
  return true;
+}
+
+function loadSavedSelections(){
+ try{
+  if(!window.localStorage)return {};
+  const raw = window.localStorage.getItem(SEL_KEY);
+  if(!raw)return {};
+  const parsed = JSON.parse(raw);
+  return (parsed && typeof parsed === "object") ? parsed : {};
+ }catch(e){
+  return {};
+ }
+}
+
+function persistSelectedForPC(pcIndex, selObj){
+ try{
+  if(!window.localStorage)return;
+  const allSel = loadSavedSelections();
+  const pcKey = String(data[pcIndex]?.id || pcIndex);
+  allSel[pcKey] = clone(selObj);
+  window.localStorage.setItem(SEL_KEY, JSON.stringify(allSel));
+ }catch(e){}
 }
 
 let data=safeLoad();
@@ -1140,10 +1175,19 @@ function getBrandClass(key, option){
  return "";
 }
 
-function initSelectionForPC(pc){
+function initSelectionForPC(pc, pcIndex){
+ const allSaved = loadSavedSelections();
+ const pcKey = String(pc?.id || pcIndex);
+ const savedForThis = allSaved[pcKey] || {};
  selected = {};
  for(const key of Object.keys(componentNames)){
-  selected[key] = (key === "extra") ? -1 : 0;
+  const list = pc.components?.[key] || [];
+  const savedVal = savedForThis[key];
+  if(typeof savedVal === "number" && savedVal >= (key === "extra" ? -1 : 0) && savedVal < list.length){
+   selected[key] = savedVal;
+  }else{
+   selected[key] = (key === "extra") ? -1 : 0;
+  }
  }
 }
 
@@ -1151,7 +1195,7 @@ function openPC(i){
  if(!data[i])return;
  activePC=i;
  const pc=data[i];
- initSelectionForPC(pc);
+ initSelectionForPC(pc, i);
  document.getElementById("configName").textContent=pc.name;
  document.getElementById("configDesc").textContent=pc.description;
  showView("configView");
@@ -1221,6 +1265,7 @@ function choose(key,i){
  }else{
   selected[key] = i;
  }
+ persistSelectedForPC(activePC, selected);
  renderConfig();
 }
 
@@ -1422,10 +1467,28 @@ function renderComponentsTab(){
 function renderSystemTab(){
  return `
   <div class="admin-box">
-   <h2>Resetare</h2>
-   <p style="color:var(--muted);font-size:12px;margin:0 0 14px">Resetează cele 4 modele PC și componentele la valorile implicite.</p>
-   <button type="button" class="secondary-btn danger" onclick="resetDefaults()">Resetează la valorile implicite</button>
+   <h2>Resetare & Export date</h2>
+   <p style="color:var(--muted);font-size:12px;margin:0 0 14px">Resetează cele 4 modele PC și componentele la valorile implicite, sau copiază JSON-ul actual.</p>
+   <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px">
+    <button type="button" class="secondary-btn" onclick="copyCurrentDataJson()">Copiază JSON actual</button>
+    <button type="button" class="secondary-btn danger" onclick="resetDefaults()">Resetează la valorile implicite</button>
+   </div>
+   <textarea id="jsonExportBox" readonly style="min-height:110px;font-family:monospace;font-size:11px">${safe(JSON.stringify(data))}</textarea>
   </div>`;
+}
+
+function copyCurrentDataJson(){
+ const box = document.getElementById("jsonExportBox");
+ if(!box)return;
+ box.value = JSON.stringify(data);
+ box.select();
+ try{
+  navigator.clipboard?.writeText(box.value);
+  alert("JSON-ul a fost copiat.");
+ }catch(e){
+  document.execCommand("copy");
+  alert("JSON-ul a fost selectat.");
+ }
 }
 
 function saveCurrentPC(){
@@ -1541,9 +1604,10 @@ function resetDefaults(){
  adminSelectedPC=0;
  adminSelectedCat="config";
  safeSave();
+ try{ window.localStorage?.removeItem(SEL_KEY); }catch(e){}
  renderHome();
  if(document.getElementById("configView")?.classList.contains("active")){
-  initSelectionForPC(data[activePC]);
+  initSelectionForPC(data[activePC], activePC);
   renderConfig();
  }
  switchAdminTab("models");
