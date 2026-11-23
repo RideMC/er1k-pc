@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Er1k PC Builds · Editor</title>
+<title>Er1k PC Builds</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
@@ -29,8 +29,7 @@ body{
   font-family:Inter,Arial,sans-serif;
   overflow-x:hidden;
 }
-button,input,select,textarea{font:inherit}
-button{cursor:pointer}
+button{font:inherit;cursor:pointer}
 a{color:inherit;text-decoration:none}
 .container{width:min(1420px,92%);margin:auto}
 
@@ -51,32 +50,6 @@ header{
 .logo span{color:var(--accent);text-shadow:0 0 22px #8b5cf666}
 .navlinks{display:flex;gap:26px;color:#b8bcc9;font-size:14px;font-weight:500}
 .navlinks a:hover{color:#fff}
-
-/* TINY BOTTOM-LEFT ADMIN TEXT ON SCROLL */
-.corner-admin-btn{
-  position:fixed;
-  bottom:6px;
-  left:10px;
-  z-index:35;
-  background:transparent;
-  color:#5b6073;
-  border:0;
-  padding:2px 4px;
-  font-size:10px;
-  font-weight:500;
-  letter-spacing:.3px;
-  opacity:0;
-  pointer-events:none;
-  transition:.2s ease;
-}
-.corner-admin-btn.visible{
-  opacity:.55;
-  pointer-events:auto;
-}
-.corner-admin-btn:hover{
-  opacity:1;
-  color:#b6bac9;
-}
 
 .page-view{display:none}
 .page-view.active{display:block}
@@ -500,108 +473,6 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 .summary-total strong{font-size:30px;color:#fff}
 .price-panel button{width:100%;margin-top:18px}
 .notice{font-size:11px;color:var(--muted);line-height:1.6;margin-top:13px}
-
-/* ADMIN PANEL */
-.admin-wrap{max-width:1080px;margin:auto}
-.admin-topbar{
-  background:#101219;
-  border:1px solid #242836;
-  border-radius:10px;
-  padding:16px 20px;
-  margin-bottom:16px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  flex-wrap:wrap;
-  gap:14px;
-}
-.admin-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
-.tab-btn{
-  background:#101219;
-  border:1px solid #242836;
-  color:#9ea4b6;
-  padding:9px 15px;
-  border-radius:8px;
-  font-size:12px;
-  font-weight:600;
-  transition:.15s;
-}
-.tab-btn:hover{border-color:#3a4056;color:#e6e9f2}
-.tab-btn.active{background:#191d29;border-color:#5b627a;color:#fff}
-
-.admin-box{
-  background:#101219;
-  border:1px solid #242836;
-  padding:22px;
-  border-radius:10px;
-  margin-bottom:16px;
-}
-.admin-box h2{font-size:18px;margin:0 0 6px;font-weight:700}
-.admin-box h3{font-size:15px;margin:0 0 12px;font-weight:600}
-.admin-box label{display:block;font-size:12px;color:#9ea4b6;margin:12px 0 6px}
-.admin-box input,.admin-box textarea,.admin-box select{
-  width:100%;
-  padding:10px 12px;
-  background:#090b10;
-  border:1px solid #292e3f;
-  border-radius:7px;
-  color:white;
-  outline:none;
-}
-.admin-box input:focus,.admin-box textarea:focus,.admin-box select:focus{border-color:#5b627a}
-.admin-box textarea{min-height:74px;resize:vertical}
-.admin-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.admin-grid-3{display:grid;grid-template-columns:1.5fr 1fr auto;gap:12px;align-items:end}
-
-.pc-selector-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
-.pc-select-card{
-  background:#141721;
-  border:1px solid #262b3b;
-  border-radius:8px;
-  padding:10px 14px;
-  text-align:left;
-  color:#c2c7d6;
-  min-width:155px;
-  transition:.15s;
-}
-.pc-select-card:hover{border-color:#3e455c}
-.pc-select-card.active{border-color:#68708c;background:#1b1f2c;color:#fff}
-.pc-select-card strong{display:block;font-size:13px}
-.pc-select-card small{color:var(--muted);font-size:11px}
-
-.cat-pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
-.cat-pill{
-  background:#141721;
-  border:1px solid #262b3b;
-  color:#9ea4b6;
-  padding:7px 12px;
-  border-radius:7px;
-  font-size:12px;
-  font-weight:600;
-}
-.cat-pill.active{background:#1f2433;border-color:#68708c;color:#fff}
-
-.option-list{border:1px solid #242836;border-radius:8px;overflow:hidden;background:#0c0e14}
-.admin-row{
-  display:flex;
-  align-items:center;
-  gap:14px;
-  padding:11px 15px;
-  border-bottom:1px solid #1d212e;
-}
-.admin-row:last-child{border-bottom:0}
-.admin-row img{width:52px;height:52px;object-fit:cover;background:#1a1e2b;border-radius:6px;flex-shrink:0}
-.thumb-placeholder{
-  width:52px;height:52px;background:#131620;border:1px dashed #2b3042;
-  border-radius:6px;display:grid;place-items:center;color:#6c7287;font-size:10px;font-weight:600;flex-shrink:0;
-}
-.row-info{flex:1;min-width:0}
-.row-info strong{font-size:13px;display:block}
-.row-info small{color:#8fa39b;font-size:12px}
-.row-actions{display:flex;gap:8px}
-.btn-sm{padding:7px 11px;font-size:12px;border-radius:7px}
-.danger{background:#281419!important;border-color:#4d222c!important;color:#e59aa6!important}
-.danger:hover{background:#361920!important}
 .empty{color:var(--muted);font-size:13px;padding:14px}
 
 @media(max-width:1120px){
@@ -691,9 +562,6 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
  .choice strong{font-size:13px;padding-right:26px}
  .choice small{font-size:11.5px;margin-top:3px}
 
- .admin-grid-2,.admin-grid-3{grid-template-columns:1fr}
- .admin-row{flex-wrap:wrap;gap:10px}
- .row-actions{width:100%;justify-content:flex-end}
  .footer-inner{flex-direction:column;align-items:flex-start;gap:14px}
 }
 </style>
@@ -710,8 +578,6 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
   </nav>
  </div>
 </header>
-
-<button type="button" id="cornerAdminBtn" class="corner-admin-btn" onclick="openAdmin()">admin</button>
 
 <div id="homeView" class="page-view active">
  <main>
@@ -814,47 +680,6 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
  </div>
 </div>
 
-<div id="loginView" class="page-view">
- <div class="container subpage-wrap">
-  <div class="admin-wrap">
-   <button type="button" class="back-btn" onclick="showView('homeView')">← Înapoi la site</button>
-   <div class="admin-box" style="max-width:420px;margin:40px auto">
-    <h2 style="margin-top:0">Autentificare</h2>
-    <p class="empty" style="padding:0 0 8px">Introdu codul de acces.</p>
-    <label for="password">Cod</label>
-    <input id="password" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')login()">
-    <p id="loginError" style="color:#ff687b;font-size:12px;min-height:18px;margin:8px 0 0"></p>
-    <button type="button" class="secondary-btn" style="width:100%;margin-top:12px" onclick="login()">Continuă</button>
-   </div>
-  </div>
- </div>
-</div>
-
-<div id="adminView" class="page-view">
- <div class="container subpage-wrap">
-  <div class="admin-wrap">
-   <div class="admin-topbar">
-    <div>
-     <h2 style="margin:0 0 3px;font-size:22px">Panou Administrare (Editor)</h2>
-     <p style="margin:0;color:var(--muted);font-size:12px">Fiecare CONFIG are lista lui proprie de PLACĂ VIDEO și prețuri separate.</p>
-    </div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap">
-     <button type="button" class="secondary-btn btn-sm" onclick="showView('homeView')">← Pagina principală</button>
-     <button type="button" class="secondary-btn btn-sm danger" onclick="logout()">Deconectare</button>
-    </div>
-   </div>
-
-   <div class="admin-tabs">
-    <button type="button" class="tab-btn active" id="tab-models" onclick="switchAdminTab('models')">Modele PC</button>
-    <button type="button" class="tab-btn" id="tab-components" onclick="switchAdminTab('components')">Componente & Prețuri</button>
-    <button type="button" class="tab-btn" id="tab-system" onclick="switchAdminTab('system')">Resetare & Export</button>
-   </div>
-
-   <div id="adminContent"></div>
-  </div>
- </div>
-</div>
-
 <footer id="contact">
  <div class="container footer-inner">
   <div><div class="logo">ER1K<span> PC</span></div><p>Gaming systems. Built your way.</p></div>
@@ -863,10 +688,7 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 </footer>
 
 <script>
-const _b = [101,114,49,107,50,48,50,54];
-const KEY = "er1k_pc_per_config_gpu_v9";
-const SEL_KEY = "er1k_pc_per_config_gpu_sel_v9";
-const LEGACY_KEYS = ["er1k_pc_per_config_gpu_v8", "er1k_pc_per_config_gpu_v7", "er1k_pc_per_config_gpu_v6", "er1k_pc_per_config_gpu_v5", "er1k_pc_per_config_gpu_v4"];
+const SEL_KEY = "er1k_pc_per_config_gpu_sel_v10";
 const WHATSAPP_NUMBER = "40771103552";
 const tierLabels = ["01 · START", "02 · GAMER", "03 · PRO TIER", "04 · ULTIMATE"];
 
@@ -887,15 +709,6 @@ const PSU_650W = 400;
 const PSU_750W = 430;
 const PSU_850W = 470;
 const PSU_1000W = 700;
-
-function _matchCode(val){
- const s = String(val||"");
- if(s.length !== _b.length) return false;
- for(let i=0; i<_b.length; i++){
-  if(s.charCodeAt(i) !== _b[i]) return false;
- }
- return true;
-}
 
 const baseCases = [
  {name:"Carcasa ProGaming Vision Negru",price:0,image:"https://i.postimg.cc/Y9L0LTGx/image.png"},
@@ -979,7 +792,7 @@ function makeUltimateGpus(){
  return ultimateGpuOrder.map(n => ({name: n, price: ultimateGpuPrices[n]}));
 }
 
-const defaultData = [
+const data = [
  {
   id:"start",
   name:"Er1k Start",
@@ -1258,151 +1071,6 @@ function formatPlusRon(amount){
  return "- " + Math.abs(val).toLocaleString("ro-RO") + " RON";
 }
 
-function normalizePCConfigs(pc, fallbackPC){
- const rawConfigs = Array.isArray(pc.components?.config) && pc.components.config.length > 0
-  ? pc.components.config
-  : clone(fallbackPC.components.config || []);
-
- const legacyGpuList = Array.isArray(pc.components?.gpu) ? pc.components.gpu : [];
-
- return rawConfigs.map((cfg, idx)=>{
-  const fallbackCfg = fallbackPC.components.config?.[idx] || fallbackPC.components.config?.[0];
-  let gpuOptions = Array.isArray(cfg.gpuOptions) ? cfg.gpuOptions : null;
-  if(!gpuOptions){
-   if(legacyGpuList.length > 0){
-    gpuOptions = clone(legacyGpuList);
-   }else if(Array.isArray(fallbackCfg?.gpuOptions)){
-    gpuOptions = clone(fallbackCfg.gpuOptions);
-   }else{
-    gpuOptions = [{name:"GPU standard", price:0}];
-   }
-  }
-  return {
-   ...cfg,
-   name: cfg.name || fallbackCfg?.name || "Config",
-   price: Number(cfg.price) || 0,
-   defaultGpu: cfg.defaultGpu || fallbackCfg?.defaultGpu || gpuOptions[0]?.name || "",
-   gpuOptions
-  };
- });
-}
-
-function normalizeCategoryItems(key, items, fallbackItems){
- return Array.isArray(items) && items.length > 0 ? items : clone(fallbackItems || []);
-}
-
-function normalizeData(list){
- return list.map((pc,idx)=>{
-  const fallback = defaultData[idx] || defaultData[0];
-  const mergedComponents = {};
-  for(const key of Object.keys(componentNames)){
-   if(key === "config"){
-    mergedComponents.config = normalizePCConfigs(pc, fallback);
-   }else if(key === "gpu"){
-    mergedComponents.gpu = [];
-   }else{
-    mergedComponents[key] = normalizeCategoryItems(key, pc.components?.[key], fallback.components[key]);
-   }
-  }
-  return {
-   ...fallback,
-   ...pc,
-   cardBadge: typeof pc.cardBadge === "string" ? pc.cardBadge : "",
-   components: mergedComponents
-  };
- });
-}
-
-function safeLoad(){
- try{
-  if(!window.localStorage)return clone(defaultData);
-  let raw = window.localStorage.getItem(KEY);
-  let migratedFromLegacy = false;
-  if(!raw){
-   for(const lk of LEGACY_KEYS){
-    const oldRaw = window.localStorage.getItem(lk);
-    if(oldRaw){
-     raw = oldRaw;
-     migratedFromLegacy = true;
-     break;
-    }
-   }
-  }
-  if(!raw)return clone(defaultData);
-  const parsed=JSON.parse(raw);
-  if(Array.isArray(parsed)&&parsed.length>0){
-   const normalized = normalizeData(parsed);
-   if(migratedFromLegacy){
-    try{ window.localStorage.setItem(KEY, JSON.stringify(normalized)); }catch(e){}
-   }
-   return normalized;
-  }
- }catch(e){}
- return clone(defaultData);
-}
-
-function safeSave(allowFallbackStrip = true){
- if(!window.localStorage)return true;
- try{
-  window.localStorage.setItem(KEY, JSON.stringify(data));
-  return true;
- }catch(e){
-  if(!allowFallbackStrip) return false;
-  const copy = clone(data);
-  const candidates = [];
-  copy.forEach((pc)=>{
-   if(typeof pc.image === "string" && pc.image.startsWith("data:image/")){
-    candidates.push({len: pc.image.length, set: v=>{pc.image=v;}});
-   }
-   Object.keys(pc.components || {}).forEach(ck=>{
-    (pc.components[ck] || []).forEach((opt)=>{
-     if(typeof opt.image === "string" && opt.image.startsWith("data:image/")){
-      candidates.push({len: opt.image.length, set: v=>{opt.image=v;}});
-     }
-    });
-   });
-  });
-  candidates.sort((a,b)=>b.len - a.len);
-  for(const item of candidates){
-   item.set(defaultData[0]?.image || "");
-   try{
-    window.localStorage.setItem(KEY, JSON.stringify(copy));
-    data = copy;
-    return true;
-   }catch(err2){}
-  }
-  return false;
- }
-}
-
-function compressImageFile(file, maxWidth = 850, quality = 0.72){
- return new Promise(resolve=>{
-  const reader = new FileReader();
-  reader.onload = ()=>{
-   const img = new Image();
-   img.onload = ()=>{
-    const scale = Math.min(1, maxWidth / (img.width || maxWidth));
-    const w = Math.max(1, Math.round((img.width || maxWidth) * scale));
-    const h = Math.max(1, Math.round((img.height || maxWidth) * scale));
-    const canvas = document.createElement("canvas");
-    canvas.width = w;
-    canvas.height = h;
-    const ctx = canvas.getContext("2d");
-    ctx.drawImage(img, 0, 0, w, h);
-    try{
-     resolve(canvas.toDataURL("image/jpeg", quality));
-    }catch(e){
-     resolve(reader.result);
-    }
-   };
-   img.onerror = ()=>resolve(reader.result);
-   img.src = reader.result;
-  };
-  reader.onerror = ()=>resolve("");
-  reader.readAsDataURL(file);
- });
-}
-
 function loadSavedSelections(){
  try{
   if(!window.localStorage)return {};
@@ -1425,12 +1093,6 @@ function persistSelectedForPC(pcIndex, selObj){
  }catch(e){}
 }
 
-let data=safeLoad();
-let isAdminAuthed=false;
-let adminTab="models";
-let adminSelectedPC=0;
-let adminSelectedCat="config";
-let adminSelectedConfigIdx=0;
 let activePC=0;
 let selected={};
 
@@ -1487,22 +1149,11 @@ function getDefaultIndexForCategory(pc, key, cfgIdx = 0){
  return 0;
 }
 
-function updateCornerTrigger(){
- const btn=document.getElementById("cornerAdminBtn");
- if(!btn)return;
- const scrolled=(window.scrollY||window.pageYOffset||0)>140;
- if(scrolled)btn.classList.add("visible");
- else btn.classList.remove("visible");
-}
-
-window.addEventListener("scroll", updateCornerTrigger, {passive:true});
-
 function showView(viewId){
  document.querySelectorAll(".page-view").forEach(v=>v.classList.remove("active"));
  const el=document.getElementById(viewId);
  if(el)el.classList.add("active");
  window.scrollTo({top:0,behavior:"auto"});
- updateCornerTrigger();
  if(viewId==="configView" && data[activePC]){
   renderConfig();
  }
@@ -1514,36 +1165,6 @@ function jumpSection(id){
   const el=document.getElementById(id);
   if(el)el.scrollIntoView({behavior:"smooth"});
  },30);
-}
-
-function openAdmin(){
- if(isAdminAuthed){
-  showView("adminView");
-  renderAdmin();
- }else{
-  showView("loginView");
-  const pw=document.getElementById("password");
-  const err=document.getElementById("loginError");
-  if(pw)pw.value="";
-  if(err)err.textContent="";
-  setTimeout(()=>pw?.focus(),50);
- }
-}
-
-function login(){
- const pass=document.getElementById("password").value;
- if(_matchCode(pass)){
-  isAdminAuthed=true;
-  showView("adminView");
-  renderAdmin();
- }else{
-  document.getElementById("loginError").textContent="Cod incorect.";
- }
-}
-
-function logout(){
- isAdminAuthed=false;
- showView("homeView");
 }
 
 function renderHome(){
@@ -1818,325 +1439,8 @@ function orderPC(){
  window.location.href=`https://wa.me/${WHATSAPP_NUMBER}?text=`+encodeURIComponent(message);
 }
 
-function switchAdminTab(tab){
- adminTab=tab;
- document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));
- document.getElementById("tab-"+tab)?.classList.add("active");
- renderAdmin();
-}
-
-function renderAdmin(){
- if(!data[adminSelectedPC])adminSelectedPC=0;
- const cfgList = data[adminSelectedPC]?.components?.config || [];
- if(adminSelectedConfigIdx < 0 || adminSelectedConfigIdx >= cfgList.length){
-  adminSelectedConfigIdx = 0;
- }
- const root=document.getElementById("adminContent");
- if(!root)return;
- if(adminTab==="models")root.innerHTML=renderModelsTab();
- else if(adminTab==="components")root.innerHTML=renderComponentsTab();
- else root.innerHTML=renderSystemTab();
-}
-
-function renderPCSelectorCards(){
- return `<div class="pc-selector-bar">
-  ${data.map((pc,i)=>`
-   <button type="button" class="pc-select-card ${i===adminSelectedPC?"active":""}" onclick="adminSelectedPC=${i};adminSelectedConfigIdx=0;renderAdmin()">
-    <strong>${safe(pc.name)}</strong>
-    <small>De la: ${money(getStartingPriceForPC(pc))}</small>
-   </button>`).join("")}
- </div>`;
-}
-
-function renderConfigSubSelector(pc){
- const cfgList = pc.components?.config || [];
- return `
-  <div style="margin-bottom:16px;padding:12px 14px;border-radius:8px;background:#0c0e15;border:1px solid #24293a">
-   <div style="font-size:11px;color:#a7aec4;margin-bottom:8px;font-weight:700">SELECTEAZĂ CONFIG-UL PENTRU CARE SETEZI PLACĂ VIDEO:</div>
-   <div style="display:flex;gap:8px;flex-wrap:wrap">
-    ${cfgList.map((cfg,ci)=>`
-     <button type="button" class="cat-pill ${ci===adminSelectedConfigIdx?"active":""}" onclick="adminSelectedConfigIdx=${ci};renderAdmin()">
-      ${ci+1}. ${safe(cfg.name)} (${(cfg.gpuOptions||[]).length} GPU)
-     </button>`).join("")}
-   </div>
-  </div>`;
-}
-
-function renderModelsTab(){
- const pc=data[adminSelectedPC];
- return `
-  <div class="admin-box">
-   <h2>Modele PC</h2>
-   <p style="color:var(--muted);font-size:12px;margin:0 0 14px">Selectează un sistem pentru editare.</p>
-   ${renderPCSelectorCards()}
-   <div style="border-top:1px solid #1d212e;padding-top:16px">
-    <h3>${safe(pc.name)}</h3>
-    <div class="admin-grid-2">
-     <div><label for="pcName">Numele PC-ului</label><input id="pcName" value="${safe(pc.name)}"></div>
-     <div><label for="pcPrice">Ajustare suplimentară model (RON)</label><input id="pcPrice" type="number" value="${Number(pc.price)||0}"></div>
-    </div>
-    <label for="pcCardBadge">Text afișat pe cardul de pe pagina principală (opțional, înlocuiește „De la”)</label>
-    <input id="pcCardBadge" value="${safe(pc.cardBadge || "")}" placeholder="Ex: Ryzen 5 3600 + RX 580 8GB">
-    <label for="pcDesc">Descriere</label>
-    <textarea id="pcDesc">${safe(pc.description)}</textarea>
-    <label>Imagine principală PC</label>
-    <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:8px">
-     <img src="${safe(pc.image)}" style="width:84px;height:84px;object-fit:cover;border-radius:8px;border:1px solid #262b3b">
-     <div style="flex:1;min-width:220px">
-      <input type="file" accept="image/*" onchange="uploadPCImage(${adminSelectedPC},this)">
-     </div>
-    </div>
-    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px">
-     <button type="button" class="secondary-btn" onclick="saveCurrentPC()">Salvează</button>
-    </div>
-   </div>
-  </div>`;
-}
-
-function getAdminWorkingList(pc){
- if(adminSelectedCat === "gpu"){
-  const cfgList = pc.components.config || [];
-  if(!cfgList[adminSelectedConfigIdx]) return [];
-  if(!Array.isArray(cfgList[adminSelectedConfigIdx].gpuOptions)){
-   cfgList[adminSelectedConfigIdx].gpuOptions = [];
-  }
-  return cfgList[adminSelectedConfigIdx].gpuOptions;
- }
- if(!Array.isArray(pc.components[adminSelectedCat])) pc.components[adminSelectedCat] = [];
- return pc.components[adminSelectedCat];
-}
-
-function renderComponentsTab(){
- const pc=data[adminSelectedPC];
- const options=getAdminWorkingList(pc);
- const showImageUpload=(adminSelectedCat==="case"||adminSelectedCat==="cooler");
- const activeCfg = (pc.components.config || [])[adminSelectedConfigIdx];
-
- return `
-  <div class="admin-box">
-   <h2>Componente & prețuri</h2>
-   <p style="color:var(--muted);font-size:12px;margin:0 0 14px">Selectează PC-ul, apoi categoria.</p>
-   ${renderPCSelectorCards()}
-   <div class="cat-pills">
-    ${Object.keys(componentNames).map(k=>{
-     const count = (k === "gpu")
-      ? ((pc.components.config?.[adminSelectedConfigIdx]?.gpuOptions || []).length)
-      : ((pc.components[k] || []).length);
-     return `
-     <button type="button" class="cat-pill ${k===adminSelectedCat?"active":""}" onclick="adminSelectedCat='${k}';renderAdmin()">
-      ${componentNames[k]} (${count})
-     </button>`;
-    }).join("")}
-   </div>
-
-   ${adminSelectedCat === "gpu" ? renderConfigSubSelector(pc) : ""}
-
-   <h3>${componentNames[adminSelectedCat]}${adminSelectedCat === "gpu" && activeCfg ? ` · ${safe(activeCfg.name)}` : ""}</h3>
-   <div class="option-list">
-    ${options.length?options.map((o,oi)=>`
-     <div class="admin-row">
-      ${o.image?`<img src="${safe(o.image)}" alt="">`:`<div class="thumb-placeholder">N/A</div>`}
-      <div class="row-info">
-       <strong>${safe(o.name)}</strong>
-       <small>${money(o.price)}</small>
-      </div>
-      <div class="row-actions">
-       <button type="button" class="secondary-btn btn-sm" onclick="editOption(${adminSelectedPC},'${adminSelectedCat}',${oi},${adminSelectedConfigIdx})">Editează</button>
-       <button type="button" class="secondary-btn btn-sm danger" onclick="deleteOption(${adminSelectedPC},'${adminSelectedCat}',${oi},${adminSelectedConfigIdx})">Șterge</button>
-      </div>
-     </div>`).join(""):`<div class="empty">Nu există opțiuni în această categorie.</div>`}
-   </div>
-
-   <div style="margin-top:20px;padding-top:16px;border-top:1px solid #1d212e">
-    <h3>Opțiune nouă (${componentNames[adminSelectedCat]})</h3>
-    <div class="admin-grid-3">
-     <div>
-      <label for="newOptName">Denumire</label>
-      <input id="newOptName" placeholder="${adminSelectedCat === "gpu" ? "Ex: RTX 3060 12GB" : "Ex: Ryzen 5 3600 + RX 580 8GB / +500GB SATA SSD"}">
-     </div>
-     <div>
-      <label for="newOptPrice">Preț (RON)</label>
-      <input id="newOptPrice" type="number" value="0">
-     </div>
-     <button type="button" class="secondary-btn" onclick="addOptionFromTab()">+ Adaugă</button>
-    </div>
-    ${showImageUpload?`
-     <div style="margin-top:12px;max-width:360px">
-      <label for="newOptImg">Imagine (opțional)</label>
-      <input id="newOptImg" type="file" accept="image/*">
-     </div>`:""}
-   </div>
-  </div>`;
-}
-
-function renderSystemTab(){
- return `
-  <div class="admin-box">
-   <h2>Resetare & Export JSON</h2>
-   <p style="color:var(--muted);font-size:12px;margin:0 0 14px">Másold ki a JSON-t és küldd el itt a chatben, hogy beégessem a végleges kódba.</p>
-   <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px">
-    <button type="button" class="primary-btn btn-sm" onclick="copyCurrentDataJson()">Copiază JSON actual</button>
-    <button type="button" class="secondary-btn btn-sm" onclick="refreshJsonBox()">Reîncarcă JSON</button>
-    <button type="button" class="secondary-btn btn-sm danger" onclick="resetDefaults()">Resetează la valorile implicite</button>
-   </div>
-   <textarea id="jsonExportBox" readonly style="min-height:130px;font-family:monospace;font-size:11px">${safe(JSON.stringify(data))}</textarea>
-  </div>`;
-}
-
-function refreshJsonBox(){
- const box = document.getElementById("jsonExportBox");
- if(box) box.value = JSON.stringify(data);
-}
-
-function copyCurrentDataJson(){
- const box = document.getElementById("jsonExportBox");
- if(!box)return;
- box.value = JSON.stringify(data);
- box.select();
- try{
-  navigator.clipboard?.writeText(box.value);
-  alert("JSON-ul a fost copiat.");
- }catch(e){
-  document.execCommand("copy");
-  alert("JSON-ul a fost selectat.");
- }
-}
-
-function saveCurrentPC(){
- const pc=data[adminSelectedPC];
- pc.name=document.getElementById("pcName").value.trim()||pc.name;
- pc.price=Number(document.getElementById("pcPrice").value)||0;
- pc.cardBadge=document.getElementById("pcCardBadge").value.trim();
- pc.description=document.getElementById("pcDesc").value.trim();
- safeSave(true);
- renderHome();
- renderAdmin();
- alert("Salvat.");
-}
-
-async function uploadPCImage(i,input){
- const file=input.files[0];if(!file)return;
- const prev=data[i].image;
- const compressed = await compressImageFile(file, 850, 0.72);
- if(!compressed)return;
- data[i].image=compressed;
- if(!safeSave(false)){
-  data[i].image=prev;
-  alert("A kép túl nagy a localStorage számára. Próbálj kisebb képet.");
-  return;
- }
- renderHome();
- renderAdmin();
-}
-
-async function addOptionFromTab(){
- const name=document.getElementById("newOptName").value.trim();
- const price=Number(document.getElementById("newOptPrice").value)||0;
- if(!name){alert("Introdu denumirea.");return;}
- const file=document.getElementById("newOptImg")?.files?.[0];
- let image = "";
- if(file){
-  image = await compressImageFile(file, 800, 0.7);
- }
- const option={name,price};
- if(image)option.image=image;
-
- const pc = data[adminSelectedPC];
- if(adminSelectedCat === "config"){
-  option.gpuOptions = [{name: `${name} (din config)`, price: 0}];
- }
-
- const targetList = getAdminWorkingList(pc);
- targetList.push(option);
- if(!safeSave(false)){
-  targetList.pop();
-  alert("A tárhely megtelt a kép miatt. Próbáld kép nélkül vagy kisebb képpel.");
-  return;
- }
- renderAdmin();
- if(adminSelectedPC===activePC){
-  renderConfig();
- }
-}
-
-function getOptionRef(pi, key, oi, cfgIdx){
- const pc = data[pi];
- if(key === "gpu"){
-  const cfg = pc.components.config?.[cfgIdx] || pc.components.config?.[0];
-  return { arr: cfg.gpuOptions, item: cfg.gpuOptions[oi] };
- }
- return { arr: pc.components[key], item: pc.components[key][oi] };
-}
-
-function editOption(pi,key,oi,cfgIdx = 0){
- const ref = getOptionRef(pi, key, oi, cfgIdx);
- const o = ref.item;
- if(!o) return;
- const prevSnapshot = clone(o);
- const name = prompt("Denumirea componentei:",o.name);
- if(name===null)return;
- const price = prompt("Preț în RON:",o.price);
- if(price===null)return;
- o.name = name.trim()||o.name;
- o.price = Number(price)||0;
- if(key==="case"||key==="cooler"){
-  if(confirm("Vrei să schimbi și imaginea?")){
-   const picker=document.createElement("input");
-   picker.type="file";picker.accept="image/*";
-   picker.onchange=async ()=>{
-    const file=picker.files[0];if(!file)return;
-    const compressed = await compressImageFile(file, 800, 0.7);
-    if(!compressed)return;
-    o.image=compressed;
-    if(!safeSave(false)){
-     ref.arr[oi]=prevSnapshot;
-     alert("A kép túl nagy a localStorage számára.");
-     return;
-    }
-    renderAdmin();
-    if(pi===activePC)renderConfig();
-   };
-   picker.click();
-   return;
-  }
- }
- safeSave(true);
- renderAdmin();
- if(pi===activePC)renderConfig();
-}
-
-function deleteOption(pi,key,oi,cfgIdx = 0){
- if(!confirm("Ștergi această opțiune?"))return;
- const ref = getOptionRef(pi, key, oi, cfgIdx);
- if(!Array.isArray(ref.arr)) return;
- ref.arr.splice(oi,1);
- if(key === "config" && oi === adminSelectedConfigIdx){
-  adminSelectedConfigIdx = 0;
- }
- safeSave(true);
- renderAdmin();
- if(pi===activePC)renderConfig();
-}
-
-function resetDefaults(){
- if(!confirm("Resetezi datele la valorile implicite?"))return;
- data=clone(defaultData);
- adminSelectedPC=0;
- adminSelectedCat="config";
- adminSelectedConfigIdx=0;
- safeSave(true);
- try{ window.localStorage?.removeItem(SEL_KEY); }catch(e){}
- renderHome();
- if(document.getElementById("configView")?.classList.contains("active")){
-  initSelectionForPC(data[activePC], activePC);
-  renderConfig();
- }
- switchAdminTab("models");
-}
-
 renderHome();
 showView("homeView");
-updateCornerTrigger();
 </script>
 </body>
 </html>
