@@ -532,9 +532,20 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
  .model-switcher{width:100%;display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
  .model-pill{padding:9px 10px;text-align:center;font-size:12px}
 
- .config-board{grid-template-columns:1fr;gap:14px}
- .zone-col,.zone-group,.center-stack{gap:14px}
- .center-stack{grid-column:auto;order:-1}
+ /* Mobile component flow: CONFIG -> GPU -> RAM -> SSD -> CASE -> COOLER -> STAGE/SUMMARY/EXTRA */
+ .config-board{display:flex;flex-direction:column;gap:14px}
+ .zone-col,.zone-group,.center-stack{display:contents}
+
+ #topLeftComponents > .component-section:nth-child(1){order:1}
+ #topLeftComponents > .component-section:nth-child(2){order:2}
+ #topRightComponents > .component-section:nth-child(1){order:3}
+ #topRightComponents > .component-section:nth-child(2){order:4}
+ #bottomLeftComponents > .component-section:nth-child(1){order:5}
+ #topRightComponents > .component-section:nth-child(3){order:6}
+ .pc-stage{order:7}
+ .spec-strip-box{order:8}
+ .price-panel{order:9}
+ #bottomCenterComponents > .component-section:nth-child(1){order:10}
 
  .pc-stage{padding:16px;border-radius:15px}
  .stage-image{aspect-ratio:1 / 1;max-height:310px;margin:10px 0 12px;border-radius:12px}
