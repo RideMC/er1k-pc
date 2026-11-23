@@ -532,20 +532,8 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
  .model-switcher{width:100%;display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
  .model-pill{padding:9px 10px;text-align:center;font-size:12px}
 
- /* Mobile component flow: CONFIG -> GPU -> RAM -> SSD -> CASE -> COOLER -> STAGE/SUMMARY/EXTRA */
- .config-board{display:flex;flex-direction:column;gap:14px}
- .zone-col,.zone-group,.center-stack{display:contents}
-
- #topLeftComponents > .component-section:nth-child(1){order:1}
- #topLeftComponents > .component-section:nth-child(2){order:2}
- #topRightComponents > .component-section:nth-child(1){order:3}
- #topRightComponents > .component-section:nth-child(2){order:4}
- #bottomLeftComponents > .component-section:nth-child(1){order:5}
- #topRightComponents > .component-section:nth-child(3){order:6}
- .pc-stage{order:7}
- .spec-strip-box{order:8}
- .price-panel{order:9}
- #bottomCenterComponents > .component-section:nth-child(1){order:10}
+ .config-board{grid-template-columns:1fr;gap:14px}
+ .zone-col,.zone-group,.center-stack{gap:14px;order:0}
 
  .pc-stage{padding:16px;border-radius:15px}
  .stage-image{aspect-ratio:1 / 1;max-height:310px;margin:10px 0 12px;border-radius:12px}
@@ -699,7 +687,7 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 </footer>
 
 <script>
-const SEL_KEY = "er1k_pc_per_config_gpu_sel_v10";
+const SEL_KEY = "er1k_pc_per_config_gpu_sel_v11";
 const WHATSAPP_NUMBER = "40771103552";
 const tierLabels = ["01 · START", "02 · GAMER", "03 · PRO TIER", "04 · ULTIMATE"];
 
@@ -1271,15 +1259,35 @@ function renderConfig(){
   }
  }
 
- document.getElementById("topLeftComponents").innerHTML=["config","gpu"].map(k=>renderComponentBox(k,pc)).join("");
- document.getElementById("bottomLeftComponents").innerHTML=["case"].map(k=>renderComponentBox(k,pc)).join("");
- document.getElementById("topRightComponents").innerHTML=["ram","ssd","cooler"].map(k=>renderComponentBox(k,pc)).join("");
- document.getElementById("bottomCenterComponents").innerHTML=["extra"].map(k=>renderComponentBox(k,pc)).join("");
+ const isMobile = window.innerWidth <= 760;
+
+ if(isMobile){
+  document.getElementById("topLeftComponents").innerHTML=["config","gpu","ram","ssd"].map(k=>renderComponentBox(k,pc)).join("");
+  document.getElementById("bottomLeftComponents").innerHTML=["case","cooler"].map(k=>renderComponentBox(k,pc)).join("");
+  document.getElementById("topRightComponents").innerHTML="";
+  document.getElementById("bottomCenterComponents").innerHTML=["extra"].map(k=>renderComponentBox(k,pc)).join("");
+ }else{
+  document.getElementById("topLeftComponents").innerHTML=["config","gpu"].map(k=>renderComponentBox(k,pc)).join("");
+  document.getElementById("bottomLeftComponents").innerHTML=["case"].map(k=>renderComponentBox(k,pc)).join("");
+  document.getElementById("topRightComponents").innerHTML=["ram","ssd","cooler"].map(k=>renderComponentBox(k,pc)).join("");
+  document.getElementById("bottomCenterComponents").innerHTML=["extra"].map(k=>renderComponentBox(k,pc)).join("");
+ }
 
  updateStage();
  updateSpecStrip();
  updateSummary();
 }
+
+let _lastMobileState = window.innerWidth <= 760;
+window.addEventListener("resize", ()=>{
+ const nowMobile = window.innerWidth <= 760;
+ if(nowMobile !== _lastMobileState){
+  _lastMobileState = nowMobile;
+  if(document.getElementById("configView")?.classList.contains("active")){
+   renderConfig();
+  }
+ }
+}, {passive:true});
 
 function renderComponentBox(key,pc){
  const options = getOptionsForCategory(pc, key, selected.config);
