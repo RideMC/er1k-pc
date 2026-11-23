@@ -795,9 +795,9 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 
 <script>
 const _b = [101,114,49,107,50,48,50,54];
-const KEY = "er1k_pc_per_config_gpu_v5";
-const SEL_KEY = "er1k_pc_per_config_gpu_sel_v5";
-const LEGACY_KEYS = ["er1k_pc_per_config_gpu_v4"];
+const KEY = "er1k_pc_per_config_gpu_v6";
+const SEL_KEY = "er1k_pc_per_config_gpu_sel_v6";
+const LEGACY_KEYS = ["er1k_pc_per_config_gpu_v5", "er1k_pc_per_config_gpu_v4"];
 const WHATSAPP_NUMBER = "40771103552";
 const tierLabels = ["01 · START", "02 · GAMER", "03 · PRO TIER", "04 · ULTIMATE"];
 
@@ -848,10 +848,6 @@ const baseCoolers = [
  {name:"Cooler, Enermax, AIO, Aquafusion II, 240mm",price:222,image:"https://i.postimg.cc/4NpgHsWr/image.png"}
 ];
 
-/*
- * Bázisárak: tartalmazza a megadott konfigurációkat + 16GB RAM (450) + 500GB NVMe (300) + legolcsóbb ház (0) + 90 RON hűtő (90) + 750 RON profit.
- * A GPU opciók sorrendje minden configban azonos és fix (nem ugrál).
- */
 const startGpuOrder = ["GTX 1060 6GB", "GTX 1660 6GB", "RX 580 8GB", "GTX 1660 Super 6GB"];
 const startGpuPrices = {
  "GTX 1060 6GB": 400,
@@ -1121,12 +1117,12 @@ function clone(x){return JSON.parse(JSON.stringify(x))}
 
 function isBaseIncludedOption(key, opt){
  if(!opt) return false;
- if(opt.includedInBase === true) return true;
+ if(typeof opt.includedInBase === "boolean") return opt.includedInBase;
  const n = String(opt.name || "").toLowerCase();
- if(key === "ram" && n.includes("16gb")) return true;
- if(key === "ssd" && n.includes("500gb") && n.includes("nvme")) return true;
- if(key === "case" && (Number(opt.price) || 0) === 0) return true;
- if(key === "cooler" && (Number(opt.price) || 0) === BASE_COOLER_PRICE) return true;
+ if(key === "ram") return n.startsWith("16gb");
+ if(key === "ssd") return n.startsWith("500gb") && n.includes("nvme");
+ if(key === "case") return (Number(opt.price) || 0) === 0;
+ if(key === "cooler") return (Number(opt.price) || 0) === BASE_COOLER_PRICE;
  return false;
 }
 
@@ -1186,6 +1182,21 @@ function normalizePCConfigs(pc, fallbackPC){
  });
 }
 
+function normalizeCategoryItems(key, items, fallbackItems){
+ const list = Array.isArray(items) && items.length > 0 ? items : clone(fallbackItems || []);
+ return list.map(opt => {
+  const copy = { ...opt };
+  if(key === "ram"){
+   const n = String(copy.name || "").toLowerCase();
+   copy.includedInBase = n.startsWith("16gb");
+  }else if(key === "ssd"){
+   const n = String(copy.name || "").toLowerCase();
+   copy.includedInBase = n.startsWith("500gb") && n.includes("nvme");
+  }
+  return copy;
+ });
+}
+
 function normalizeData(list){
  return list.map((pc,idx)=>{
   const fallback = defaultData[idx] || defaultData[0];
@@ -1195,10 +1206,8 @@ function normalizeData(list){
     mergedComponents.config = normalizePCConfigs(pc, fallback);
    }else if(key === "gpu"){
     mergedComponents.gpu = [];
-   }else if(Array.isArray(pc.components?.[key])){
-    mergedComponents[key] = pc.components[key];
    }else{
-    mergedComponents[key] = clone(fallback.components[key] || []);
+    mergedComponents[key] = normalizeCategoryItems(key, pc.components?.[key], fallback.components[key]);
    }
   }
   return {
