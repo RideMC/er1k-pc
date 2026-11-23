@@ -201,30 +201,20 @@ section{padding:88px 0}
 .pc-details{padding:22px;display:flex;flex-direction:column;flex:1}
 .pc-details h3{font-size:23px;margin:0 0 8px;letter-spacing:-.5px}
 .pc-details p{font-size:13px;color:var(--muted);line-height:1.7;min-height:45px;margin:0}
-.pc-base-config{
-  margin-top:12px;
-  padding:9px 11px;
-  border-radius:9px;
-  background:#1d1633;
-  border:1px solid #6d45db88;
-  color:#e4d9ff;
-  font-size:12px;
-  font-weight:700;
-}
 .pc-price-box{
-  margin:18px 0 18px;
+  margin:20px 0 18px;
   margin-top:auto;
   padding:12px 14px;
   border-radius:11px;
   background:#171a26;
   border:1px solid #2b3042;
   display:flex;
-  align-items:baseline;
+  align-items:center;
   justify-content:space-between;
-  gap:8px;
+  gap:10px;
 }
-.pc-price{font-size:24px;font-weight:900;color:#fff}
-.pc-price-box small{font-size:11px;color:#a4aac0;text-transform:uppercase;letter-spacing:1px;font-weight:700}
+.pc-price{font-size:18px;font-weight:900;color:#fff;text-align:right}
+.pc-price-box small{font-size:11px;color:#a4aac0;text-transform:uppercase;letter-spacing:1px;font-weight:700;white-space:nowrap}
 .pc-card button{width:100%}
 
 .features{background:#0c0e14;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
@@ -297,7 +287,7 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 
 .config-board{
   display:grid;
-  grid-template-columns:minmax(275px,1fr) minmax(350px,1.1fr) minmax(275px,1fr);
+  grid-template-columns:minmax(275px,1fr) minmax(360px,1.15fr) minmax(275px,1fr);
   gap:22px;
   align-items:start;
 }
@@ -397,20 +387,21 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 }
 .choice.brand-blue.selected::after{background:#2563eb}
 
+/* FINOM, LÁGY PIROS AMD-RE */
 .choice.brand-red{
-  border-color:#ef4444;
-  background:linear-gradient(160deg,#3b141a,#18121b);
+  border-color:#9e3b4b;
+  background:linear-gradient(160deg,#261419,#15121a);
 }
 .choice.brand-red:hover{
-  border-color:#f87171;
-  background:linear-gradient(160deg,#4d1921,#1d1521);
+  border-color:#c45668;
+  background:linear-gradient(160deg,#301920,#191520);
 }
 .choice.brand-red.selected{
-  border:2px solid #f87171;
+  border:2px solid #c45668;
   padding:12px;
-  box-shadow:0 0 22px #ef444444;
+  box-shadow:0 0 18px #9e3b4b33;
 }
-.choice.brand-red.selected::after{background:#dc2626}
+.choice.brand-red.selected::after{background:#9e3b4b}
 
 .choice.brand-green{
   border-color:#22c55e;
@@ -444,25 +435,26 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
   background:radial-gradient(circle at 50% 35%,#4a2c82,#181526 66%,#0f1119);
   border:1px solid #49396e;
   border-radius:18px;
-  padding:24px;
+  padding:22px;
   text-align:center;
   box-shadow:0 18px 48px #0008,0 0 40px #8b5cf624;
 }
 .stage-label{font-size:11px;letter-spacing:2.4px;color:#cbb4ff;font-weight:800}
+/* HOSSZÚKÁSABB CARCASĂ KÉP */
 .stage-image{
   width:100%;
-  max-height:360px;
-  aspect-ratio:1/1;
-  object-fit:contain;
+  aspect-ratio:16 / 10;
+  max-height:250px;
+  object-fit:cover;
   margin:14px 0;
   border-radius:14px;
   background:#0c0e1590;
-  padding:8px;
+  border:1px solid #352b4f;
 }
 .stage-name{font-size:21px;font-weight:800;letter-spacing:-.4px}
-.stage-caption{font-size:12px;color:#a9afc4;margin-top:7px}
+.stage-caption{font-size:12px;color:#a9afc4;margin-top:6px}
 .stage-spec-box{
-  margin-top:16px;
+  margin-top:15px;
   padding:13px 14px;
   border-radius:12px;
   background:#0c0e16cc;
@@ -502,12 +494,10 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 }
 .summary-total small{color:#b69aff;font-weight:800;letter-spacing:1.2px}
 .summary-total strong{font-size:30px;color:#fff}
-.price-panel button{width:100%;margin-top:14px}
-.sync-row{display:flex;gap:8px;margin-top:14px}
-.sync-row button{margin-top:0;flex:1}
+.price-panel button{width:100%;margin-top:18px}
 .notice{font-size:11px;color:var(--muted);line-height:1.6;margin-top:13px}
 
-/* SUBTLE, ORGANIZED PANEL */
+/* ADMIN PANEL */
 .admin-wrap{max-width:1080px;margin:auto}
 .admin-topbar{
   background:#101219;
@@ -716,12 +706,11 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
   <div class="config-board">
    <div class="zone-col">
     <div id="topLeftComponents" class="zone-col"></div>
-    <div id="bottomLeftComponents" class="zone-col"></div>
    </div>
 
    <div class="center-stack">
     <div class="pc-stage">
-     <div class="stage-label">YOUR CUSTOM BUILD</div>
+     <div class="stage-label">CARCASĂ & CONFIGURAȚIE</div>
      <img class="stage-image" id="stageImage" src="" alt="PC case">
      <div class="stage-name" id="stageCaseName">PC Case</div>
      <div class="stage-caption">Imaginea se schimbă în funcție de carcasa aleasă.</div>
@@ -736,17 +725,12 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
       <strong id="totalPrice">0 RON</strong>
      </div>
      <button type="button" class="primary-btn" onclick="orderPC()">SOLICITĂ OFERTĂ</button>
-     <div class="sync-row">
-      <button type="button" class="secondary-btn btn-sm" onclick="copySyncLink()">Copiază link sync</button>
-      <button type="button" class="secondary-btn btn-sm" onclick="exportBackup()">Export JSON</button>
-     </div>
-     <div class="notice">Prețul final poate fi confirmat în funcție de disponibilitatea componentelor. Linkul „Copiază link sync” păstrează configurarea și pe alt dispozitiv (telefon/PC).</div>
+     <div class="notice">Prețul final poate fi confirmat în funcție de disponibilitatea componentelor.</div>
     </div>
    </div>
 
    <div class="zone-col">
     <div id="topRightComponents" class="zone-col"></div>
-    <div id="bottomRightComponents" class="zone-col"></div>
    </div>
   </div>
  </div>
@@ -773,19 +757,19 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
   <div class="admin-wrap">
    <div class="admin-topbar">
     <div>
-     <h2 style="margin:0 0 3px;font-size:22px">Management</h2>
-     <p style="margin:0;color:var(--muted);font-size:12px">Modellek, alkatrészek és alaphelyzet kezelése.</p>
+     <h2 style="margin:0 0 3px;font-size:22px">Panou Administrare</h2>
+     <p style="margin:0;color:var(--muted);font-size:12px">Administrare modele PC, componente și resetare.</p>
     </div>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
-     <button type="button" class="secondary-btn btn-sm" onclick="showView('homeView')">← Főoldal</button>
-     <button type="button" class="secondary-btn btn-sm danger" onclick="logout()">Kilépés</button>
+     <button type="button" class="secondary-btn btn-sm" onclick="showView('homeView')">← Pagina principală</button>
+     <button type="button" class="secondary-btn btn-sm danger" onclick="logout()">Deconectare</button>
     </div>
    </div>
 
    <div class="admin-tabs">
-    <button type="button" class="tab-btn active" id="tab-models" onclick="switchAdminTab('models')">PC Modellek</button>
-    <button type="button" class="tab-btn" id="tab-components" onclick="switchAdminTab('components')">Alkatrészek & Felárak</button>
-    <button type="button" class="tab-btn" id="tab-system" onclick="switchAdminTab('system')">Alaphelyzet & Sync</button>
+    <button type="button" class="tab-btn active" id="tab-models" onclick="switchAdminTab('models')">Modele PC</button>
+    <button type="button" class="tab-btn" id="tab-components" onclick="switchAdminTab('components')">Componente & Prețuri</button>
+    <button type="button" class="tab-btn" id="tab-system" onclick="switchAdminTab('system')">Resetare</button>
    </div>
 
    <div id="adminContent"></div>
@@ -802,7 +786,7 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 
 <script>
 const _b = [101,114,49,107,50,48,50,54];
-const KEY = "er1k_pc_v15";
+const KEY = "er1k_pc_v16";
 const tierLabels = ["01 · ENTRY", "02 · POPULAR", "03 · PRO TIER", "04 · FLAGSHIP"];
 
 function _matchCode(val){
@@ -816,10 +800,10 @@ function _matchCode(val){
 
 const defaultData = [
  {
-  id:"start",name:"Er1k Start",description:"Un sistem accesibil pentru gaming și utilizare zilnică.",price:1800,
+  id:"start",name:"Er1k Start",description:"Un sistem accesibil pentru gaming și utilizare zilnică.",price:1800,cardBadge:"",
   image:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=800&q=85",
   components:{
-   cpuGpu:[
+   config:[
     {name:"Ryzen 5 3600 + GTX 1660 Super 6GB",price:0},
     {name:"Ryzen 5 3600 + RTX 5060",price:650},
     {name:"Ryzen 5 5500 + RX 6600 8GB",price:320}
@@ -831,22 +815,22 @@ const defaultData = [
    ],
    ram:[{name:"16GB DDR4",price:0},{name:"32GB DDR4",price:180}],
    ssd:[{name:"500GB NVMe",price:0},{name:"1TB NVMe",price:180}],
-   extra:[
-    {name:"Wi-Fi + Bluetooth modul",price:90},
-    {name:"Windows 11 aktiválva",price:60}
-   ],
    case:[
     {name:"Basic Black Case",price:0,image:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=700&q=85"},
     {name:"Glass Airflow Case",price:120,image:"https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=700&q=85"}
    ],
-   cooler:[{name:"Stock Cooler",price:0,image:""},{name:"Tower Air Cooler",price:90,image:""}]
+   cooler:[{name:"Stock Cooler",price:0,image:""},{name:"Tower Air Cooler",price:90,image:""}],
+   extra:[
+    {name:"Modul Wi-Fi + Bluetooth",price:90},
+    {name:"Activare Windows 11",price:60}
+   ]
   }
  },
  {
-  id:"gaming",name:"Er1k Gaming",description:"Performanță excelentă pentru gaming Full HD și QHD.",price:2800,
+  id:"gaming",name:"Er1k Gaming",description:"Performanță excelentă pentru gaming Full HD și QHD.",price:2800,cardBadge:"",
   image:"https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=800&q=85",
   components:{
-   cpuGpu:[
+   config:[
     {name:"Ryzen 5 5600 + RX 6600 8GB",price:0},
     {name:"Ryzen 5 5600 + RTX 5060",price:550},
     {name:"Ryzen 7 5700X + RX 6700 XT 12GB",price:650}
@@ -858,22 +842,22 @@ const defaultData = [
    ],
    ram:[{name:"16GB DDR4",price:0},{name:"32GB DDR4",price:180}],
    ssd:[{name:"1TB NVMe",price:0},{name:"2TB NVMe",price:250}],
-   extra:[
-    {name:"Wi-Fi + Bluetooth modul",price:90},
-    {name:"Windows 11 aktiválva",price:60}
-   ],
    case:[
     {name:"RGB Gaming Case",price:0,image:"https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=700&q=85"},
     {name:"White Gaming Case",price:150,image:"https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=700&q=85"}
    ],
-   cooler:[{name:"Air Cooler",price:0,image:""},{name:"ARGB Air Cooler",price:100,image:""}]
+   cooler:[{name:"Air Cooler",price:0,image:""},{name:"ARGB Air Cooler",price:100,image:""}],
+   extra:[
+    {name:"Modul Wi-Fi + Bluetooth",price:90},
+    {name:"Activare Windows 11",price:60}
+   ]
   }
  },
  {
-  id:"pro",name:"Er1k Pro",description:"Putere suplimentară pentru gaming și multitasking.",price:4200,
+  id:"pro",name:"Er1k Pro",description:"Putere suplimentară pentru gaming și multitasking.",price:4200,cardBadge:"",
   image:"https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=800&q=85",
   components:{
-   cpuGpu:[
+   config:[
     {name:"Ryzen 5 7600 + RTX 4060 8GB",price:0},
     {name:"Ryzen 7 7700 + RTX 5060 Ti",price:650},
     {name:"Ryzen 7 7800X3D + RX 7700 XT 12GB",price:1100}
@@ -885,22 +869,22 @@ const defaultData = [
    ],
    ram:[{name:"32GB DDR5",price:0},{name:"64GB DDR5",price:350}],
    ssd:[{name:"1TB NVMe",price:0},{name:"2TB NVMe",price:250}],
-   extra:[
-    {name:"Wi-Fi 6E + Bluetooth",price:110},
-    {name:"Windows 11 Pro aktiválva",price:70}
-   ],
    case:[
     {name:"Premium Black Case",price:0,image:"https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=700&q=85"},
     {name:"Panoramic Glass Case",price:220,image:"https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=700&q=85"}
    ],
-   cooler:[{name:"Tower Air Cooler",price:0,image:""},{name:"240mm AIO",price:250,image:""}]
+   cooler:[{name:"Tower Air Cooler",price:0,image:""},{name:"240mm AIO",price:250,image:""}],
+   extra:[
+    {name:"Wi-Fi 6E + Bluetooth",price:110},
+    {name:"Windows 11 Pro activat",price:70}
+   ]
   }
  },
  {
-  id:"ultimate",name:"Er1k Ultimate",description:"High-end sistem pentru performanță fără compromisuri.",price:6500,
+  id:"ultimate",name:"Er1k Ultimate",description:"High-end sistem pentru performanță fără compromisuri.",price:6500,cardBadge:"",
   image:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=800&q=85",
   components:{
-   cpuGpu:[
+   config:[
     {name:"Ryzen 7 7800X3D + RTX 4070 Super 12GB",price:0},
     {name:"Ryzen 7 9800X3D + RTX 5070 12GB",price:950},
     {name:"Ryzen 7 9800X3D + RTX 5070 Ti 16GB",price:1750}
@@ -912,27 +896,27 @@ const defaultData = [
    ],
    ram:[{name:"32GB DDR5",price:0},{name:"64GB DDR5",price:350}],
    ssd:[{name:"2TB NVMe",price:0},{name:"4TB NVMe",price:450}],
-   extra:[
-    {name:"Wi-Fi 7 + Bluetooth",price:130},
-    {name:"Windows 11 Pro aktiválva",price:70}
-   ],
    case:[
     {name:"Ultimate Black Case",price:0,image:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=700&q=85"},
     {name:"Dual-Chamber Showcase",price:280,image:"https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=700&q=85"}
    ],
-   cooler:[{name:"360mm AIO",price:0,image:""},{name:"Premium 360mm AIO",price:250,image:""}]
+   cooler:[{name:"360mm AIO",price:0,image:""},{name:"Premium 360mm AIO",price:250,image:""}],
+   extra:[
+    {name:"Wi-Fi 7 + Bluetooth",price:130},
+    {name:"Windows 11 Pro activat",price:70}
+   ]
   }
  }
 ];
 
 const componentNames={
- cpuGpu:"CONFIG (CPU + GPU)",
+ config:"CONFIG (CPU + GPU)",
  gpu:"PLACĂ VIDEO",
  ram:"MEMORIE RAM",
  ssd:"SSD",
- extra:"PLUSZ VÁLASZTÁS",
  case:"CARCASĂ",
- cooler:"RĂCIRE PROCESOR"
+ cooler:"RĂCIRE PROCESOR",
+ extra:"OPȚIUNI EXTRA"
 };
 
 function clone(x){return JSON.parse(JSON.stringify(x))}
@@ -944,11 +928,6 @@ function normalizeData(list){
   for(const key of Object.keys(componentNames)){
    if(Array.isArray(pc.components?.[key])){
     mergedComponents[key] = pc.components[key];
-   }else if(key === "cpuGpu" && Array.isArray(pc.components?.cpu)){
-    mergedComponents[key] = pc.components.cpu.map((c, ci) => {
-     const g = (pc.components?.gpu || [])[ci] || (pc.components?.gpu || [])[0];
-     return { name: g ? `${c.name} + ${g.name}` : c.name, price: c.price || 0 };
-    });
    }else{
     mergedComponents[key] = clone(fallback.components[key] || []);
    }
@@ -956,31 +935,13 @@ function normalizeData(list){
   return {
    ...fallback,
    ...pc,
+   cardBadge: typeof pc.cardBadge === "string" ? pc.cardBadge : "",
    components: mergedComponents
   };
  });
 }
 
-function tryLoadFromHash(){
- try{
-  const h = String(window.location.hash || "");
-  const match = h.match(/cfg=([^&]+)/);
-  if(!match) return null;
-  const jsonStr = decodeURIComponent(escape(atob(match[1])));
-  const parsed = JSON.parse(jsonStr);
-  if(Array.isArray(parsed) && parsed.length > 0){
-   return normalizeData(parsed);
-  }
- }catch(e){}
- return null;
-}
-
 function safeLoad(){
- const fromHash = tryLoadFromHash();
- if(fromHash){
-  try{ if(window.localStorage) window.localStorage.setItem(KEY, JSON.stringify(fromHash)); }catch(e){}
-  return fromHash;
- }
  try{
   if(!window.localStorage)return clone(defaultData);
   const raw = window.localStorage.getItem(KEY) || window.localStorage.getItem("er1k_pc_v10");
@@ -998,7 +959,7 @@ function safeSave(){
    return true;
   }
  }catch(e){
-  alert("A böngésző tárhelye (localStorage) megtelt a képek mérete miatt. Próbálj kisebb méretű képet feltölteni.");
+  alert("Spațiul de stocare al browserului (localStorage) este plin din cauza dimensiunii imaginilor. Încearcă o imagine mai mică.");
   return false;
  }
  return true;
@@ -1008,7 +969,7 @@ let data=safeLoad();
 let isAdminAuthed=false;
 let adminTab="models";
 let adminSelectedPC=0;
-let adminSelectedCat="cpuGpu";
+let adminSelectedCat="config";
 let activePC=0;
 let selected={};
 
@@ -1078,7 +1039,10 @@ function renderHome(){
  const grid=document.getElementById("pcGrid");
  if(!grid)return;
  grid.innerHTML=data.map((pc,i)=>{
-  const firstCfg = (pc.components?.cpuGpu || [])[0]?.name || "";
+  const customBadge = String(pc.cardBadge || "").trim();
+  const priceHtml = customBadge
+   ? `<small>CONFIG</small><span class="pc-price">${safe(customBadge)}</span>`
+   : `<small>De la</small><span class="pc-price">${money(pc.price)}</span>`;
   return `
   <article class="pc-card">
    <div class="pc-media">
@@ -1088,10 +1052,8 @@ function renderHome(){
    <div class="pc-details">
     <h3>${safe(pc.name)}</h3>
     <p>${safe(pc.description)}</p>
-    ${firstCfg ? `<div class="pc-base-config">Config: ${safe(firstCfg)}</div>` : ""}
     <div class="pc-price-box">
-     <small>De la</small>
-     <span class="pc-price">${money(pc.price)}</span>
+     ${priceHtml}
     </div>
     <button type="button" class="primary-btn" onclick="openPC(${i})">CONFIGUREAZĂ →</button>
    </div>
@@ -1102,7 +1064,7 @@ function renderHome(){
 function getBrandClass(key, option){
  const name = String(option?.name || "").toLowerCase();
 
- if(key === "cpuGpu"){
+ if(key === "config"){
   if(name.includes("intel") || name.includes("12100") || name.includes("12400") || name.includes("13400") || name.includes("14400")) return "brand-blue";
   if(name.includes("ryzen") || name.includes("amd") || name.includes("rx ")) return "brand-red";
   return "";
@@ -1120,7 +1082,6 @@ function getBrandClass(key, option){
 function initSelectionForPC(pc){
  selected = {};
  for(const key of Object.keys(componentNames)){
-  // Plusz választás (extra) alapból nincs kijelölve (-1)
   selected[key] = (key === "extra") ? -1 : 0;
  }
 }
@@ -1159,20 +1120,18 @@ function renderConfig(){
    }
   }
  }
- // Bal felső: Config (CPU+GPU) + RAM + SSD; Bal alsó: Carcasă + Placă video (lejjebb)
- document.getElementById("topLeftComponents").innerHTML=["cpuGpu","ram","ssd"].map(k=>renderComponentBox(k,pc)).join("");
- document.getElementById("bottomLeftComponents").innerHTML=["case","gpu"].map(k=>renderComponentBox(k,pc)).join("");
- // Jobb felső: Plusz választás; Jobb alsó: Răcire procesor
- document.getElementById("topRightComponents").innerHTML=["extra"].map(k=>renderComponentBox(k,pc)).join("");
- document.getElementById("bottomRightComponents").innerHTML=["cooler"].map(k=>renderComponentBox(k,pc)).join("");
+ // Bal oldal: Config (CPU+GPU) fent, Placă video alatta, majd Carcasă és Răcire procesor
+ document.getElementById("topLeftComponents").innerHTML=["config","gpu","case","cooler"].map(k=>renderComponentBox(k,pc)).join("");
+ // Jobb oldal: Memorie RAM fent, SSD alatta, majd Opțiuni extra (nem kötelező)
+ document.getElementById("topRightComponents").innerHTML=["ram","ssd","extra"].map(k=>renderComponentBox(k,pc)).join("");
  updateStage();
  updateSummary();
 }
 
 function renderComponentBox(key,pc){
  const options=pc.components[key]||[];
- const isHighlight = key === "cpuGpu";
- const badgeText = key === "extra" ? "OPCIONÁLIS" : `${options.length} OPȚIUNI`;
+ const isHighlight = key === "config";
+ const badgeText = key === "extra" ? "OPȚIONAL" : `${options.length} OPȚIUNI`;
 
  return `<div class="component-section ${isHighlight ? "config-highlight" : ""}">
   <div class="component-title"><h3>${componentNames[key]}</h3><span>${badgeText}</span></div>
@@ -1195,7 +1154,6 @@ function renderComponentBox(key,pc){
 
 function choose(key,i){
  if(key === "extra"){
-  // Opcionális: ha már ki volt jelölve, visszavonja (-1), egyébként kijelöli
   selected[key] = (selected[key] === i) ? -1 : i;
  }else{
   selected[key] = i;
@@ -1215,7 +1173,8 @@ function currentOption(key){
 function updateStage(){
  const c=currentOption("case");
  const pc=data[activePC];
- const cfg=currentOption("cpuGpu");
+ const cfg=currentOption("config");
+ const gpu=currentOption("gpu");
  const ram=currentOption("ram");
  const ssd=currentOption("ssd");
  const extra=currentOption("extra");
@@ -1225,15 +1184,16 @@ function updateStage(){
 
  document.getElementById("stageSpecs").innerHTML = `
   <div><strong>Config:</strong> ${safe(cfg ? cfg.name : "-")}</div>
+  <div><strong>Placă video:</strong> ${safe(gpu ? gpu.name : "-")}</div>
   <div><strong>RAM:</strong> ${safe(ram ? ram.name : "-")} · <strong>SSD:</strong> ${safe(ssd ? ssd.name : "-")}</div>
-  <div><strong>Plusz választás:</strong> ${safe(extra ? extra.name : "Niciuna (opțional)")}</div>
+  <div><strong>Opțiuni extra:</strong> ${safe(extra ? extra.name : "Niciuna (opțional)")}</div>
  `;
 }
 
 function updateSummary(){
  const pc=data[activePC];
  let total=Number(pc.price)||0;
- let html=`<div class="summary-line"><span>Sistem de bază</span><span>${money(pc.price)}</span></div>`;
+ let html="";
  for(const key of Object.keys(componentNames)){
   const o=currentOption(key);
   if(!o)continue;
@@ -1256,51 +1216,6 @@ function orderPC(){
  const total=document.getElementById("totalPrice").textContent;
  const message=`Bună! Sunt interesat de ${pc.name}.\n${lines.join("\n")}\nPreț estimativ: ${total}`;
  window.location.href="https://wa.me/?text="+encodeURIComponent(message);
-}
-
-function copySyncLink(){
- try{
-  const payload = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
-  const baseUrl = window.location.href.split("#")[0];
-  const syncUrl = `${baseUrl}#cfg=${payload}`;
-  navigator.clipboard?.writeText(syncUrl);
-  alert("Szinkronizáló link vágólapra másolva! Nyisd meg telefonon vagy másik gépen.");
- }catch(e){
-  alert("Nem sikerült a link másolása, használd az Export JSON gombot.");
- }
-}
-
-function exportBackup(){
- const blob = new Blob([JSON.stringify(data, null, 2)], {type:"application/json"});
- const url = URL.createObjectURL(blob);
- const a = document.createElement("a");
- a.href = url;
- a.download = "er1k-pc-backup.json";
- a.click();
- URL.revokeObjectURL(url);
-}
-
-function importBackup(input){
- const file = input.files?.[0];
- if(!file) return;
- const reader = new FileReader();
- reader.onload = ()=>{
-  try{
-   const parsed = JSON.parse(reader.result);
-   if(Array.isArray(parsed) && parsed.length > 0){
-    data = normalizeData(parsed);
-    safeSave();
-    renderHome();
-    renderAdmin();
-    alert("Adatok sikeresen importálva!");
-   }else{
-    alert("Érvénytelen JSON fájl.");
-   }
-  }catch(e){
-   alert("Hiba a JSON beolvasásakor.");
-  }
- };
- reader.readAsText(file);
 }
 
 function switchAdminTab(tab){
@@ -1333,8 +1248,8 @@ function renderModelsTab(){
  const pc=data[adminSelectedPC];
  return `
   <div class="admin-box">
-   <h2>PC modellek</h2>
-   <p style="color:var(--muted);font-size:12px;margin:0 0 14px">Válassz gépet a szerkesztéshez.</p>
+   <h2>Modele PC</h2>
+   <p style="color:var(--muted);font-size:12px;margin:0 0 14px">Selectează un sistem pentru editare.</p>
    ${renderPCSelectorCards()}
    <div style="border-top:1px solid #1d212e;padding-top:16px">
     <h3>${safe(pc.name)}</h3>
@@ -1342,6 +1257,8 @@ function renderModelsTab(){
      <div><label for="pcName">Numele PC-ului</label><input id="pcName" value="${safe(pc.name)}"></div>
      <div><label for="pcPrice">Preț de bază (RON)</label><input id="pcPrice" type="number" value="${Number(pc.price)||0}"></div>
     </div>
+    <label for="pcCardBadge">Text afișat pe cardul de pe pagina principală (opțional, înlocuiește „De la”)</label>
+    <input id="pcCardBadge" value="${safe(pc.cardBadge || "")}" placeholder="Ex: Ryzen 5 3600 + RTX 5060">
     <label for="pcDesc">Descriere</label>
     <textarea id="pcDesc">${safe(pc.description)}</textarea>
     <label>Imagine principală PC</label>
@@ -1352,7 +1269,7 @@ function renderModelsTab(){
      </div>
     </div>
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px">
-     <button type="button" class="secondary-btn" onclick="saveCurrentPC()">Mentés</button>
+     <button type="button" class="secondary-btn" onclick="saveCurrentPC()">Salvează</button>
     </div>
    </div>
   </div>`;
@@ -1366,8 +1283,8 @@ function renderComponentsTab(){
 
  return `
   <div class="admin-box">
-   <h2>Alkatrészek & felárak</h2>
-   <p style="color:var(--muted);font-size:12px;margin:0 0 14px">Válassz gépet, majd kategóriát (pl. CONFIG (CPU + GPU) vagy PLUSZ VÁLASZTÁS).</p>
+   <h2>Componente & prețuri</h2>
+   <p style="color:var(--muted);font-size:12px;margin:0 0 14px">Selectează PC-ul, apoi categoria.</p>
    ${renderPCSelectorCards()}
    <div class="cat-pills">
     ${Object.keys(componentNames).map(k=>`
@@ -1383,31 +1300,31 @@ function renderComponentsTab(){
       ${o.image?`<img src="${safe(o.image)}" alt="">`:`<div class="thumb-placeholder">N/A</div>`}
       <div class="row-info">
        <strong>${safe(o.name)}</strong>
-       <small>${Number(o.price)>0?"+ "+money(o.price):"Alapárban benne van"}</small>
+       <small>${Number(o.price)>0?"+ "+money(o.price):"Inclus în preț"}</small>
       </div>
       <div class="row-actions">
-       <button type="button" class="secondary-btn btn-sm" onclick="editOption(${adminSelectedPC},'${adminSelectedCat}',${oi})">Szerkesztés</button>
-       <button type="button" class="secondary-btn btn-sm danger" onclick="deleteOption(${adminSelectedPC},'${adminSelectedCat}',${oi})">Törlés</button>
+       <button type="button" class="secondary-btn btn-sm" onclick="editOption(${adminSelectedPC},'${adminSelectedCat}',${oi})">Editează</button>
+       <button type="button" class="secondary-btn btn-sm danger" onclick="deleteOption(${adminSelectedPC},'${adminSelectedCat}',${oi})">Șterge</button>
       </div>
-     </div>`).join(""):`<div class="empty">Nincs opció ebben a kategóriában.</div>`}
+     </div>`).join(""):`<div class="empty">Nu există opțiuni în această categorie.</div>`}
    </div>
 
    <div style="margin-top:20px;padding-top:16px;border-top:1px solid #1d212e">
-    <h3>Új opció (${componentNames[adminSelectedCat]})</h3>
+    <h3>Opțiune nouă (${componentNames[adminSelectedCat]})</h3>
     <div class="admin-grid-3">
      <div>
-      <label for="newOptName">Név</label>
-      <input id="newOptName" placeholder="pl. Ryzen 5 3600 + RTX 5060 / Wi-Fi modul">
+      <label for="newOptName">Denumire</label>
+      <input id="newOptName" placeholder="Ex: Ryzen 5 3600 + RTX 5060 / Modul Wi-Fi">
      </div>
      <div>
-      <label for="newOptPrice">Felár (RON)</label>
+      <label for="newOptPrice">Supliment (RON)</label>
       <input id="newOptPrice" type="number" value="0">
      </div>
-     <button type="button" class="secondary-btn" onclick="addOptionFromTab()">+ Hozzáadás</button>
+     <button type="button" class="secondary-btn" onclick="addOptionFromTab()">+ Adaugă</button>
     </div>
     ${showImageUpload?`
      <div style="margin-top:12px;max-width:360px">
-      <label for="newOptImg">Kép (opcionális)</label>
+      <label for="newOptImg">Imagine (opțional)</label>
       <input id="newOptImg" type="file" accept="image/*">
      </div>`:""}
    </div>
@@ -1417,17 +1334,9 @@ function renderComponentsTab(){
 function renderSystemTab(){
  return `
   <div class="admin-box">
-   <h2>Alaphelyzet & Szinkron</h2>
-   <p style="color:var(--muted);font-size:12px;margin:0 0 14px">Mentett adatok átvitele gép és telefon között, vagy alapértelmezett állapot visszaállítása.</p>
-   <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px">
-    <button type="button" class="secondary-btn" onclick="copySyncLink()">Link másolása telefonra/másik gépre</button>
-    <button type="button" class="secondary-btn" onclick="exportBackup()">JSON mentés letöltése</button>
-    <label class="secondary-btn" style="margin:0;cursor:pointer">
-     JSON importálása
-     <input type="file" accept="application/json,.json" style="display:none" onchange="importBackup(this)">
-    </label>
-   </div>
-   <button type="button" class="secondary-btn danger" onclick="resetDefaults()">Alapértelmezett adatok visszaállítása</button>
+   <h2>Resetare</h2>
+   <p style="color:var(--muted);font-size:12px;margin:0 0 14px">Resetează cele 4 modele PC și componentele la valorile implicite.</p>
+   <button type="button" class="secondary-btn danger" onclick="resetDefaults()">Resetează la valorile implicite</button>
   </div>`;
 }
 
@@ -1435,11 +1344,12 @@ function saveCurrentPC(){
  const pc=data[adminSelectedPC];
  pc.name=document.getElementById("pcName").value.trim()||pc.name;
  pc.price=Number(document.getElementById("pcPrice").value)||0;
+ pc.cardBadge=document.getElementById("pcCardBadge").value.trim();
  pc.description=document.getElementById("pcDesc").value.trim();
  if(!safeSave())return;
  renderHome();
  renderAdmin();
- alert("Mentve.");
+ alert("Salvat.");
 }
 
 function uploadPCImage(i,input){
@@ -1461,7 +1371,7 @@ function uploadPCImage(i,input){
 function addOptionFromTab(){
  const name=document.getElementById("newOptName").value.trim();
  const price=Number(document.getElementById("newOptPrice").value)||0;
- if(!name){alert("Add meg a nevet.");return;}
+ if(!name){alert("Introdu denumirea.");return;}
  const file=document.getElementById("newOptImg")?.files?.[0];
  const finish=image=>{
   const option={name,price};
@@ -1490,7 +1400,7 @@ function addOptionFromTab(){
 function editOption(pi,key,oi){
  const o=data[pi].components[key][oi];
  const prevSnapshot=clone(o);
- const name=prompt("Numele componentei:",o.name);
+ const name=prompt("Denumirea componentei:",o.name);
  if(name===null)return;
  const price=prompt("Supliment în RON:",o.price);
  if(price===null)return;
@@ -1538,10 +1448,10 @@ function deleteOption(pi,key,oi){
 }
 
 function resetDefaults(){
- if(!confirm("Visszaállítod az alapértelmezett adatokat?"))return;
+ if(!confirm("Resetezi datele la valorile implicite?"))return;
  data=clone(defaultData);
  adminSelectedPC=0;
- adminSelectedCat="cpuGpu";
+ adminSelectedCat="config";
  safeSave();
  renderHome();
  if(document.getElementById("configView")?.classList.contains("active")){
@@ -1557,3 +1467,4 @@ updateCornerTrigger();
 </script>
 </body>
 </html>
+```[cite: 6]
