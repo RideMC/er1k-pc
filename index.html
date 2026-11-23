@@ -287,7 +287,7 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 
 .config-board{
   display:grid;
-  grid-template-columns:minmax(275px,1fr) minmax(360px,1.15fr) minmax(275px,1fr);
+  grid-template-columns:minmax(275px,1fr) minmax(370px,1.15fr) minmax(275px,1fr);
   gap:22px;
   align-items:start;
 }
@@ -439,7 +439,7 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 .choice small{display:block;color:var(--muted);font-size:11px;margin-top:6px}
 .choice .extra{color:var(--green);font-weight:800}
 
-.center-stack{display:flex;flex-direction:column;gap:20px}
+.center-stack{display:flex;flex-direction:column;gap:18px}
 .pc-stage{
   background:radial-gradient(circle at 50% 35%,#4a2c82,#181526 66%,#0f1119);
   border:1px solid #49396e;
@@ -453,7 +453,7 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 .stage-image{
   width:100%;
   aspect-ratio:16 / 10;
-  max-height:250px;
+  max-height:245px;
   object-fit:cover;
   margin:14px 0;
   border-radius:14px;
@@ -462,18 +462,57 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 }
 .stage-name{font-size:21px;font-weight:800;letter-spacing:-.4px}
 .stage-caption{font-size:12px;color:#a9afc4;margin-top:6px}
-.stage-spec-box{
-  margin-top:15px;
-  padding:13px 14px;
-  border-radius:12px;
-  background:#0c0e16cc;
-  border:1px solid #483b70;
-  text-align:left;
-  font-size:12px;
-  line-height:1.65;
-  color:#e2e6f5;
+
+/* KÜLÖN SPECIFIKÁCIÓS SÁV A REZUMAT FELETT (MINTAKÉP SZERINT) */
+.spec-strip-box{
+  background:linear-gradient(180deg,#121520,#0e111a);
+  border:1px solid #2b3144;
+  border-radius:14px;
+  padding:14px 16px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px 16px;
+  box-shadow:0 10px 26px #0006;
 }
-.stage-spec-box strong{color:#cbb4ff}
+.spec-item{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-width:0;
+}
+.spec-icon{
+  width:24px;
+  height:24px;
+  border-radius:6px;
+  display:grid;
+  place-items:center;
+  flex-shrink:0;
+  font-size:12px;
+  font-weight:800;
+}
+.spec-icon.cpu{background:#122a38;color:#22d3ee;border:1px solid #1e4b63}
+.spec-icon.gpu{background:#123324;color:#34d399;border:1px solid #1d593e}
+.spec-icon.ram{background:#261a3d;color:#a78bfa;border:1px solid #432e6b}
+.spec-icon.ssd{background:#332812;color:#fbbf24;border:1px solid #5c481e}
+.spec-text{min-width:0;line-height:1.25}
+.spec-text small{
+  display:block;
+  font-size:10px;
+  letter-spacing:1px;
+  color:#8f96ab;
+  font-weight:700;
+  text-transform:uppercase;
+}
+.spec-text strong{
+  display:block;
+  font-size:12px;
+  font-weight:800;
+  color:#f4f6fc;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  margin-top:2px;
+}
 
 .price-panel{
   background:linear-gradient(180deg,#151824,#10121b);
@@ -628,6 +667,7 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
  .config-board{grid-template-columns:1fr}
  .center-stack{grid-column:auto;order:-1}
  .config-heading h1{font-size:33px}
+ .spec-strip-box{grid-template-columns:1fr}
  .admin-grid-2,.admin-grid-3{grid-template-columns:1fr}
  .footer-inner{flex-direction:column;align-items:flex-start}
 }
@@ -720,12 +760,13 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 
    <div class="center-stack">
     <div class="pc-stage">
-     <div class="stage-label">CARCASĂ & CONFIGURAȚIE</div>
+     <div class="stage-label">CARCASĂ</div>
      <img class="stage-image" id="stageImage" src="" alt="PC case">
      <div class="stage-name" id="stageCaseName">PC Case</div>
      <div class="stage-caption">Imaginea se schimbă în funcție de carcasa aleasă.</div>
-     <div class="stage-spec-box" id="stageSpecs"></div>
     </div>
+
+    <div class="spec-strip-box" id="specStripBox"></div>
 
     <div class="price-panel">
      <h3>Rezumat configurație</h3>
@@ -798,7 +839,8 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 
 <script>
 const _b = [101,114,49,107,50,48,50,54];
-const KEY = "er1k_pc_v18";
+const KEY = "er1k_pc_v19";
+const WHATSAPP_NUMBER = "40771103552";
 const tierLabels = ["01 · ENTRY", "02 · POPULAR", "03 · PRO TIER", "04 · FLAGSHIP"];
 
 function _matchCode(val){
@@ -956,7 +998,7 @@ function normalizeData(list){
 function safeLoad(){
  try{
   if(!window.localStorage)return clone(defaultData);
-  const raw = window.localStorage.getItem(KEY) || window.localStorage.getItem("er1k_pc_v17") || window.localStorage.getItem("er1k_pc_v16") || window.localStorage.getItem("er1k_pc_v10");
+  const raw = window.localStorage.getItem(KEY) || window.localStorage.getItem("er1k_pc_v18") || window.localStorage.getItem("er1k_pc_v17") || window.localStorage.getItem("er1k_pc_v16") || window.localStorage.getItem("er1k_pc_v10");
   if(!raw)return clone(defaultData);
   const parsed=JSON.parse(raw);
   if(Array.isArray(parsed)&&parsed.length>0)return normalizeData(parsed);
@@ -1136,13 +1178,14 @@ function renderConfig(){
  document.getElementById("topLeftComponents").innerHTML=["config","gpu"].map(k=>renderComponentBox(k,pc)).join("");
  document.getElementById("bottomLeftComponents").innerHTML=["case"].map(k=>renderComponentBox(k,pc)).join("");
 
- // Jobb oszlop: Memorie RAM -> SSD -> Răcire procesor (mind a jobb oldalon, SSD alatt a Răcire procesor)
+ // Jobb oszlop: Memorie RAM -> SSD -> Răcire procesor
  document.getElementById("topRightComponents").innerHTML=["ram","ssd","cooler"].map(k=>renderComponentBox(k,pc)).join("");
 
  // Közép alul (Rezumat configurație + Solicită ofertă alatt): Opțiuni extra
  document.getElementById("bottomCenterComponents").innerHTML=["extra"].map(k=>renderComponentBox(k,pc)).join("");
 
  updateStage();
+ updateSpecStrip();
  updateSummary();
 }
 
@@ -1191,20 +1234,45 @@ function currentOption(key){
 function updateStage(){
  const c=currentOption("case");
  const pc=data[activePC];
+ document.getElementById("stageImage").src=(c&&c.image)||pc.image;
+ document.getElementById("stageCaseName").textContent=c?c.name:"Carcasă";
+}
+
+function updateSpecStrip(){
  const cfg=currentOption("config");
  const gpu=currentOption("gpu");
  const ram=currentOption("ram");
  const ssd=currentOption("ssd");
- const extra=currentOption("extra");
 
- document.getElementById("stageImage").src=(c&&c.image)||pc.image;
- document.getElementById("stageCaseName").textContent=c?c.name:"Carcasă";
-
- document.getElementById("stageSpecs").innerHTML = `
-  <div><strong>Config:</strong> ${safe(cfg ? cfg.name : "-")}</div>
-  <div><strong>Placă video:</strong> ${safe(gpu ? gpu.name : "-")}</div>
-  <div><strong>RAM:</strong> ${safe(ram ? ram.name : "-")} · <strong>SSD:</strong> ${safe(ssd ? ssd.name : "-")}</div>
-  <div><strong>Opțiuni extra:</strong> ${safe(extra ? extra.name : "Niciuna (opțional)")}</div>
+ document.getElementById("specStripBox").innerHTML = `
+  <div class="spec-item">
+   <span class="spec-icon cpu">▦</span>
+   <div class="spec-text">
+    <small>CONFIG</small>
+    <strong>${safe(cfg ? cfg.name : "-")}</strong>
+   </div>
+  </div>
+  <div class="spec-item">
+   <span class="spec-icon gpu">▣</span>
+   <div class="spec-text">
+    <small>GPU</small>
+    <strong>${safe(gpu ? gpu.name : "-")}</strong>
+   </div>
+  </div>
+  <div class="spec-item">
+   <span class="spec-icon ram">▤</span>
+   <div class="spec-text">
+    <small>RAM</small>
+    <strong>${safe(ram ? ram.name : "-")}</strong>
+   </div>
+  </div>
+  <div class="spec-item">
+   <span class="spec-icon ssd">▥</span>
+   <div class="spec-text">
+    <small>SSD</small>
+    <strong>${safe(ssd ? ssd.name : "-")}</strong>
+   </div>
+  </div>
  `;
 }
 
@@ -1233,7 +1301,7 @@ function orderPC(){
  }).filter(Boolean);
  const total=document.getElementById("totalPrice").textContent;
  const message=`Bună! Sunt interesat de ${pc.name}.\n${lines.join("\n")}\nPreț estimativ: ${total}`;
- window.location.href="https://wa.me/?text="+encodeURIComponent(message);
+ window.location.href=`https://wa.me/${WHATSAPP_NUMBER}?text=`+encodeURIComponent(message);
 }
 
 function switchAdminTab(tab){
