@@ -339,6 +339,12 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
   font-weight:800;
   letter-spacing:.8px;
 }
+.component-subnote{
+  font-size:11px;
+  color:#a7aec4;
+  margin:-8px 0 13px;
+  line-height:1.45;
+}
 
 .choices{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .choice{
@@ -807,7 +813,7 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
    <div class="admin-topbar">
     <div>
      <h2 style="margin:0 0 3px;font-size:22px">Panou Administrare (Editor)</h2>
-     <p style="margin:0;color:var(--muted);font-size:12px">Szerkeszd a 4 PC-t és az opciókat, majd másold ki a JSON-t a Resetare fülön.</p>
+     <p style="margin:0;color:var(--muted);font-size:12px">Fiecare CONFIG are lista lui proprie de PLACĂ VIDEO și prețuri separate.</p>
     </div>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
      <button type="button" class="secondary-btn btn-sm" onclick="showView('homeView')">← Pagina principală</button>
@@ -835,9 +841,9 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 
 <script>
 const _b = [101,114,49,107,50,48,50,54];
-const KEY = "er1k_pc_editor_v1";
-const SEL_KEY = "er1k_pc_editor_sel_v1";
-const LEGACY_KEYS = ["er1k_pc_v21","er1k_pc_v20","er1k_pc_v19","er1k_pc_v18","er1k_pc_v17","er1k_pc_v16","er1k_pc_v10"];
+const KEY = "er1k_pc_per_config_gpu_v1";
+const SEL_KEY = "er1k_pc_per_config_gpu_sel_v1";
+const LEGACY_KEYS = ["er1k_pc_editor_v1","er1k_pc_v21","er1k_pc_v20","er1k_pc_v19","er1k_pc_v18","er1k_pc_v17","er1k_pc_v16","er1k_pc_v10"];
 const WHATSAPP_NUMBER = "40771103552";
 const tierLabels = ["01 · ENTRY", "02 · POPULAR", "03 · PRO TIER", "04 · FLAGSHIP"];
 
@@ -850,21 +856,45 @@ function _matchCode(val){
  return true;
 }
 
+/*
+ * Minden CONFIG elemhez külön GPU-lista tartozik (`gpuByConfig[configIndex]`),
+ * így mindegyik confighoz külön beállítható a videokártya és a hozzá tartozó felár.
+ */
 const defaultData = [
  {
   id:"start",name:"Er1k Start",description:"Un sistem accesibil pentru gaming și utilizare zilnică.",price:1800,cardBadge:"",
   image:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=800&q=85",
   components:{
    config:[
-    {name:"Ryzen 5 3600 + GTX 1660 Super 6GB",price:0},
-    {name:"Ryzen 5 3600 + RTX 5060",price:650},
-    {name:"Ryzen 5 5500 + RX 6600 8GB",price:320}
+    {
+     name:"Ryzen 5 3600 + RX 580 8GB",
+     price:0,
+     gpuOptions:[
+      {name:"RX 580 8GB (din config)",price:0},
+      {name:"GTX 1660 Super 6GB",price:220},
+      {name:"RTX 3060 12GB",price:600}
+     ]
+    },
+    {
+     name:"Ryzen 5 5500 + GTX 1060 6GB",
+     price:250,
+     gpuOptions:[
+      {name:"GTX 1060 6GB (din config)",price:0},
+      {name:"RX 6600 8GB",price:420},
+      {name:"RTX 3060 12GB",price:650}
+     ]
+    },
+    {
+     name:"Intel Core i3-10100F + RX 570 8GB",
+     price:120,
+     gpuOptions:[
+      {name:"RX 570 8GB (din config)",price:0},
+      {name:"GTX 1660 Super 6GB",price:280},
+      {name:"RTX 3060 12GB",price:700}
+     ]
+    }
    ],
-   gpu:[
-    {name:"GTX 1660 Super 6GB",price:0},
-    {name:"RX 6600 8GB",price:250},
-    {name:"RTX 3060 12GB",price:450}
-   ],
+   gpu:[],
    ram:[{name:"16GB DDR4",price:0},{name:"32GB DDR4",price:180}],
    ssd:[{name:"500GB NVMe",price:0},{name:"1TB NVMe",price:180}],
    case:[
@@ -883,15 +913,33 @@ const defaultData = [
   image:"https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=800&q=85",
   components:{
    config:[
-    {name:"Ryzen 5 5600 + RX 6600 8GB",price:0},
-    {name:"Ryzen 5 5600 + RTX 5060",price:550},
-    {name:"Ryzen 7 5700X + RX 6700 XT 12GB",price:650}
+    {
+     name:"Ryzen 5 5600 + RX 6600 8GB",
+     price:0,
+     gpuOptions:[
+      {name:"RX 6600 8GB (din config)",price:0},
+      {name:"RTX 3060 12GB",price:350},
+      {name:"RX 6700 XT 12GB",price:650}
+     ]
+    },
+    {
+     name:"Ryzen 5 5600 + RTX 5060",
+     price:550,
+     gpuOptions:[
+      {name:"RTX 5060 (din config)",price:0},
+      {name:"RTX 5060 Ti",price:450}
+     ]
+    },
+    {
+     name:"Ryzen 7 5700X + RX 6700 XT 12GB",
+     price:650,
+     gpuOptions:[
+      {name:"RX 6700 XT 12GB (din config)",price:0},
+      {name:"RX 7700 XT 12GB",price:420}
+     ]
+    }
    ],
-   gpu:[
-    {name:"RX 6600 8GB",price:0},
-    {name:"RTX 3060 12GB",price:350},
-    {name:"RX 6700 XT 12GB",price:550}
-   ],
+   gpu:[],
    ram:[{name:"16GB DDR4",price:0},{name:"32GB DDR4",price:180}],
    ssd:[{name:"1TB NVMe",price:0},{name:"2TB NVMe",price:250}],
    case:[
@@ -910,15 +958,33 @@ const defaultData = [
   image:"https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=800&q=85",
   components:{
    config:[
-    {name:"Ryzen 5 7600 + RTX 4060 8GB",price:0},
-    {name:"Ryzen 7 7700 + RTX 5060 Ti",price:650},
-    {name:"Ryzen 7 7800X3D + RX 7700 XT 12GB",price:1100}
+    {
+     name:"Ryzen 5 7600 + RTX 4060 8GB",
+     price:0,
+     gpuOptions:[
+      {name:"RTX 4060 8GB (din config)",price:0},
+      {name:"RTX 4060 Ti 8GB",price:400},
+      {name:"RX 7700 XT 12GB",price:650}
+     ]
+    },
+    {
+     name:"Ryzen 7 7700 + RTX 5060 Ti",
+     price:650,
+     gpuOptions:[
+      {name:"RTX 5060 Ti (din config)",price:0},
+      {name:"RTX 5070 12GB",price:750}
+     ]
+    },
+    {
+     name:"Ryzen 7 7800X3D + RX 7700 XT 12GB",
+     price:1100,
+     gpuOptions:[
+      {name:"RX 7700 XT 12GB (din config)",price:0},
+      {name:"RX 7800 XT 16GB",price:550}
+     ]
+    }
    ],
-   gpu:[
-    {name:"RTX 4060 8GB",price:0},
-    {name:"RTX 4060 Ti 8GB",price:400},
-    {name:"RX 7700 XT 12GB",price:650}
-   ],
+   gpu:[],
    ram:[{name:"32GB DDR5",price:0},{name:"64GB DDR5",price:350}],
    ssd:[{name:"1TB NVMe",price:0},{name:"2TB NVMe",price:250}],
    case:[
@@ -937,15 +1003,34 @@ const defaultData = [
   image:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=800&q=85",
   components:{
    config:[
-    {name:"Ryzen 7 7800X3D + RTX 4070 Super 12GB",price:0},
-    {name:"Ryzen 7 9800X3D + RTX 5070 12GB",price:950},
-    {name:"Ryzen 7 9800X3D + RTX 5070 Ti 16GB",price:1750}
+    {
+     name:"Ryzen 7 7800X3D + RTX 4070 Super 12GB",
+     price:0,
+     gpuOptions:[
+      {name:"RTX 4070 Super 12GB (din config)",price:0},
+      {name:"RTX 5070 12GB",price:600},
+      {name:"RTX 5070 Ti 16GB",price:1450}
+     ]
+    },
+    {
+     name:"Ryzen 7 9800X3D + RTX 5070 12GB",
+     price:950,
+     gpuOptions:[
+      {name:"RTX 5070 12GB (din config)",price:0},
+      {name:"RTX 5070 Ti 16GB",price:850},
+      {name:"RTX 5080 16GB",price:2100}
+     ]
+    },
+    {
+     name:"Ryzen 7 9800X3D + RTX 5070 Ti 16GB",
+     price:1750,
+     gpuOptions:[
+      {name:"RTX 5070 Ti 16GB (din config)",price:0},
+      {name:"RTX 5080 16GB",price:1250}
+     ]
+    }
    ],
-   gpu:[
-    {name:"RTX 4070 Super 12GB",price:0},
-    {name:"RTX 5070 12GB",price:700},
-    {name:"RTX 5070 Ti 16GB",price:1500}
-   ],
+   gpu:[],
    ram:[{name:"32GB DDR5",price:0},{name:"64GB DDR5",price:350}],
    ssd:[{name:"2TB NVMe",price:0},{name:"4TB NVMe",price:450}],
    case:[
@@ -973,12 +1058,45 @@ const componentNames={
 
 function clone(x){return JSON.parse(JSON.stringify(x))}
 
+/* Visszafelé kompatibilis normalizálás: biztosítja, hogy minden config elemhez legyen gpuOptions tömb */
+function normalizePCConfigs(pc, fallbackPC){
+ const rawConfigs = Array.isArray(pc.components?.config) && pc.components.config.length > 0
+  ? pc.components.config
+  : clone(fallbackPC.components.config || []);
+
+ const legacyGpuList = Array.isArray(pc.components?.gpu) ? pc.components.gpu : [];
+
+ return rawConfigs.map((cfg, idx)=>{
+  const fallbackCfg = fallbackPC.components.config?.[idx] || fallbackPC.components.config?.[0];
+  let gpuOptions = Array.isArray(cfg.gpuOptions) ? cfg.gpuOptions : null;
+  if(!gpuOptions){
+   if(legacyGpuList.length > 0){
+    gpuOptions = clone(legacyGpuList);
+   }else if(Array.isArray(fallbackCfg?.gpuOptions)){
+    gpuOptions = clone(fallbackCfg.gpuOptions);
+   }else{
+    gpuOptions = [{name:"GPU standard (din config)", price:0}];
+   }
+  }
+  return {
+   ...cfg,
+   name: cfg.name || fallbackCfg?.name || "Config",
+   price: Number(cfg.price) || 0,
+   gpuOptions
+  };
+ });
+}
+
 function normalizeData(list){
  return list.map((pc,idx)=>{
   const fallback = defaultData[idx] || defaultData[0];
   const mergedComponents = {};
   for(const key of Object.keys(componentNames)){
-   if(Array.isArray(pc.components?.[key])){
+   if(key === "config"){
+    mergedComponents.config = normalizePCConfigs(pc, fallback);
+   }else if(key === "gpu"){
+    mergedComponents.gpu = [];
+   }else if(Array.isArray(pc.components?.[key])){
     mergedComponents[key] = pc.components[key];
    }else{
     mergedComponents[key] = clone(fallback.components[key] || []);
@@ -1021,47 +1139,40 @@ function safeLoad(){
  return clone(defaultData);
 }
 
-/* Biztonságos mentés: ha megtelt a localStorage, kiszedi a legnehezebb base64 képeket, hogy a törlés/szerkesztés NE akadjon el */
 function safeSave(allowFallbackStrip = true){
  if(!window.localStorage)return true;
  try{
   window.localStorage.setItem(KEY, JSON.stringify(data));
   return true;
  }catch(e){
-  if(!allowFallbackStrip){
-   return false;
-  }
+  if(!allowFallbackStrip) return false;
   const copy = clone(data);
   const candidates = [];
-  copy.forEach((pc, pi)=>{
+  copy.forEach((pc)=>{
    if(typeof pc.image === "string" && pc.image.startsWith("data:image/")){
-    candidates.push({len: pc.image.length, get: ()=>pc.image, set: v=>{pc.image=v;}});
+    candidates.push({len: pc.image.length, set: v=>{pc.image=v;}});
    }
    Object.keys(pc.components || {}).forEach(ck=>{
-    (pc.components[ck] || []).forEach((opt, oi)=>{
+    (pc.components[ck] || []).forEach((opt)=>{
      if(typeof opt.image === "string" && opt.image.startsWith("data:image/")){
-      candidates.push({len: opt.image.length, get: ()=>opt.image, set: v=>{opt.image=v;}});
+      candidates.push({len: opt.image.length, set: v=>{opt.image=v;}});
      }
     });
    });
   });
   candidates.sort((a,b)=>b.len - a.len);
   for(const item of candidates){
-   const fallbackUrl = defaultData[0]?.image || "";
-   item.set(fallbackUrl);
+   item.set(defaultData[0]?.image || "");
    try{
     window.localStorage.setItem(KEY, JSON.stringify(copy));
     data = copy;
-    alert("A localStorage megtelt a nagy képek miatt, ezért a legnehezebb beágyazott képek helyett alapértelmezett kép került be, de a művelet sikeresen mentésre került.");
     return true;
    }catch(err2){}
   }
-  alert("A böngésző localStorage tárhelye teljesen megtelt. Kisebb képeket használj vagy törölj ki régi kulcsokat.");
   return false;
  }
 }
 
-/* Kép tömörítése canvas segítségével, hogy ne foglaljon sok helyet a localStorage-ban */
 function compressImageFile(file, maxWidth = 850, quality = 0.72){
  return new Promise(resolve=>{
   const reader = new FileReader();
@@ -1117,11 +1228,22 @@ let isAdminAuthed=false;
 let adminTab="models";
 let adminSelectedPC=0;
 let adminSelectedCat="config";
+let adminSelectedConfigIdx=0;
 let activePC=0;
 let selected={};
 
 function money(n){return Number(n||0).toLocaleString("ro-RO")+" RON"}
 function safe(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+
+function getOptionsForCategory(pc, key, cfgIdx = 0){
+ if(!pc || !pc.components) return [];
+ if(key === "gpu"){
+  const configs = pc.components.config || [];
+  const activeCfg = configs[cfgIdx] || configs[0];
+  return Array.isArray(activeCfg?.gpuOptions) ? activeCfg.gpuOptions : [];
+ }
+ return Array.isArray(pc.components[key]) ? pc.components[key] : [];
+}
 
 function updateCornerTrigger(){
  const btn=document.getElementById("cornerAdminBtn");
@@ -1231,13 +1353,19 @@ function initSelectionForPC(pc, pcIndex){
  const pcKey = String(pc?.id || pcIndex);
  const savedForThis = allSaved[pcKey] || {};
  selected = {};
+
+ const cfgList = pc.components?.config || [];
+ const savedCfg = savedForThis.config;
+ selected.config = (typeof savedCfg === "number" && savedCfg >= 0 && savedCfg < cfgList.length) ? savedCfg : 0;
+
  for(const key of Object.keys(componentNames)){
-  const list = pc.components?.[key] || [];
+  if(key === "config") continue;
+  const list = getOptionsForCategory(pc, key, selected.config);
   const savedVal = savedForThis[key];
-  if(typeof savedVal === "number" && savedVal >= (key === "extra" ? -1 : 0) && savedVal < list.length){
-   selected[key] = savedVal;
+  if(key === "extra"){
+   selected[key] = (typeof savedVal === "number" && savedVal >= -1 && savedVal < list.length) ? savedVal : -1;
   }else{
-   selected[key] = (key === "extra") ? -1 : 0;
+   selected[key] = (typeof savedVal === "number" && savedVal >= 0 && savedVal < list.length) ? savedVal : 0;
   }
  }
 }
@@ -1264,8 +1392,15 @@ function renderModelSwitcher(){
 function renderConfig(){
  const pc=data[activePC];
  if(!pc)return;
+
+ const cfgList = pc.components.config || [];
+ if(typeof selected.config !== "number" || selected.config < 0 || selected.config >= cfgList.length){
+  selected.config = 0;
+ }
+
  for(const key of Object.keys(componentNames)){
-  const list=pc.components[key]||[];
+  if(key === "config") continue;
+  const list = getOptionsForCategory(pc, key, selected.config);
   if(key === "extra"){
    if(typeof selected[key]!=="number" || selected[key]<-1 || selected[key]>=list.length){
     selected[key]=-1;
@@ -1276,6 +1411,7 @@ function renderConfig(){
    }
   }
  }
+
  document.getElementById("topLeftComponents").innerHTML=["config","gpu"].map(k=>renderComponentBox(k,pc)).join("");
  document.getElementById("bottomLeftComponents").innerHTML=["case"].map(k=>renderComponentBox(k,pc)).join("");
  document.getElementById("topRightComponents").innerHTML=["ram","ssd","cooler"].map(k=>renderComponentBox(k,pc)).join("");
@@ -1287,13 +1423,18 @@ function renderConfig(){
 }
 
 function renderComponentBox(key,pc){
- const options=pc.components[key]||[];
+ const options = getOptionsForCategory(pc, key, selected.config);
+ const activeCfg = (pc.components.config || [])[selected.config];
  const isHighlight = key === "config";
  const badgeText = key === "extra" ? "OPȚIONAL" : `${options.length} OPȚIUNI`;
+ const gpuNote = (key === "gpu" && activeCfg)
+  ? `<div class="component-subnote">Prețuri GPU pentru config: <strong>${safe(activeCfg.name)}</strong></div>`
+  : "";
 
  return `<div class="component-section ${isHighlight ? "config-highlight" : ""}">
   <div class="component-title"><h3>${componentNames[key]}</h3><span>${badgeText}</span></div>
-  <div class="choices">${options.map((o,i)=>{
+  ${gpuNote}
+  <div class="choices">${options.length ? options.map((o,i)=>{
    const isSelected = selected[key] === i;
    const brandClass = getBrandClass(key, o);
    return `
@@ -1306,7 +1447,7 @@ function renderComponentBox(key,pc){
     <strong>${safe(o.name)}</strong>
     <small>${Number(o.price)>0?`<span class="extra">+ ${money(o.price)}</span>`:"Inclus în preț"}</small>
    </button>`;
-  }).join("")}</div>
+  }).join("") : `<div class="empty" style="grid-column:1/-1">Nu există opțiuni GPU setate pentru acest CONFIG.</div>`}</div>
  </div>`;
 }
 
@@ -1315,6 +1456,12 @@ function choose(key,i){
   selected[key] = (selected[key] === i) ? -1 : i;
  }else{
   selected[key] = i;
+  if(key === "config"){
+   const gpuList = getOptionsForCategory(data[activePC], "gpu", i);
+   if(typeof selected.gpu !== "number" || selected.gpu < 0 || selected.gpu >= gpuList.length){
+    selected.gpu = 0;
+   }
+  }
  }
  persistSelectedForPC(activePC, selected);
  renderConfig();
@@ -1323,7 +1470,7 @@ function choose(key,i){
 function currentOption(key){
  const pc=data[activePC];
  if(!pc)return null;
- const list=pc.components[key]||[];
+ const list = getOptionsForCategory(pc, key, selected.config);
  const idx = selected[key] ?? (key === "extra" ? -1 : 0);
  if(idx < 0) return null;
  return list[idx] || (key === "extra" ? null : list[0]) || null;
@@ -1411,6 +1558,10 @@ function switchAdminTab(tab){
 
 function renderAdmin(){
  if(!data[adminSelectedPC])adminSelectedPC=0;
+ const cfgList = data[adminSelectedPC]?.components?.config || [];
+ if(adminSelectedConfigIdx < 0 || adminSelectedConfigIdx >= cfgList.length){
+  adminSelectedConfigIdx = 0;
+ }
  const root=document.getElementById("adminContent");
  if(!root)return;
  if(adminTab==="models")root.innerHTML=renderModelsTab();
@@ -1421,11 +1572,25 @@ function renderAdmin(){
 function renderPCSelectorCards(){
  return `<div class="pc-selector-bar">
   ${data.map((pc,i)=>`
-   <button type="button" class="pc-select-card ${i===adminSelectedPC?"active":""}" onclick="adminSelectedPC=${i};renderAdmin()">
+   <button type="button" class="pc-select-card ${i===adminSelectedPC?"active":""}" onclick="adminSelectedPC=${i};adminSelectedConfigIdx=0;renderAdmin()">
     <strong>${safe(pc.name)}</strong>
     <small>Bază: ${money(pc.price)}</small>
    </button>`).join("")}
  </div>`;
+}
+
+function renderConfigSubSelector(pc){
+ const cfgList = pc.components?.config || [];
+ return `
+  <div style="margin-bottom:16px;padding:12px 14px;border-radius:8px;background:#0c0e15;border:1px solid #24293a">
+   <div style="font-size:11px;color:#a7aec4;margin-bottom:8px;font-weight:700">SELECTEAZĂ CONFIG-UL PENTRU CARE SETEZI PLACĂ VIDEO:</div>
+   <div style="display:flex;gap:8px;flex-wrap:wrap">
+    ${cfgList.map((cfg,ci)=>`
+     <button type="button" class="cat-pill ${ci===adminSelectedConfigIdx?"active":""}" onclick="adminSelectedConfigIdx=${ci};renderAdmin()">
+      ${ci+1}. ${safe(cfg.name)} (${(cfg.gpuOptions||[]).length} GPU)
+     </button>`).join("")}
+   </div>
+  </div>`;
 }
 
 function renderModelsTab(){
@@ -1442,7 +1607,7 @@ function renderModelsTab(){
      <div><label for="pcPrice">Preț de bază (RON)</label><input id="pcPrice" type="number" value="${Number(pc.price)||0}"></div>
     </div>
     <label for="pcCardBadge">Text afișat pe cardul de pe pagina principală (opțional, înlocuiește „De la”)</label>
-    <input id="pcCardBadge" value="${safe(pc.cardBadge || "")}" placeholder="Ex: Ryzen 5 3600 + RTX 5060">
+    <input id="pcCardBadge" value="${safe(pc.cardBadge || "")}" placeholder="Ex: Ryzen 5 3600 + RX 580 8GB">
     <label for="pcDesc">Descriere</label>
     <textarea id="pcDesc">${safe(pc.description)}</textarea>
     <label>Imagine principală PC</label>
@@ -1459,11 +1624,24 @@ function renderModelsTab(){
   </div>`;
 }
 
+function getAdminWorkingList(pc){
+ if(adminSelectedCat === "gpu"){
+  const cfgList = pc.components.config || [];
+  if(!cfgList[adminSelectedConfigIdx]) return [];
+  if(!Array.isArray(cfgList[adminSelectedConfigIdx].gpuOptions)){
+   cfgList[adminSelectedConfigIdx].gpuOptions = [];
+  }
+  return cfgList[adminSelectedConfigIdx].gpuOptions;
+ }
+ if(!Array.isArray(pc.components[adminSelectedCat])) pc.components[adminSelectedCat] = [];
+ return pc.components[adminSelectedCat];
+}
+
 function renderComponentsTab(){
  const pc=data[adminSelectedPC];
- if(!Array.isArray(pc.components[adminSelectedCat]))pc.components[adminSelectedCat]=[];
- const options=pc.components[adminSelectedCat];
+ const options=getAdminWorkingList(pc);
  const showImageUpload=(adminSelectedCat==="case"||adminSelectedCat==="cooler");
+ const activeCfg = (pc.components.config || [])[adminSelectedConfigIdx];
 
  return `
   <div class="admin-box">
@@ -1471,13 +1649,20 @@ function renderComponentsTab(){
    <p style="color:var(--muted);font-size:12px;margin:0 0 14px">Selectează PC-ul, apoi categoria.</p>
    ${renderPCSelectorCards()}
    <div class="cat-pills">
-    ${Object.keys(componentNames).map(k=>`
+    ${Object.keys(componentNames).map(k=>{
+     const count = (k === "gpu")
+      ? ((pc.components.config?.[adminSelectedConfigIdx]?.gpuOptions || []).length)
+      : ((pc.components[k] || []).length);
+     return `
      <button type="button" class="cat-pill ${k===adminSelectedCat?"active":""}" onclick="adminSelectedCat='${k}';renderAdmin()">
-      ${componentNames[k]} (${(pc.components[k]||[]).length})
-     </button>`).join("")}
+      ${componentNames[k]} (${count})
+     </button>`;
+    }).join("")}
    </div>
 
-   <h3>${componentNames[adminSelectedCat]}</h3>
+   ${adminSelectedCat === "gpu" ? renderConfigSubSelector(pc) : ""}
+
+   <h3>${componentNames[adminSelectedCat]}${adminSelectedCat === "gpu" && activeCfg ? ` · ${safe(activeCfg.name)}` : ""}</h3>
    <div class="option-list">
     ${options.length?options.map((o,oi)=>`
      <div class="admin-row">
@@ -1487,8 +1672,8 @@ function renderComponentsTab(){
        <small>${Number(o.price)>0?"+ "+money(o.price):"Inclus în preț"}</small>
       </div>
       <div class="row-actions">
-       <button type="button" class="secondary-btn btn-sm" onclick="editOption(${adminSelectedPC},'${adminSelectedCat}',${oi})">Editează</button>
-       <button type="button" class="secondary-btn btn-sm danger" onclick="deleteOption(${adminSelectedPC},'${adminSelectedCat}',${oi})">Șterge</button>
+       <button type="button" class="secondary-btn btn-sm" onclick="editOption(${adminSelectedPC},'${adminSelectedCat}',${oi},${adminSelectedConfigIdx})">Editează</button>
+       <button type="button" class="secondary-btn btn-sm danger" onclick="deleteOption(${adminSelectedPC},'${adminSelectedCat}',${oi},${adminSelectedConfigIdx})">Șterge</button>
       </div>
      </div>`).join(""):`<div class="empty">Nu există opțiuni în această categorie.</div>`}
    </div>
@@ -1498,7 +1683,7 @@ function renderComponentsTab(){
     <div class="admin-grid-3">
      <div>
       <label for="newOptName">Denumire</label>
-      <input id="newOptName" placeholder="Ex: Ryzen 5 3600 + RTX 5060 / Modul Wi-Fi">
+      <input id="newOptName" placeholder="${adminSelectedCat === "gpu" ? "Ex: RTX 3060 12GB" : "Ex: Ryzen 5 3600 + RX 580 8GB / Modul Wi-Fi"}">
      </div>
      <div>
       <label for="newOptPrice">Supliment (RON)</label>
@@ -1586,10 +1771,13 @@ async function addOptionFromTab(){
  }
  const option={name,price};
  if(image)option.image=image;
- if(!Array.isArray(data[adminSelectedPC].components[adminSelectedCat])){
-  data[adminSelectedPC].components[adminSelectedCat]=[];
+
+ const pc = data[adminSelectedPC];
+ if(adminSelectedCat === "config"){
+  option.gpuOptions = [{name: `${name} (din config)`, price: 0}];
  }
- const targetList=data[adminSelectedPC].components[adminSelectedCat];
+
+ const targetList = getAdminWorkingList(pc);
  targetList.push(option);
  if(!safeSave(false)){
   targetList.pop();
@@ -1602,15 +1790,26 @@ async function addOptionFromTab(){
  }
 }
 
-function editOption(pi,key,oi){
- const o=data[pi].components[key][oi];
- const prevSnapshot=clone(o);
- const name=prompt("Denumirea componentei:",o.name);
+function getOptionRef(pi, key, oi, cfgIdx){
+ const pc = data[pi];
+ if(key === "gpu"){
+  const cfg = pc.components.config?.[cfgIdx] || pc.components.config?.[0];
+  return { arr: cfg.gpuOptions, item: cfg.gpuOptions[oi] };
+ }
+ return { arr: pc.components[key], item: pc.components[key][oi] };
+}
+
+function editOption(pi,key,oi,cfgIdx = 0){
+ const ref = getOptionRef(pi, key, oi, cfgIdx);
+ const o = ref.item;
+ if(!o) return;
+ const prevSnapshot = clone(o);
+ const name = prompt("Denumirea componentei:",o.name);
  if(name===null)return;
- const price=prompt("Supliment în RON:",o.price);
+ const price = prompt("Supliment în RON:",o.price);
  if(price===null)return;
- o.name=name.trim()||o.name;
- o.price=Number(price)||0;
+ o.name = name.trim()||o.name;
+ o.price = Number(price)||0;
  if(key==="case"||key==="cooler"){
   if(confirm("Vrei să schimbi și imaginea?")){
    const picker=document.createElement("input");
@@ -1621,7 +1820,7 @@ function editOption(pi,key,oi){
     if(!compressed)return;
     o.image=compressed;
     if(!safeSave(false)){
-     data[pi].components[key][oi]=prevSnapshot;
+     ref.arr[oi]=prevSnapshot;
      alert("A kép túl nagy a localStorage számára.");
      return;
     }
@@ -1637,9 +1836,14 @@ function editOption(pi,key,oi){
  if(pi===activePC)renderConfig();
 }
 
-function deleteOption(pi,key,oi){
+function deleteOption(pi,key,oi,cfgIdx = 0){
  if(!confirm("Ștergi această opțiune?"))return;
- data[pi].components[key].splice(oi,1);
+ const ref = getOptionRef(pi, key, oi, cfgIdx);
+ if(!Array.isArray(ref.arr)) return;
+ ref.arr.splice(oi,1);
+ if(key === "config" && oi === adminSelectedConfigIdx){
+  adminSelectedConfigIdx = 0;
+ }
  safeSave(true);
  renderAdmin();
  if(pi===activePC)renderConfig();
@@ -1650,6 +1854,7 @@ function resetDefaults(){
  data=clone(defaultData);
  adminSelectedPC=0;
  adminSelectedCat="config";
+ adminSelectedConfigIdx=0;
  safeSave(true);
  try{ window.localStorage?.removeItem(SEL_KEY); }catch(e){}
  renderHome();
