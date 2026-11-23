@@ -748,7 +748,7 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
   <div class="config-heading">
    <div>
     <div class="eyebrow">PC CONFIGURATOR</div>
-    <h1 id="configName">Er1k Gaming</h1>
+    <h1 id="configName">Er1k Gamer</h1>
     <p id="configDesc"></p>
    </div>
    <div class="model-switcher" id="modelSwitcher"></div>
@@ -841,11 +841,11 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 
 <script>
 const _b = [101,114,49,107,50,48,50,54];
-const KEY = "er1k_pc_per_config_gpu_v1";
-const SEL_KEY = "er1k_pc_per_config_gpu_sel_v1";
-const LEGACY_KEYS = ["er1k_pc_editor_v1","er1k_pc_v21","er1k_pc_v20","er1k_pc_v19","er1k_pc_v18","er1k_pc_v17","er1k_pc_v16","er1k_pc_v10"];
+const KEY = "er1k_pc_per_config_gpu_v2";
+const SEL_KEY = "er1k_pc_per_config_gpu_sel_v2";
+const LEGACY_KEYS = [];
 const WHATSAPP_NUMBER = "40771103552";
-const tierLabels = ["01 · ENTRY", "02 · POPULAR", "03 · PRO TIER", "04 · FLAGSHIP"];
+const tierLabels = ["01 · START", "02 · GAMER", "03 · PRO TIER", "04 · ULTIMATE"];
 
 function _matchCode(val){
  const s = String(val||"");
@@ -857,190 +857,305 @@ function _matchCode(val){
 }
 
 /*
- * Minden CONFIG elemhez külön GPU-lista tartozik (`gpuByConfig[configIndex]`),
- * így mindegyik confighoz külön beállítható a videokártya és a hozzá tartozó felár.
+ * Véglegesített Er1k PC konfigurációk (Start, Gamer, Pro, Ultimate)
+ * Minden CONFIG elemhez saját GPU-lista tartozik pontos árkülönbözettel.
  */
 const defaultData = [
  {
-  id:"start",name:"Er1k Start",description:"Un sistem accesibil pentru gaming și utilizare zilnică.",price:1800,cardBadge:"",
+  id:"start",
+  name:"Er1k Start",
+  description:"Un sistem accesibil pentru gaming și utilizare zilnică (A520M + 16GB DDR4 + 500GB NVMe + MSI 550W).",
+  price:2052,
+  cardBadge:"",
   image:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=800&q=85",
   components:{
    config:[
     {
-     name:"Ryzen 5 3600 + RX 580 8GB",
+     name:"Start 1: AMD Ryzen 5 3600 + GTX 1060 6GB",
      price:0,
      gpuOptions:[
-      {name:"RX 580 8GB (din config)",price:0},
-      {name:"GTX 1660 Super 6GB",price:220},
-      {name:"RTX 3060 12GB",price:600}
-     ]
-    },
-    {
-     name:"Ryzen 5 5500 + GTX 1060 6GB",
-     price:250,
-     gpuOptions:[
       {name:"GTX 1060 6GB (din config)",price:0},
-      {name:"RX 6600 8GB",price:420},
-      {name:"RTX 3060 12GB",price:650}
+      {name:"RX 580 8GB",price:-100},
+      {name:"GTX 1660 6GB",price:0},
+      {name:"GTX 1660 Super 6GB",price:250}
      ]
     },
     {
-     name:"Intel Core i3-10100F + RX 570 8GB",
-     price:120,
+     name:"Start 2: AMD Ryzen 5 3600 + GTX 1660 6GB",
+     price:0,
      gpuOptions:[
-      {name:"RX 570 8GB (din config)",price:0},
-      {name:"GTX 1660 Super 6GB",price:280},
-      {name:"RTX 3060 12GB",price:700}
+      {name:"GTX 1660 6GB (din config)",price:0},
+      {name:"RX 580 8GB",price:-100},
+      {name:"GTX 1060 6GB",price:0},
+      {name:"GTX 1660 Super 6GB",price:250}
+     ]
+    },
+    {
+     name:"Start 3: AMD Ryzen 5 5500 + RX 580 8GB",
+     price:28,
+     gpuOptions:[
+      {name:"RX 580 8GB (din config)",price:0},
+      {name:"GTX 1060 6GB",price:100},
+      {name:"GTX 1660 6GB",price:100},
+      {name:"GTX 1660 Super 6GB",price:350}
+     ]
+    },
+    {
+     name:"Start 4: AMD Ryzen 5 5500 + GTX 1660 Super 6GB",
+     price:378,
+     gpuOptions:[
+      {name:"GTX 1660 Super 6GB (din config)",price:0},
+      {name:"RX 580 8GB",price:-350},
+      {name:"GTX 1060 6GB",price:-250},
+      {name:"GTX 1660 6GB",price:-250}
      ]
     }
    ],
    gpu:[],
-   ram:[{name:"16GB DDR4",price:0},{name:"32GB DDR4",price:180}],
-   ssd:[{name:"500GB NVMe",price:0},{name:"1TB NVMe",price:180}],
+   ram:[
+    {name:"16GB (2x8GB) DDR4 3200MHz",price:0},
+    {name:"32GB (2x16GB) DDR4 3200MHz",price:400}
+   ],
+   ssd:[
+    {name:"500GB M.2 NVMe",price:0},
+    {name:"1TB M.2 NVMe",price:150}
+   ],
    case:[
     {name:"Basic Black Case",price:0,image:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=700&q=85"},
-    {name:"Glass Airflow Case",price:120,image:"https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=700&q=85"}
+    {name:"Glass Airflow Case",price:0,image:"https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=700&q=85"}
    ],
-   cooler:[{name:"Stock Cooler",price:0,image:""},{name:"Tower Air Cooler",price:90,image:""}],
+   cooler:[
+    {name:"Standard Cooler",price:0,image:""}
+   ],
    extra:[
-    {name:"Modul Wi-Fi + Bluetooth",price:90},
-    {name:"Activare Windows 11",price:60}
+    {name:"+500GB SATA SSD",price:450}
    ]
   }
  },
  {
-  id:"gaming",name:"Er1k Gaming",description:"Performanță excelentă pentru gaming Full HD și QHD.",price:2800,cardBadge:"",
+  id:"gamer",
+  name:"Er1k Gamer",
+  description:"Performanță excelentă pentru gaming Full HD și QHD (16GB DDR4 + 1TB NVMe + MSI 550W/650W).",
+  price:3592,
+  cardBadge:"",
   image:"https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=800&q=85",
   components:{
    config:[
     {
-     name:"Ryzen 5 5600 + RX 6600 8GB",
+     name:"Gamer 1: AMD Ryzen 5 5500 + Intel Arc B570 10GB",
+     price:200,
+     gpuOptions:[
+      {name:"Intel Arc B570 10GB (din config)",price:0},
+      {name:"RTX 3050 8GB",price:-300},
+      {name:"RTX 5050 8GB",price:500},
+      {name:"RX 7600 8GB",price:700},
+      {name:"Intel Arc B580 12GB",price:746},
+      {name:"RTX 3060 12GB",price:800}
+     ]
+    },
+    {
+     name:"Gamer 2: AMD Ryzen 5 5600 + RTX 3050 8GB",
      price:0,
      gpuOptions:[
-      {name:"RX 6600 8GB (din config)",price:0},
-      {name:"RTX 3060 12GB",price:350},
-      {name:"RX 6700 XT 12GB",price:650}
+      {name:"RTX 3050 8GB (din config)",price:0},
+      {name:"Intel Arc B570 10GB",price:300},
+      {name:"RTX 5050 8GB",price:800},
+      {name:"RX 7600 8GB",price:1000},
+      {name:"Intel Arc B580 12GB",price:1046},
+      {name:"RTX 3060 12GB",price:1100}
      ]
     },
     {
-     name:"Ryzen 5 5600 + RTX 5060",
-     price:550,
+     name:"Gamer 3: Intel Core i5-12400F + GeForce RTX 5050 8GB",
+     price:1187,
      gpuOptions:[
-      {name:"RTX 5060 (din config)",price:0},
-      {name:"RTX 5060 Ti",price:450}
+      {name:"GeForce RTX 5050 8GB (din config)",price:0},
+      {name:"RTX 3050 8GB",price:-800},
+      {name:"Intel Arc B570 10GB",price:-500},
+      {name:"RX 7600 8GB",price:200},
+      {name:"Intel Arc B580 12GB",price:246},
+      {name:"RTX 3060 12GB",price:300}
      ]
     },
     {
-     name:"Ryzen 7 5700X + RX 6700 XT 12GB",
-     price:650,
+     name:"Gamer 4: Intel Core i5-12400F + Radeon RX 7600 8GB",
+     price:1387,
      gpuOptions:[
-      {name:"RX 6700 XT 12GB (din config)",price:0},
-      {name:"RX 7700 XT 12GB",price:420}
+      {name:"Radeon RX 7600 8GB (din config)",price:0},
+      {name:"RTX 3050 8GB",price:-1000},
+      {name:"Intel Arc B570 10GB",price:-700},
+      {name:"RTX 5050 8GB",price:-200},
+      {name:"Intel Arc B580 12GB",price:46},
+      {name:"RTX 3060 12GB",price:100}
      ]
     }
    ],
    gpu:[],
-   ram:[{name:"16GB DDR4",price:0},{name:"32GB DDR4",price:180}],
-   ssd:[{name:"1TB NVMe",price:0},{name:"2TB NVMe",price:250}],
+   ram:[
+    {name:"16GB (2x8GB) DDR4 3200MHz",price:0},
+    {name:"32GB (2x16GB) DDR4 3200MHz",price:400}
+   ],
+   ssd:[
+    {name:"1TB M.2 NVMe",price:0},
+    {name:"2TB M.2 NVMe",price:1050}
+   ],
    case:[
     {name:"RGB Gaming Case",price:0,image:"https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=700&q=85"},
-    {name:"White Gaming Case",price:150,image:"https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=700&q=85"}
+    {name:"White Gaming Case",price:0,image:"https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=700&q=85"}
    ],
-   cooler:[{name:"Air Cooler",price:0,image:""},{name:"ARGB Air Cooler",price:100,image:""}],
+   cooler:[
+    {name:"Standard Cooler",price:0,image:""}
+   ],
    extra:[
-    {name:"Modul Wi-Fi + Bluetooth",price:90},
-    {name:"Activare Windows 11",price:60}
+    {name:"+500GB SATA SSD",price:450}
    ]
   }
  },
  {
-  id:"pro",name:"Er1k Pro",description:"Putere suplimentară pentru gaming și multitasking.",price:4200,cardBadge:"",
+  id:"pro",
+  name:"Er1k Pro",
+  description:"Putere suplimentară pentru gaming și multitasking (32GB RAM + 1TB NVMe + MSI 650W/750W).",
+  price:5900,
+  cardBadge:"",
   image:"https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=800&q=85",
   components:{
    config:[
     {
-     name:"Ryzen 5 7600 + RTX 4060 8GB",
+     name:"Pro 1: AMD Ryzen 7 5700X + RTX 5060 8GB",
      price:0,
      gpuOptions:[
-      {name:"RTX 4060 8GB (din config)",price:0},
-      {name:"RTX 4060 Ti 8GB",price:400},
-      {name:"RX 7700 XT 12GB",price:650}
+      {name:"RTX 5060 8GB (din config)",price:0},
+      {name:"RTX 3060 12GB",price:-400},
+      {name:"RX 9060 XT 16GB",price:500},
+      {name:"RX 9070 16GB",price:1400},
+      {name:"RTX 5060 Ti 16GB",price:1500}
      ]
     },
     {
-     name:"Ryzen 7 7700 + RTX 5060 Ti",
-     price:650,
+     name:"Pro 2: AMD Ryzen 5 7600 + RX 9060 XT 16GB (AM5 DDR5)",
+     price:2442,
      gpuOptions:[
-      {name:"RTX 5060 Ti (din config)",price:0},
-      {name:"RTX 5070 12GB",price:750}
+      {name:"RX 9060 XT 16GB (din config)",price:0},
+      {name:"RTX 3060 12GB",price:-900},
+      {name:"RTX 5060 8GB",price:-500},
+      {name:"RX 9070 16GB",price:900},
+      {name:"RTX 5060 Ti 16GB",price:1000}
      ]
     },
     {
-     name:"Ryzen 7 7800X3D + RX 7700 XT 12GB",
-     price:1100,
+     name:"Pro 3: Intel Core i5-14400F + RTX 5060 Ti 16GB",
+     price:1621,
      gpuOptions:[
-      {name:"RX 7700 XT 12GB (din config)",price:0},
-      {name:"RX 7800 XT 16GB",price:550}
+      {name:"RTX 5060 Ti 16GB (din config)",price:0},
+      {name:"RTX 3060 12GB",price:-1900},
+      {name:"RTX 5060 8GB",price:-1500},
+      {name:"RX 9060 XT 16GB",price:-1000},
+      {name:"RX 9070 16GB",price:-100}
+     ]
+    },
+    {
+     name:"Pro 4: AMD Ryzen 5 7600 + RX 9070 16GB (AM5 DDR5)",
+     price:3372,
+     gpuOptions:[
+      {name:"RX 9070 16GB (din config)",price:0},
+      {name:"RTX 3060 12GB",price:-1800},
+      {name:"RTX 5060 8GB",price:-1400},
+      {name:"RX 9060 XT 16GB",price:-900},
+      {name:"RTX 5060 Ti 16GB",price:100}
      ]
     }
    ],
    gpu:[],
-   ram:[{name:"32GB DDR5",price:0},{name:"64GB DDR5",price:350}],
-   ssd:[{name:"1TB NVMe",price:0},{name:"2TB NVMe",price:250}],
+   ram:[
+    {name:"32GB (2x16GB) Kit Inclus",price:0}
+   ],
+   ssd:[
+    {name:"1TB M.2 NVMe",price:0},
+    {name:"2TB M.2 NVMe",price:1050}
+   ],
    case:[
     {name:"Premium Black Case",price:0,image:"https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=700&q=85"},
-    {name:"Panoramic Glass Case",price:220,image:"https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=700&q=85"}
+    {name:"Panoramic Glass Case",price:0,image:"https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=700&q=85"}
    ],
-   cooler:[{name:"Tower Air Cooler",price:0,image:""},{name:"240mm AIO",price:250,image:""}],
+   cooler:[
+    {name:"Standard Cooler",price:0,image:""}
+   ],
    extra:[
-    {name:"Wi-Fi 6E + Bluetooth",price:110},
-    {name:"Windows 11 Pro activat",price:70}
+    {name:"+500GB SATA SSD",price:450}
    ]
   }
  },
  {
-  id:"ultimate",name:"Er1k Ultimate",description:"High-end sistem pentru performanță fără compromisuri.",price:6500,cardBadge:"",
+  id:"ultimate",
+  name:"Er1k Ultimate",
+  description:"High-end sistem pentru performanță fără compromisuri (32GB DDR5 6000MHz + MSI 850W/1000W).",
+  price:9929,
+  cardBadge:"",
   image:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=800&q=85",
   components:{
    config:[
     {
-     name:"Ryzen 7 7800X3D + RTX 4070 Super 12GB",
-     price:0,
-     gpuOptions:[
-      {name:"RTX 4070 Super 12GB (din config)",price:0},
-      {name:"RTX 5070 12GB",price:600},
-      {name:"RTX 5070 Ti 16GB",price:1450}
-     ]
-    },
-    {
-     name:"Ryzen 7 9800X3D + RTX 5070 12GB",
-     price:950,
+     name:"Ultimate 1: AMD Ryzen 7 7800X3D + RTX 5070 12GB",
+     price:600,
      gpuOptions:[
       {name:"RTX 5070 12GB (din config)",price:0},
-      {name:"RTX 5070 Ti 16GB",price:850},
-      {name:"RTX 5080 16GB",price:2100}
+      {name:"RX 9070 16GB",price:-600},
+      {name:"RX 9070 XT 16GB",price:-600},
+      {name:"RTX 5060 Ti 16GB",price:-500},
+      {name:"RTX 5070 Ti 16GB",price:3000}
      ]
     },
     {
-     name:"Ryzen 7 9800X3D + RTX 5070 Ti 16GB",
-     price:1750,
+     name:"Ultimate 2: AMD Ryzen 7 7800X3D + RX 9070 XT 16GB",
+     price:0,
+     gpuOptions:[
+      {name:"RX 9070 XT 16GB (din config)",price:0},
+      {name:"RX 9070 16GB",price:0},
+      {name:"RTX 5060 Ti 16GB",price:100},
+      {name:"RTX 5070 12GB",price:600},
+      {name:"RTX 5070 Ti 16GB",price:3600}
+     ]
+    },
+    {
+     name:"Ultimate 3: Intel Core i7-14700KF + RTX 5070 12GB",
+     price:1531,
+     gpuOptions:[
+      {name:"RTX 5070 12GB (din config)",price:0},
+      {name:"RX 9070 16GB",price:-600},
+      {name:"RX 9070 XT 16GB",price:-600},
+      {name:"RTX 5060 Ti 16GB",price:-500},
+      {name:"RTX 5070 Ti 16GB",price:3000}
+     ]
+    },
+    {
+     name:"Ultimate 4: AMD Ryzen 7 9800X3D + RTX 5070 Ti 16GB (2TB + 1000W)",
+     price:5455,
      gpuOptions:[
       {name:"RTX 5070 Ti 16GB (din config)",price:0},
-      {name:"RTX 5080 16GB",price:1250}
+      {name:"RX 9070 16GB",price:-3600},
+      {name:"RX 9070 XT 16GB",price:-3600},
+      {name:"RTX 5060 Ti 16GB",price:-3500},
+      {name:"RTX 5070 12GB",price:-3000}
      ]
     }
    ],
    gpu:[],
-   ram:[{name:"32GB DDR5",price:0},{name:"64GB DDR5",price:350}],
-   ssd:[{name:"2TB NVMe",price:0},{name:"4TB NVMe",price:450}],
+   ram:[
+    {name:"32GB (2x16GB) DDR5 6000MHz",price:0}
+   ],
+   ssd:[
+    {name:"1TB M.2 NVMe (2TB pe Ultimate 4)",price:0},
+    {name:"Upgrade 2TB M.2 NVMe",price:1050}
+   ],
    case:[
     {name:"Ultimate Black Case",price:0,image:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=700&q=85"},
-    {name:"Dual-Chamber Showcase",price:280,image:"https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=700&q=85"}
+    {name:"Dual-Chamber Showcase",price:0,image:"https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=700&q=85"}
    ],
-   cooler:[{name:"360mm AIO",price:0,image:""},{name:"Premium 360mm AIO",price:250,image:""}],
+   cooler:[
+    {name:"Standard Cooler",price:0,image:""}
+   ],
    extra:[
-    {name:"Wi-Fi 7 + Bluetooth",price:130},
-    {name:"Windows 11 Pro activat",price:70}
+    {name:"+500GB SATA SSD",price:450}
    ]
   }
  }
@@ -1058,7 +1173,6 @@ const componentNames={
 
 function clone(x){return JSON.parse(JSON.stringify(x))}
 
-/* Visszafelé kompatibilis normalizálás: biztosítja, hogy minden config elemhez legyen gpuOptions tömb */
 function normalizePCConfigs(pc, fallbackPC){
  const rawConfigs = Array.isArray(pc.components?.config) && pc.components.config.length > 0
   ? pc.components.config
@@ -1233,6 +1347,12 @@ let activePC=0;
 let selected={};
 
 function money(n){return Number(n||0).toLocaleString("ro-RO")+" RON"}
+function formatDiff(n){
+ const val = Number(n)||0;
+ if(val > 0) return `<span class="extra">+ ${money(val)}</span>`;
+ if(val < 0) return `<span class="extra">- ${money(Math.abs(val))}</span>`;
+ return "Inclus în preț";
+}
 function safe(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 
 function getOptionsForCategory(pc, key, cfgIdx = 0){
@@ -1334,12 +1454,13 @@ function getBrandClass(key, option){
  const name = String(option?.name || "").toLowerCase();
 
  if(key === "config"){
-  if(name.includes("intel") || name.includes("12100") || name.includes("12400") || name.includes("13400") || name.includes("14400")) return "brand-blue";
+  if(name.includes("intel") || name.includes("12400") || name.includes("14400") || name.includes("14700")) return "brand-blue";
   if(name.includes("ryzen") || name.includes("amd") || name.includes("rx ")) return "brand-red";
   return "";
  }
 
  if(key === "gpu"){
+  if(name.includes("arc") || name.includes("intel")) return "brand-blue";
   if(name.includes("rtx") || name.includes("gtx") || name.includes("nvidia")) return "brand-green";
   if(name.includes("rx ") || name.startsWith("rx") || name.includes("radeon") || name.includes("amd")) return "brand-red";
   return "";
@@ -1445,7 +1566,7 @@ function renderComponentBox(key,pc){
    >
     ${o.image?`<img src="${safe(o.image)}" alt="">`:""}
     <strong>${safe(o.name)}</strong>
-    <small>${Number(o.price)>0?`<span class="extra">+ ${money(o.price)}</span>`:"Inclus în preț"}</small>
+    <small>${formatDiff(o.price)}</small>
    </button>`;
   }).join("") : `<div class="empty" style="grid-column:1/-1">Nu există opțiuni GPU setate pentru acest CONFIG.</div>`}</div>
  </div>`;
@@ -1457,10 +1578,7 @@ function choose(key,i){
  }else{
   selected[key] = i;
   if(key === "config"){
-   const gpuList = getOptionsForCategory(data[activePC], "gpu", i);
-   if(typeof selected.gpu !== "number" || selected.gpu < 0 || selected.gpu >= gpuList.length){
-    selected.gpu = 0;
-   }
+   selected.gpu = 0;
   }
  }
  persistSelectedForPC(activePC, selected);
@@ -1528,10 +1646,11 @@ function updateSummary(){
  for(const key of Object.keys(componentNames)){
   const o=currentOption(key);
   if(!o)continue;
-  total+=Number(o.price)||0;
+  const p = Number(o.price)||0;
+  total+=p;
   html+=`<div class="summary-line"><span>${componentNames[key]}</span><span>${safe(o.name)}</span></div>`;
-  if(Number(o.price)>0){
-   html+=`<div class="summary-line surcharge"><span>Supliment</span><span>+ ${money(o.price)}</span></div>`;
+  if(p !== 0){
+   html+=`<div class="summary-line surcharge"><span>Diferență preț</span><span>${p > 0 ? "+ " + money(p) : "- " + money(Math.abs(p))}</span></div>`;
   }
  }
  document.getElementById("summary").innerHTML=html;
@@ -1669,7 +1788,7 @@ function renderComponentsTab(){
       ${o.image?`<img src="${safe(o.image)}" alt="">`:`<div class="thumb-placeholder">N/A</div>`}
       <div class="row-info">
        <strong>${safe(o.name)}</strong>
-       <small>${Number(o.price)>0?"+ "+money(o.price):"Inclus în preț"}</small>
+       <small>${Number(o.price)!==0 ? (Number(o.price)>0 ? "+ "+money(o.price) : "- "+money(Math.abs(o.price))) : "Inclus în preț"}</small>
       </div>
       <div class="row-actions">
        <button type="button" class="secondary-btn btn-sm" onclick="editOption(${adminSelectedPC},'${adminSelectedCat}',${oi},${adminSelectedConfigIdx})">Editează</button>
