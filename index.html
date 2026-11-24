@@ -117,7 +117,7 @@ header{
 }
 .btn-vezi:hover{filter:brightness(1.08)}
 
-/* DETAIL VIEW (INSPIRED BY PRODUCT PAGE) */
+/* DETAIL VIEW */
 .detail-wrap{padding:30px 0 70px}
 .back-btn{
   background:#131722;
@@ -140,21 +140,31 @@ header{
   border-radius:18px;
   padding:24px;
   display:grid;
-  grid-template-columns:1fr 1.1fr;
+  grid-template-columns:1fr 1.12fr;
   gap:28px;
   align-items:start;
 }
 
 .gallery-main{
   aspect-ratio:4/5;
-  max-height:460px;
+  max-height:480px;
   width:100%;
   border-radius:14px;
   overflow:hidden;
   background:#0b0d14;
   border:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:10px;
 }
-.gallery-main img{width:100%;height:100%;object-fit:cover;display:block}
+.gallery-main img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:block;
+  border-radius:8px;
+}
 
 .thumbs{
   display:flex;
@@ -164,54 +174,70 @@ header{
   align-items:center;
 }
 .thumb-btn{
-  width:60px;
-  height:68px;
-  padding:0;
+  width:62px;
+  height:70px;
+  padding:4px;
   border-radius:9px;
   overflow:hidden;
   border:2px solid var(--border);
   background:#0b0d14;
 }
 .thumb-btn.active{border-color:var(--accent)}
-.thumb-btn img{width:100%;height:100%;object-fit:cover;display:block}
-
-.upload-btn{
-  border:1px dashed #434b6b;
-  background:#151926;
-  color:#cfd5e8;
-  border-radius:9px;
-  height:68px;
-  padding:0 12px;
-  font-size:12px;
-  font-weight:700;
-}
-.upload-btn:hover{border-color:var(--accent);color:#fff}
+.thumb-btn img{width:100%;height:100%;object-fit:contain;display:block;border-radius:5px}
 
 .info-tag{font-size:11px;font-weight:800;letter-spacing:1.5px;color:#bea8ff;text-transform:uppercase}
-.info-title{margin:6px 0 10px;font-size:clamp(24px,3.2vw,34px);font-weight:900;letter-spacing:-.8px;line-height:1.15}
-.info-short{margin:0 0 16px;font-size:13.5px;color:var(--muted);line-height:1.55}
+.info-title{margin:6px 0 14px;font-size:clamp(24px,3.2vw,34px);font-weight:900;letter-spacing:-.8px;line-height:1.15}
 
+.config-box{
+  background:#161a28;
+  border:1px solid #303752;
+  border-radius:14px;
+  padding:16px 18px;
+  margin-bottom:16px;
+}
+.config-head{
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:1.4px;
+  text-transform:uppercase;
+  color:#b69eff;
+  margin-bottom:10px;
+}
 .spec-list{
-  margin:0 0 16px;
-  padding-left:18px;
+  list-style:none;
+  margin:0;
+  padding:0;
   font-size:13.5px;
-  line-height:1.75;
-  color:#e5e8f2;
+  color:#eef1fa;
+  display:grid;
+  gap:7px;
 }
-.spec-list li{margin-bottom:3px}
-
-.fps-line{
-  padding:10px 12px;
-  border-radius:10px;
-  background:#3fd69e12;
-  border:1px solid #3fd69e35;
-  color:var(--green);
-  font-size:12.5px;
-  line-height:1.5;
-  margin-bottom:18px;
+.spec-list li{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  padding-bottom:6px;
+  border-bottom:1px solid #23283d;
 }
+.spec-list li:last-child{border-bottom:0;padding-bottom:0}
+.spec-list span{color:var(--muted)}
+.spec-list strong{font-weight:700;text-align:right}
 
-.detail-price{font-size:28px;font-weight:900;color:#fff;margin-bottom:14px}
+.price-box{
+  background:linear-gradient(135deg,#211938,#151826);
+  border:1px solid #6b4ce0;
+  border-radius:14px;
+  padding:14px 18px;
+  margin-bottom:14px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  box-shadow:0 10px 28px #8b5cf624;
+}
+.price-label{font-size:11.5px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:#cbb8ff}
+.detail-price{font-size:30px;font-weight:900;color:#fff;letter-spacing:-.5px}
+
 .wa-btn{
   width:100%;
   border:0;
@@ -223,6 +249,40 @@ header{
   color:#fff;
 }
 .wa-btn:hover{filter:brightness(1.08)}
+
+/* BENCHMARK VIDEO UNDER THE WHOLE BLOCK */
+.bench-box{
+  margin-top:24px;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:20px 24px 24px;
+}
+.bench-top{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:14px;
+}
+.bench-top h2{margin:0;font-size:19px;font-weight:800;letter-spacing:-.4px}
+.bench-top span{font-size:12.5px;color:var(--green);font-weight:600}
+.video-wrap{
+  position:relative;
+  width:100%;
+  aspect-ratio:16/9;
+  border-radius:14px;
+  overflow:hidden;
+  background:#090b10;
+  border:1px solid var(--border);
+}
+.video-wrap iframe{
+  width:100%;
+  height:100%;
+  border:0;
+  display:block;
+}
 
 footer{
   border-top:1px solid var(--border);
@@ -239,6 +299,7 @@ footer{
 @media(max-width:640px){
   .grid{grid-template-columns:1fr}
   .thumb{aspect-ratio:1/1;min-height:260px}
+  .detail-price{font-size:25px}
 }
 </style>
 </head>
@@ -259,7 +320,7 @@ footer{
     <section class="hero">
       <div class="wrap">
         <h1>PC-URI GATA. <span>PREȚ CLAR.</span></h1>
-        <p>Apasă pe un PC sau pe <strong>Vezi</strong> pentru specificații, FPS și mai multe poze.</p>
+        <p>Apasă pe un PC sau pe <strong>Vezi</strong> pentru configurație și test în jocuri.</p>
       </div>
     </section>
 
@@ -281,19 +342,33 @@ footer{
           <img id="mainPhoto" src="" alt="PC">
         </div>
         <div class="thumbs" id="thumbsRow"></div>
-        <input type="file" id="photoInput" accept="image/*" multiple hidden onchange="addUploadedPhotos(event)">
       </div>
 
       <div>
         <div class="info-tag" id="dTag">PC #01</div>
         <h1 class="info-title" id="dTitle">PC</h1>
-        <p class="info-short" id="dShort"></p>
 
-        <ul class="spec-list" id="dSpecs"></ul>
-        <div class="fps-line" id="dFps"></div>
+        <div class="config-box">
+          <div class="config-head">Configurație</div>
+          <ul class="spec-list" id="dSpecs"></ul>
+        </div>
 
-        <div class="detail-price" id="dPrice">0 RON</div>
+        <div class="price-box">
+          <span class="price-label">Preț sistem</span>
+          <span class="detail-price" id="dPrice">0 RON</span>
+        </div>
+
         <button type="button" class="wa-btn" onclick="contactWhatsApp()">Scrie pe WhatsApp</button>
+      </div>
+    </div>
+
+    <div class="bench-box">
+      <div class="bench-top">
+        <h2 id="benchTitle">Test în jocuri (YouTube)</h2>
+        <span id="benchSub"></span>
+      </div>
+      <div class="video-wrap">
+        <iframe id="benchFrame" src="" title="Gaming test" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       </div>
     </div>
   </div>
@@ -343,158 +418,149 @@ const GPU_RX_9060_XT = 3500;
 const GPU_RX_9070_XT = 4400;
 const GPU_RTX_5070_TI = 8000;
 
-// La fiecare PC poți pune mai multe link-uri în "images": ["link1", "link2", "link3"]
 const pcs = [
   {
     tag: "PC #01",
     cpuGpu: "Ryzen 5 3600 + GTX 1660 Super 6GB",
-    short: "Sistem gata configurat pentru gaming 1080p.",
     specs: [
-      "Procesor: AMD Ryzen 5 3600",
-      "Placă video: GTX 1660 Super 6GB",
-      "RAM: 16GB DDR4 3200MHz",
-      "Stocare: 500GB M.2 NVMe",
-      "Sursă: 550W",
-      "Cooler: ProGaming Minifreeze"
+      ["Procesor", "AMD Ryzen 5 3600"],
+      ["Placă video", "GTX 1660 Super 6GB"],
+      ["Memorie RAM", "16GB DDR4 3200MHz"],
+      ["Stocare", "500GB M.2 NVMe"],
+      ["Sursă", "550W"],
+      ["Cooler", "ProGaming Minifreeze"]
     ],
-    fps: "FPS estimat (1080p): CS2 ~150–210 FPS · Valorant ~220+ FPS · GTA V ~100–130 FPS",
     images: [
       "https://i.postimg.cc/Y9L0LTGx/image.png",
       "https://i.postimg.cc/SQ8jSFbP/image.png"
     ],
+    ytVideoId: "JBhTOSaK0ms",
     price: CPU_R5_3600 + GPU_GTX_1660_SUPER + MOBO_AM4_CHEAP + RAM_16GB_DDR4 + SSD_500GB + PSU_550W + BASE_COOLER_PRICE + PROFIT_MARGIN
   },
   {
     tag: "PC #02",
     cpuGpu: "Ryzen 5 5500 + RX 7600 8GB",
-    short: "Sistem gata configurat pentru 1080p High/Ultra.",
     specs: [
-      "Procesor: AMD Ryzen 5 5500",
-      "Placă video: Radeon RX 7600 8GB",
-      "RAM: 16GB DDR4 3200MHz",
-      "Stocare: 1TB M.2 NVMe",
-      "Sursă: 550W",
-      "Cooler: ProGaming Minifreeze"
+      ["Procesor", "AMD Ryzen 5 5500"],
+      ["Placă video", "Radeon RX 7600 8GB"],
+      ["Memorie RAM", "16GB DDR4 3200MHz"],
+      ["Stocare", "1TB M.2 NVMe"],
+      ["Sursă", "550W"],
+      ["Cooler", "ProGaming Minifreeze"]
     ],
-    fps: "FPS estimat (1080p): CS2 ~200–270 FPS · Fortnite ~160–220 FPS · Warzone ~115–145 FPS",
     images: [
       "https://i.postimg.cc/B62s03PF/image.png",
       "https://i.postimg.cc/MKPCgHr6/image.png"
     ],
+    ytVideoId: "djyLjOJzmu8",
     price: CPU_R5_5500 + GPU_RX_7600 + MOBO_AM4_CHEAP + RAM_16GB_DDR4 + SSD_1TB + PSU_550W + BASE_COOLER_PRICE + PROFIT_MARGIN
   },
   {
     tag: "PC #03",
     cpuGpu: "Core i5-12400F + RTX 5050 8GB",
-    short: "Sistem gata configurat pentru 1080p / 1440p.",
     specs: [
-      "Procesor: Intel Core i5-12400F",
-      "Placă video: RTX 5050 8GB",
-      "RAM: 16GB DDR4 3200MHz",
-      "Stocare: 1TB M.2 NVMe",
-      "Sursă: 550W",
-      "Cooler: ProGaming Minifreeze"
+      ["Procesor", "Intel Core i5-12400F"],
+      ["Placă video", "RTX 5050 8GB"],
+      ["Memorie RAM", "16GB DDR4 3200MHz"],
+      ["Stocare", "1TB M.2 NVMe"],
+      ["Sursă", "550W"],
+      ["Cooler", "ProGaming Minifreeze"]
     ],
-    fps: "FPS estimat: eSports ~220+ FPS · AAA cu DLSS ~110–150 FPS",
     images: [
       "https://i.postimg.cc/XY2YHn97/image.png",
       "https://i.postimg.cc/wMVp1kVj/image.png"
     ],
+    ytVideoId: "jJce8mHykvo",
     price: CPU_I5_12400F + GPU_RTX_5050 + MOBO_INTEL_ENTRY + RAM_16GB_DDR4 + SSD_1TB + PSU_550W + BASE_COOLER_PRICE + PROFIT_MARGIN
   },
   {
     tag: "PC #04",
     cpuGpu: "Ryzen 5 5600 + RTX 3050 8GB",
-    short: "Sistem gata configurat pentru gaming 1080p.",
     specs: [
-      "Procesor: AMD Ryzen 5 5600",
-      "Placă video: RTX 3050 8GB",
-      "RAM: 16GB DDR4 3200MHz",
-      "Stocare: 1TB M.2 NVMe",
-      "Sursă: 550W",
-      "Cooler: ProGaming Minifreeze"
+      ["Procesor", "AMD Ryzen 5 5600"],
+      ["Placă video", "RTX 3050 8GB"],
+      ["Memorie RAM", "16GB DDR4 3200MHz"],
+      ["Stocare", "1TB M.2 NVMe"],
+      ["Sursă", "550W"],
+      ["Cooler", "ProGaming Minifreeze"]
     ],
-    fps: "FPS estimat (1080p): Valorant ~240+ FPS · CS2 ~170–230 FPS · GTA V ~110–140 FPS",
     images: [
       "https://i.postimg.cc/XJ5NYFmP/image.png",
       "https://i.postimg.cc/qvZpcjdC/image.png"
     ],
+    ytVideoId: "Glt5luCu4DE",
     price: CPU_R5_5600 + GPU_RTX_3050 + MOBO_AM4_CHEAP + RAM_16GB_DDR4 + SSD_1TB + PSU_550W + BASE_COOLER_PRICE + PROFIT_MARGIN
   },
   {
     tag: "PC #05",
     cpuGpu: "Ryzen 5 7600 + RX 9060 XT 16GB",
-    short: "Platformă AM5 DDR5 pregătită pentru 1440p.",
     specs: [
-      "Procesor: AMD Ryzen 5 7600",
-      "Placă video: RX 9060 XT 16GB",
-      "RAM: 32GB DDR5 6000MHz",
-      "Stocare: 1TB M.2 NVMe",
-      "Sursă: 650W",
-      "Cooler: ProGaming Minifreeze"
+      ["Procesor", "AMD Ryzen 5 7600"],
+      ["Placă video", "RX 9060 XT 16GB"],
+      ["Memorie RAM", "32GB DDR5 6000MHz"],
+      ["Stocare", "1TB M.2 NVMe"],
+      ["Sursă", "650W"],
+      ["Cooler", "ProGaming Minifreeze"]
     ],
-    fps: "FPS estimat (1440p): FPS ridicat în jocuri competitive și AAA (16GB VRAM)",
     images: [
       "https://i.postimg.cc/ZnDwsBYP/image.png",
       "https://i.postimg.cc/63cjRbkX/image.png"
     ],
+    ytVideoId: "D_Q_qTM_xh0",
     price: CPU_R5_7600 + GPU_RX_9060_XT + MOBO_AM5_DDR5 + RAM_32GB_DDR5 + SSD_1TB + PSU_650W + BASE_COOLER_PRICE + PROFIT_MARGIN
   },
   {
     tag: "PC #06",
     cpuGpu: "Core i5-14400F + RTX 5060 Ti 16GB",
-    short: "Sistem puternic pentru 1440p High/Ultra.",
     specs: [
-      "Procesor: Intel Core i5-14400F",
-      "Placă video: RTX 5060 Ti 16GB",
-      "RAM: 16GB DDR4 3200MHz",
-      "Stocare: 1TB M.2 NVMe",
-      "Sursă: 650W",
-      "Cooler: ProGaming Minifreeze"
+      ["Procesor", "Intel Core i5-14400F"],
+      ["Placă video", "RTX 5060 Ti 16GB"],
+      ["Memorie RAM", "16GB DDR4 3200MHz"],
+      ["Stocare", "1TB M.2 NVMe"],
+      ["Sursă", "650W"],
+      ["Cooler", "ProGaming Minifreeze"]
     ],
-    fps: "FPS estimat (1440p): performanță fluidă în jocuri AAA + DLSS și 16GB VRAM",
     images: [
       "https://i.postimg.cc/xTcxJRgh/image.png",
       "https://i.postimg.cc/02FtpwB0/image.png"
     ],
+    ytVideoId: "0NJirlRMIjU",
     price: CPU_I5_14400F + GPU_RTX_5060_TI + MOBO_INTEL_B760 + RAM_16GB_DDR4 + SSD_1TB + PSU_650W + BASE_COOLER_PRICE + PROFIT_MARGIN
   },
   {
     tag: "PC #07",
     cpuGpu: "Ryzen 7 7800X3D + RX 9070 XT 16GB",
-    short: "Configurație 3D V-Cache pentru 1440p Ultra / 4K.",
     specs: [
-      "Procesor: AMD Ryzen 7 7800X3D",
-      "Placă video: RX 9070 XT 16GB",
-      "RAM: 32GB DDR5 6000MHz",
-      "Stocare: 1TB M.2 NVMe",
-      "Sursă: 850W",
-      "Cooler: ProGaming Minifreeze"
+      ["Procesor", "AMD Ryzen 7 7800X3D"],
+      ["Placă video", "RX 9070 XT 16GB"],
+      ["Memorie RAM", "32GB DDR5 6000MHz"],
+      ["Stocare", "1TB M.2 NVMe"],
+      ["Sursă", "850W"],
+      ["Cooler", "ProGaming Minifreeze"]
     ],
-    fps: "FPS estimat (1440p / 4K): 1% low foarte stabil în eSports și AAA",
     images: [
       "https://i.postimg.cc/gcB4Whds/image.png",
       "https://i.postimg.cc/Cxb4k68C/image.png"
     ],
+    ytVideoId: "oSMwfU9ROp4",
     price: CPU_R7_7800X3D + GPU_RX_9070_XT + MOBO_AM5_DDR5 + RAM_32GB_DDR5 + SSD_1TB + PSU_850W + BASE_COOLER_PRICE + PROFIT_MARGIN
   },
   {
     tag: "PC #08",
     cpuGpu: "Ryzen 7 9800X3D + RTX 5070 Ti 16GB",
-    short: "Configurație high-end pentru 1440p / 4K maxim.",
     specs: [
-      "Procesor: AMD Ryzen 7 9800X3D",
-      "Placă video: RTX 5070 Ti 16GB",
-      "RAM: 32GB DDR5 6000MHz",
-      "Stocare: 1TB M.2 NVMe",
-      "Sursă: 1000W",
-      "Cooler: ProGaming Minifreeze"
+      ["Procesor", "AMD Ryzen 7 9800X3D"],
+      ["Placă video", "RTX 5070 Ti 16GB"],
+      ["Memorie RAM", "32GB DDR5 6000MHz"],
+      ["Stocare", "1TB M.2 NVMe"],
+      ["Sursă", "1000W"],
+      ["Cooler", "ProGaming Minifreeze"]
     ],
-    fps: "FPS estimat (1440p / 4K): nivel maxim pentru gaming competitiv și AAA",
     images: [
       "https://i.postimg.cc/Cxb4k68C/image.png",
       "https://i.postimg.cc/gcB4Whds/image.png"
     ],
+    ytVideoId: "oAwGkpgAcoM",
     price: CPU_R7_9800X3D + GPU_RTX_5070_TI + MOBO_AM5_DDR5 + RAM_32GB_DDR5 + SSD_1TB + PSU_1000W + BASE_COOLER_PRICE + PROFIT_MARGIN
   }
 ];
@@ -533,6 +599,7 @@ function openDetail(idx){
 }
 
 function goHome(sectionId){
+  document.getElementById("benchFrame").src = "";
   document.getElementById("detailView").classList.remove("active");
   document.getElementById("homeView").classList.add("active");
   if(sectionId){
@@ -553,39 +620,28 @@ function renderDetail(){
 
   document.getElementById("dTag").textContent = pc.tag;
   document.getElementById("dTitle").textContent = pc.cpuGpu;
-  document.getElementById("dShort").textContent = pc.short;
-  document.getElementById("dSpecs").innerHTML = pc.specs.map(s => `<li>${safe(s)}</li>`).join("");
-  document.getElementById("dFps").textContent = pc.fps;
+  document.getElementById("dSpecs").innerHTML = pc.specs.map(([k, v]) => `
+    <li><span>${safe(k)}</span><strong>${safe(v)}</strong></li>
+  `).join("");
   document.getElementById("dPrice").textContent = money(pc.price);
   document.getElementById("mainPhoto").src = imgs[currentPhoto];
 
-  const thumbsHtml = imgs.map((src, i) => `
+  document.getElementById("thumbsRow").innerHTML = imgs.map((src, i) => `
     <button type="button" class="thumb-btn ${i === currentPhoto ? "active" : ""}" onclick="selectPhoto(${i})">
       <img src="${safe(src)}" alt="Poza ${i + 1}">
     </button>
   `).join("");
 
-  document.getElementById("thumbsRow").innerHTML =
-    thumbsHtml +
-    `<button type="button" class="upload-btn" onclick="document.getElementById('photoInput').click()">+ Poze</button>`;
+  document.getElementById("benchTitle").textContent = `Test în jocuri — ${pc.cpuGpu}`;
+  document.getElementById("benchSub").textContent = "Benchmark YouTube pentru această combinație CPU + GPU";
+  document.getElementById("benchFrame").src = pc.ytVideoId
+    ? `https://www.youtube.com/embed/${encodeURIComponent(pc.ytVideoId)}`
+    : "";
 }
 
 function selectPhoto(i){
   currentPhoto = i;
   renderDetail();
-}
-
-function addUploadedPhotos(event){
-  const files = Array.from(event.target.files || []);
-  if(!files.length) return;
-  const pc = pcs[currentPC];
-  files.forEach(file => {
-    const url = URL.createObjectURL(file);
-    pc.images.push(url);
-  });
-  currentPhoto = pc.images.length - files.length;
-  renderDetail();
-  event.target.value = "";
 }
 
 function contactWhatsApp(){
