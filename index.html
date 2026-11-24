@@ -17,6 +17,9 @@
   --accent:#8b5cf6;
   --accent2:#6d45db;
   --green:#43d9a3;
+  --intel:#3b82f6;
+  --amd:#ef4444;
+  --arc:#06b6d4;
 }
 *{box-sizing:border-box}
 body{
@@ -48,8 +51,18 @@ header{
 .nav{display:flex;align-items:center;justify-content:space-between;gap:16px}
 .logo{font-size:25px;font-weight:900;letter-spacing:-1px;white-space:nowrap}
 .logo span{color:var(--accent);text-shadow:0 0 22px #8b5cf666}
-.navlinks{display:flex;gap:26px;color:#b8bcc9;font-size:14px;font-weight:500}
+.navlinks{display:flex;align-items:center;gap:24px;color:#b8bcc9;font-size:14px;font-weight:500}
 .navlinks a:hover{color:#fff}
+.nav-custom-btn{
+  background:linear-gradient(135deg,#966bff,#6f44e0);
+  color:#fff !important;
+  padding:9px 15px;
+  border-radius:9px;
+  font-weight:700;
+  font-size:13px;
+  box-shadow:0 6px 20px #8b5cf633;
+}
+.nav-custom-btn:hover{filter:brightness(1.08)}
 
 .page-view{display:none}
 .page-view.active{display:block}
@@ -191,6 +204,22 @@ section{padding:88px 0}
 .pc-price-box small{font-size:11px;color:#a4aac0;text-transform:uppercase;letter-spacing:1px;font-weight:700;white-space:nowrap}
 .pc-card button{width:100%}
 
+.custom-banner-card{
+  margin-top:26px;
+  padding:24px 28px;
+  border-radius:18px;
+  background:linear-gradient(125deg,#1d1533,#121522 60%,#0f121b);
+  border:1px solid #463770;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  flex-wrap:wrap;
+  box-shadow:0 16px 40px #0007;
+}
+.custom-banner-card h3{margin:4px 0 6px;font-size:22px}
+.custom-banner-card p{margin:0;color:var(--muted);font-size:14px}
+
 .features{background:#0c0e14;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
 .feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 .feature{
@@ -210,13 +239,13 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 
 /* CONFIGURATOR PAGE */
 .subpage-wrap{min-height:78vh;padding:42px 0 85px}
+.top-sub-actions{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:20px}
 .back-btn{
   background:#141722;
   color:#d5d9e6;
   border:1px solid #303547;
   border-radius:9px;
   padding:10px 15px;
-  margin-bottom:24px;
   font-size:13px;
   font-weight:600;
   display:inline-flex;
@@ -484,6 +513,10 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
   padding:22px;
   box-shadow:0 14px 36px #0007;
 }
+.price-panel.sticky-panel{
+  position:sticky;
+  top:100px;
+}
 .price-panel h3{
   margin:0 0 18px;
   font-size:19px;
@@ -509,10 +542,154 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 .notice{font-size:11px;color:var(--muted);line-height:1.6;margin-top:13px}
 .empty{color:var(--muted);font-size:13px;padding:14px}
 
+/* SAJAT PC KONFIG VIEW */
+.custom-stepper{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:22px;
+}
+.step-chip{
+  background:#141824;
+  border:1px solid #2e3448;
+  color:#aeb5c9;
+  padding:8px 14px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:700;
+  transition:.2s;
+}
+.step-chip:hover{border-color:#8b5cf6;color:#fff}
+.step-chip.active{
+  background:linear-gradient(135deg,#966bff,#6f44e0);
+  border-color:#a37cff;
+  color:#fff;
+  box-shadow:0 4px 16px #8b5cf644;
+}
+.step-chip.done{
+  border-color:#2d5a4b;
+  color:#7ce6be;
+  background:#11201b;
+}
+
+.custom-board{
+  display:grid;
+  grid-template-columns:minmax(0,1.55fr) minmax(300px,0.85fr);
+  gap:22px;
+  align-items:start;
+}
+.custom-left-col{
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+}
+.brand-grid-2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+.brand-grid-3{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+.brand-box{
+  border-radius:16px;
+  padding:22px 20px;
+  text-align:left;
+  color:#fff;
+  border:2px solid transparent;
+  transition:.22s;
+  position:relative;
+  overflow:hidden;
+}
+.brand-box:hover{transform:translateY(-3px)}
+.brand-box.intel-box{
+  background:linear-gradient(145deg,#0f294d,#0b1729);
+  border-color:#2563eb88;
+  box-shadow:0 12px 30px #1d4ed826;
+}
+.brand-box.intel-box.active{
+  border-color:#60a5fa;
+  background:linear-gradient(145deg,#173c70,#0e1e38);
+  box-shadow:0 0 28px #3b82f655;
+}
+.brand-box.amd-box{
+  background:linear-gradient(145deg,#471216,#240a0d);
+  border-color:#dc262688;
+  box-shadow:0 12px 30px #dc262626;
+}
+.brand-box.amd-box.active{
+  border-color:#f87171;
+  background:linear-gradient(145deg,#69171d,#330c10);
+  box-shadow:0 0 28px #ef444455;
+}
+.brand-box.arc-box{
+  background:linear-gradient(145deg,#0c2f3b,#081a21);
+  border-color:#06b6d488;
+}
+.brand-box.arc-box.active{
+  border-color:#22d3ee;
+  background:linear-gradient(145deg,#124557,#0a232d);
+  box-shadow:0 0 28px #06b6d455;
+}
+.brand-box strong{display:block;font-size:20px;letter-spacing:.4px}
+.brand-box small{display:block;margin-top:6px;font-size:12px;color:#d6def2;opacity:.9}
+
+.model-list-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+.model-item-btn{
+  background:#161a26;
+  border:1px solid #2e3447;
+  border-radius:12px;
+  padding:13px 14px;
+  color:#f3f5fc;
+  text-align:left;
+  transition:.18s;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+.model-item-btn:hover{border-color:#8b5cf6;background:#1d2233}
+.model-item-btn.selected{
+  border:2px solid #9a70ff;
+  background:linear-gradient(155deg,#2a1f45,#181527);
+  padding:12px 13px;
+}
+.model-item-btn .rank-tag{
+  font-size:10px;
+  font-weight:800;
+  color:#b69aff;
+  background:#8b5cf61c;
+  border:1px solid #8b5cf638;
+  padding:3px 7px;
+  border-radius:999px;
+  white-space:nowrap;
+}
+.model-item-btn .sub-tag{
+  display:block;
+  font-size:11px;
+  color:#9ea5ba;
+  margin-top:3px;
+}
+
+.step-nav-row{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  margin-top:16px;
+}
+
 @media(max-width:1120px){
  .pc-grid{grid-template-columns:repeat(2,1fr)}
  .config-board{grid-template-columns:1fr 1fr}
  .center-stack{grid-column:1/-1;order:-1}
+ .custom-board{grid-template-columns:1fr}
+ .price-panel.sticky-panel{position:static}
 }
 
 /* MOBILE-ONLY POLISH (PC / DESKTOP STAYS UNCHANGED) */
@@ -520,7 +697,8 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
  .container{width:min(1420px,93%)}
  header{height:68px}
  .logo{font-size:19px;letter-spacing:-.6px}
- .navlinks{gap:12px;font-size:12px}
+ .navlinks{gap:10px;font-size:12px}
+ .nav-custom-btn{padding:7px 10px;font-size:11.5px}
 
  .hero{
   padding:40px 0 46px;
@@ -559,7 +737,7 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
  .feature h3{font-size:17px;margin:12px 0 6px}
 
  .subpage-wrap{padding:22px 0 64px}
- .back-btn{margin-bottom:14px;padding:9px 13px;font-size:12.5px}
+ .back-btn{margin-bottom:0;padding:9px 13px;font-size:12.5px}
  .config-heading{padding:16px;border-radius:14px;margin-bottom:18px;gap:12px}
  .config-heading h1{font-size:28px;letter-spacing:-1.2px;margin:4px 0 4px}
  .config-heading p{font-size:13px;line-height:1.5}
@@ -597,6 +775,8 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
  .choice strong{font-size:13px;padding-right:26px}
  .choice small{font-size:11.5px;margin-top:3px}
 
+ .brand-grid-2,.brand-grid-3,.model-list-grid{grid-template-columns:1fr}
+
  .footer-inner{flex-direction:column;align-items:flex-start;gap:14px}
 }
 </style>
@@ -610,6 +790,7 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
    <a href="#pcs" onclick="jumpSection('pcs')">PC-uri</a>
    <a href="#features" onclick="jumpSection('features')">Despre noi</a>
    <a href="#contact" onclick="jumpSection('contact')">Contact</a>
+   <a href="#custom" class="nav-custom-btn" onclick="openCustomConfigurator();return false">SAJÁT PC KONFIG</a>
   </nav>
  </div>
 </header>
@@ -623,8 +804,8 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
      <h1>YOUR GAME.<br>YOUR <span>POWER.</span></h1>
      <p>PC-uri gaming configurate pentru performanță. Alege sistemul potrivit și personalizează-l exact așa cum îți dorești.</p>
      <div class="hero-actions">
-      <button type="button" class="primary-btn" onclick="jumpSection('pcs')">DESCOPERĂ PC-URILE</button>
-      <button type="button" class="secondary-btn" onclick="jumpSection('contact')">CONTACT</button>
+      <button type="button" class="primary-btn" onclick="openCustomConfigurator()">SAJÁT PC KONFIG →</button>
+      <button type="button" class="secondary-btn" onclick="jumpSection('pcs')">DESCOPERĂ PC-URILE</button>
      </div>
      <div class="stats">
       <div class="stat"><strong>100%</strong><small>CONFIGURABIL</small></div>
@@ -644,10 +825,19 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
      <div>
       <div class="eyebrow">OUR SYSTEMS</div>
       <h2>Choose your power.</h2>
-      <p>Alege unul dintre cele 4 sisteme și deschide pagina de configurare.</p>
+      <p>Alege unul dintre cele 4 sisteme sau intră în configuratorul propriu Saját PC Konfig.</p>
      </div>
     </div>
     <div class="pc-grid" id="pcGrid"></div>
+
+    <div class="custom-banner-card">
+     <div>
+      <div class="eyebrow">CUSTOM BUILDER · FĂRĂ PREȚURI ÎNCĂ</div>
+      <h3>Saját PC Konfig (CPU → GPU → Alaplap → SSD → RAM → Carcasă → Răcire → Extra)</h3>
+      <p>Lépésről lépésre külön oldal: CPU (AMD piros / INTEL kék, leggyengébbtől legjobbig) → GPU → Alaplap → SSD → RAM → Carcasă → Răcire → Plusz.</p>
+     </div>
+     <button type="button" class="primary-btn" onclick="openCustomConfigurator()">INDÍTÁS · SAJÁT PC KONFIG →</button>
+    </div>
    </div>
   </section>
 
@@ -668,7 +858,10 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 
 <div id="configView" class="page-view">
  <div class="container subpage-wrap">
-  <button type="button" class="back-btn" onclick="showView('homeView')">← Înapoi la PC-uri</button>
+  <div class="top-sub-actions">
+   <button type="button" class="back-btn" onclick="showView('homeView')">← Înapoi la PC-uri</button>
+   <button type="button" class="secondary-btn" onclick="openCustomConfigurator()">Válts a Saját PC Konfigra →</button>
+  </div>
   <div class="config-heading">
    <div>
     <div class="eyebrow">PC CONFIGURATOR</div>
@@ -715,6 +908,50 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
  </div>
 </div>
 
+<!-- DEDICATED SAJAT PC KONFIG PAGE -->
+<div id="customConfigView" class="page-view">
+ <div class="container subpage-wrap">
+  <div class="top-sub-actions">
+   <button type="button" class="back-btn" onclick="showView('homeView')">← Înapoi la főoldal</button>
+   <button type="button" class="secondary-btn" onclick="resetCustomConfig()">Újrakezdés</button>
+  </div>
+
+  <div class="config-heading">
+   <div>
+    <div class="eyebrow">SAJÁT PC KONFIG · LÉPÉSRŐL LÉPÉSRE</div>
+    <h1 id="customStepHeading">1. Lépés: CPU</h1>
+    <p id="customStepSub">Válassz INTEL (kék) vagy AMD (piros) kockát — a listák leggyengébbtől a legjobbig vannak rendezve.</p>
+   </div>
+  </div>
+
+  <div class="custom-stepper" id="customStepper"></div>
+
+  <div class="custom-board">
+   <div class="custom-left-col" id="customStepBody"></div>
+
+   <div class="zone-col">
+    <div class="pc-stage">
+     <div class="stage-label">KIVÁLASZTOTT CARCASĂ</div>
+     <img class="stage-image" id="customStageImage" src="" alt="Carcasa selectată">
+     <div class="stage-name" id="customStageCaseName">Még nincs kiválasztva</div>
+     <div class="stage-caption">A Carcasă lépésnél élőben frissül a kép.</div>
+    </div>
+
+    <div class="price-panel sticky-panel">
+     <h3>Eddig betéve</h3>
+     <div id="customSidebarSummary"></div>
+     <div class="summary-total">
+      <small>ÁR STÁTUSZ</small>
+      <strong style="font-size:20px;color:#be9fff">Árak nélkül (később megadod)</strong>
+     </div>
+     <button type="button" class="primary-btn" onclick="orderCustomPC()">KÉRJ AJÁNLATOT WHATSAPPON</button>
+     <div class="notice">Jelenleg árak nélkül működik a konfig — ha elküldöd az árakat, azonnal beépítem.</div>
+    </div>
+   </div>
+  </div>
+ </div>
+</div>
+
 <footer id="contact">
  <div class="container footer-inner">
   <div><div class="logo">ER1K<span> PC</span></div><p>Gaming systems. Built your way.</p></div>
@@ -724,38 +961,27 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 
 <script>
 const SEL_KEY = "er1k_pc_per_config_gpu_sel_v15";
+const CUSTOM_KEY = "er1k_sajat_pc_konfig_v1";
 const WHATSAPP_NUMBER = "40771103552";
 const tierLabels = ["01 · START", "02 · GAMER", "03 · PRO TIER", "04 · ULTIMATE"];
 
-// Egységes profit minden alapkonfigurációnál
 const PROFIT_MARGIN = 750;
-
-// Alap hűtő, RAM és SSD árak
 const BASE_COOLER_PRICE = 60;
 const RAM_16GB_DDR4 = 450;
 const RAM_32GB_DDR4 = 850;
 const RAM_32GB_DDR5 = 2550;
-
 const SSD_500GB = 300;
 const SSD_1TB = 450;
 const SSD_2TB = 1500;
-
-// Alaplap árak
 const MOBO_AM4_CHEAP = 300;
-const MOBO_AM4_STRONG = 400;
 const MOBO_INTEL_ENTRY = 300;
 const MOBO_INTEL_B760 = 330;
 const MOBO_INTEL_DDR5 = 1105;
 const MOBO_AM5_DDR5 = 510;
-
-// MSI MAG táp árak
 const PSU_550W = 230;
 const PSU_650W = 400;
-const PSU_750W = 430;
 const PSU_850W = 470;
 const PSU_1000W = 700;
-
-// CPU árak
 const CPU_R5_3600 = 372;
 const CPU_R5_5500 = 500;
 const CPU_R5_5600 = 600;
@@ -766,8 +992,6 @@ const CPU_R7_9800X3D = 2124;
 const CPU_I5_12400F = 659;
 const CPU_I5_14400F = 771;
 const CPU_I7_14700KF = 1885;
-
-// GPU árak
 const GPU_GTX_1060 = 400;
 const GPU_GTX_1660 = 400;
 const GPU_GTX_1660_SUPER = 650;
@@ -830,53 +1054,135 @@ const baseExtras = [
  {name:"Kit Tastatura, Mouse, Casti, Mousepad RGB",price:175,image:"https://i.postimg.cc/c4Nnn7Rf/image.png",allowQty:false}
 ];
 
-const startGpuOrder = ["GTX 1060 6GB", "GTX 1660 6GB", "RX 580 8GB", "GTX 1660 Super 6GB"];
-const startGpuPrices = {
- "GTX 1060 6GB": GPU_GTX_1060,
- "GTX 1660 6GB": GPU_GTX_1660,
- "RX 580 8GB": GPU_RX_580,
- "GTX 1660 Super 6GB": GPU_GTX_1660_SUPER
+/* SAJAT PC KONFIG DATA — leggyengébbtől a legjobbig rendezve */
+const CUSTOM_CPU_DATA = {
+ AMD: [
+  { name: "Ryzen 5 4500", socket: "AM4" },
+  { name: "Ryzen 5 5500", socket: "AM4" },
+  { name: "Ryzen 5 5600", socket: "AM4" },
+  { name: "Ryzen 5 5600GT", socket: "AM4" },
+  { name: "Ryzen 5 5600X", socket: "AM4" },
+  { name: "Ryzen 7 5700", socket: "AM4" },
+  { name: "Ryzen 7 5700G", socket: "AM4" },
+  { name: "Ryzen 7 5700X", socket: "AM4" },
+  { name: "Ryzen 7 5800X", socket: "AM4" },
+  { name: "Ryzen 5 8400F", socket: "AM5" },
+  { name: "Ryzen 5 8500G", socket: "AM5" },
+  { name: "Ryzen 5 7500F", socket: "AM5" },
+  { name: "Ryzen 5 8600G", socket: "AM5" },
+  { name: "Ryzen 5 7600", socket: "AM5" },
+  { name: "Ryzen 5 7600X", socket: "AM5" },
+  { name: "Ryzen 5 9600X", socket: "AM5" },
+  { name: "Ryzen 7 7700", socket: "AM5" },
+  { name: "Ryzen 7 7700X", socket: "AM5" },
+  { name: "Ryzen 7 9700X", socket: "AM5" }
+ ],
+ INTEL: [
+  { name: "Core i3-12100", socket: "LGA1700" },
+  { name: "Core i5-12400F", socket: "LGA1700" },
+  { name: "Core i5-13400F", socket: "LGA1700" },
+  { name: "Core i5-14400F", socket: "LGA1700" },
+  { name: "Core i5-14600KF", socket: "LGA1700" }
+ ]
 };
-function makeStartGpus(){
- return startGpuOrder.map(n => ({name: n, price: startGpuPrices[n]}));
-}
+
+const CUSTOM_GPU_DATA = {
+ AMD: [
+  "RX 550", "RX 560", "RX 580",
+  "RX 6400", "RX 6500 XT", "RX 6600", "RX 6600 XT", "RX 6650 XT",
+  "RX 6700", "RX 6700 XT", "RX 6750 XT", "RX 6800",
+  "RX 7600", "RX 7600 XT", "RX 7700 XT", "RX 7800 XT",
+  "RX 9060", "RX 9060 XT", "RX 9070"
+ ],
+ NVIDIA: [
+  "GTX 1050", "GTX 1650", "GTX 1660", "GTX 1660 Ti",
+  "RTX 2060", "RTX 2060 Super",
+  "RTX 3050", "RTX 3060", "RTX 3060 Ti", "RTX 3070", "RTX 3070 Ti",
+  "RTX 4060", "RTX 4060 Ti", "RTX 4070", "RTX 4070 Super",
+  "RTX 5050", "RTX 5060", "RTX 5060 Ti", "RTX 5070"
+ ],
+ ARC: [
+  "Arc A380", "Arc A750", "Arc A770", "Arc B570", "Arc B580"
+ ]
+};
+
+const CUSTOM_MOBO_DATA = [
+ { name: "MSI A520M-A PRO", platform: "AM4 DDR4" },
+ { name: "MSI A520M PRO", platform: "AM4 DDR4" },
+ { name: "Gigabyte A520M K V2", platform: "AM4 DDR4" },
+ { name: "ASUS Prime B450M-K II", platform: "AM4 DDR4" },
+ { name: "ASUS TUF Gaming A520M-PLUS WIFI", platform: "AM4 DDR4" },
+ { name: "MSI B550-A PRO", platform: "AM4 DDR4" },
+ { name: "Gigabyte B550 Gaming X V2", platform: "AM4 DDR4" },
+ { name: "ASRock B550M Pro4", platform: "AM4 DDR4" },
+ { name: "ASUS TUF Gaming A620M-PLUS WIFI", platform: "AM5 DDR5" },
+ { name: "ASUS TUF Gaming A620-PRO WIFI", platform: "AM5 DDR5" },
+ { name: "MSI B840", platform: "AM5 DDR5" },
+ { name: "ASRock B650I Lightning WiFi", platform: "AM5 DDR5" },
+ { name: "MSI PRO X670-P WIFI", platform: "AM5 DDR5" },
+ { name: "MSI MAG B850 Tomahawk MAX WIFI", platform: "AM5 DDR5" },
+ { name: "Gigabyte B850 AORUS ELITE WIFI7", platform: "AM5 DDR5" },
+ { name: "ASRock X670E Steel Legend", platform: "AM5 DDR5" },
+ { name: "MSI PRO H610M-E DDR4", platform: "LGA1700 DDR4" },
+ { name: "MSI PRO H610M-G DDR4", platform: "LGA1700 DDR4" },
+ { name: "Gigabyte H610M K DDR4", platform: "LGA1700 DDR4" },
+ { name: "MSI PRO B760M-P DDR4", platform: "LGA1700 DDR4" },
+ { name: "Gigabyte B760M H DDR4", platform: "LGA1700 DDR4" },
+ { name: "Gigabyte B760 Gaming X D4", platform: "LGA1700 DDR4" },
+ { name: "ASUS Prime B760-PLUS", platform: "LGA1700 DDR5" },
+ { name: "ASUS TUF B760M-PLUS", platform: "LGA1700 DDR5" },
+ { name: "MSI MAG B760 Tomahawk WIFI", platform: "LGA1700 DDR5" },
+ { name: "MSI PRO Z790-P WIFI", platform: "LGA1700 DDR5" },
+ { name: "MSI MAG Z790 Tomahawk WIFI", platform: "LGA1700 DDR5" }
+];
+
+const CUSTOM_SSD_OPTIONS = [
+ { name: "500GB M.2 NVMe", note: "Gyors alap tárhely" },
+ { name: "1TB M.2 NVMe", note: "Ajánlott gaming méret" },
+ { name: "2TB M.2 NVMe", note: "Nagy tárhely játékokhoz" }
+];
+
+const CUSTOM_RAM_OPTIONS = [
+ { name: "16GB (2x8GB) DDR4 3200MHz", note: "DDR4 alap" },
+ { name: "32GB (2x16GB) DDR4 3200MHz", note: "DDR4 bővített" },
+ { name: "16GB (1x16GB / 2x8GB) DDR5", note: "DDR5 platformhoz" },
+ { name: "32GB (2x16GB) DDR5 6000MHz", note: "DDR5 ajánlott" }
+];
+
+const CUSTOM_PSU_OPTIONS = [
+ "MSI MAG A550BN", "MSI MAG A550BNL",
+ "MSI MAG A650BN", "MSI MAG A650BNL", "MSI MAG A650BN PCIE5 II", "MSI MAG A650GL",
+ "MSI MAG A750GL PCIE5", "MSI MAG A750GN PCIE5",
+ "MSI MAG A850GL PCIE5", "MSI MAG A850GL PCIE5 WHITE",
+ "MSI MAG A1000GL PCIE5"
+];
+
+const CUSTOM_STEPS = [
+ { id: "cpu", label: "1. CPU" },
+ { id: "gpu", label: "2. GPU" },
+ { id: "mobo", label: "3. Alaplap" },
+ { id: "ssd", label: "4. SSD" },
+ { id: "ram", label: "5. RAM" },
+ { id: "case", label: "6. Carcasă" },
+ { id: "cooler", label: "7. Răcire" },
+ { id: "extra", label: "8. Plusz" }
+];
+
+const startGpuOrder = ["GTX 1060 6GB", "GTX 1660 6GB", "RX 580 8GB", "GTX 1660 Super 6GB"];
+const startGpuPrices = {"GTX 1060 6GB":GPU_GTX_1060,"GTX 1660 6GB":GPU_GTX_1660,"RX 580 8GB":GPU_RX_580,"GTX 1660 Super 6GB":GPU_GTX_1660_SUPER};
+function makeStartGpus(){return startGpuOrder.map(n=>({name:n,price:startGpuPrices[n]}))}
 
 const gamerGpuOrder = ["Intel Arc B570 10GB", "RTX 3050 8GB", "RTX 5050 8GB", "RX 7600 8GB", "Intel Arc B580 12GB", "RTX 3060 12GB"];
-const gamerGpuPrices = {
- "Intel Arc B570 10GB": GPU_ARC_B570,
- "RTX 3050 8GB": GPU_RTX_3050,
- "RTX 5050 8GB": GPU_RTX_5050,
- "RX 7600 8GB": GPU_RX_7600,
- "Intel Arc B580 12GB": GPU_ARC_B580,
- "RTX 3060 12GB": GPU_RTX_3060
-};
-function makeGamerGpus(){
- return gamerGpuOrder.map(n => ({name: n, price: gamerGpuPrices[n]}));
-}
+const gamerGpuPrices = {"Intel Arc B570 10GB":GPU_ARC_B570,"RTX 3050 8GB":GPU_RTX_3050,"RTX 5050 8GB":GPU_RTX_5050,"RX 7600 8GB":GPU_RX_7600,"Intel Arc B580 12GB":GPU_ARC_B580,"RTX 3060 12GB":GPU_RTX_3060};
+function makeGamerGpus(){return gamerGpuOrder.map(n=>({name:n,price:gamerGpuPrices[n]}))}
 
 const proGpuOrder = ["RTX 5060 8GB", "RTX 3060 12GB", "RX 9060 XT 16GB", "RX 9070 16GB", "RTX 5060 Ti 16GB"];
-const proGpuPrices = {
- "RTX 5060 8GB": GPU_RTX_5060,
- "RTX 3060 12GB": GPU_RTX_3060,
- "RX 9060 XT 16GB": GPU_RX_9060_XT,
- "RX 9070 16GB": GPU_RX_9070,
- "RTX 5060 Ti 16GB": GPU_RTX_5060_TI
-};
-function makeProGpus(){
- return proGpuOrder.map(n => ({name: n, price: proGpuPrices[n]}));
-}
+const proGpuPrices = {"RTX 5060 8GB":GPU_RTX_5060,"RTX 3060 12GB":GPU_RTX_3060,"RX 9060 XT 16GB":GPU_RX_9060_XT,"RX 9070 16GB":GPU_RX_9070,"RTX 5060 Ti 16GB":GPU_RTX_5060_TI};
+function makeProGpus(){return proGpuOrder.map(n=>({name:n,price:proGpuPrices[n]}))}
 
 const ultimateGpuOrder = ["RTX 5070 12GB", "RX 9070 16GB", "RX 9070 XT 16GB", "RTX 5060 Ti 16GB", "RTX 5070 Ti 16GB"];
-const ultimateGpuPrices = {
- "RTX 5070 12GB": GPU_RTX_5070,
- "RX 9070 16GB": GPU_RX_9070,
- "RX 9070 XT 16GB": GPU_RX_9070_XT,
- "RTX 5060 Ti 16GB": GPU_RTX_5060_TI,
- "RTX 5070 Ti 16GB": GPU_RTX_5070_TI
-};
-function makeUltimateGpus(){
- return ultimateGpuOrder.map(n => ({name: n, price: ultimateGpuPrices[n]}));
-}
+const ultimateGpuPrices = {"RTX 5070 12GB":GPU_RTX_5070,"RX 9070 16GB":GPU_RX_9070,"RX 9070 XT 16GB":GPU_RX_9070_XT,"RTX 5060 Ti 16GB":GPU_RTX_5060_TI,"RTX 5070 Ti 16GB":GPU_RTX_5070_TI};
+function makeUltimateGpus(){return ultimateGpuOrder.map(n=>({name:n,price:ultimateGpuPrices[n]}))}
 
 const data = [
  {
@@ -888,30 +1194,10 @@ const data = [
   image:"https://i.postimg.cc/Y9L0LTGx/image.png",
   components:{
    config:[
-    {
-     name:"AMD Ryzen 5 3600 + GTX 1060 6GB",
-     price:CPU_R5_3600 + GPU_GTX_1060 + MOBO_AM4_CHEAP + RAM_16GB_DDR4 + SSD_500GB + PSU_550W + BASE_COOLER_PRICE + PROFIT_MARGIN,
-     defaultGpu:"GTX 1060 6GB",
-     gpuOptions:makeStartGpus()
-    },
-    {
-     name:"AMD Ryzen 5 3600 + GTX 1660 6GB",
-     price:CPU_R5_3600 + GPU_GTX_1660 + MOBO_AM4_CHEAP + RAM_16GB_DDR4 + SSD_500GB + PSU_550W + BASE_COOLER_PRICE + PROFIT_MARGIN,
-     defaultGpu:"GTX 1660 6GB",
-     gpuOptions:makeStartGpus()
-    },
-    {
-     name:"AMD Ryzen 5 5500 + RX 580 8GB",
-     price:CPU_R5_5500 + GPU_RX_580 + MOBO_AM4_CHEAP + RAM_16GB_DDR4 + SSD_500GB + PSU_550W + BASE_COOLER_PRICE + PROFIT_MARGIN,
-     defaultGpu:"RX 580 8GB",
-     gpuOptions:makeStartGpus()
-    },
-    {
-     name:"AMD Ryzen 5 5500 + GTX 1660 Super 6GB",
-     price:CPU_R5_5500 + GPU_GTX_1660_SUPER + MOBO_AM4_CHEAP + RAM_16GB_DDR4 + SSD_500GB + PSU_550W + BASE_COOLER_PRICE + PROFIT_MARGIN,
-     defaultGpu:"GTX 1660 Super 6GB",
-     gpuOptions:makeStartGpus()
-    }
+    {name:"AMD Ryzen 5 3600 + GTX 1060 6GB",price:CPU_R5_3600+GPU_GTX_1060+MOBO_AM4_CHEAP+RAM_16GB_DDR4+SSD_500GB+PSU_550W+BASE_COOLER_PRICE+PROFIT_MARGIN,defaultGpu:"GTX 1060 6GB",gpuOptions:makeStartGpus()},
+    {name:"AMD Ryzen 5 3600 + GTX 1660 6GB",price:CPU_R5_3600+GPU_GTX_1660+MOBO_AM4_CHEAP+RAM_16GB_DDR4+SSD_500GB+PSU_550W+BASE_COOLER_PRICE+PROFIT_MARGIN,defaultGpu:"GTX 1660 6GB",gpuOptions:makeStartGpus()},
+    {name:"AMD Ryzen 5 5500 + RX 580 8GB",price:CPU_R5_5500+GPU_RX_580+MOBO_AM4_CHEAP+RAM_16GB_DDR4+SSD_500GB+PSU_550W+BASE_COOLER_PRICE+PROFIT_MARGIN,defaultGpu:"RX 580 8GB",gpuOptions:makeStartGpus()},
+    {name:"AMD Ryzen 5 5500 + GTX 1660 Super 6GB",price:CPU_R5_5500+GPU_GTX_1660_SUPER+MOBO_AM4_CHEAP+RAM_16GB_DDR4+SSD_500GB+PSU_550W+BASE_COOLER_PRICE+PROFIT_MARGIN,defaultGpu:"GTX 1660 Super 6GB",gpuOptions:makeStartGpus()}
    ],
    gpu:[],
    ram:[
@@ -936,30 +1222,10 @@ const data = [
   image:"https://i.postimg.cc/B62s03PF/image.png",
   components:{
    config:[
-    {
-     name:"AMD Ryzen 5 5500 + Intel Arc B570 10GB",
-     price:CPU_R5_5500 + GPU_ARC_B570 + MOBO_AM4_CHEAP + RAM_16GB_DDR4 + SSD_1TB + PSU_550W + BASE_COOLER_PRICE + PROFIT_MARGIN,
-     defaultGpu:"Intel Arc B570 10GB",
-     gpuOptions:makeGamerGpus()
-    },
-    {
-     name:"AMD Ryzen 5 5600 + RTX 3050 8GB",
-     price:CPU_R5_5600 + GPU_RTX_3050 + MOBO_AM4_CHEAP + RAM_16GB_DDR4 + SSD_1TB + PSU_550W + BASE_COOLER_PRICE + PROFIT_MARGIN,
-     defaultGpu:"RTX 3050 8GB",
-     gpuOptions:makeGamerGpus()
-    },
-    {
-     name:"Intel Core i5-12400F + RTX 5050 8GB",
-     price:CPU_I5_12400F + GPU_RTX_5050 + MOBO_INTEL_ENTRY + RAM_16GB_DDR4 + SSD_1TB + PSU_550W + BASE_COOLER_PRICE + PROFIT_MARGIN,
-     defaultGpu:"RTX 5050 8GB",
-     gpuOptions:makeGamerGpus()
-    },
-    {
-     name:"Intel Core i5-12400F + RX 7600 8GB",
-     price:CPU_I5_12400F + GPU_RX_7600 + MOBO_INTEL_ENTRY + RAM_16GB_DDR4 + SSD_1TB + PSU_550W + BASE_COOLER_PRICE + PROFIT_MARGIN,
-     defaultGpu:"RX 7600 8GB",
-     gpuOptions:makeGamerGpus()
-    }
+    {name:"AMD Ryzen 5 5500 + Intel Arc B570 10GB",price:CPU_R5_5500+GPU_ARC_B570+MOBO_AM4_CHEAP+RAM_16GB_DDR4+SSD_1TB+PSU_550W+BASE_COOLER_PRICE+PROFIT_MARGIN,defaultGpu:"Intel Arc B570 10GB",gpuOptions:makeGamerGpus()},
+    {name:"AMD Ryzen 5 5600 + RTX 3050 8GB",price:CPU_R5_5600+GPU_RTX_3050+MOBO_AM4_CHEAP+RAM_16GB_DDR4+SSD_1TB+PSU_550W+BASE_COOLER_PRICE+PROFIT_MARGIN,defaultGpu:"RTX 3050 8GB",gpuOptions:makeGamerGpus()},
+    {name:"Intel Core i5-12400F + RTX 5050 8GB",price:CPU_I5_12400F+GPU_RTX_5050+MOBO_INTEL_ENTRY+RAM_16GB_DDR4+SSD_1TB+PSU_550W+BASE_COOLER_PRICE+PROFIT_MARGIN,defaultGpu:"RTX 5050 8GB",gpuOptions:makeGamerGpus()},
+    {name:"Intel Core i5-12400F + RX 7600 8GB",price:CPU_I5_12400F+GPU_RX_7600+MOBO_INTEL_ENTRY+RAM_16GB_DDR4+SSD_1TB+PSU_550W+BASE_COOLER_PRICE+PROFIT_MARGIN,defaultGpu:"RX 7600 8GB",gpuOptions:makeGamerGpus()}
    ],
    gpu:[],
    ram:[
@@ -984,30 +1250,10 @@ const data = [
   image:"https://i.postimg.cc/ZnDwsBYP/image.png",
   components:{
    config:[
-    {
-     name:"AMD Ryzen 7 5700X + RTX 5060 8GB",
-     price:CPU_R7_5700X + GPU_RTX_5060 + MOBO_AM4_CHEAP + RAM_16GB_DDR4 + SSD_1TB + PSU_650W + BASE_COOLER_PRICE + PROFIT_MARGIN,
-     defaultGpu:"RTX 5060 8GB",
-     gpuOptions:makeProGpus()
-    },
-    {
-     name:"AMD Ryzen 5 7600 + RX 9060 XT 16GB (AM5 DDR5)",
-     price:CPU_R5_7600 + GPU_RX_9060_XT + MOBO_AM5_DDR5 + RAM_32GB_DDR5 + SSD_1TB + PSU_650W + BASE_COOLER_PRICE + PROFIT_MARGIN,
-     defaultGpu:"RX 9060 XT 16GB",
-     gpuOptions:makeProGpus()
-    },
-    {
-     name:"Intel Core i5-14400F + RTX 5060 Ti 16GB",
-     price:CPU_I5_14400F + GPU_RTX_5060_TI + MOBO_INTEL_B760 + RAM_16GB_DDR4 + SSD_1TB + PSU_650W + BASE_COOLER_PRICE + PROFIT_MARGIN,
-     defaultGpu:"RTX 5060 Ti 16GB",
-     gpuOptions:makeProGpus()
-    },
-    {
-     name:"AMD Ryzen 5 7600 + RX 9070 16GB (AM5 DDR5)",
-     price:CPU_R5_7600 + GPU_RX_9070 + MOBO_AM5_DDR5 + RAM_32GB_DDR5 + SSD_1TB + PSU_650W + BASE_COOLER_PRICE + PROFIT_MARGIN,
-     defaultGpu:"RX 9070 16GB",
-     gpuOptions:makeProGpus()
-    }
+    {name:"AMD Ryzen 7 5700X + RTX 5060 8GB",price:CPU_R7_5700X+GPU_RTX_5060+MOBO_AM4_CHEAP+RAM_16GB_DDR4+SSD_1TB+PSU_650W+BASE_COOLER_PRICE+PROFIT_MARGIN,defaultGpu:"RTX 5060 8GB",gpuOptions:makeProGpus()},
+    {name:"AMD Ryzen 5 7600 + RX 9060 XT 16GB (AM5 DDR5)",price:CPU_R5_7600+GPU_RX_9060_XT+MOBO_AM5_DDR5+RAM_32GB_DDR5+SSD_1TB+PSU_650W+BASE_COOLER_PRICE+PROFIT_MARGIN,defaultGpu:"RX 9060 XT 16GB",gpuOptions:makeProGpus()},
+    {name:"Intel Core i5-14400F + RTX 5060 Ti 16GB",price:CPU_I5_14400F+GPU_RTX_5060_TI+MOBO_INTEL_B760+RAM_16GB_DDR4+SSD_1TB+PSU_650W+BASE_COOLER_PRICE+PROFIT_MARGIN,defaultGpu:"RTX 5060 Ti 16GB",gpuOptions:makeProGpus()},
+    {name:"AMD Ryzen 5 7600 + RX 9070 16GB (AM5 DDR5)",price:CPU_R5_7600+GPU_RX_9070+MOBO_AM5_DDR5+RAM_32GB_DDR5+SSD_1TB+PSU_650W+BASE_COOLER_PRICE+PROFIT_MARGIN,defaultGpu:"RX 9070 16GB",gpuOptions:makeProGpus()}
    ],
    gpu:[],
    ram:[
@@ -1033,30 +1279,10 @@ const data = [
   image:"https://i.postimg.cc/Y9L0LTGx/image.png",
   components:{
    config:[
-    {
-     name:"AMD Ryzen 7 7800X3D + RTX 5070 12GB",
-     price:CPU_R7_7800X3D + GPU_RTX_5070 + MOBO_AM5_DDR5 + RAM_32GB_DDR5 + SSD_1TB + PSU_850W + BASE_COOLER_PRICE + PROFIT_MARGIN,
-     defaultGpu:"RTX 5070 12GB",
-     gpuOptions:makeUltimateGpus()
-    },
-    {
-     name:"AMD Ryzen 7 7800X3D + RX 9070 XT 16GB",
-     price:CPU_R7_7800X3D + GPU_RX_9070_XT + MOBO_AM5_DDR5 + RAM_32GB_DDR5 + SSD_1TB + PSU_850W + BASE_COOLER_PRICE + PROFIT_MARGIN,
-     defaultGpu:"RX 9070 XT 16GB",
-     gpuOptions:makeUltimateGpus()
-    },
-    {
-     name:"Intel Core i7-14700KF + RTX 5070 12GB",
-     price:CPU_I7_14700KF + GPU_RTX_5070 + MOBO_INTEL_DDR5 + RAM_32GB_DDR5 + SSD_1TB + PSU_850W + BASE_COOLER_PRICE + PROFIT_MARGIN,
-     defaultGpu:"RTX 5070 12GB",
-     gpuOptions:makeUltimateGpus()
-    },
-    {
-     name:"AMD Ryzen 7 9800X3D + RTX 5070 Ti 16GB (1000W)",
-     price:CPU_R7_9800X3D + GPU_RTX_5070_TI + MOBO_AM5_DDR5 + RAM_32GB_DDR5 + SSD_1TB + PSU_1000W + BASE_COOLER_PRICE + PROFIT_MARGIN,
-     defaultGpu:"RTX 5070 Ti 16GB",
-     gpuOptions:makeUltimateGpus()
-    }
+    {name:"AMD Ryzen 7 7800X3D + RTX 5070 12GB",price:CPU_R7_7800X3D+GPU_RTX_5070+MOBO_AM5_DDR5+RAM_32GB_DDR5+SSD_1TB+PSU_850W+BASE_COOLER_PRICE+PROFIT_MARGIN,defaultGpu:"RTX 5070 12GB",gpuOptions:makeUltimateGpus()},
+    {name:"AMD Ryzen 7 7800X3D + RX 9070 XT 16GB",price:CPU_R7_7800X3D+GPU_RX_9070_XT+MOBO_AM5_DDR5+RAM_32GB_DDR5+SSD_1TB+PSU_850W+BASE_COOLER_PRICE+PROFIT_MARGIN,defaultGpu:"RX 9070 XT 16GB",gpuOptions:makeUltimateGpus()},
+    {name:"Intel Core i7-14700KF + RTX 5070 12GB",price:CPU_I7_14700KF+GPU_RTX_5070+MOBO_INTEL_DDR5+RAM_32GB_DDR5+SSD_1TB+PSU_850W+BASE_COOLER_PRICE+PROFIT_MARGIN,defaultGpu:"RTX 5070 12GB",gpuOptions:makeUltimateGpus()},
+    {name:"AMD Ryzen 7 9800X3D + RTX 5070 Ti 16GB (1000W)",price:CPU_R7_9800X3D+GPU_RTX_5070_TI+MOBO_AM5_DDR5+RAM_32GB_DDR5+SSD_1TB+PSU_1000W+BASE_COOLER_PRICE+PROFIT_MARGIN,defaultGpu:"RTX 5070 Ti 16GB",gpuOptions:makeUltimateGpus()}
    ],
    gpu:[],
    ram:[
@@ -1085,214 +1311,173 @@ const componentNames={
 };
 
 function clone(x){return JSON.parse(JSON.stringify(x))}
-
 function isConfigDdr5Base(cfg){
  const n = String(cfg?.name || "").toLowerCase();
  return n.includes("7600") || n.includes("7800x3d") || n.includes("9800x3d") || n.includes("14700kf");
 }
-
-function getBaseSsdPriceForPc(pc){
- return pc?.id === "start" ? SSD_500GB : SSD_1TB;
-}
-
+function getBaseSsdPriceForPc(pc){return pc?.id === "start" ? SSD_500GB : SSD_1TB}
 function isBaseIncludedOption(key, opt, pc, cfgIdx = 0){
  if(!opt) return false;
  const n = String(opt.name || "").toLowerCase();
  const cfg = pc?.components?.config?.[cfgIdx] || pc?.components?.config?.[0];
- if(key === "ram"){
-  if(isConfigDdr5Base(cfg)){
-   return n.includes("ddr5") && n.includes("32gb");
-  }
-  return n.startsWith("16gb");
- }
- if(key === "ssd"){
-  if(pc?.id === "start"){
-   return n.startsWith("500gb") && n.includes("nvme");
-  }
-  return n.startsWith("1tb") && n.includes("nvme");
- }
- if(key === "case"){
-  return (Number(opt.price) || 0) === 0;
- }
- if(key === "cooler"){
-  return (Number(opt.price) || 0) === BASE_COOLER_PRICE;
- }
+ if(key === "ram") return isConfigDdr5Base(cfg) ? (n.includes("ddr5") && n.includes("32gb")) : n.startsWith("16gb");
+ if(key === "ssd") return pc?.id === "start" ? (n.startsWith("500gb") && n.includes("nvme")) : (n.startsWith("1tb") && n.includes("nvme"));
+ if(key === "case") return (Number(opt.price) || 0) === 0;
+ if(key === "cooler") return (Number(opt.price) || 0) === BASE_COOLER_PRICE;
  return false;
 }
-
-function getExtraQty(idx){
- const map = selected.extraQty || {};
- const q = Number(map[idx]);
- return (q && q > 0) ? q : 1;
-}
-
-function getExtraItemPrice(opt, idx){
- if(!opt) return 0;
- const unitPrice = Number(opt.price) || 0;
- const qty = opt.allowQty ? getExtraQty(idx) : 1;
- return unitPrice * qty;
-}
-
+function getExtraQty(idx){const q = Number((selected.extraQty||{})[idx]);return (q && q > 0) ? q : 1}
+function getExtraItemPrice(opt, idx){return opt ? (Number(opt.price)||0) * (opt.allowQty ? getExtraQty(idx) : 1) : 0}
 function getSelectedExtrasList(pc){
  const list = pc?.components?.extra || [];
  const arr = Array.isArray(selected.extra) ? selected.extra : [];
- const result = [];
- for(let i = 0; i < list.length; i++){
+ const res = [];
+ for(let i=0;i<list.length;i++){
   if(arr.includes(i)){
    const opt = list[i];
    const qty = opt.allowQty ? getExtraQty(i) : 1;
-   const totalItemPrice = getExtraItemPrice(opt, i);
-   const label = opt.allowQty
-    ? `${opt.name} (${qty} ${opt.unit || "BUC"})`
-    : opt.name;
-   result.push({index: i, opt, qty, label, price: totalItemPrice});
+   res.push({index:i,opt,qty,label:opt.allowQty?`${opt.name} (${qty} ${opt.unit||"BUC"})`:opt.name,price:getExtraItemPrice(opt,i)});
   }
  }
- return result;
+ return res;
 }
-
 function getOptionAddOnPrice(key, opt, pc, cfgIdx = 0, idx = 0){
- if(!opt) return 0;
- if(key === "config") return 0;
- if(key === "extra"){
-  return getExtraItemPrice(opt, idx);
- }
+ if(!opt || key === "config") return 0;
+ if(key === "extra") return getExtraItemPrice(opt, idx);
  if(key === "gpu"){
   const cfg = pc?.components?.config?.[cfgIdx] || pc?.components?.config?.[0];
   const gpuList = Array.isArray(cfg?.gpuOptions) ? cfg.gpuOptions : [];
-  const defaultGpuName = String(cfg?.defaultGpu || "").toLowerCase();
-  const baseGpu = gpuList.find(g => String(g.name || "").toLowerCase() === defaultGpuName) || gpuList[0];
+  const baseGpu = gpuList.find(g => String(g.name||"").toLowerCase() === String(cfg?.defaultGpu||"").toLowerCase()) || gpuList[0];
   if(!baseGpu || opt === baseGpu) return 0;
-  return (Number(opt.price) || 0) - (Number(baseGpu.price) || 0);
+  return (Number(opt.price)||0) - (Number(baseGpu.price)||0);
  }
- if(key === "cooler"){
-  return (Number(opt.price) || 0) - BASE_COOLER_PRICE;
- }
+ if(key === "cooler") return (Number(opt.price)||0) - BASE_COOLER_PRICE;
  if(key === "ram"){
   const cfg = pc?.components?.config?.[cfgIdx] || pc?.components?.config?.[0];
-  const baseRamPrice = isConfigDdr5Base(cfg) ? RAM_32GB_DDR5 : RAM_16GB_DDR4;
   if(isBaseIncludedOption("ram", opt, pc, cfgIdx)) return 0;
-  return (Number(opt.price) || 0) - baseRamPrice;
+  return (Number(opt.price)||0) - (isConfigDdr5Base(cfg) ? RAM_32GB_DDR5 : RAM_16GB_DDR4);
  }
  if(key === "ssd"){
-  const baseSsdPrice = getBaseSsdPriceForPc(pc);
   if(isBaseIncludedOption("ssd", opt, pc, cfgIdx)) return 0;
-  return (Number(opt.price) || 0) - baseSsdPrice;
+  return (Number(opt.price)||0) - getBaseSsdPriceForPc(pc);
  }
- if(isBaseIncludedOption(key, opt, pc, cfgIdx)){
-  return 0;
- }
- return Number(opt.price) || 0;
+ return isBaseIncludedOption(key, opt, pc, cfgIdx) ? 0 : (Number(opt.price)||0);
 }
-
 function formatPlusRon(amount){
- const val = Number(amount) || 0;
+ const val = Number(amount)||0;
  if(val === 0) return "Inclus în preț";
- if(val > 0) return "+ " + val.toLocaleString("ro-RO") + " RON";
- return "- " + Math.abs(val).toLocaleString("ro-RO") + " RON";
+ return val > 0 ? "+ " + val.toLocaleString("ro-RO") + " RON" : "- " + Math.abs(val).toLocaleString("ro-RO") + " RON";
 }
-
 function loadSavedSelections(){
- try{
-  if(!window.localStorage)return {};
-  const raw = window.localStorage.getItem(SEL_KEY);
-  if(!raw)return {};
-  const parsed = JSON.parse(raw);
-  return (parsed && typeof parsed === "object") ? parsed : {};
- }catch(e){
-  return {};
- }
+ try{const raw=window.localStorage?.getItem(SEL_KEY);return raw?JSON.parse(raw)||{}:{}}catch(e){return {}}
 }
-
 function persistSelectedForPC(pcIndex, selObj){
- try{
-  if(!window.localStorage)return;
-  const allSel = loadSavedSelections();
-  const pcKey = String(data[pcIndex]?.id || pcIndex);
-  allSel[pcKey] = clone(selObj);
-  window.localStorage.setItem(SEL_KEY, JSON.stringify(allSel));
- }catch(e){}
+ try{const all=loadSavedSelections();all[String(data[pcIndex]?.id||pcIndex)]=clone(selObj);window.localStorage?.setItem(SEL_KEY,JSON.stringify(all))}catch(e){}
 }
 
 let activePC=0;
 let selected={};
 
+/* SAJAT PC KONFIG STATE */
+let customState = {
+ step: 0,
+ cpuBrand: "AMD", // "AMD" | "INTEL"
+ cpu: "",
+ gpuBrand: "AMD", // "AMD" | "NVIDIA" | "ARC"
+ gpu: "",
+ mobo: "",
+ ssd: "",
+ ram: "",
+ caseIdx: 0,
+ coolerIdx: 0,
+ psu: "MSI MAG A650BN",
+ extra: [],
+ extraQty: {}
+};
+
+function loadCustomState(){
+ try{
+  const raw = window.localStorage?.getItem(CUSTOM_KEY);
+  if(raw){
+   const p = JSON.parse(raw);
+   if(p && typeof p === "object") customState = Object.assign(customState, p);
+  }
+ }catch(e){}
+}
+function saveCustomState(){
+ try{window.localStorage?.setItem(CUSTOM_KEY, JSON.stringify(customState))}catch(e){}
+}
+
 function money(n){return Number(n||0).toLocaleString("ro-RO")+" RON"}
 function safe(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
-
 function getStartingPriceForPC(pc){
  const cfgs = pc?.components?.config || [];
- if(cfgs.length > 0){
-  const prices = cfgs.map(c => Number(c.price) || 0);
-  return Math.min(...prices);
- }
- return Number(pc?.price) || 0;
+ return cfgs.length ? Math.min(...cfgs.map(c=>Number(c.price)||0)) : (Number(pc?.price)||0);
 }
-
 function getOptionsForCategory(pc, key, cfgIdx = 0){
- if(!pc || !pc.components) return [];
- if(key === "gpu"){
-  const configs = pc.components.config || [];
-  const activeCfg = configs[cfgIdx] || configs[0];
-  return Array.isArray(activeCfg?.gpuOptions) ? activeCfg.gpuOptions : [];
- }
+ if(!pc?.components) return [];
+ if(key === "gpu") return Array.isArray((pc.components.config?.[cfgIdx]||pc.components.config?.[0])?.gpuOptions) ? (pc.components.config?.[cfgIdx]||pc.components.config?.[0]).gpuOptions : [];
  return Array.isArray(pc.components[key]) ? pc.components[key] : [];
 }
-
 function getDefaultIndexForCategory(pc, key, cfgIdx = 0){
  const list = getOptionsForCategory(pc, key, cfgIdx);
  if(key === "extra") return [];
  if(key === "gpu"){
   const cfg = pc?.components?.config?.[cfgIdx] || pc?.components?.config?.[0];
-  const target = String(cfg?.defaultGpu || "").toLowerCase();
-  if(target){
-   const found = list.findIndex(o => String(o.name || "").toLowerCase() === target);
-   if(found >= 0) return found;
-  }
-  return 0;
+  const found = list.findIndex(o=>String(o.name||"").toLowerCase()===String(cfg?.defaultGpu||"").toLowerCase());
+  return found >= 0 ? found : 0;
  }
- if(key === "ram"){
-  const idx = list.findIndex(o => isBaseIncludedOption("ram", o, pc, cfgIdx));
-  return idx >= 0 ? idx : 0;
- }
- if(key === "ssd"){
-  const idx = list.findIndex(o => isBaseIncludedOption("ssd", o, pc, cfgIdx));
-  return idx >= 0 ? idx : 0;
- }
- if(key === "case"){
-  const idx = list.findIndex(o => (Number(o.price) || 0) === 0);
-  return idx >= 0 ? idx : 0;
- }
- if(key === "cooler"){
-  const idx = list.findIndex(o => (Number(o.price) || 0) === BASE_COOLER_PRICE);
-  return idx >= 0 ? idx : 0;
- }
+ if(key === "ram"){const idx=list.findIndex(o=>isBaseIncludedOption("ram",o,pc,cfgIdx));return idx>=0?idx:0}
+ if(key === "ssd"){const idx=list.findIndex(o=>isBaseIncludedOption("ssd",o,pc,cfgIdx));return idx>=0?idx:0}
+ if(key === "case"){const idx=list.findIndex(o=>(Number(o.price)||0)===0);return idx>=0?idx:0}
+ if(key === "cooler"){const idx=list.findIndex(o=>(Number(o.price)||0)===BASE_COOLER_PRICE);return idx>=0?idx:0}
  return 0;
 }
 
 function showView(viewId){
  document.querySelectorAll(".page-view").forEach(v=>v.classList.remove("active"));
- const el=document.getElementById(viewId);
- if(el)el.classList.add("active");
+ document.getElementById(viewId)?.classList.add("active");
  window.scrollTo({top:0,behavior:"auto"});
- if(viewId==="configView" && data[activePC]){
-  renderConfig();
- }
+ if(viewId==="configView" && data[activePC]) renderConfig();
+ if(viewId==="customConfigView") renderCustomConfigurator();
 }
 
 function jumpSection(id){
  showView("homeView");
- setTimeout(()=>{
-  const el=document.getElementById(id);
-  if(el)el.scrollIntoView({behavior:"smooth"});
- },30);
+ setTimeout(()=>document.getElementById(id)?.scrollIntoView({behavior:"smooth"}),30);
+}
+
+function openCustomConfigurator(){
+ loadCustomState();
+ showView("customConfigView");
+ renderCustomConfigurator();
+}
+
+function resetCustomConfig(){
+ customState = {
+  step: 0,
+  cpuBrand: "AMD",
+  cpu: "",
+  gpuBrand: "AMD",
+  gpu: "",
+  mobo: "",
+  ssd: "",
+  ram: "",
+  caseIdx: 0,
+  coolerIdx: 0,
+  psu: "MSI MAG A650BN",
+  extra: [],
+  extraQty: {}
+ };
+ saveCustomState();
+ renderCustomConfigurator();
 }
 
 function renderHome(){
  const grid=document.getElementById("pcGrid");
  if(!grid)return;
  grid.innerHTML=data.map((pc,i)=>{
-  const customBadge = String(pc.cardBadge || "").trim();
+  const customBadge = String(pc.cardBadge||"").trim();
   const startPrice = getStartingPriceForPC(pc);
   const priceHtml = customBadge
    ? `<small>CONFIG</small><span class="pc-price">${safe(customBadge)}</span>`
@@ -1306,9 +1491,7 @@ function renderHome(){
    <div class="pc-details">
     <h3>${safe(pc.name)}</h3>
     <p>${safe(pc.description)}</p>
-    <div class="pc-price-box">
-     ${priceHtml}
-    </div>
+    <div class="pc-price-box">${priceHtml}</div>
     <button type="button" class="primary-btn" onclick="openPC(${i})">CONFIGUREAZĂ →</button>
    </div>
   </article>`;
@@ -1317,42 +1500,30 @@ function renderHome(){
 
 function initSelectionForPC(pc, pcIndex){
  const allSaved = loadSavedSelections();
- const pcKey = String(pc?.id || pcIndex);
- const savedForThis = allSaved[pcKey] || {};
+ const savedForThis = allSaved[String(pc?.id||pcIndex)] || {};
  selected = {};
-
  const cfgList = pc.components?.config || [];
- const savedCfg = savedForThis.config;
- selected.config = (typeof savedCfg === "number" && savedCfg >= 0 && savedCfg < cfgList.length) ? savedCfg : 0;
-
+ selected.config = (typeof savedForThis.config==="number" && savedForThis.config>=0 && savedForThis.config<cfgList.length) ? savedForThis.config : 0;
  for(const key of Object.keys(componentNames)){
-  if(key === "config") continue;
+  if(key==="config") continue;
   const list = getOptionsForCategory(pc, key, selected.config);
   const savedVal = savedForThis[key];
   const defIdx = getDefaultIndexForCategory(pc, key, selected.config);
-  if(key === "extra"){
-   if(Array.isArray(savedVal)){
-    selected.extra = savedVal.filter(idx => typeof idx === "number" && idx >= 0 && idx < list.length);
-   }else if(typeof savedVal === "number" && savedVal >= 0 && savedVal < list.length){
-    selected.extra = [savedVal];
-   }else{
-    selected.extra = [];
-   }
+  if(key==="extra"){
+   selected.extra = Array.isArray(savedVal) ? savedVal.filter(idx=>typeof idx==="number"&&idx>=0&&idx<list.length) : [];
   }else{
-   selected[key] = (typeof savedVal === "number" && savedVal >= 0 && savedVal < list.length) ? savedVal : defIdx;
+   selected[key] = (typeof savedVal==="number"&&savedVal>=0&&savedVal<list.length) ? savedVal : defIdx;
   }
  }
-
- selected.extraQty = (savedForThis.extraQty && typeof savedForThis.extraQty === "object") ? clone(savedForThis.extraQty) : {};
+ selected.extraQty = (savedForThis.extraQty && typeof savedForThis.extraQty==="object") ? clone(savedForThis.extraQty) : {};
 }
 
 function openPC(i){
  if(!data[i])return;
  activePC=i;
- const pc=data[i];
- initSelectionForPC(pc, i);
- document.getElementById("configName").textContent=pc.name;
- document.getElementById("configDesc").textContent=pc.description;
+ initSelectionForPC(data[i], i);
+ document.getElementById("configName").textContent=data[i].name;
+ document.getElementById("configDesc").textContent=data[i].description;
  showView("configView");
  renderModelSwitcher();
  renderConfig();
@@ -1360,43 +1531,13 @@ function openPC(i){
 
 function renderModelSwitcher(){
  const sw=document.getElementById("modelSwitcher");
- sw.innerHTML=data.map((pc,i)=>`
-  <button type="button" class="model-pill ${i===activePC?"active":""}" onclick="openPC(${i})">${safe(pc.name)}</button>
- `).join("");
+ sw.innerHTML=data.map((pc,i)=>`<button type="button" class="model-pill ${i===activePC?"active":""}" onclick="openPC(${i})">${safe(pc.name)}</button>`).join("");
 }
 
 function renderConfig(){
  const pc=data[activePC];
  if(!pc)return;
-
- const cfgList = pc.components.config || [];
- if(typeof selected.config !== "number" || selected.config < 0 || selected.config >= cfgList.length){
-  selected.config = 0;
- }
-
- for(const key of Object.keys(componentNames)){
-  if(key === "config") continue;
-  const list = getOptionsForCategory(pc, key, selected.config);
-  const defIdx = getDefaultIndexForCategory(pc, key, selected.config);
-  if(key === "extra"){
-   if(!Array.isArray(selected.extra)){
-    selected.extra = [];
-   }else{
-    selected.extra = selected.extra.filter(idx => typeof idx === "number" && idx >= 0 && idx < list.length);
-   }
-  }else{
-   if(typeof selected[key]!=="number" || selected[key]<0 || selected[key]>=list.length){
-    selected[key]=defIdx;
-   }
-  }
- }
-
- if(!selected.extraQty || typeof selected.extraQty !== "object"){
-  selected.extraQty = {};
- }
-
  const isMobile = window.innerWidth <= 760;
-
  if(isMobile){
   document.getElementById("topLeftComponents").innerHTML=["config","gpu","ram","ssd"].map(k=>renderComponentBox(k,pc)).join("");
   document.getElementById("bottomLeftComponents").innerHTML=["case","cooler"].map(k=>renderComponentBox(k,pc)).join("");
@@ -1408,7 +1549,6 @@ function renderConfig(){
   document.getElementById("topRightComponents").innerHTML=["ram","ssd","cooler"].map(k=>renderComponentBox(k,pc)).join("");
   document.getElementById("bottomCenterComponents").innerHTML=["extra"].map(k=>renderComponentBox(k,pc)).join("");
  }
-
  updateStage();
  updateSpecStrip();
  updateSummary();
@@ -1419,124 +1559,77 @@ window.addEventListener("resize", ()=>{
  const nowMobile = window.innerWidth <= 760;
  if(nowMobile !== _lastMobileState){
   _lastMobileState = nowMobile;
-  if(document.getElementById("configView")?.classList.contains("active")){
-   renderConfig();
-  }
+  if(document.getElementById("configView")?.classList.contains("active")) renderConfig();
  }
 }, {passive:true});
 
 function renderComponentBox(key,pc){
  const options = getOptionsForCategory(pc, key, selected.config);
- const activeCfg = (pc.components.config || [])[selected.config];
+ const activeCfg = (pc.components.config||[])[selected.config];
  const isHighlight = key === "config";
  const badgeText = key === "extra" ? "OPȚIONAL" : `${options.length} OPȚIUNI`;
- const gpuNote = (key === "gpu" && activeCfg)
-  ? `<div class="component-subnote">Opțiuni GPU pentru: <strong>${safe(activeCfg.name)}</strong></div>`
-  : "";
-
- return `<div class="component-section ${isHighlight ? "config-highlight" : ""}">
+ const gpuNote = (key==="gpu"&&activeCfg)?`<div class="component-subnote">Opțiuni GPU pentru: <strong>${safe(activeCfg.name)}</strong></div>`:"";
+ return `<div class="component-section ${isHighlight?"config-highlight":""}">
   <div class="component-title"><h3>${componentNames[key]}</h3><span>${badgeText}</span></div>
   ${gpuNote}
   <div class="choices">${options.length ? options.map((o,i)=>{
-   const isSelected = (key === "extra")
-    ? (Array.isArray(selected.extra) && selected.extra.includes(i))
-    : (selected[key] === i);
-   const delta = getOptionAddOnPrice(key, o, pc, selected.config, i);
-
+   const isSelected = (key==="extra") ? (Array.isArray(selected.extra)&&selected.extra.includes(i)) : (selected[key]===i);
+   const delta = getOptionAddOnPrice(key,o,pc,selected.config,i);
    let priceLabelHtml = "";
-   if(key !== "config"){
-    if(key === "extra" && o.allowQty){
-     const q = getExtraQty(i);
-     const unitTxt = `${Number(o.price) || 0} RON/${o.unit || "BUC"}`;
-     priceLabelHtml = `<small>${isSelected ? `${q}x (${formatPlusRon(delta)})` : unitTxt}</small>`;
-    }else{
-     priceLabelHtml = `<small>${formatPlusRon(delta)}</small>`;
-    }
+   if(key!=="config"){
+    if(key==="extra"&&o.allowQty){
+     const q=getExtraQty(i);
+     priceLabelHtml=`<small>${isSelected?`${q}x (${formatPlusRon(delta)})`:`${Number(o.price)||0} RON/${o.unit||"BUC"}`}</small>`;
+    }else priceLabelHtml=`<small>${formatPlusRon(delta)}</small>`;
    }
-
    let qtyControlsHtml = "";
-   if(key === "extra" && o.allowQty){
-    const currentQ = getExtraQty(i);
-    const qList = Array.isArray(o.qtyOptions) ? o.qtyOptions : [1,2,3,4,6];
-    qtyControlsHtml = `<div class="qty-row" onclick="event.stopPropagation()">
-     <span>Buc:</span>
-     ${qList.map(qVal => `
-      <button
-       type="button"
-       class="qty-btn ${(isSelected && currentQ === qVal) ? "active" : ""}"
-       onclick="setExtraQty(${i}, ${qVal})"
-      >${qVal}</button>
-     `).join("")}
-    </div>`;
+   if(key==="extra"&&o.allowQty){
+    const currentQ=getExtraQty(i);
+    const qList=Array.isArray(o.qtyOptions)?o.qtyOptions:[1,2,3,4,6];
+    qtyControlsHtml=`<div class="qty-row" onclick="event.stopPropagation()"><span>Buc:</span>${qList.map(qVal=>`<button type="button" class="qty-btn ${(isSelected&&currentQ===qVal)?"active":""}" onclick="setExtraQty(${i},${qVal})">${qVal}</button>`).join("")}</div>`;
    }
-
-   return `
-   <div
-    role="button"
-    tabindex="0"
-    class="choice ${isSelected ? "selected" : ""}"
-    onclick="choose('${key}',${i})"
-    onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();choose('${key}',${i})}"
-   >
+   return `<div role="button" tabindex="0" class="choice ${isSelected?"selected":""}" onclick="choose('${key}',${i})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();choose('${key}',${i})}">
     ${o.image?`<img src="${safe(o.image)}" alt="">`:""}
-    <div>
-     <strong>${safe(o.name)}</strong>
-     ${priceLabelHtml}
-     ${qtyControlsHtml}
-    </div>
+    <div><strong>${safe(o.name)}</strong>${priceLabelHtml}${qtyControlsHtml}</div>
    </div>`;
   }).join("") : `<div class="empty" style="grid-column:1/-1">Nu există opțiuni GPU setate pentru acest CONFIG.</div>`}</div>
  </div>`;
 }
 
 function choose(key,i){
- if(key === "extra"){
-  if(!Array.isArray(selected.extra)) selected.extra = [];
-  const pos = selected.extra.indexOf(i);
-  if(pos >= 0){
-   selected.extra.splice(pos, 1);
-  }else{
-   selected.extra.push(i);
-   const pc = data[activePC];
-   const opt = pc?.components?.extra?.[i];
-   if(opt?.allowQty && !selected.extraQty?.[i]){
-    selected.extraQty[i] = 1;
-   }
-  }
+ if(key==="extra"){
+  if(!Array.isArray(selected.extra)) selected.extra=[];
+  const pos=selected.extra.indexOf(i);
+  if(pos>=0) selected.extra.splice(pos,1);
+  else {selected.extra.push(i);if(data[activePC]?.components?.extra?.[i]?.allowQty&&!selected.extraQty?.[i])selected.extraQty[i]=1}
  }else{
-  selected[key] = i;
-  if(key === "config"){
-   const pc = data[activePC];
-   selected.gpu = getDefaultIndexForCategory(pc, "gpu", i);
-   selected.ram = getDefaultIndexForCategory(pc, "ram", i);
-   selected.ssd = getDefaultIndexForCategory(pc, "ssd", i);
-   selected.cooler = getDefaultIndexForCategory(pc, "cooler", i);
+  selected[key]=i;
+  if(key==="config"){
+   const pc=data[activePC];
+   selected.gpu=getDefaultIndexForCategory(pc,"gpu",i);
+   selected.ram=getDefaultIndexForCategory(pc,"ram",i);
+   selected.ssd=getDefaultIndexForCategory(pc,"ssd",i);
+   selected.cooler=getDefaultIndexForCategory(pc,"cooler",i);
   }
  }
- persistSelectedForPC(activePC, selected);
+ persistSelectedForPC(activePC,selected);
  renderConfig();
 }
 
 function setExtraQty(extraIdx, qtyVal){
- if(!selected.extraQty || typeof selected.extraQty !== "object"){
-  selected.extraQty = {};
- }
- selected.extraQty[extraIdx] = qtyVal;
- if(!Array.isArray(selected.extra)) selected.extra = [];
- if(!selected.extra.includes(extraIdx)){
-  selected.extra.push(extraIdx);
- }
- persistSelectedForPC(activePC, selected);
+ if(!selected.extraQty||typeof selected.extraQty!=="object") selected.extraQty={};
+ selected.extraQty[extraIdx]=qtyVal;
+ if(!Array.isArray(selected.extra)) selected.extra=[];
+ if(!selected.extra.includes(extraIdx)) selected.extra.push(extraIdx);
+ persistSelectedForPC(activePC,selected);
  renderConfig();
 }
 
 function currentOption(key){
  const pc=data[activePC];
- if(!pc)return null;
- if(key === "extra") return null;
- const list = getOptionsForCategory(pc, key, selected.config);
- const idx = selected[key] ?? 0;
- return list[idx] || list[0] || null;
+ if(!pc||key==="extra") return null;
+ const list=getOptionsForCategory(pc,key,selected.config);
+ return list[selected[key]??0]||list[0]||null;
 }
 
 function updateStage(){
@@ -1547,122 +1640,418 @@ function updateStage(){
 }
 
 function updateSpecStrip(){
- const cfg=currentOption("config");
- const gpu=currentOption("gpu");
- const ram=currentOption("ram");
- const ssd=currentOption("ssd");
-
- document.getElementById("specStripBox").innerHTML = `
-  <div class="spec-item">
-   <span class="spec-icon cpu">▦</span>
-   <div class="spec-text">
-    <small>CONFIG</small>
-    <strong>${safe(cfg ? cfg.name : "-")}</strong>
-   </div>
-  </div>
-  <div class="spec-item">
-   <span class="spec-icon gpu">▣</span>
-   <div class="spec-text">
-    <small>GPU</small>
-    <strong>${safe(gpu ? gpu.name : "-")}</strong>
-   </div>
-  </div>
-  <div class="spec-item">
-   <span class="spec-icon ram">▤</span>
-   <div class="spec-text">
-    <small>RAM</small>
-    <strong>${safe(ram ? ram.name : "-")}</strong>
-   </div>
-  </div>
-  <div class="spec-item">
-   <span class="spec-icon ssd">▥</span>
-   <div class="spec-text">
-    <small>SSD</small>
-    <strong>${safe(ssd ? ssd.name : "-")}</strong>
-   </div>
-  </div>
- `;
+ const cfg=currentOption("config"), gpu=currentOption("gpu"), ram=currentOption("ram"), ssd=currentOption("ssd");
+ document.getElementById("specStripBox").innerHTML=`
+  <div class="spec-item"><span class="spec-icon cpu">▦</span><div class="spec-text"><small>CONFIG</small><strong>${safe(cfg?cfg.name:"-")}</strong></div></div>
+  <div class="spec-item"><span class="spec-icon gpu">▣</span><div class="spec-text"><small>GPU</small><strong>${safe(gpu?gpu.name:"-")}</strong></div></div>
+  <div class="spec-item"><span class="spec-icon ram">▤</span><div class="spec-text"><small>RAM</small><strong>${safe(ram?ram.name:"-")}</strong></div></div>
+  <div class="spec-item"><span class="spec-icon ssd">▥</span><div class="spec-text"><small>SSD</small><strong>${safe(ssd?ssd.name:"-")}</strong></div></div>`;
 }
 
 function computeTotalForCurrentSelection(pc){
- const cfg = currentOption("config");
- const gpu = currentOption("gpu");
- const ram = currentOption("ram");
- const ssd = currentOption("ssd");
- const cooler = currentOption("cooler");
- const pcCase = currentOption("case");
- const extrasSelected = getSelectedExtrasList(pc);
-
- const baseCfgPrice = Number(cfg ? cfg.price : (pc.price || 0)) || 0;
- const gpuAdd = getOptionAddOnPrice("gpu", gpu, pc, selected.config);
- const ramAdd = getOptionAddOnPrice("ram", ram, pc, selected.config);
- const ssdAdd = getOptionAddOnPrice("ssd", ssd, pc, selected.config);
- const coolerAdd = getOptionAddOnPrice("cooler", cooler, pc, selected.config);
- const caseAdd = getOptionAddOnPrice("case", pcCase, pc, selected.config);
- const extraAdd = extrasSelected.reduce((sum, item) => sum + (Number(item.price) || 0), 0);
-
- return {
-  baseCfgPrice,
-  gpuAdd,
-  ramAdd,
-  ssdAdd,
-  coolerAdd,
-  caseAdd,
-  extraAdd,
-  extrasSelected,
-  total: (Number(pc.price) || 0) + baseCfgPrice + gpuAdd + ramAdd + ssdAdd + coolerAdd + caseAdd + extraAdd
- };
+ const cfg=currentOption("config"), gpu=currentOption("gpu"), ram=currentOption("ram"), ssd=currentOption("ssd"), cooler=currentOption("cooler"), pcCase=currentOption("case");
+ const extrasSelected=getSelectedExtrasList(pc);
+ const baseCfgPrice=Number(cfg?cfg.price:(pc.price||0))||0;
+ const gpuAdd=getOptionAddOnPrice("gpu",gpu,pc,selected.config);
+ const ramAdd=getOptionAddOnPrice("ram",ram,pc,selected.config);
+ const ssdAdd=getOptionAddOnPrice("ssd",ssd,pc,selected.config);
+ const coolerAdd=getOptionAddOnPrice("cooler",cooler,pc,selected.config);
+ const caseAdd=getOptionAddOnPrice("case",pcCase,pc,selected.config);
+ const extraAdd=extrasSelected.reduce((s,x)=>s+(Number(x.price)||0),0);
+ return {baseCfgPrice,gpuAdd,ramAdd,ssdAdd,coolerAdd,caseAdd,extraAdd,extrasSelected,total:(Number(pc.price)||0)+baseCfgPrice+gpuAdd+ramAdd+ssdAdd+coolerAdd+caseAdd+extraAdd};
 }
 
 function updateSummary(){
  const pc=data[activePC];
- const calc = computeTotalForCurrentSelection(pc);
+ const calc=computeTotalForCurrentSelection(pc);
  let html="";
-
- const singleKeys = ["config","gpu","ram","ssd","cooler","case"];
- const deltas = {
-  gpu: calc.gpuAdd,
-  ram: calc.ramAdd,
-  ssd: calc.ssdAdd,
-  cooler: calc.coolerAdd,
-  case: calc.caseAdd
- };
-
+ const singleKeys=["config","gpu","ram","ssd","cooler","case"];
+ const deltas={gpu:calc.gpuAdd,ram:calc.ramAdd,ssd:calc.ssdAdd,cooler:calc.coolerAdd,case:calc.caseAdd};
  for(const key of singleKeys){
   const o=currentOption(key);
   if(!o)continue;
   html+=`<div class="summary-line"><span>${componentNames[key]}</span><span>${safe(o.name)}</span></div>`;
-  if(key !== "config"){
-   const d = deltas[key] || 0;
-   html+=`<div class="summary-line surcharge"><span>Opțiune</span><span>${formatPlusRon(d)}</span></div>`;
-  }
+  if(key!=="config") html+=`<div class="summary-line surcharge"><span>Opțiune</span><span>${formatPlusRon(deltas[key]||0)}</span></div>`;
  }
-
  for(const ex of calc.extrasSelected){
   html+=`<div class="summary-line"><span>OPȚIUNI EXTRA</span><span>${safe(ex.label)}</span></div>`;
   html+=`<div class="summary-line surcharge"><span>Opțiune</span><span>${formatPlusRon(ex.price)}</span></div>`;
  }
-
  document.getElementById("summary").innerHTML=html;
  document.getElementById("totalPrice").textContent=money(calc.total);
 }
 
 function orderPC(){
  const pc=data[activePC];
- const singleKeys = ["config","gpu","ram","ssd","cooler","case"];
- const lines = singleKeys.map(k=>{
-  const o=currentOption(k);
-  return o?componentNames[k]+": "+o.name:"";
- }).filter(Boolean);
+ const lines=["config","gpu","ram","ssd","cooler","case"].map(k=>{const o=currentOption(k);return o?componentNames[k]+": "+o.name:""}).filter(Boolean);
+ for(const ex of getSelectedExtrasList(pc)) lines.push("OPȚIUNI EXTRA: "+ex.label+" ("+money(ex.price)+")");
+ const total=document.getElementById("totalPrice").textContent;
+ window.location.href=`https://wa.me/${WHATSAPP_NUMBER}?text=`+encodeURIComponent(`Bună! Sunt interesat de ${pc.name}.\n${lines.join("\n")}\nPreț estimativ: ${total}`);
+}
 
- const extrasSelected = getSelectedExtrasList(pc);
- for(const ex of extrasSelected){
-  lines.push("OPȚIUNI EXTRA: " + ex.label + " (" + money(ex.price) + ")");
+/* SAJAT PC KONFIG RENDER & INTERACTIONS */
+function isCustomStepComplete(idx){
+ if(idx===0) return Boolean(customState.cpu);
+ if(idx===1) return Boolean(customState.gpu);
+ if(idx===2) return Boolean(customState.mobo);
+ if(idx===3) return Boolean(customState.ssd);
+ if(idx===4) return Boolean(customState.ram);
+ if(idx===5) return typeof customState.caseIdx === "number";
+ if(idx===6) return typeof customState.coolerIdx === "number";
+ if(idx===7) return true;
+ return false;
+}
+
+function goToCustomStep(idx){
+ customState.step = Math.max(0, Math.min(CUSTOM_STEPS.length-1, idx));
+ saveCustomState();
+ renderCustomConfigurator();
+}
+
+function setCustomCpuBrand(brand){
+ customState.cpuBrand = brand;
+ customState.cpu = "";
+ saveCustomState();
+ renderCustomConfigurator();
+}
+
+function selectCustomCpu(name, advance = true){
+ customState.cpu = name;
+ if(advance) customState.step = 1;
+ saveCustomState();
+ renderCustomConfigurator();
+}
+
+function setCustomGpuBrand(brand){
+ customState.gpuBrand = brand;
+ customState.gpu = "";
+ saveCustomState();
+ renderCustomConfigurator();
+}
+
+function selectCustomGpu(name, advance = true){
+ customState.gpu = name;
+ if(advance) customState.step = 2;
+ saveCustomState();
+ renderCustomConfigurator();
+}
+
+function selectCustomMobo(name, advance = true){
+ customState.mobo = name;
+ if(advance) customState.step = 3;
+ saveCustomState();
+ renderCustomConfigurator();
+}
+
+function selectCustomSsd(name, advance = true){
+ customState.ssd = name;
+ if(advance) customState.step = 4;
+ saveCustomState();
+ renderCustomConfigurator();
+}
+
+function selectCustomRam(name, advance = true){
+ customState.ram = name;
+ if(advance) customState.step = 5;
+ saveCustomState();
+ renderCustomConfigurator();
+}
+
+function selectCustomCase(idx){
+ customState.caseIdx = idx;
+ saveCustomState();
+ renderCustomConfigurator();
+}
+
+function selectCustomCooler(idx){
+ customState.coolerIdx = idx;
+ saveCustomState();
+ renderCustomConfigurator();
+}
+
+function selectCustomPsu(psuName){
+ customState.psu = psuName;
+ saveCustomState();
+ renderCustomConfigurator();
+}
+
+function toggleCustomExtra(idx){
+ if(!Array.isArray(customState.extra)) customState.extra = [];
+ const pos = customState.extra.indexOf(idx);
+ if(pos>=0) customState.extra.splice(pos,1);
+ else {
+  customState.extra.push(idx);
+  if(baseExtras[idx]?.allowQty && !customState.extraQty?.[idx]) customState.extraQty[idx]=1;
+ }
+ saveCustomState();
+ renderCustomConfigurator();
+}
+
+function setCustomExtraQty(idx, q){
+ if(!customState.extraQty || typeof customState.extraQty!=="object") customState.extraQty={};
+ customState.extraQty[idx]=q;
+ if(!Array.isArray(customState.extra)) customState.extra=[];
+ if(!customState.extra.includes(idx)) customState.extra.push(idx);
+ saveCustomState();
+ renderCustomConfigurator();
+}
+
+function renderCustomConfigurator(){
+ const stepObj = CUSTOM_STEPS[customState.step] || CUSTOM_STEPS[0];
+ const stepTitles = [
+  "1. Lépés: CPU",
+  "2. Lépés: GPU",
+  "3. Lépés: Alaplap",
+  "4. Lépés: SSD",
+  "5. Lépés: RAM",
+  "6. Lépés: Carcasă",
+  "7. Lépés: Răcire",
+  "8. Lépés: Plusz lehetőségek"
+ ];
+ const stepSubs = [
+  "Válassz INTEL (kék kocka) vagy AMD (piros kocka) között — leggyengébbtől a legjobbig rendezve.",
+  "Válassz AMD (piros), NVIDIA (RTX/GTX) vagy INTEL ARC GPU-t — leggyengébbtől a legjobbig.",
+  "Válassz alaplapot (AM4 / AM5 / LGA1700 — DDR4 / DDR5).",
+  "Válassz SSD tárhelyet.",
+  "Válassz RAM memóriát.",
+  "Válassz házat — a kép azonnal frissül a középső/jobb panelen.",
+  "Válassz processzorhűtőt (és igény esetén tápot is kiválaszthatod).",
+  "Válassz extra kiegészítőket (SSD, Wi-Fi/BT, ARGB ventilátorok, periféria szettek)."
+ ];
+
+ document.getElementById("customStepHeading").textContent = stepTitles[customState.step] || stepTitles[0];
+ document.getElementById("customStepSub").textContent = stepSubs[customState.step] || stepSubs[0];
+
+ document.getElementById("customStepper").innerHTML = CUSTOM_STEPS.map((st, idx)=>{
+  const cls = idx===customState.step ? "active" : (isCustomStepComplete(idx) ? "done" : "");
+  return `<button type="button" class="step-chip ${cls}" onclick="goToCustomStep(${idx})">${safe(st.label)}${isCustomStepComplete(idx)?" ✓":""}</button>`;
+ }).join("");
+
+ let bodyHtml = "";
+
+ if(customState.step === 0){
+  const list = CUSTOM_CPU_DATA[customState.cpuBrand] || [];
+  bodyHtml = `
+   <div class="component-section">
+    <div class="component-title"><h3>CPU MÁRKA</h3><span>VÁLASSZ KOCKÁT</span></div>
+    <div class="brand-grid-2">
+     <button type="button" class="brand-box intel-box ${customState.cpuBrand==="INTEL"?"active":""}" onclick="setCustomCpuBrand('INTEL')">
+      <strong>INTEL</strong>
+      <small>Kék kocka · LGA1700 (${CUSTOM_CPU_DATA.INTEL.length} modell)</small>
+     </button>
+     <button type="button" class="brand-box amd-box ${customState.cpuBrand==="AMD"?"active":""}" onclick="setCustomCpuBrand('AMD')">
+      <strong>AMD</strong>
+      <small>Piros kocka · AM4 & AM5 (${CUSTOM_CPU_DATA.AMD.length} modell)</small>
+     </button>
+    </div>
+   </div>
+   <div class="component-section">
+    <div class="component-title"><h3>${safe(customState.cpuBrand)} PROCESSZOROK</h3><span>LEGGYENGÉBBTŐL LEGJOBBIG</span></div>
+    <div class="model-list-grid">
+     ${list.map((item, i)=>`
+      <button type="button" class="model-item-btn ${customState.cpu===item.name?"selected":""}" onclick="selectCustomCpu('${safe(item.name)}', true)">
+       <div>
+        <strong>${safe(item.name)}</strong>
+        <span class="sub-tag">Foglalat: ${safe(item.socket)}</span>
+       </div>
+       <span class="rank-tag">#${i+1} → #${list.length}</span>
+      </button>
+     `).join("")}
+    </div>
+   </div>`;
+ } else if(customState.step === 1){
+  const list = CUSTOM_GPU_DATA[customState.gpuBrand] || [];
+  bodyHtml = `
+   <div class="component-section">
+    <div class="component-title"><h3>GPU GYÁRTÓ</h3><span>AMD / RTX / ARC</span></div>
+    <div class="brand-grid-3">
+     <button type="button" class="brand-box amd-box ${customState.gpuBrand==="AMD"?"active":""}" onclick="setCustomGpuBrand('AMD')">
+      <strong>AMD RADEON</strong>
+      <small>RX sorozat (${CUSTOM_GPU_DATA.AMD.length})</small>
+     </button>
+     <button type="button" class="brand-box intel-box ${customState.gpuBrand==="NVIDIA"?"active":""}" onclick="setCustomGpuBrand('NVIDIA')">
+      <strong>NVIDIA RTX / GTX</strong>
+      <small>GeForce (${CUSTOM_GPU_DATA.NVIDIA.length})</small>
+     </button>
+     <button type="button" class="brand-box arc-box ${customState.gpuBrand==="ARC"?"active":""}" onclick="setCustomGpuBrand('ARC')">
+      <strong>INTEL ARC</strong>
+      <small>Arc A & B (${CUSTOM_GPU_DATA.ARC.length})</small>
+     </button>
+    </div>
+   </div>
+   <div class="component-section">
+    <div class="component-title"><h3>${safe(customState.gpuBrand)} VIDEOKÁRTYÁK</h3><span>LEGGYENGÉBBTŐL LEGJOBBIG</span></div>
+    <div class="model-list-grid">
+     ${list.map((name, i)=>`
+      <button type="button" class="model-item-btn ${customState.gpu===name?"selected":""}" onclick="selectCustomGpu('${safe(name)}', true)">
+       <strong>${safe(name)}</strong>
+       <span class="rank-tag">#${i+1} → #${list.length}</span>
+      </button>
+     `).join("")}
+    </div>
+   </div>`;
+ } else if(customState.step === 2){
+  bodyHtml = `
+   <div class="component-section">
+    <div class="component-title"><h3>ALAPLAP (AM4 / AM5 / LGA1700)</h3><span>${CUSTOM_MOBO_DATA.length} MODELL</span></div>
+    <div class="model-list-grid">
+     ${CUSTOM_MOBO_DATA.map(m=>`
+      <button type="button" class="model-item-btn ${customState.mobo===m.name?"selected":""}" onclick="selectCustomMobo('${safe(m.name)}', true)">
+       <div>
+        <strong>${safe(m.name)}</strong>
+        <span class="sub-tag">${safe(m.platform)}</span>
+       </div>
+       <span class="rank-tag">${customState.mobo===m.name?"KÉSZ":"VÁLASZT"}</span>
+      </button>
+     `).join("")}
+    </div>
+   </div>`;
+ } else if(customState.step === 3){
+  bodyHtml = `
+   <div class="component-section">
+    <div class="component-title"><h3>SSD</h3><span>VÁLASSZ</span></div>
+    <div class="choices">
+     ${CUSTOM_SSD_OPTIONS.map(o=>`
+      <div role="button" tabindex="0" class="choice ${customState.ssd===o.name?"selected":""}" onclick="selectCustomSsd('${safe(o.name)}', true)">
+       <div><strong>${safe(o.name)}</strong><small style="color:#a7aec4;font-weight:600">${safe(o.note)}</small></div>
+      </div>
+     `).join("")}
+    </div>
+   </div>`;
+ } else if(customState.step === 4){
+  bodyHtml = `
+   <div class="component-section">
+    <div class="component-title"><h3>RAM</h3><span>VÁLASSZ</span></div>
+    <div class="choices">
+     ${CUSTOM_RAM_OPTIONS.map(o=>`
+      <div role="button" tabindex="0" class="choice ${customState.ram===o.name?"selected":""}" onclick="selectCustomRam('${safe(o.name)}', true)">
+       <div><strong>${safe(o.name)}</strong><small style="color:#a7aec4;font-weight:600">${safe(o.note)}</small></div>
+      </div>
+     `).join("")}
+    </div>
+   </div>`;
+ } else if(customState.step === 5){
+  bodyHtml = `
+   <div class="component-section">
+    <div class="component-title"><h3>CARCASĂ</h3><span>${baseCases.length} HÁZ</span></div>
+    <div class="choices">
+     ${baseCases.map((c, idx)=>`
+      <div role="button" tabindex="0" class="choice ${customState.caseIdx===idx?"selected":""}" onclick="selectCustomCase(${idx})">
+       <img src="${safe(c.image)}" alt="${safe(c.name)}">
+       <div><strong>${safe(c.name)}</strong><small style="color:#be9fff">Ár hamarosan</small></div>
+      </div>
+     `).join("")}
+    </div>
+   </div>`;
+ } else if(customState.step === 6){
+  bodyHtml = `
+   <div class="component-section">
+    <div class="component-title"><h3>RĂCIRE (HŰTÉS)</h3><span>${baseCoolers.length} HŰTŐ</span></div>
+    <div class="choices">
+     ${baseCoolers.map((cl, idx)=>`
+      <div role="button" tabindex="0" class="choice ${customState.coolerIdx===idx?"selected":""}" onclick="selectCustomCooler(${idx})">
+       <img src="${safe(cl.image)}" alt="${safe(cl.name)}">
+       <div><strong>${safe(cl.name)}</strong><small style="color:#be9fff">Ár hamarosan</small></div>
+      </div>
+     `).join("")}
+    </div>
+   </div>
+   <div class="component-section">
+    <div class="component-title"><h3>TÁPEGYSÉG (MSI MAG)</h3><span>OPCIONÁLIS</span></div>
+    <div class="model-list-grid">
+     ${CUSTOM_PSU_OPTIONS.map(p=>`
+      <button type="button" class="model-item-btn ${customState.psu===p?"selected":""}" onclick="selectCustomPsu('${safe(p)}')">
+       <strong>${safe(p)}</strong>
+       <span class="rank-tag">${customState.psu===p?"KÉSZ":"TÁP"}</span>
+      </button>
+     `).join("")}
+    </div>
+   </div>`;
+ } else {
+  bodyHtml = `
+   <div class="component-section">
+    <div class="component-title"><h3>PLUSZ LEHETŐSÉGEK</h3><span>TÖBB IS VÁLASzTHATÓ</span></div>
+    <div class="choices">
+     ${baseExtras.map((ex, idx)=>{
+      const isSel = Array.isArray(customState.extra) && customState.extra.includes(idx);
+      const q = Number(customState.extraQty?.[idx]) || 1;
+      const qList = Array.isArray(ex.qtyOptions)?ex.qtyOptions:[1,2,3,4,6];
+      const qtyHtml = ex.allowQty ? `<div class="qty-row" onclick="event.stopPropagation()"><span>Buc:</span>${qList.map(qv=>`<button type="button" class="qty-btn ${(isSel&&q===qv)?"active":""}" onclick="setCustomExtraQty(${idx},${qv})">${qv}</button>`).join("")}</div>` : "";
+      return `<div role="button" tabindex="0" class="choice ${isSel?"selected":""}" onclick="toggleCustomExtra(${idx})">
+       <img src="${safe(ex.image)}" alt="${safe(ex.name)}">
+       <div><strong>${safe(ex.name)}</strong><small style="color:#be9fff">${ex.allowQty&&isSel?`${q} ${ex.unit||"BUC"}`:""}</small>${qtyHtml}</div>
+      </div>`;
+     }).join("")}
+    </div>
+   </div>`;
  }
 
- const total=document.getElementById("totalPrice").textContent;
- const message=`Bună! Sunt interesat de ${pc.name}.\n${lines.join("\n")}\nPreț estimativ: ${total}`;
- window.location.href=`https://wa.me/${WHATSAPP_NUMBER}?text=`+encodeURIComponent(message);
+ bodyHtml += `
+  <div class="step-nav-row">
+   <button type="button" class="secondary-btn" onclick="goToCustomStep(${customState.step - 1})" ${customState.step===0?"disabled style='opacity:.45'":""}>← Előző lépés</button>
+   ${customState.step < CUSTOM_STEPS.length - 1
+    ? `<button type="button" class="primary-btn" onclick="goToCustomStep(${customState.step + 1})">Következő lépés →</button>`
+    : `<button type="button" class="primary-btn" onclick="orderCustomPC()">KÉSZ · AJÁNLATKÉRÉS →</button>`
+   }
+  </div>`;
+
+ document.getElementById("customStepBody").innerHTML = bodyHtml;
+
+ const chosenCase = baseCases[customState.caseIdx] || baseCases[0];
+ document.getElementById("customStageImage").src = chosenCase.image;
+ document.getElementById("customStageCaseName").textContent = chosenCase.name;
+
+ const chosenCooler = baseCoolers[customState.coolerIdx] || baseCoolers[0];
+ const extrasSummary = (Array.isArray(customState.extra) ? customState.extra : [])
+  .map(idx => {
+   const ex = baseExtras[idx];
+   if(!ex) return null;
+   const q = ex.allowQty ? (Number(customState.extraQty?.[idx])||1) : 1;
+   return ex.allowQty ? `${ex.name} (${q} ${ex.unit||"BUC"})` : ex.name;
+  }).filter(Boolean);
+
+ const rows = [
+  ["CPU", customState.cpu ? `${customState.cpu} (${customState.cpuBrand})` : "—"],
+  ["GPU", customState.gpu ? `${customState.gpu} (${customState.gpuBrand})` : "—"],
+  ["ALAPLAP", customState.mobo || "—"],
+  ["SSD", customState.ssd || "—"],
+  ["RAM", customState.ram || "—"],
+  ["CARCASĂ", chosenCase ? chosenCase.name : "—"],
+  ["RĂCIRE", chosenCooler ? chosenCooler.name : "—"],
+  ["TÁP", customState.psu || "—"],
+  ["PLUSZ", extrasSummary.length ? extrasSummary.join(", ") : "Nincs"]
+ ];
+
+ document.getElementById("customSidebarSummary").innerHTML = rows.map(([k,v])=>`
+  <div class="summary-line"><span>${safe(k)}</span><span>${safe(v)}</span></div>
+ `).join("");
+}
+
+function orderCustomPC(){
+ const chosenCase = baseCases[customState.caseIdx] || baseCases[0];
+ const chosenCooler = baseCoolers[customState.coolerIdx] || baseCoolers[0];
+ const extrasSummary = (Array.isArray(customState.extra) ? customState.extra : [])
+  .map(idx => {
+   const ex = baseExtras[idx];
+   if(!ex) return null;
+   const q = ex.allowQty ? (Number(customState.extraQty?.[idx])||1) : 1;
+   return ex.allowQty ? `${ex.name} (${q} ${ex.unit||"BUC"})` : ex.name;
+  }).filter(Boolean);
+
+ const msg = [
+  "Bună! Vreau o ofertă pentru Saját PC Konfig (fără prețuri setate încă):",
+  `CPU: ${customState.cpu || "-"} (${customState.cpuBrand})`,
+  `GPU: ${customState.gpu || "-"} (${customState.gpuBrand})`,
+  `Alaplap: ${customState.mobo || "-"}`,
+  `SSD: ${customState.ssd || "-"}`,
+  `RAM: ${customState.ram || "-"}`,
+  `Carcasă: ${chosenCase?.name || "-"}`,
+  `Răcire: ${chosenCooler?.name || "-"}`,
+  `Táp: ${customState.psu || "-"}`,
+  `Plusz: ${extrasSummary.length ? extrasSummary.join(", ") : "Nincs"}`
+ ].join("\n");
+
+ window.location.href = `https://wa.me/${WHATSAPP_NUMBER}?text=` + encodeURIComponent(msg);
 }
 
 renderHome();
