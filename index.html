@@ -749,7 +749,7 @@ footer{border-top:1px solid var(--border);padding:35px 0;color:var(--muted);font
 </footer>
 
 <script>
-const SEL_KEY = "er1k_pc_per_config_gpu_sel_v16";
+const SEL_KEY = "er1k_pc_per_config_gpu_sel_v17";
 const WHATSAPP_NUMBER = "40771103552";
 const tierLabels = ["01 · START", "02 · GAMER", "03 · PRO TIER", "04 · ULTIMATE"];
 
@@ -1086,8 +1086,7 @@ const data = [
    ],
    gpu:[],
    ram:[
-    {name:"16GB (2x8GB) DDR4 3200MHz",price:RAM_16GB_DDR4,includedInBase:true},
-    {name:"32GB (2x16GB) DDR5 6000MHz",price:RAM_32GB_DDR5,includedInBase:false}
+    {name:"32GB (2x16GB) DDR5 6000MHz",price:RAM_32GB_DDR5,includedInBase:true}
    ],
    ssd:[
     {name:"1TB M.2 NVMe",price:SSD_1TB,includedInBase:true},
@@ -1129,7 +1128,7 @@ function isBaseIncludedOption(key, opt, pc, cfgIdx = 0){
   if(isConfigDdr5Base(cfg)){
    return n.includes("ddr5") && n.includes("32gb");
   }
-  return n.startsWith("16gb");
+  return n.includes("ddr4") && n.startsWith("16gb");
  }
  if(key === "ssd"){
   if(pc?.id === "start"){
@@ -1261,6 +1260,17 @@ function getOptionsForCategory(pc, key, cfgIdx = 0){
   const configs = pc.components.config || [];
   const activeCfg = configs[cfgIdx] || configs[0];
   return Array.isArray(activeCfg?.gpuOptions) ? activeCfg.gpuOptions : [];
+ }
+ if(key === "ram"){
+  const rawRams = Array.isArray(pc.components.ram) ? pc.components.ram : [];
+  const configs = pc.components.config || [];
+  const activeCfg = configs[cfgIdx] || configs[0];
+  const wantsDdr5 = isConfigDdr5Base(activeCfg);
+  const filtered = rawRams.filter(r => {
+   const n = String(r?.name || "").toLowerCase();
+   return wantsDdr5 ? n.includes("ddr5") : n.includes("ddr4");
+  });
+  return filtered.length ? filtered : rawRams;
  }
  return Array.isArray(pc.components[key]) ? pc.components[key] : [];
 }
@@ -1459,10 +1469,14 @@ function renderComponentBox(key,pc){
  const gpuNote = (key === "gpu" && activeCfg)
   ? `<div class="component-subnote">Opțiuni GPU pentru: <strong>${safe(activeCfg.name)}</strong></div>`
   : "";
+ const ramNote = (key === "ram" && activeCfg)
+  ? `<div class="component-subnote">Compatibil (${isConfigDdr5Base(activeCfg) ? "DDR5" : "DDR4"}) pentru: <strong>${safe(activeCfg.name)}</strong></div>`
+  : "";
 
  return `<div class="component-section ${isHighlight ? "config-highlight" : ""}">
   <div class="component-title"><h3>${componentNames[key]}</h3><span>${badgeText}</span></div>
   ${gpuNote}
+  ${ramNote}
   <div class="choices">${options.length ? options.map((o,i)=>{
    const isSelected = (key === "extra")
     ? (Array.isArray(selected.extra) && selected.extra.includes(i))
