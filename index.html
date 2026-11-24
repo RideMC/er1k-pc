@@ -18,6 +18,7 @@
   --purple2:#6c3ce8;
   --mint:#34e5a4;
   --cyan:#47c8ff;
+  --old:#ff5c8a;
 }
 *{box-sizing:border-box}
 body{
@@ -119,14 +120,27 @@ header{
   border-radius:999px;
   box-shadow:0 4px 14px #00000077;
 }
+.sale-badge{
+  position:absolute;
+  top:12px;
+  right:12px;
+  background:linear-gradient(135deg,#ff4d7d,#d6285c);
+  color:#fff;
+  font-size:10.5px;
+  font-weight:900;
+  letter-spacing:1px;
+  padding:5px 10px;
+  border-radius:999px;
+  box-shadow:0 4px 14px #ff4d7d55;
+}
 
 .body{padding:18px;display:flex;flex-direction:column;flex:1;gap:14px}
 .title{
   margin:0;
-  font-size:19px;
+  font-size:20px;
   font-weight:900;
-  letter-spacing:-.4px;
-  line-height:1.28;
+  letter-spacing:-.45px;
+  line-height:1.25;
   color:#ffffff;
 }
 
@@ -139,28 +153,39 @@ header{
   padding-top:12px;
   border-top:1px solid #282f47;
 }
-.price-pill{
-  background:#34e5a418;
-  border:1px solid #34e5a466;
-  color:var(--mint);
-  padding:7px 12px;
-  border-radius:10px;
-  font-size:18px;
+.price-stack{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}
+.old-price{
+  font-size:13px;
+  font-weight:700;
+  color:var(--old);
+  text-decoration:line-through;
+  text-decoration-thickness:2px;
+  opacity:.92;
+}
+.new-price{
+  font-size:23px;
   font-weight:900;
-  letter-spacing:-.4px;
-  text-shadow:0 0 16px #34e5a433;
+  color:var(--mint);
+  letter-spacing:-.6px;
+  line-height:1.05;
+  text-shadow:0 0 18px #34e5a438;
 }
 .btn-vezi{
   border:1px solid #be99ff;
   border-radius:11px;
-  padding:10px 18px;
-  font-size:13.5px;
+  padding:11px 20px;
+  font-size:14px;
   font-weight:900;
   letter-spacing:.3px;
   background:linear-gradient(135deg,#a67aff,#6938e6);
   color:#fff;
   box-shadow:0 6px 20px #8b5cf652;
   transition:.18s ease;
+  white-space:nowrap;
 }
 .btn-vezi:hover{
   transform:translateY(-1px);
@@ -268,7 +293,7 @@ header{
   margin-bottom:18px;
 }
 .config-head{
-  font-size:13px;
+  font-size:13.5px;
   font-weight:900;
   letter-spacing:1.5px;
   text-transform:uppercase;
@@ -281,7 +306,7 @@ header{
   list-style:none;
   margin:0;
   padding:0;
-  font-size:14.5px;
+  font-size:15px;
   color:#ffffff;
   display:grid;
   gap:9px;
@@ -311,17 +336,31 @@ header{
   box-shadow:0 12px 30px #34e5a424;
 }
 .price-label{
-  font-size:13px;
+  font-size:13.5px;
   font-weight:900;
   letter-spacing:1.4px;
   text-transform:uppercase;
   color:#8ff5cf;
 }
+.detail-price-wrap{
+  display:flex;
+  align-items:baseline;
+  gap:12px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+.detail-old-price{
+  font-size:18px;
+  font-weight:800;
+  color:var(--old);
+  text-decoration:line-through;
+  text-decoration-thickness:2.5px;
+}
 .detail-price{
-  font-size:34px;
+  font-size:36px;
   font-weight:900;
   color:var(--mint);
-  letter-spacing:-.7px;
+  letter-spacing:-.8px;
   text-shadow:0 0 22px #34e5a438;
 }
 
@@ -392,8 +431,8 @@ footer{
 @media(max-width:640px){
   .grid{grid-template-columns:1fr}
   .thumb{aspect-ratio:1/1;min-height:270px}
-  .price-pill{font-size:16.5px}
-  .detail-price{font-size:28px}
+  .new-price{font-size:20px}
+  .detail-price{font-size:30px}
 }
 </style>
 </head>
@@ -449,7 +488,10 @@ footer{
 
         <div class="price-box">
           <span class="price-label">Preț</span>
-          <span class="detail-price" id="dPrice">0 RON</span>
+          <div class="detail-price-wrap">
+            <span class="detail-old-price" id="dOldPrice">0 RON</span>
+            <span class="detail-price" id="dPrice">0 RON</span>
+          </div>
         </div>
 
         <button type="button" class="wa-btn" onclick="contactWhatsApp()">Scrie pe WhatsApp</button>
@@ -529,6 +571,7 @@ const pcs = [
       "https://i.postimg.cc/SQ8jSFbP/image.png"
     ],
     ytVideoId: "JBhTOSaK0ms",
+    oldPrice: 3600,
     price: CPU_R5_3600 + GPU_GTX_1660_SUPER + MOBO_AM4_CHEAP + RAM_16GB_DDR4 + SSD_500GB + PSU_550W + BASE_COOLER_PRICE + PROFIT_MARGIN
   },
   {
@@ -547,6 +590,7 @@ const pcs = [
       "https://i.postimg.cc/MKPCgHr6/image.png"
     ],
     ytVideoId: "djyLjOJzmu8",
+    oldPrice: 6050,
     price: CPU_R5_5500 + GPU_RX_7600 + MOBO_AM4_CHEAP + RAM_16GB_DDR4 + SSD_1TB + PSU_550W + BASE_COOLER_PRICE + PROFIT_MARGIN
   },
   {
@@ -565,6 +609,7 @@ const pcs = [
       "https://i.postimg.cc/wMVp1kVj/image.png"
     ],
     ytVideoId: "jJce8mHykvo",
+    oldPrice: 6000,
     price: CPU_I5_12400F + GPU_RTX_5050 + MOBO_INTEL_ENTRY + RAM_16GB_DDR4 + SSD_1TB + PSU_550W + BASE_COOLER_PRICE + PROFIT_MARGIN
   },
   {
@@ -583,6 +628,7 @@ const pcs = [
       "https://i.postimg.cc/qvZpcjdC/image.png"
     ],
     ytVideoId: "Glt5luCu4DE",
+    oldPrice: 5000,
     price: CPU_R5_5600 + GPU_RTX_3050 + MOBO_AM4_CHEAP + RAM_16GB_DDR4 + SSD_1TB + PSU_550W + BASE_COOLER_PRICE + PROFIT_MARGIN
   },
   {
@@ -601,6 +647,7 @@ const pcs = [
       "https://i.postimg.cc/63cjRbkX/image.png"
     ],
     ytVideoId: "D_Q_qTM_xh0",
+    oldPrice: 10500,
     price: CPU_R5_7600 + GPU_RX_9060_XT + MOBO_AM5_DDR5 + RAM_32GB_DDR5 + SSD_1TB + PSU_650W + BASE_COOLER_PRICE + PROFIT_MARGIN
   },
   {
@@ -619,6 +666,7 @@ const pcs = [
       "https://i.postimg.cc/02FtpwB0/image.png"
     ],
     ytVideoId: "0NJirlRMIjU",
+    oldPrice: 8850,
     price: CPU_I5_14400F + GPU_RTX_5060_TI + MOBO_INTEL_B760 + RAM_16GB_DDR4 + SSD_1TB + PSU_650W + BASE_COOLER_PRICE + PROFIT_MARGIN
   },
   {
@@ -637,6 +685,7 @@ const pcs = [
       "https://i.postimg.cc/Cxb4k68C/image.png"
     ],
     ytVideoId: "oSMwfU9ROp4",
+    oldPrice: 12350,
     price: CPU_R7_7800X3D + GPU_RX_9070_XT + MOBO_AM5_DDR5 + RAM_32GB_DDR5 + SSD_1TB + PSU_850W + BASE_COOLER_PRICE + PROFIT_MARGIN
   },
   {
@@ -655,6 +704,7 @@ const pcs = [
       "https://i.postimg.cc/gcB4Whds/image.png"
     ],
     ytVideoId: "oAwGkpgAcoM",
+    oldPrice: 17400,
     price: CPU_R7_9800X3D + GPU_RTX_5070_TI + MOBO_AM5_DDR5 + RAM_32GB_DDR5 + SSD_1TB + PSU_1000W + BASE_COOLER_PRICE + PROFIT_MARGIN
   }
 ];
@@ -670,12 +720,16 @@ function renderGrid(){
     <article class="pc-card" onclick="openDetail(${i})">
       <div class="thumb">
         <span class="tag">${safe(pc.tag)}</span>
+        <span class="sale-badge">REDUCERE</span>
         <img src="${safe(pc.images[0] || "")}" alt="${safe(pc.cpuGpu)}">
       </div>
       <div class="body">
         <h2 class="title">${safe(pc.cpuGpu)}</h2>
         <div class="bottom-row">
-          <span class="price-pill">${money(pc.price)}</span>
+          <div class="price-stack">
+            ${pc.oldPrice ? `<span class="old-price">${money(pc.oldPrice)}</span>` : ""}
+            <span class="new-price">${money(pc.price)}</span>
+          </div>
           <button type="button" class="btn-vezi" onclick="event.stopPropagation();openDetail(${i})">Vezi</button>
         </div>
       </div>
@@ -717,6 +771,7 @@ function renderDetail(){
   document.getElementById("dSpecs").innerHTML = pc.specs.map(([k, v]) => `
     <li><span>${safe(k)}</span><strong>${safe(v)}</strong></li>
   `).join("");
+  document.getElementById("dOldPrice").textContent = pc.oldPrice ? money(pc.oldPrice) : "";
   document.getElementById("dPrice").textContent = money(pc.price);
   document.getElementById("mainPhoto").src = imgs[currentPhoto];
 
