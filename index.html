@@ -521,194 +521,9 @@ footer{
 // === AICI PUI NUMĂRUL TĂU DE WHATSAPP (fără + și fără spații, ex: 407xxxxxxxx) ===
 const WHATSAPP_NUMBER = "40771103552";
 
-const PROFIT_MARGIN = 750;
-const BASE_COOLER_PRICE = 60;
-const RAM_16GB_DDR4 = 450;
-const RAM_32GB_DDR5 = 2550;
-const SSD_500GB = 300;
-const SSD_1TB = 450;
-const MOBO_AM4_CHEAP = 300;
-const MOBO_INTEL_ENTRY = 300;
-const MOBO_INTEL_B760 = 330;
-const MOBO_AM5_DDR5 = 510;
-const PSU_550W = 230;
-const PSU_650W = 400;
-const PSU_850W = 470;
-const PSU_1000W = 700;
-
-const CPU_R5_3600 = 372;
-const CPU_R5_5500 = 500;
-const CPU_R5_5600 = 600;
-const CPU_R5_7600 = 932;
-const CPU_R7_7800X3D = 1549;
-const CPU_R7_9800X3D = 2124;
-const CPU_I5_12400F = 659;
-const CPU_I5_14400F = 771;
-
-const GPU_GTX_1660_SUPER = 650;
-const GPU_RTX_3050 = 1500;
-const GPU_RTX_5050 = 2300;
-const GPU_RX_7600 = 2500;
-const GPU_RTX_5060_TI = 4500;
-const GPU_RX_9060_XT = 3500;
-const GPU_RX_9070_XT = 4400;
-const GPU_RTX_5070_TI = 8000;
-
 const pcs = [
   {
     tag: "PC #01",
-    cpuGpu: "Ryzen 5 3600 + GTX 1660 Super 6GB",
-    specs: [
-      ["Procesor", "AMD Ryzen 5 3600"],
-      ["Placă video", "GTX 1660 Super 6GB"],
-      ["Memorie RAM", "16GB DDR4 3200MHz"],
-      ["Stocare", "500GB M.2 NVMe"],
-      ["Sursă", "550W"],
-      ["Cooler", "ProGaming Minifreeze"]
-    ],
-    images: [
-      "https://i.postimg.cc/Y9L0LTGx/image.png",
-      "https://i.postimg.cc/SQ8jSFbP/image.png"
-    ],
-    ytVideoId: "JBhTOSaK0ms",
-    oldPrice: 3600,
-    price: CPU_R5_3600 + GPU_GTX_1660_SUPER + MOBO_AM4_CHEAP + RAM_16GB_DDR4 + SSD_500GB + PSU_550W + BASE_COOLER_PRICE + PROFIT_MARGIN
-  },
-  {
-    tag: "PC #02",
-    cpuGpu: "Ryzen 5 5500 + RX 7600 8GB",
-    specs: [
-      ["Procesor", "AMD Ryzen 5 5500"],
-      ["Placă video", "Radeon RX 7600 8GB"],
-      ["Memorie RAM", "16GB DDR4 3200MHz"],
-      ["Stocare", "1TB M.2 NVMe"],
-      ["Sursă", "550W"],
-      ["Cooler", "ProGaming Minifreeze"]
-    ],
-    images: [
-      "https://i.postimg.cc/B62s03PF/image.png",
-      "https://i.postimg.cc/MKPCgHr6/image.png"
-    ],
-    ytVideoId: "djyLjOJzmu8",
-    oldPrice: 6050,
-    price: CPU_R5_5500 + GPU_RX_7600 + MOBO_AM4_CHEAP + RAM_16GB_DDR4 + SSD_1TB + PSU_550W + BASE_COOLER_PRICE + PROFIT_MARGIN
-  },
-  {
-    tag: "PC #03",
-    cpuGpu: "Core i5-12400F + RTX 5050 8GB",
-    specs: [
-      ["Procesor", "Intel Core i5-12400F"],
-      ["Placă video", "RTX 5050 8GB"],
-      ["Memorie RAM", "16GB DDR4 3200MHz"],
-      ["Stocare", "1TB M.2 NVMe"],
-      ["Sursă", "550W"],
-      ["Cooler", "ProGaming Minifreeze"]
-    ],
-    images: [
-      "https://i.postimg.cc/XY2YHn97/image.png",
-      "https://i.postimg.cc/wMVp1kVj/image.png"
-    ],
-    ytVideoId: "jJce8mHykvo",
-    oldPrice: 6000,
-    price: CPU_I5_12400F + GPU_RTX_5050 + MOBO_INTEL_ENTRY + RAM_16GB_DDR4 + SSD_1TB + PSU_550W + BASE_COOLER_PRICE + PROFIT_MARGIN
-  },
-  {
-    tag: "PC #04",
-    cpuGpu: "Ryzen 5 5600 + RTX 3050 8GB",
-    specs: [
-      ["Procesor", "AMD Ryzen 5 5600"],
-      ["Placă video", "RTX 3050 8GB"],
-      ["Memorie RAM", "16GB DDR4 3200MHz"],
-      ["Stocare", "1TB M.2 NVMe"],
-      ["Sursă", "550W"],
-      ["Cooler", "ProGaming Minifreeze"]
-    ],
-    images: [
-      "https://i.postimg.cc/XJ5NYFmP/image.png",
-      "https://i.postimg.cc/qvZpcjdC/image.png"
-    ],
-    ytVideoId: "Glt5luCu4DE",
-    oldPrice: 5000,
-    price: CPU_R5_5600 + GPU_RTX_3050 + MOBO_AM4_CHEAP + RAM_16GB_DDR4 + SSD_1TB + PSU_550W + BASE_COOLER_PRICE + PROFIT_MARGIN
-  },
-  {
-    tag: "PC #05",
-    cpuGpu: "Ryzen 5 7600 + RX 9060 XT 16GB",
-    specs: [
-      ["Procesor", "AMD Ryzen 5 7600"],
-      ["Placă video", "RX 9060 XT 16GB"],
-      ["Memorie RAM", "32GB DDR5 6000MHz"],
-      ["Stocare", "1TB M.2 NVMe"],
-      ["Sursă", "650W"],
-      ["Cooler", "ProGaming Minifreeze"]
-    ],
-    images: [
-      "https://i.postimg.cc/ZnDwsBYP/image.png",
-      "https://i.postimg.cc/63cjRbkX/image.png"
-    ],
-    ytVideoId: "D_Q_qTM_xh0",
-    oldPrice: 10500,
-    price: CPU_R5_7600 + GPU_RX_9060_XT + MOBO_AM5_DDR5 + RAM_32GB_DDR5 + SSD_1TB + PSU_650W + BASE_COOLER_PRICE + PROFIT_MARGIN
-  },
-  {
-    tag: "PC #06",
-    cpuGpu: "Core i5-14400F + RTX 5060 Ti 16GB",
-    specs: [
-      ["Procesor", "Intel Core i5-14400F"],
-      ["Placă video", "RTX 5060 Ti 16GB"],
-      ["Memorie RAM", "16GB DDR4 3200MHz"],
-      ["Stocare", "1TB M.2 NVMe"],
-      ["Sursă", "650W"],
-      ["Cooler", "ProGaming Minifreeze"]
-    ],
-    images: [
-      "https://i.postimg.cc/xTcxJRgh/image.png",
-      "https://i.postimg.cc/02FtpwB0/image.png"
-    ],
-    ytVideoId: "0NJirlRMIjU",
-    oldPrice: 8850,
-    price: CPU_I5_14400F + GPU_RTX_5060_TI + MOBO_INTEL_B760 + RAM_16GB_DDR4 + SSD_1TB + PSU_650W + BASE_COOLER_PRICE + PROFIT_MARGIN
-  },
-  {
-    tag: "PC #07",
-    cpuGpu: "Ryzen 7 7800X3D + RX 9070 XT 16GB",
-    specs: [
-      ["Procesor", "AMD Ryzen 7 7800X3D"],
-      ["Placă video", "RX 9070 XT 16GB"],
-      ["Memorie RAM", "32GB DDR5 6000MHz"],
-      ["Stocare", "1TB M.2 NVMe"],
-      ["Sursă", "850W"],
-      ["Cooler", "ProGaming Minifreeze"]
-    ],
-    images: [
-      "https://i.postimg.cc/gcB4Whds/image.png",
-      "https://i.postimg.cc/Cxb4k68C/image.png"
-    ],
-    ytVideoId: "oSMwfU9ROp4",
-    oldPrice: 12350,
-    price: CPU_R7_7800X3D + GPU_RX_9070_XT + MOBO_AM5_DDR5 + RAM_32GB_DDR5 + SSD_1TB + PSU_850W + BASE_COOLER_PRICE + PROFIT_MARGIN
-  },
-  {
-    tag: "PC #08",
-    cpuGpu: "Ryzen 7 9800X3D + RTX 5070 Ti 16GB",
-    specs: [
-      ["Procesor", "AMD Ryzen 7 9800X3D"],
-      ["Placă video", "RTX 5070 Ti 16GB"],
-      ["Memorie RAM", "32GB DDR5 6000MHz"],
-      ["Stocare", "1TB M.2 NVMe"],
-      ["Sursă", "1000W"],
-      ["Cooler", "ProGaming Minifreeze"]
-    ],
-    images: [
-      "https://i.postimg.cc/Cxb4k68C/image.png",
-      "https://i.postimg.cc/gcB4Whds/image.png"
-    ],
-    ytVideoId: "oAwGkpgAcoM",
-    oldPrice: 17400,
-    price: CPU_R7_9800X3D + GPU_RTX_5070_TI + MOBO_AM5_DDR5 + RAM_32GB_DDR5 + SSD_1TB + PSU_1000W + BASE_COOLER_PRICE + PROFIT_MARGIN
-  },
-  {
-    tag: "PC #09",
     cpuGpu: "ER1K Budget Gamer — Ryzen 5 2600 + RX 580 8GB",
     specs: [
       ["Procesor", "Ryzen 5 2600"],
@@ -725,11 +540,11 @@ const pcs = [
       "https://i.postimg.cc/SQ8jSFbP/image.png"
     ],
     ytVideoId: "JBhTOSaK0ms",
-    oldPrice: 3145,
+    oldPrice: 2795 + 350,
     price: 2795
   },
   {
-    tag: "PC #10",
+    tag: "PC #02",
     cpuGpu: "ER1K Entry Gamer — Ryzen 5 3600 + GTX 1660 Super 6GB",
     specs: [
       ["Procesor", "Ryzen 5 3600"],
@@ -746,11 +561,11 @@ const pcs = [
       "https://i.postimg.cc/MKPCgHr6/image.png"
     ],
     ytVideoId: "JBhTOSaK0ms",
-    oldPrice: 3845,
+    oldPrice: 3495 + 350,
     price: 3495
   },
   {
-    tag: "PC #11",
+    tag: "PC #03",
     cpuGpu: "ER1K Advanced Gamer — Ryzen 5 5500 + RX 5600 XT 6GB",
     specs: [
       ["Procesor", "Ryzen 5 5500"],
@@ -767,11 +582,11 @@ const pcs = [
       "https://i.postimg.cc/wMVp1kVj/image.png"
     ],
     ytVideoId: "djyLjOJzmu8",
-    oldPrice: 3945,
+    oldPrice: 3595 + 350,
     price: 3595
   },
   {
-    tag: "PC #12",
+    tag: "PC #04",
     cpuGpu: "ER1K Performance Gamer — Ryzen 5 5600 + RX 6600 8GB",
     specs: [
       ["Procesor", "Ryzen 5 5600"],
@@ -788,11 +603,11 @@ const pcs = [
       "https://i.postimg.cc/qvZpcjdC/image.png"
     ],
     ytVideoId: "Glt5luCu4DE",
-    oldPrice: 4445,
+    oldPrice: 4095 + 350,
     price: 4095
   },
   {
-    tag: "PC #13",
+    tag: "PC #05",
     cpuGpu: "ER1K Ultimate Gamer — Ryzen 5 5600 + RX 6700 XT 12GB",
     specs: [
       ["Procesor", "Ryzen 5 5600"],
@@ -809,7 +624,7 @@ const pcs = [
       "https://i.postimg.cc/63cjRbkX/image.png"
     ],
     ytVideoId: "D_Q_qTM_xh0",
-    oldPrice: 5145,
+    oldPrice: 4795 + 350,
     price: 4795
   }
 ];
@@ -825,7 +640,7 @@ function renderGrid(){
     <article class="pc-card" onclick="openDetail(${i})">
       <div class="thumb">
         <span class="tag">${safe(pc.tag)}</span>
-        <span class="sale-badge">REDUCERE</span>
+        ${pc.oldPrice ? `<span class="sale-badge">REDUCERE</span>` : ""}
         <img src="${safe(pc.images[0] || "")}" alt="${safe(pc.cpuGpu)}">
       </div>
       <div class="body">
