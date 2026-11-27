@@ -5,28 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ER1K PC BUILDS — Custom Gaming PCs</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
 
 :root {
   --bg: #08090c;
   --surface: #0e1015;
   --surface-2: #14171f;
-  --surface-hover: #181c26;
-  --border: rgba(255, 255, 255, 0.08);
-  --border-strong: rgba(255, 255, 255, 0.16);
-  --text: #f5f7fa;
-  --muted: #9aa2b2;
-  --soft: #6a7282;
-  --accent: #e2e8f0;
+  --border: rgba(255, 255, 255, 0.09);
+  --border-strong: rgba(255, 255, 255, 0.18);
+  --text: #f6f8fb;
+  --muted: #a1a9b8;
+  --soft: #6e7687;
   --accent-pure: #ffffff;
   --emerald: #2ee59d;
-  --emerald-bg: rgba(46, 229, 157, 0.11);
-  --gold: #f5b942;
-  --gold-bg: rgba(245, 185, 66, 0.12);
-  --rose: #ff5c7c;
-  --rose-bg: rgba(255, 92, 124, 0.14);
-  --blue: #5ea2ff;
-  --blue-bg: rgba(94, 162, 255, 0.14);
+  --gold: #ffc13b;
+  --rose: #ff477e;
+  --blue: #38bdf8;
 }
 
 * {
@@ -41,11 +35,12 @@ body {
   margin: 0;
   background:
     radial-gradient(ellipse 75% 45% at 50% -8%, rgba(255, 255, 255, 0.06), transparent 65%),
-    radial-gradient(circle at 85% 18%, rgba(94, 162, 255, 0.05), transparent 40%),
-    radial-gradient(circle at 12% 35%, rgba(46, 229, 157, 0.04), transparent 40%),
+    radial-gradient(circle at 85% 18%, rgba(56, 189, 248, 0.05), transparent 40%),
+    radial-gradient(circle at 12% 35%, rgba(46, 229, 157, 0.045), transparent 40%),
     var(--bg);
   color: var(--text);
   font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-variant-numeric: tabular-nums;
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
 }
@@ -106,19 +101,20 @@ button {
 }
 
 .perk-dot {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background: var(--emerald);
+  box-shadow: 0 0 8px rgba(46, 229, 157, 0.7);
 }
 
 .perk-tag {
-  font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
+  font-weight: 700;
   color: var(--text);
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid var(--border);
-  padding: 2px 8px;
+  padding: 2px 9px;
   border-radius: 999px;
 }
 
@@ -127,7 +123,7 @@ header {
   position: sticky;
   top: 0;
   z-index: 30;
-  background: rgba(8, 9, 12, 0.78);
+  background: rgba(8, 9, 12, 0.8);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border-bottom: 1px solid var(--border);
@@ -154,15 +150,14 @@ header {
   width: 34px;
   height: 34px;
   border-radius: 10px;
-  background: linear-gradient(145deg, #1a1e29, #0d0f14);
+  background: linear-gradient(145deg, #1d2230, #0d0f14);
   border: 1px solid var(--border-strong);
   display: grid;
   place-items: center;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  font-weight: 700;
+  font-size: 12.5px;
+  font-weight: 800;
   color: var(--accent-pure);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
 }
 
 .brand-sub {
@@ -179,12 +174,8 @@ header {
   align-items: center;
   gap: 24px;
   font-size: 13.5px;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--muted);
-}
-
-.nav a {
-  transition: color 0.18s ease;
 }
 
 .nav a:hover {
@@ -192,23 +183,23 @@ header {
 }
 
 .hdr-cta {
-  padding: 9px 15px;
+  padding: 9px 16px;
   border-radius: 999px;
   background: var(--text);
   color: #08090c !important;
-  font-weight: 700;
+  font-weight: 800;
   font-size: 12.5px;
   transition: transform 0.18s ease, opacity 0.18s ease;
 }
 
 .hdr-cta:hover {
   transform: translateY(-1px);
-  opacity: 0.92;
+  opacity: 0.94;
 }
 
 /* HERO */
 .hero {
-  padding: 64px 0 34px;
+  padding: 58px 0 28px;
   text-align: center;
 }
 
@@ -221,11 +212,11 @@ header {
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--border);
   font-size: 11.5px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
+  font-weight: 700;
+  letter-spacing: 0.09em;
   text-transform: uppercase;
   color: var(--muted);
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .hero-eyebrow span {
@@ -235,28 +226,27 @@ header {
 .hero h1 {
   margin: 0 auto 14px;
   max-width: 780px;
-  font-size: clamp(36px, 5.5vw, 62px);
-  font-weight: 800;
+  font-size: clamp(36px, 5.4vw, 60px);
+  font-weight: 900;
   line-height: 1.04;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.03em;
   color: var(--accent-pure);
 }
 
 .hero h1 em {
   font-style: normal;
-  background: linear-gradient(120deg, #ffffff 10%, #9aa2b2 55%, #2ee59d 100%);
+  background: linear-gradient(120deg, #ffffff 15%, #b2bac9 58%, #2ee59d 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
 .hero p {
-  margin: 0 auto 28px;
+  margin: 0 auto 24px;
   max-width: 560px;
   font-size: 15px;
   line-height: 1.65;
   color: var(--muted);
-  font-weight: 400;
 }
 
 /* FILTER BAR */
@@ -266,7 +256,7 @@ header {
   justify-content: space-between;
   gap: 14px;
   flex-wrap: wrap;
-  padding-bottom: 22px;
+  padding-bottom: 20px;
   margin-bottom: 26px;
   border-bottom: 1px solid var(--border);
 }
@@ -279,19 +269,20 @@ header {
 }
 
 .filter-btn {
-  padding: 8px 15px;
+  padding: 9px 15px;
   border-radius: 999px;
   border: 1px solid var(--border);
   background: var(--surface);
   color: var(--muted);
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   transition: all 0.18s ease;
 }
 
 .filter-btn:hover {
   border-color: var(--border-strong);
   color: var(--text);
+  transform: translateY(-1px);
 }
 
 .filter-btn.active {
@@ -301,8 +292,8 @@ header {
 }
 
 .catalog-meta {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
+  font-size: 12.5px;
+  font-weight: 600;
   color: var(--soft);
 }
 
@@ -314,14 +305,14 @@ header {
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  gap: 22px;
 }
 
 .pc-card {
   position: relative;
-  background: linear-gradient(180deg, rgba(20, 23, 31, 0.92) 0%, rgba(12, 14, 20, 0.98) 100%);
+  background: linear-gradient(180deg, rgba(21, 24, 33, 0.94) 0%, rgba(12, 14, 20, 0.99) 100%);
   border: 1px solid var(--border);
-  border-radius: 16px;
+  border-radius: 18px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -329,24 +320,27 @@ header {
 }
 
 .pc-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-5px);
   border-color: var(--border-strong);
-  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.55);
+  box-shadow: 0 24px 52px rgba(0, 0, 0, 0.6);
 }
 
 .pc-card.popular {
-  border-color: rgba(245, 185, 66, 0.35);
-  background: linear-gradient(180deg, rgba(28, 25, 19, 0.92) 0%, rgba(12, 14, 20, 0.98) 100%);
+  border: 1.5px solid rgba(255, 193, 59, 0.55);
+  background: linear-gradient(180deg, rgba(31, 26, 17, 0.95) 0%, rgba(13, 15, 22, 0.99) 100%);
+  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.5), 0 0 28px rgba(255, 193, 59, 0.14);
 }
 
 .pc-card.popular:hover {
-  border-color: rgba(245, 185, 66, 0.65);
-  box-shadow: 0 24px 54px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(245, 185, 66, 0.14);
+  border-color: rgba(255, 208, 96, 0.85);
+  box-shadow: 0 24px 56px rgba(0, 0, 0, 0.65), 0 0 36px rgba(255, 193, 59, 0.24);
 }
 
+/* HIGHER CARD IMAGE FOR FULL PC FRAMING */
 .thumb {
   position: relative;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 4 / 5;
+  min-height: 340px;
   background: #090b0f;
   overflow: hidden;
   border-bottom: 1px solid var(--border);
@@ -356,7 +350,7 @@ header {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(8, 9, 12, 0.45) 0%, transparent 38%, rgba(8, 9, 12, 0.55) 100%);
+  background: linear-gradient(180deg, rgba(8, 9, 12, 0.42) 0%, transparent 32%, rgba(8, 9, 12, 0.58) 100%);
   pointer-events: none;
 }
 
@@ -364,12 +358,13 @@ header {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
   display: block;
   transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .pc-card:hover .thumb img {
-  transform: scale(1.04);
+  transform: scale(1.035);
 }
 
 .top-left-stack {
@@ -378,34 +373,35 @@ header {
   left: 12px;
   z-index: 2;
   display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 7px;
 }
 
 .code-pill {
-  font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 800;
+  letter-spacing: 0.04em;
   color: var(--text);
-  background: rgba(8, 9, 12, 0.78);
+  background: rgba(8, 9, 12, 0.82);
   backdrop-filter: blur(8px);
   border: 1px solid var(--border-strong);
-  padding: 5px 10px;
+  padding: 5px 11px;
   border-radius: 999px;
 }
 
+/* LOUD POPULAR BADGE */
 .pop-pill {
-  font-size: 10.5px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
+  font-size: 11.5px;
+  font-weight: 900;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: var(--gold);
-  background: rgba(16, 14, 9, 0.85);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(245, 185, 66, 0.4);
-  padding: 5px 10px;
+  color: #150e02;
+  background: linear-gradient(135deg, #ffd15c, #ff8c1a);
+  border: 1px solid #ffe7a3;
+  padding: 6px 12px;
   border-radius: 999px;
+  box-shadow: 0 6px 20px rgba(255, 174, 36, 0.48);
 }
 
 .right-badges {
@@ -416,31 +412,33 @@ header {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 6px;
+  gap: 7px;
 }
 
 .disc-pill {
-  font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
-  font-weight: 700;
-  color: #ff9bb0;
-  background: rgba(25, 10, 15, 0.86);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 92, 124, 0.38);
-  padding: 4px 9px;
+  font-weight: 800;
+  color: #ffffff;
+  background: linear-gradient(135deg, #ff4d7d, #d9265a);
+  border: 1px solid rgba(255, 168, 193, 0.65);
+  padding: 5px 10px;
   border-radius: 999px;
+  box-shadow: 0 5px 16px rgba(255, 77, 125, 0.4);
 }
 
+/* LOUD 32GB RAM & 1TB SSD BADGES */
 .spec-pill {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10.5px;
-  font-weight: 700;
-  color: #9ec5ff;
-  background: rgba(10, 18, 32, 0.86);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(94, 162, 255, 0.36);
-  padding: 4px 9px;
+  font-size: 11.5px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: linear-gradient(135deg, #38bdf8, #2563eb);
+  border: 1.5px solid #bae6fd;
+  padding: 6px 12px;
   border-radius: 999px;
+  box-shadow: 0 6px 20px rgba(56, 189, 248, 0.5);
+  white-space: nowrap;
 }
 
 .body {
@@ -453,9 +451,9 @@ header {
 
 .title {
   margin: 0;
-  font-size: 17px;
-  font-weight: 700;
-  line-height: 1.32;
+  font-size: 17.5px;
+  font-weight: 800;
+  line-height: 1.3;
   letter-spacing: -0.015em;
   color: var(--accent-pure);
 }
@@ -469,12 +467,19 @@ header {
 
 .mini-chip {
   font-size: 11.5px;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--muted);
-  background: rgba(255, 255, 255, 0.035);
+  background: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--border);
   padding: 4px 9px;
   border-radius: 7px;
+}
+
+.mini-chip.highlight {
+  color: #ffffff;
+  font-weight: 800;
+  background: rgba(56, 189, 248, 0.16);
+  border-color: rgba(125, 211, 252, 0.55);
 }
 
 .bottom-row {
@@ -494,28 +499,27 @@ header {
 }
 
 .old-price {
-  font-size: 12px;
+  font-size: 12.5px;
   font-weight: 600;
   color: var(--soft);
   text-decoration: line-through;
 }
 
 .new-price {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 19px;
-  font-weight: 700;
+  font-size: 20px;
+  font-weight: 900;
   color: var(--emerald);
   letter-spacing: -0.02em;
 }
 
 .btn-vezi {
-  padding: 10px 16px;
+  padding: 10px 17px;
   border-radius: 10px;
   border: 1px solid var(--border-strong);
   background: var(--surface-2);
   color: var(--accent-pure);
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 800;
   transition: all 0.18s ease;
   white-space: nowrap;
 }
@@ -542,7 +546,7 @@ header {
   background: var(--surface);
   color: var(--muted);
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: 24px;
   transition: all 0.18s ease;
 }
@@ -564,7 +568,8 @@ header {
 }
 
 .gallery-main {
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 4 / 5;
+  max-height: 520px;
   width: 100%;
   border-radius: 14px;
   overflow: hidden;
@@ -579,6 +584,7 @@ header {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
   display: block;
 }
 
@@ -591,7 +597,7 @@ header {
 
 .thumb-btn {
   width: 68px;
-  height: 54px;
+  height: 60px;
   padding: 3px;
   border-radius: 9px;
   border: 1.5px solid var(--border);
@@ -619,43 +625,45 @@ header {
 }
 
 .detail-code {
-  font-family: 'JetBrains Mono', monospace;
   font-size: 11.5px;
-  font-weight: 700;
+  font-weight: 800;
   color: var(--muted);
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--border);
-  padding: 4px 10px;
+  padding: 5px 11px;
   border-radius: 999px;
 }
 
 .detail-pop {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.05em;
+  font-size: 11.5px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--gold);
-  background: var(--gold-bg);
-  border: 1px solid rgba(245, 185, 66, 0.35);
-  padding: 4px 10px;
+  color: #150e02;
+  background: linear-gradient(135deg, #ffd15c, #ff8c1a);
+  border: 1px solid #ffe7a3;
+  padding: 5px 12px;
   border-radius: 999px;
+  box-shadow: 0 4px 16px rgba(255, 174, 36, 0.4);
 }
 
 .detail-bonus {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  font-weight: 700;
-  color: #9ec5ff;
-  background: var(--blue-bg);
-  border: 1px solid rgba(94, 162, 255, 0.35);
-  padding: 4px 10px;
+  font-size: 11.5px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: linear-gradient(135deg, #38bdf8, #2563eb);
+  border: 1px solid #bae6fd;
+  padding: 5px 12px;
   border-radius: 999px;
+  box-shadow: 0 4px 16px rgba(56, 189, 248, 0.42);
 }
 
 .info-title {
   margin: 12px 0 20px;
   font-size: clamp(24px, 3.2vw, 34px);
-  font-weight: 800;
+  font-weight: 900;
   letter-spacing: -0.025em;
   line-height: 1.15;
   color: var(--accent-pure);
@@ -670,10 +678,9 @@ header {
 }
 
 .config-head {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--soft);
   margin-bottom: 12px;
@@ -687,7 +694,7 @@ header {
   padding: 0;
   display: grid;
   gap: 10px;
-  font-size: 14px;
+  font-size: 14.5px;
 }
 
 .spec-list li {
@@ -711,13 +718,13 @@ header {
 
 .spec-list strong {
   color: var(--accent-pure);
-  font-weight: 600;
+  font-weight: 700;
   text-align: right;
 }
 
 .price-box {
   background: linear-gradient(135deg, rgba(46, 229, 157, 0.08), rgba(20, 23, 31, 0.95));
-  border: 1px solid rgba(46, 229, 157, 0.32);
+  border: 1px solid rgba(46, 229, 157, 0.34);
   border-radius: 14px;
   padding: 16px 20px;
   margin-bottom: 16px;
@@ -729,7 +736,7 @@ header {
 
 .price-label {
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--muted);
@@ -750,11 +757,10 @@ header {
 }
 
 .detail-price {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 30px;
-  font-weight: 700;
+  font-size: 32px;
+  font-weight: 900;
   color: var(--emerald);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
 }
 
 .wa-btn {
@@ -795,7 +801,7 @@ header {
 .bench-top h2 {
   margin: 0;
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 800;
   color: var(--accent-pure);
 }
 
@@ -853,6 +859,9 @@ footer {
 @media (max-width: 640px) {
   .grid {
     grid-template-columns: 1fr;
+  }
+  .thumb {
+    min-height: 360px;
   }
   .hdr {
     height: 64px;
@@ -915,10 +924,12 @@ footer {
       <div class="wrap">
         <div class="filter-bar">
           <div class="filter-tabs" id="filterTabs">
-            <button type="button" class="filter-btn active" data-filter="all" onclick="setFilter('all', this)">Toate sistemele</button>
-            <button type="button" class="filter-btn" data-filter="popular" onclick="setFilter('popular', this)">Cele mai populare</button>
-            <button type="button" class="filter-btn" data-filter="32gb" onclick="setFilter('32gb', this)">32GB RAM</button>
-            <button type="button" class="filter-btn" data-filter="1tb" onclick="setFilter('1tb', this)">1TB SSD</button>
+            <button type="button" class="filter-btn active" data-filter="all" onclick="setFilter('all', this)">Toate</button>
+            <button type="button" class="filter-btn" data-filter="popular" onclick="setFilter('popular', this)">★ Populare</button>
+            <button type="button" class="filter-btn" data-filter="nvidia" onclick="setFilter('nvidia', this)">NVIDIA</button>
+            <button type="button" class="filter-btn" data-filter="amd" onclick="setFilter('amd', this)">AMD</button>
+            <button type="button" class="filter-btn" data-filter="32gb" onclick="setFilter('32gb', this)">⚡ 32GB RAM</button>
+            <button type="button" class="filter-btn" data-filter="1tb" onclick="setFilter('1tb', this)">🚀 1TB SSD</button>
           </div>
           <div class="catalog-meta" id="catalogCount">15 configurații</div>
         </div>
@@ -1000,7 +1011,7 @@ const pcs = [
     images: [
       "https://i.postimg.cc/Y9L0LTGx/image.png"
     ],
-    ytVideoId: "",
+    ytVideoId: "xTI1xa3pnoc",
     oldPrice: 3749,
     price: 3549
   },
@@ -1020,7 +1031,7 @@ const pcs = [
     images: [
       "https://i.postimg.cc/XY2YHn97/image.png"
     ],
-    ytVideoId: "",
+    ytVideoId: "3hRa0_pUAOg",
     oldPrice: 4699,
     price: 4049
   },
@@ -1041,7 +1052,7 @@ const pcs = [
     images: [
       "https://i.postimg.cc/qvZpcjdC/image.png"
     ],
-    ytVideoId: "",
+    ytVideoId: "rcEhkrbnMGw",
     oldPrice: 5349,
     price: 4899
   },
@@ -1061,7 +1072,7 @@ const pcs = [
     images: [
       "https://i.postimg.cc/L8hpsLZ8/image.png"
     ],
-    ytVideoId: "",
+    ytVideoId: "LC-I1dQf-yQ",
     oldPrice: 6499,
     price: 5749
   },
@@ -1082,7 +1093,7 @@ const pcs = [
     images: [
       "https://i.postimg.cc/B62s03PF/image.png"
     ],
-    ytVideoId: "",
+    ytVideoId: "eeQDLanVmlc",
     oldPrice: 5299,
     price: 4199
   },
@@ -1100,9 +1111,9 @@ const pcs = [
       ["Sistem de operare", "Windows 11 Pro"]
     ],
     images: [
-      "https://i.postimg.cc/B62s03PF/image.png"
+      "https://i.postimg.cc/L8hpsLZ8/image.png"
     ],
-    ytVideoId: "",
+    ytVideoId: "u0THShw6EKM",
     oldPrice: 4999,
     price: 4399
   },
@@ -1120,9 +1131,9 @@ const pcs = [
       ["Sistem de operare", "Windows 11 Pro"]
     ],
     images: [
-      "https://i.postimg.cc/B62s03PF/image.png"
+      "https://i.postimg.cc/qvZpcjdC/image.png"
     ],
-    ytVideoId: "",
+    ytVideoId: "bE7bRFT7Tvs",
     oldPrice: 5399,
     price: 4699
   },
@@ -1140,9 +1151,9 @@ const pcs = [
       ["Sistem de operare", "Windows 11 Pro"]
     ],
     images: [
-      "https://i.postimg.cc/B62s03PF/image.png"
+      "https://i.postimg.cc/Y9L0LTGx/image.png"
     ],
-    ytVideoId: "",
+    ytVideoId: "nPXBJt8Nshk",
     oldPrice: 5199,
     price: 4199
   },
@@ -1160,9 +1171,9 @@ const pcs = [
       ["Sistem de operare", "Windows 11 Pro"]
     ],
     images: [
-      "https://i.postimg.cc/B62s03PF/image.png"
+      "https://i.postimg.cc/XY2YHn97/image.png"
     ],
-    ytVideoId: "",
+    ytVideoId: "FdvqUie4Im8",
     oldPrice: 4999,
     price: 4549
   },
@@ -1180,9 +1191,9 @@ const pcs = [
       ["Sistem de operare", "Windows 11 Pro"]
     ],
     images: [
-      "https://i.postimg.cc/B62s03PF/image.png"
+      "https://i.postimg.cc/L8hpsLZ8/image.png"
     ],
-    ytVideoId: "",
+    ytVideoId: "3nCGp2UqHXk",
     oldPrice: 5599,
     price: 4849
   },
@@ -1200,9 +1211,9 @@ const pcs = [
       ["Sistem de operare", "Windows 11 Pro"]
     ],
     images: [
-      "https://i.postimg.cc/B62s03PF/image.png"
+      "https://i.postimg.cc/XY2YHn97/image.png"
     ],
-    ytVideoId: "",
+    ytVideoId: "iXPOXBc8Uf8",
     oldPrice: 6599,
     price: 5999
   },
@@ -1220,9 +1231,9 @@ const pcs = [
       ["Sistem de operare", "Windows 11 Pro"]
     ],
     images: [
-      "https://i.postimg.cc/B62s03PF/image.png"
+      "https://i.postimg.cc/qvZpcjdC/image.png"
     ],
-    ytVideoId: "",
+    ytVideoId: "ud3C22qsBpU",
     oldPrice: 7599,
     price: 6699
   },
@@ -1240,9 +1251,9 @@ const pcs = [
       ["Sistem de operare", "Windows 11 Pro"]
     ],
     images: [
-      "https://i.postimg.cc/B62s03PF/image.png"
+      "https://i.postimg.cc/L8hpsLZ8/image.png"
     ],
-    ytVideoId: "",
+    ytVideoId: "QMrHP2Edxw0",
     oldPrice: 4799,
     price: 4049
   },
@@ -1260,9 +1271,9 @@ const pcs = [
       ["Sistem de operare", "Windows 11 Pro"]
     ],
     images: [
-      "https://i.postimg.cc/B62s03PF/image.png"
+      "https://i.postimg.cc/Y9L0LTGx/image.png"
     ],
-    ytVideoId: "",
+    ytVideoId: "Z3AhW23zq8E",
     oldPrice: 5199,
     price: 4449
   },
@@ -1281,9 +1292,9 @@ const pcs = [
       ["Sistem de operare", "Windows 11 Pro"]
     ],
     images: [
-      "https://i.postimg.cc/B62s03PF/image.png"
+      "https://i.postimg.cc/XY2YHn97/image.png"
     ],
-    ytVideoId: "",
+    ytVideoId: "vnynIFzIZZc",
     oldPrice: 7899,
     price: 6899
   }
@@ -1315,6 +1326,19 @@ function has1TbSsd(pc) {
   return pc.specs.some(([k, v]) => /stocare|ssd|nvme/i.test(k) && /1\s*tb/i.test(v));
 }
 
+function getGpuText(pc) {
+  const gpuSpec = pc.specs.find(([k]) => /plac[ăa]\s*video|gpu/i.test(k));
+  return `${pc.cpuGpu} ${gpuSpec ? gpuSpec[1] : ""}`;
+}
+
+function isNvidia(pc) {
+  return /\b(rtx|gtx|geforce|nvidia)\b/i.test(getGpuText(pc));
+}
+
+function isAmd(pc) {
+  return /\b(rx|radeon|amd)\b/i.test(getGpuText(pc));
+}
+
 function getDiscountPct(pc) {
   if (!pc.oldPrice || pc.oldPrice <= pc.price) return 0;
   return Math.round(((pc.oldPrice - pc.price) / pc.oldPrice) * 100);
@@ -1322,8 +1346,8 @@ function getDiscountPct(pc) {
 
 function getBonusBadges(pc) {
   const list = [];
-  if (has32Ram(pc)) list.push("32GB RAM");
-  if (has1TbSsd(pc)) list.push("1TB SSD");
+  if (has32Ram(pc)) list.push("⚡ 32GB RAM");
+  if (has1TbSsd(pc)) list.push("🚀 1TB SSD");
   return list;
 }
 
@@ -1348,6 +1372,8 @@ function setFilter(filterKey, btnEl) {
 function renderGrid() {
   const ordered = getOrderedPCs().filter(({ pc }) => {
     if (activeFilter === "popular") return Boolean(pc.popular);
+    if (activeFilter === "nvidia") return isNvidia(pc);
+    if (activeFilter === "amd") return isAmd(pc);
     if (activeFilter === "32gb") return has32Ram(pc);
     if (activeFilter === "1tb") return has1TbSsd(pc);
     return true;
@@ -1367,7 +1393,7 @@ function renderGrid() {
         <div class="thumb">
           <div class="top-left-stack">
             <span class="code-pill">${safe(pc.tag)}</span>
-            ${pc.popular ? `<span class="pop-pill">★ Popular</span>` : ""}
+            ${pc.popular ? `<span class="pop-pill">★ POPULÁR</span>` : ""}
           </div>
           <div class="right-badges">
             ${pct > 0 ? `<span class="disc-pill">-${pct}%</span>` : ""}
@@ -1378,8 +1404,8 @@ function renderGrid() {
         <div class="body">
           <h2 class="title">${safe(pc.cpuGpu)}</h2>
           <div class="mini-specs">
-            ${ramVal ? `<span class="mini-chip">${safe(ramVal)}</span>` : ""}
-            ${ssdVal ? `<span class="mini-chip">${safe(ssdVal)}</span>` : ""}
+            ${ramVal ? `<span class="mini-chip ${has32Ram(pc) ? "highlight" : ""}">${safe(ramVal)}</span>` : ""}
+            ${ssdVal ? `<span class="mini-chip ${has1TbSsd(pc) ? "highlight" : ""}">${safe(ssdVal)}</span>` : ""}
             <span class="mini-chip">Win 11 Pro</span>
           </div>
           <div class="bottom-row">
@@ -1428,7 +1454,7 @@ function renderDetail() {
 
   document.getElementById("dTagRow").innerHTML = `
     <span class="detail-code">${safe(pc.tag)}</span>
-    ${pc.popular ? `<span class="detail-pop">★ Recomandat</span>` : ""}
+    ${pc.popular ? `<span class="detail-pop">★ POPULÁR</span>` : ""}
     ${pct > 0 ? `<span class="detail-bonus">-${pct}%</span>` : ""}
     ${bonuses.map(b => `<span class="detail-bonus">${safe(b)}</span>`).join("")}
   `;
