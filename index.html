@@ -19,6 +19,7 @@
   --mint:#34e5a4;
   --cyan:#47c8ff;
   --old:#ff5c8a;
+  --gold:#ffb830;
 }
 *{box-sizing:border-box}
 body{
@@ -91,6 +92,22 @@ header{
   transform:translateY(-5px);
   box-shadow:0 20px 44px #00000099,0 0 26px #9b6bff2e;
 }
+
+/* POPULAR CARD HIGHLIGHT */
+.pc-card.popular{
+  border:1.5px solid #ffb830;
+  background:linear-gradient(180deg,#241f38 0%,#151829 58%,#101320 100%);
+  box-shadow:0 16px 38px #00000088,0 0 28px #ffb83033;
+}
+.pc-card.popular::before{
+  height:4px;
+  background:linear-gradient(90deg,#ffb830,#ff6b3d,#9b6bff);
+}
+.pc-card.popular:hover{
+  border-color:#ffd06b;
+  box-shadow:0 22px 48px #000000aa,0 0 36px #ffb83055;
+}
+
 .thumb{
   position:relative;
   aspect-ratio:4/5;
@@ -119,6 +136,23 @@ header{
   padding:5px 11px;
   border-radius:999px;
   box-shadow:0 4px 14px #00000077;
+  z-index:2;
+}
+.popular-badge{
+  position:absolute;
+  top:12px;
+  left:12px;
+  background:linear-gradient(135deg,#ffb830,#ff6b2b);
+  color:#120d04;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.9px;
+  padding:6px 12px;
+  border-radius:999px;
+  box-shadow:0 6px 18px #ffb83066;
+  border:1px solid #ffe08a;
+  z-index:3;
+  text-transform:uppercase;
 }
 .sale-badge{
   position:absolute;
@@ -132,6 +166,7 @@ header{
   padding:5px 10px;
   border-radius:999px;
   box-shadow:0 4px 14px #ff4d7d55;
+  z-index:2;
 }
 
 .body{padding:18px;display:flex;flex-direction:column;flex:1;gap:14px}
@@ -264,6 +299,12 @@ header{
 }
 .thumb-btn img{width:100%;height:100%;object-fit:contain;display:block;border-radius:6px}
 
+.tag-row{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+}
 .info-tag{
   display:inline-block;
   font-size:12px;
@@ -274,6 +315,18 @@ header{
   background:#47c8ff16;
   border:1px solid #47c8ff44;
   padding:4px 10px;
+  border-radius:999px;
+}
+.info-popular{
+  display:inline-block;
+  font-size:11.5px;
+  font-weight:900;
+  letter-spacing:1px;
+  color:#120d04;
+  text-transform:uppercase;
+  background:linear-gradient(135deg,#ffb830,#ff6b2b);
+  border:1px solid #ffe08a;
+  padding:4px 11px;
   border-radius:999px;
 }
 .info-title{
@@ -478,7 +531,10 @@ footer{
       </div>
 
       <div>
-        <span class="info-tag" id="dTag">PC #01</span>
+        <div class="tag-row">
+          <span class="info-tag" id="dTag">PC #01</span>
+          <span class="info-popular" id="dPopular" style="display:none">★ CEL MAI POPULAR</span>
+        </div>
         <h1 class="info-title" id="dTitle">PC</h1>
 
         <div class="config-box">
@@ -524,6 +580,26 @@ const WHATSAPP_NUMBER = "40771103552";
 const pcs = [
   {
     tag: "PC #01",
+    popular: true,
+    cpuGpu: "AMD Ryzen 5 8400F + RTX 5060 8GB",
+    specs: [
+      ["Procesor", "AMD Ryzen 5 8400F"],
+      ["Placă video", "RTX 5060 8GB"],
+      ["Memorie RAM", "16GB DDR5"],
+      ["Placă de bază", "B650 Gigabyte D3HP"],
+      ["Stocare", "1TB SSD"],
+      ["Sursă", "MSI MAG 600W"],
+      ["Sistem de operare", "Windows 11 activat cu licență"]
+    ],
+    images: [
+      "https://i.postimg.cc/yxLMffKk/image.png"
+    ],
+    ytVideoId: "OICRHgDnqsY",
+    oldPrice: null,
+    price: 7799
+  },
+  {
+    tag: "PC #02",
     cpuGpu: "Ryzen 5 5600 + Intel Arc B570 10GB",
     specs: [
       ["Procesor", "Ryzen 5 5600"],
@@ -542,6 +618,25 @@ const pcs = [
     ytVideoId: "Kl_QWseVCzE",
     oldPrice: 5399,
     price: 4999
+  },
+  {
+    tag: "PC #03",
+    cpuGpu: "Intel Core i5-14400 + RTX 5050 8GB",
+    specs: [
+      ["Procesor", "i5-14400"],
+      ["Placă video", "RTX 5050 8GB"],
+      ["Memorie RAM", "32GB DDR4 3200MHz"],
+      ["Placă de bază", "H610 Gigabyte"],
+      ["Stocare", "1TB SSD"],
+      ["Sursă", "550W MSI MAG"],
+      ["Sistem de operare", "Windows 11 activat cu licență"]
+    ],
+    images: [
+      "https://i.postimg.cc/yxLMffKk/image.png"
+    ],
+    ytVideoId: "zNmypx8-Xw8",
+    oldPrice: 7499,
+    price: 6649
   }
 ];
 
@@ -553,9 +648,11 @@ function safe(s){ return String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;",
 
 function renderGrid(){
   document.getElementById("pcGrid").innerHTML = pcs.map((pc, i) => `
-    <article class="pc-card" onclick="openDetail(${i})">
+    <article class="pc-card ${pc.popular ? "popular" : ""}" onclick="openDetail(${i})">
       <div class="thumb">
-        <span class="tag">${safe(pc.tag)}</span>
+        ${pc.popular
+          ? `<span class="popular-badge">★ CEL MAI POPULAR</span>`
+          : `<span class="tag">${safe(pc.tag)}</span>`}
         ${pc.oldPrice ? `<span class="sale-badge">REDUCERE</span>` : ""}
         <img src="${safe(pc.images[0] || "")}" alt="${safe(pc.cpuGpu)}">
       </div>
@@ -603,6 +700,7 @@ function renderDetail(){
   if(currentPhoto >= imgs.length) currentPhoto = 0;
 
   document.getElementById("dTag").textContent = pc.tag;
+  document.getElementById("dPopular").style.display = pc.popular ? "inline-block" : "none";
   document.getElementById("dTitle").textContent = pc.cpuGpu;
   document.getElementById("dSpecs").innerHTML = pc.specs.map(([k, v]) => `
     <li><span>${safe(k)}</span><strong>${safe(v)}</strong></li>
