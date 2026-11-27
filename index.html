@@ -482,6 +482,13 @@ header {
   border-color: rgba(125, 211, 252, 0.55);
 }
 
+.mini-chip.warranty {
+  color: var(--emerald);
+  font-weight: 700;
+  background: rgba(46, 229, 157, 0.09);
+  border-color: rgba(46, 229, 157, 0.32);
+}
+
 .bottom-row {
   margin-top: auto;
   padding-top: 14px;
@@ -888,8 +895,8 @@ footer {
   <div class="wrap top-strip-inner">
     <div class="perk-group">
       <span class="perk-item"><span class="perk-dot"></span>Sisteme asamblate &amp; testate</span>
+      <span class="perk-item">Garanție 12 luni</span>
       <span class="perk-item">Windows 11 Pro preinstalat</span>
-      <span class="perk-item">Prețuri transparente în RON</span>
     </div>
     <span class="perk-tag">ER1K PC BUILDS · 2026</span>
   </div>
@@ -916,7 +923,7 @@ footer {
       <div class="wrap">
         <div class="hero-eyebrow"><span>●</span> Selecție actualizată · Stoc pregătit</div>
         <h1>PC-uri custom <em>cu preț clar.</em></h1>
-        <p>Configurații echilibrate pentru gaming și productivitate, verificate înainte de livrare. Alege un sistem pentru specificații complete și test în jocuri.</p>
+        <p>Configurații echilibrate pentru gaming și productivitate, verificate înainte de livrare, cu garanție 12 luni. Alege un sistem pentru specificații complete și test în jocuri.</p>
       </div>
     </section>
 
@@ -931,7 +938,7 @@ footer {
             <button type="button" class="filter-btn" data-filter="32gb" onclick="setFilter('32gb', this)">⚡ 32GB RAM</button>
             <button type="button" class="filter-btn" data-filter="1tb" onclick="setFilter('1tb', this)">🚀 1TB SSD</button>
           </div>
-          <div class="catalog-meta" id="catalogCount">15 configurații</div>
+          <div class="catalog-meta" id="catalogCount">17 configurații</div>
         </div>
         <div class="grid" id="pcGrid"></div>
       </div>
@@ -986,7 +993,7 @@ footer {
 
 <footer id="contact">
   <div class="wrap ftr">
-    <div><strong>ER1K PC BUILDS</strong> · Configurații gaming &amp; testare</div>
+    <div><strong>ER1K PC BUILDS</strong> · Configurații gaming &amp; testare · Garanție 12 luni</div>
     <div>© 2026 ER1K PC</div>
   </div>
 </footer>
@@ -994,6 +1001,8 @@ footer {
 <script>
 // === AICI PUI NUMĂRUL TĂU DE WHATSAPP (fără + și fără spații, ex: 407xxxxxxxx) ===
 const WHATSAPP_NUMBER = "40771103552";
+
+const WARRANTY_ITEM = ["Garanție de Conformitate", "12 Luni"];
 
 const pcs = [
   {
@@ -1297,6 +1306,48 @@ const pcs = [
     ytVideoId: "vnynIFzIZZc",
     oldPrice: 7899,
     price: 6899
+  },
+  {
+    tag: "PC #16",
+    popular: true,
+    cpuGpu: "AMD Ryzen 5 5500 + RTX 3060 Ti 8GB",
+    specs: [
+      ["Procesor (CPU)", "AMD Ryzen 5 5500 (6 Nuclee, 12 Thread-uri, up to 4.2GHz)"],
+      ["Placă Video (GPU)", "RTX 3060 Ti (8GB GDDR6, Ediție cu Overclock, Ray Tracing)"],
+      ["Răcire CPU (AIO)", "AIO 240mm (Răcire lichidă, Performanță stabilă și silențioasă)"],
+      ["Memorie RAM", "16GB DDR4 (3200MHz, Dual Channel, Optimizat Gaming)"],
+      ["Stocare (SSD)", "1TB NVMe M.2 (Capacitate mare, Viteze ultra-rapide de încărcare)"],
+      ["Sursă (PSU)", "ProGaming 600W (Eficiență stabilă, Protecții incluse)"],
+      ["Carcasă", "1stPlayer BV5 (Design modern, Airflow optimizat, Panou transparent)"]
+    ],
+    images: [
+      "https://i.postimg.cc/L8hpsLZ8/image.png"
+    ],
+    ytVideoId: "Z1Zm4z-1hio",
+    oldPrice: 4799,
+    price: 4599
+  },
+  {
+    tag: "PC #17",
+    popular: true,
+    cpuGpu: "AMD Ryzen 5 2600 + AMD Radeon RX 580 8GB",
+    specs: [
+      ["Procesor (CPU)", "AMD Ryzen 5 2600 (6 Nuclee, 12 Thread-uri, up to 3.90GHz, Socket AM4)"],
+      ["Placă Video (GPU)", "AMD Radeon RX 580 (8GB GDDR5, Performanță excelentă 1080p eSports)"],
+      ["Răcire CPU", "ProGaming CoreFrost S4 (4 Heatpipe-uri, Iluminare ARGB PWM, Răcire eficientă pe aer)"],
+      ["Placă de Bază", "BIOSTAR B450MHP (Socket AM4, Chipset B450, Stabilitate și fiabilitate)"],
+      ["Memorie RAM", "16GB DDR4 (Dual-Channel, Optimizat pentru gaming & multitasking)"],
+      ["Stocare (SSD)", "512GB SSD (Format M.2 NVMe / SATA, Timpi rapizi de încărcare)"],
+      ["Sursă (PSU)", "ProGaming 600W (Alimentare eficientă, Protecții integrate)"],
+      ["Carcasă", "ProGaming Alma Black (Design modern, Airflow optimizat, Panou transparent)"],
+      ["Sistem Operare", "Windows 11 PRO (Preinstalat și optimizat)"]
+    ],
+    images: [
+      "https://i.postimg.cc/Y9L0LTGx/image.png"
+    ],
+    ytVideoId: "2v6c9o4J0w8",
+    oldPrice: 2999,
+    price: 2699
   }
 ];
 
@@ -1317,6 +1368,11 @@ function safe(s) {
     '"': "&quot;",
     "'": "&#39;"
   }[c]));
+}
+
+function getFullSpecs(pc) {
+  const hasWarranty = pc.specs.some(([k]) => /garan[țt]ie/i.test(k));
+  return hasWarranty ? pc.specs : [...pc.specs, WARRANTY_ITEM];
 }
 
 function has32Ram(pc) {
@@ -1360,7 +1416,7 @@ function getSpecByKey(pc, pattern) {
 function getOrderedPCs() {
   return pcs
     .map((pc, idx) => ({ pc, idx }))
-    .sort((a, b) => (b.pc.popular ? 1 : 0) - (a.pc.popular ? 1 : 0) || a.idx - b.idx);
+    .sort((a, b) => (b.pc.popular ? 1 : 0) - (a.pc.popular ? 1 : 0) || b.idx - a.idx);
 }
 
 function setFilter(filterKey, btnEl) {
@@ -1407,7 +1463,7 @@ function renderGrid() {
           <div class="mini-specs">
             ${ramVal ? `<span class="mini-chip ${has32Ram(pc) ? "highlight" : ""}">${safe(ramVal)}</span>` : ""}
             ${ssdVal ? `<span class="mini-chip ${has1TbSsd(pc) ? "highlight" : ""}">${safe(ssdVal)}</span>` : ""}
-            <span class="mini-chip">Win 11 Pro</span>
+            <span class="mini-chip warranty">Garanție 12 luni</span>
           </div>
           <div class="bottom-row">
             <div class="price-col">
@@ -1474,6 +1530,7 @@ function renderDetail() {
   if (currentPhoto >= imgs.length) currentPhoto = 0;
   const bonuses = getBonusBadges(pc);
   const pct = getDiscountPct(pc);
+  const fullSpecs = getFullSpecs(pc);
 
   document.getElementById("dTagRow").innerHTML = `
     <span class="detail-code">${safe(pc.tag)}</span>
@@ -1482,7 +1539,7 @@ function renderDetail() {
     ${bonuses.map(b => `<span class="detail-bonus">${safe(b)}</span>`).join("")}
   `;
   document.getElementById("dTitle").textContent = pc.cpuGpu;
-  document.getElementById("dSpecs").innerHTML = pc.specs.map(([k, v]) => `
+  document.getElementById("dSpecs").innerHTML = fullSpecs.map(([k, v]) => `
     <li><span>${safe(k)}</span><strong>${safe(v)}</strong></li>
   `).join("");
   document.getElementById("dOldPrice").textContent = pc.oldPrice ? money(pc.oldPrice) : "";
