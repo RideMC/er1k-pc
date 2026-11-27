@@ -897,14 +897,14 @@ footer {
 
 <header>
   <div class="wrap hdr">
-    <a class="brand" href="#home" onclick="goHome();return false">
+    <a class="brand" href="#home" onclick="goHome(null, true);return false">
       <span class="brand-mark">E1</span>
       <span>ER1K PC</span>
       <span class="brand-sub">Custom Builds</span>
     </a>
     <nav class="nav">
-      <a href="#pcs" onclick="goHome('pcs');return false">Configurații</a>
-      <a href="#contact" onclick="goHome('contact');return false">Contact</a>
+      <a href="#pcs" onclick="goHome('pcs', true);return false">Configurații</a>
+      <a href="#contact" onclick="goHome('contact', true);return false">Contact</a>
       <a class="hdr-cta" href="javascript:void(0)" onclick="openQuickWhatsApp()">WhatsApp</a>
     </nav>
   </div>
@@ -925,7 +925,7 @@ footer {
         <div class="filter-bar">
           <div class="filter-tabs" id="filterTabs">
             <button type="button" class="filter-btn active" data-filter="all" onclick="setFilter('all', this)">Toate</button>
-            <button type="button" class="filter-btn" data-filter="popular" onclick="setFilter('popular', this)">★ Populare</button>
+            <button type="button" class="filter-btn" data-filter="popular" onclick="setFilter('popular', this)">★ Popular</button>
             <button type="button" class="filter-btn" data-filter="nvidia" onclick="setFilter('nvidia', this)">NVIDIA</button>
             <button type="button" class="filter-btn" data-filter="amd" onclick="setFilter('amd', this)">AMD</button>
             <button type="button" class="filter-btn" data-filter="32gb" onclick="setFilter('32gb', this)">⚡ 32GB RAM</button>
@@ -941,7 +941,7 @@ footer {
 
 <div id="detailView" class="view">
   <div class="wrap detail-wrap">
-    <button type="button" class="back-btn" onclick="goHome('pcs')">← Înapoi la catalog</button>
+    <button type="button" class="back-btn" onclick="goHome('pcs', true)">← Înapoi la catalog</button>
 
     <div class="detail-card">
       <div>
@@ -1303,6 +1303,7 @@ const pcs = [
 let currentPC = 0;
 let currentPhoto = 0;
 let activeFilter = "all";
+let isDetailOpen = false;
 
 function money(n) {
   return Number(n || 0).toLocaleString("ro-RO") + " RON";
@@ -1389,11 +1390,11 @@ function renderGrid() {
     const ssdVal = getSpecByKey(pc, /stocare|ssd|nvme/i);
 
     return `
-      <article class="pc-card ${pc.popular ? "popular" : ""}" onclick="openDetail(${idx})">
+      <article class="pc-card ${pc.popular ? "popular" : ""}" onclick="openDetail(${idx}, true)">
         <div class="thumb">
           <div class="top-left-stack">
             <span class="code-pill">${safe(pc.tag)}</span>
-            ${pc.popular ? `<span class="pop-pill">★ POPULÁR</span>` : ""}
+            ${pc.popular ? `<span class="pop-pill">★ POPULAR</span>` : ""}
           </div>
           <div class="right-badges">
             ${pct > 0 ? `<span class="disc-pill">-${pct}%</span>` : ""}
@@ -1413,7 +1414,7 @@ function renderGrid() {
               ${pc.oldPrice ? `<span class="old-price">${money(pc.oldPrice)}</span>` : ""}
               <span class="new-price">${money(pc.price)}</span>
             </div>
-            <button type="button" class="btn-vezi" onclick="event.stopPropagation();openDetail(${idx})">Vezi</button>
+            <button type="button" class="btn-vezi" onclick="event.stopPropagation();openDetail(${idx}, true)">Vezi</button>
           </div>
         </div>
       </article>
@@ -1421,19 +1422,27 @@ function renderGrid() {
   }).join("");
 }
 
-function openDetail(idx) {
+function openDetail(idx, pushHistory = false) {
   currentPC = idx;
   currentPhoto = 0;
+  isDetailOpen = true;
+  if (pushHistory && window.history && window.history.pushState) {
+    window.history.pushState({ pcDetail: idx }, "", "#pc-" + (idx + 1));
+  }
   document.getElementById("homeView").classList.remove("active");
   document.getElementById("detailView").classList.add("active");
   window.scrollTo({ top: 0, behavior: "auto" });
   renderDetail();
 }
 
-function goHome(sectionId) {
+function goHome(sectionId, syncHistory = false) {
+  isDetailOpen = false;
   document.getElementById("benchFrame").src = "";
   document.getElementById("detailView").classList.remove("active");
   document.getElementById("homeView").classList.add("active");
+  if (syncHistory && window.history && window.location.hash.startsWith("#pc-")) {
+    window.history.replaceState({}, "", sectionId ? ("#" + sectionId) : "#home");
+  }
   if (sectionId) {
     setTimeout(() => {
       const el = document.getElementById(sectionId);
@@ -1443,6 +1452,20 @@ function goHome(sectionId) {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 }
+
+window.addEventListener("popstate", () => {
+  if (isDetailOpen) {
+    goHome("pcs", false);
+  }
+});
+
+// Mouse side-back button (button === 3) support
+window.addEventListener("mousedown", (e) => {
+  if (e.button === 3 && isDetailOpen) {
+    e.preventDefault();
+    goHome("pcs", true);
+  }
+});
 
 function renderDetail() {
   const pc = pcs[currentPC];
@@ -1454,7 +1477,7 @@ function renderDetail() {
 
   document.getElementById("dTagRow").innerHTML = `
     <span class="detail-code">${safe(pc.tag)}</span>
-    ${pc.popular ? `<span class="detail-pop">★ POPULÁR</span>` : ""}
+    ${pc.popular ? `<span class="detail-pop">★ POPULAR</span>` : ""}
     ${pct > 0 ? `<span class="detail-bonus">-${pct}%</span>` : ""}
     ${bonuses.map(b => `<span class="detail-bonus">${safe(b)}</span>`).join("")}
   `;
