@@ -154,10 +154,19 @@ header{
   z-index:3;
   text-transform:uppercase;
 }
-.sale-badge{
+
+/* RIGHT BADGE STACK (REDUCERE + 32GB RAM / 1TB SSD) */
+.right-badges{
   position:absolute;
   top:12px;
   right:12px;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:6px;
+  z-index:3;
+}
+.sale-badge{
   background:linear-gradient(135deg,#ff4d7d,#d6285c);
   color:#fff;
   font-size:10.5px;
@@ -165,8 +174,21 @@ header{
   letter-spacing:1px;
   padding:5px 10px;
   border-radius:999px;
-  box-shadow:0 4px 14px #ff4d7d55;
-  z-index:2;
+  box-shadow:0 4px 14px #ff4d7d66;
+  border:1px solid #ff94b2;
+}
+.bonus-badge{
+  background:linear-gradient(135deg,#38bdf8,#2563eb);
+  color:#ffffff;
+  font-size:10.5px;
+  font-weight:900;
+  letter-spacing:.8px;
+  padding:5px 10px;
+  border-radius:999px;
+  box-shadow:0 5px 16px #38bdf866;
+  border:1px solid #bae6fd;
+  text-transform:uppercase;
+  white-space:nowrap;
 }
 
 .body{padding:18px;display:flex;flex-direction:column;flex:1;gap:14px}
@@ -328,6 +350,19 @@ header{
   border:1px solid #ffe08a;
   padding:4px 11px;
   border-radius:999px;
+}
+.info-bonus{
+  display:inline-block;
+  font-size:11.5px;
+  font-weight:900;
+  letter-spacing:.9px;
+  color:#ffffff;
+  text-transform:uppercase;
+  background:linear-gradient(135deg,#38bdf8,#2563eb);
+  border:1px solid #bae6fd;
+  padding:4px 11px;
+  border-radius:999px;
+  box-shadow:0 4px 14px #38bdf844;
 }
 .info-title{
   margin:10px 0 18px;
@@ -531,10 +566,7 @@ footer{
       </div>
 
       <div>
-        <div class="tag-row">
-          <span class="info-tag" id="dTag">PC #01</span>
-          <span class="info-popular" id="dPopular" style="display:none">★ CEL MAI POPULAR</span>
-        </div>
+        <div class="tag-row" id="dTagRow"></div>
         <h1 class="info-title" id="dTitle">PC</h1>
 
         <div class="config-box">
@@ -586,10 +618,12 @@ const pcs = [
       ["Placă video", "GTX 1060 6GB"],
       ["Placă de bază", "Gigabyte H610M K DDR4"],
       ["Memorie RAM", "16GB DDR4 3200MHz"],
-      ["Stocare", "500GB NVMe"]
+      ["Stocare", "500GB NVMe"],
+      ["Carcasă", "Carcasa ProGaming Vision Negru"],
+      ["Sistem de operare", "Windows 11 Pro"]
     ],
     images: [
-      "https://i.postimg.cc/yxLMffKk/image.png"
+      "https://i.postimg.cc/Y9L0LTGx/image.png"
     ],
     ytVideoId: "",
     oldPrice: 3749,
@@ -604,10 +638,12 @@ const pcs = [
       ["Placă de bază", "Gigabyte H610M K DDR4"],
       ["Memorie RAM", "16GB DDR4 3200MHz"],
       ["Stocare", "500GB NVMe"],
-      ["Sursă", "550W 80+ Bronze"]
+      ["Sursă", "550W 80+ Bronze"],
+      ["Carcasă", "Carcasa ProGaming Alma, Alb"],
+      ["Sistem de operare", "Windows 11 Pro"]
     ],
     images: [
-      "https://i.postimg.cc/yxLMffKk/image.png"
+      "https://i.postimg.cc/XY2YHn97/image.png"
     ],
     ytVideoId: "",
     oldPrice: 4699,
@@ -615,6 +651,7 @@ const pcs = [
   },
   {
     tag: "PC #03",
+    popular: true,
     cpuGpu: "Intel Core i5-12400F + RTX 3060 8GB",
     specs: [
       ["Procesor", "Intel Core i5-12400F"],
@@ -622,10 +659,12 @@ const pcs = [
       ["Placă de bază", "Gigabyte H610M K DDR4"],
       ["Memorie RAM", "16GB DDR4 3200MHz"],
       ["Stocare", "500GB NVMe"],
-      ["Sursă", "550W 80+ Bronze"]
+      ["Sursă", "550W 80+ Bronze"],
+      ["Carcasă", "Carcasa ProGaming Element, Negru"],
+      ["Sistem de operare", "Windows 11 Pro"]
     ],
     images: [
-      "https://i.postimg.cc/yxLMffKk/image.png"
+      "https://i.postimg.cc/qvZpcjdC/image.png"
     ],
     ytVideoId: "",
     oldPrice: 5349,
@@ -640,14 +679,77 @@ const pcs = [
       ["Placă de bază", "Gigabyte H610M K DDR4"],
       ["Memorie RAM", "32GB DDR4 3200MHz"],
       ["Stocare", "1TB NVMe"],
-      ["Sursă", "600W 80+ Bronze"]
+      ["Sursă", "600W 80+ Bronze"],
+      ["Carcasă", "Carcasa ProGaming Diamond, Alb"],
+      ["Sistem de operare", "Windows 11 Pro"]
     ],
     images: [
-      "https://i.postimg.cc/yxLMffKk/image.png"
+      "https://i.postimg.cc/L8hpsLZ8/image.png"
     ],
     ytVideoId: "",
     oldPrice: 6499,
     price: 5749
+  },
+  {
+    tag: "PC #05",
+    popular: true,
+    cpuGpu: "Intel Core i5-12400F + RTX 2060 6GB",
+    specs: [
+      ["Procesor", "Intel Core i5-12400F"],
+      ["Placă video", "RTX 2060 6GB"],
+      ["Placă de bază", "Gigabyte H610M K DDR4"],
+      ["Memorie RAM", "16GB DDR4 3200MHz (2×8)"],
+      ["Stocare", "512GB NVMe"],
+      ["Sursă", "MSI MAG A550BNL 550W"],
+      ["Carcasă", "Deepcool CC560 V2"],
+      ["Sistem de operare", "Windows 11 Pro"]
+    ],
+    images: [
+      "https://i.postimg.cc/B62s03PF/image.png"
+    ],
+    ytVideoId: "",
+    oldPrice: 5299,
+    price: 4199
+  },
+  {
+    tag: "PC #06",
+    cpuGpu: "Intel Core i5-12400F + RTX 2060 SUPER 8GB",
+    specs: [
+      ["Procesor", "Intel Core i5-12400F"],
+      ["Placă video", "RTX 2060 SUPER 8GB"],
+      ["Placă de bază", "Gigabyte H610M K DDR4"],
+      ["Memorie RAM", "16GB DDR4 3200MHz (2×8)"],
+      ["Stocare", "512GB NVMe"],
+      ["Sursă", "MSI MAG A550BNL 550W"],
+      ["Carcasă", "Deepcool CC560 V2"],
+      ["Sistem de operare", "Windows 11 Pro"]
+    ],
+    images: [
+      "https://i.postimg.cc/B62s03PF/image.png"
+    ],
+    ytVideoId: "",
+    oldPrice: 4999,
+    price: 4399
+  },
+  {
+    tag: "PC #07",
+    cpuGpu: "Intel Core i5-12400F + RTX 2070 SUPER 8GB",
+    specs: [
+      ["Procesor", "Intel Core i5-12400F"],
+      ["Placă video", "RTX 2070 SUPER 8GB"],
+      ["Placă de bază", "Gigabyte H610M K DDR4"],
+      ["Memorie RAM", "16GB DDR4 3200MHz (2×8)"],
+      ["Stocare", "512GB NVMe"],
+      ["Sursă", "MSI MAG A650BN 650W"],
+      ["Carcasă", "Deepcool CC560 V2"],
+      ["Sistem de operare", "Windows 11 Pro"]
+    ],
+    images: [
+      "https://i.postimg.cc/B62s03PF/image.png"
+    ],
+    ytVideoId: "",
+    oldPrice: 5399,
+    price: 4699
   }
 ];
 
@@ -657,14 +759,28 @@ let currentPhoto = 0;
 function money(n){ return Number(n || 0).toLocaleString("ro-RO") + " RON"; }
 function safe(s){ return String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
 
+function getBonusBadges(pc){
+  const list = [];
+  const has32Ram = pc.specs.some(([k, v]) => /ram|memorie/i.test(k) && /32\s*gb/i.test(v));
+  const has1TbSsd = pc.specs.some(([k, v]) => /stocare|ssd|nvme/i.test(k) && /1\s*tb/i.test(v));
+  if(has32Ram) list.push("⚡ 32GB RAM");
+  if(has1TbSsd) list.push("🚀 1TB SSD");
+  return list;
+}
+
 function renderGrid(){
-  document.getElementById("pcGrid").innerHTML = pcs.map((pc, i) => `
+  document.getElementById("pcGrid").innerHTML = pcs.map((pc, i) => {
+    const bonuses = getBonusBadges(pc);
+    return `
     <article class="pc-card ${pc.popular ? "popular" : ""}" onclick="openDetail(${i})">
       <div class="thumb">
         ${pc.popular
           ? `<span class="popular-badge">★ CEL MAI POPULAR</span>`
           : `<span class="tag">${safe(pc.tag)}</span>`}
-        ${pc.oldPrice ? `<span class="sale-badge">REDUCERE</span>` : ""}
+        <div class="right-badges">
+          ${pc.oldPrice ? `<span class="sale-badge">REDUCERE</span>` : ""}
+          ${bonuses.map(b => `<span class="bonus-badge">${safe(b)}</span>`).join("")}
+        </div>
         <img src="${safe(pc.images[0] || "")}" alt="${safe(pc.cpuGpu)}">
       </div>
       <div class="body">
@@ -678,7 +794,7 @@ function renderGrid(){
         </div>
       </div>
     </article>
-  `).join("");
+  `}).join("");
 }
 
 function openDetail(idx){
@@ -709,9 +825,13 @@ function renderDetail(){
   if(!pc) return;
   const imgs = pc.images && pc.images.length ? pc.images : [""];
   if(currentPhoto >= imgs.length) currentPhoto = 0;
+  const bonuses = getBonusBadges(pc);
 
-  document.getElementById("dTag").textContent = pc.tag;
-  document.getElementById("dPopular").style.display = pc.popular ? "inline-block" : "none";
+  document.getElementById("dTagRow").innerHTML = `
+    <span class="info-tag">${safe(pc.tag)}</span>
+    ${pc.popular ? `<span class="info-popular">★ CEL MAI POPULAR</span>` : ""}
+    ${bonuses.map(b => `<span class="info-bonus">${safe(b)}</span>`).join("")}
+  `;
   document.getElementById("dTitle").textContent = pc.cpuGpu;
   document.getElementById("dSpecs").innerHTML = pc.specs.map(([k, v]) => `
     <li><span>${safe(k)}</span><strong>${safe(v)}</strong></li>
